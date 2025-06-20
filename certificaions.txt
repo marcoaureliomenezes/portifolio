@@ -1,0 +1,17 @@
+Spark Deverloper Associate:
+    - Link: https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5
+    - Databricks
+
+Spark Data Engineer Associate
+    - Link: https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2
+
+    
+AWS Certified Data Engineer - Associate
+    - Link: https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1
+
+AWS Practicioner Foundational
+    - Link: https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj
+
+Astronomer Certification for Apache Airflow 2 fundamentals 
+    - Link: https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1
+

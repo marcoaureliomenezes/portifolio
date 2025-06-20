@@ -1,0 +1,36 @@
+service: portfolio-api
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  environment:
+    RESUME_BUCKET: marco-portfolio-site
+    RESUME_KEY: resume.pdf
+    SES_SOURCE_EMAIL: your-email@example.com  # Replace with verified SES email
+    SES_DEST_EMAIL: your-email@example.com    # Replace with destination email for contact messages
+
+functions:
+  experiences:
+    handler: handler.experiences
+    events:
+      - http:
+          path: experiences
+          method: get
+          cors: true
+
+  resume:
+    handler: handler.resume
+    events:
+      - http:
+          path: resume
+          method: get
+          cors: true
+
+  contact:
+    handler: handler.contact
+    events:
+      - http:
+          path: contact
+          method: post
+          cors: true

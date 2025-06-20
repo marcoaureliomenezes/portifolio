@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Marco Menezes | Engenheiro de Dados Cloud</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <img src="images/profile.png" alt="Foto de perfil" class="profile-img">
+      <div class="header-info">
+        <h1>Marco Aurelio Menezes</h1>
+        <h2>Engenheiro de Dados | Cloud Specialist</h2>
+        <div class="header-contact">
+          <p>São Carlos, SP, Brasil | <a href="mailto:marcoaurelioreislima@gmail.com">marcoaurelioreislima@gmail.com</a></p>
+          <p>
+            <a href="https://linkedin.com/in/marco-menezes-731542b9" target="_blank">LinkedIn</a> |
+            <a href="http://github.com/marcoaureliomenezes" target="_blank">GitHub</a>
+          </p>
+        </div>
+      </div>
+      <select id="lang-select">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </header>
+  <aside class="sidebar-nav">
+    <ul class="sidebar-menu">
+      <li><a href="#summary" data-i18n="nav.summary">Resumo</a></li>
+      <li><a href="#skills" data-i18n="nav.skills">Habilidades</a></li>
+      <li><a href="#experience" data-i18n="nav.experience">Experiência</a></li>
+      <li><a href="#projects" data-i18n="nav.projects">Projetos</a></li>
+      <li><a href="#certificates" data-i18n="nav.certificates">Certificações</a></li>
+    </ul>
+  </aside>
+  <main class="main-content">
+  <section id="summary">
+    <h3 data-i18n="section.summary">Resumo</h3>
+    <div class="summary-content clamp">
+      <p>Senior Data Engineer – DE with over 8 years of experience in Python programming language, 4 years of work experience, designing and implementing data pipelines related with Big Data workloads, using Python, Spark, Hadoop Ecosystem, and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating Accounting streaming data pipelines to AWS. Background in Control and Automation Engineering studies. Known for the expertise in Python, Spark and big data fundamentals with a passion about sharing knowledge. Proven ability to integrate DE concepts with new tools and frameworks, as technology evolves, always balancing purpose, performance, costs and other trade-offs.</p>
+    </div>
+    <button id="toggle-summary" class="btn-toggle" data-i18n="button.readMore">Ver mais</button>
+  </section>
+
+  <section id="skills">
+    <h3 data-i18n="section.skills">Habilidades</h3>
+    <ul>
+      <li>Python, SQL, Spark, Linux, Cloud Migration</li>
+      <li>Java, Scala, PostgreSQL, Aurora, DynamoDB, Redis, Kafka, Airflow, Iceberg, Databricks</li>
+      <li>Agile, CI/CD, Git, Jenkins</li>
+    </ul>
+  </section>
+
+  <section id="experience">
+    <h3 data-i18n="section.experience">Experiência Profissional</h3>
+    <div class="experience-list">
+      <!-- Santander Brazil grouped experience -->
+      <details>
+        <summary>
+          <div class="exp-summary">
+            <div class="company">F1rst Digital Services (Santander Brazil)</div>
+          </div>
+        </summary>
+        <div class="role">
+          <div class="role-header">
+            <span class="job-title">Senior Data Engineer</span>
+            <span class="job-date">02/2024 to Present</span>
+          </div>
+          <ul>
+            <li>Responsible for conducting the DE accounting team through the Data Transformation strategic movement;</li>
+            <li>Migrated batch and streaming data pipelines from on-premises to Azure using Databricks, Data Factory and ADLS gen2;</li>
+            <li>Migrated streaming pipelines (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) to AWS (MSK, Aurora, EKS);</li>
+            <li>Designed daily batch pipelines to deliver Bronze and Silver Accounting Delta tables to Cash Management domain.</li>
+          </ul>
+          <p><strong>Key Technologies:</strong> Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch.</p>
+        </div>
+        <div class="role">
+          <div class="role-header">
+            <span class="job-title">Mid-level Data Engineer</span>
+            <span class="job-date">07/2022 to 02/2024</span>
+          </div>
+          <ul>
+            <li>Led Cloud migration for the Operational Discontinuity Plan system, improving durability of Hive tables across clusters;</li>
+            <li>Copied Delta tables between Azure data lakes with zone redundancy configuration to reduce storage costs;</li>
+            <li>Ensured governance, compliance and security for high-volume sensitive data migrations.</li>
+          </ul>
+          <p><strong>Key Technologies:</strong> Python, Spark, Shell Script, Hadoop Ecosystem, Databricks, Azure Cloud.</p>
+        </div>
+        <div class="role">
+          <div class="role-header">
+            <span class="job-title">Junior Data Engineer</span>
+            <span class="job-date">05/2021 to 07/2022</span>
+          </div>
+          <ul>
+            <li>Designed, implemented and maintained big data pipelines for reporting and regulatory purposes;</li>
+            <li>Delivered data for financial compliance and regulatory reporting;</li>
+            <li>Certified as Advanced Data Engineer by Santander Brazil, ranking top 10 after technical case and exam.</li>
+          </ul>
+          <p><strong>Key Technologies:</strong> Python, Spark, SQL, Hadoop, Hive, Shell Script.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Junior Data Engineer — Trie Engineering (Remote) | 10/2020 to 05/2021</summary>
+        <ul>
+          <li>Maintained ETL pipelines feeding dashboards from Google Sheets and field data;</li>
+          <li>Provided data feeds to support decision-making for cement industry stakeholders.</li>
+        </ul>
+        <p><strong>Key Technologies:</strong> Python, Pandas, NumPy.</p>
+      </details>
+      <details>
+        <summary>Scholarship Recipient — Fire labs, Federal University of Ouro Preto | 08/2016 to 08/2017</summary>
+        <ul>
+          <li>Developed embedded software for gas oven control via temperature and flow sensors using Arduino;</li>
+          <li>Implemented control loops on C for AC motor and gas valve automation.</li>
+        </ul>
+        <p><strong>Key Technologies:</strong> C, Arduino, Control Systems.</p>
+      </details>
+      <details>
+        <summary>Summer Intern — Analógica Instrumentation and Control | 01/2015 to 02/2015</summary>
+        <ul>
+          <li>Built Python application to extract sensor data from fuel tanks for downstream ingestion;</li>
+          <li>First professional experience with Python on Raspberry PI platform.</li>
+        </ul>
+        <p><strong>Key Technologies:</strong> Python, Raspberry PI.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h3 data-i18n="section.projects">Projetos Pessoais</h3>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h4>Data Pipeline Analytics</h4>
+        <p>Pipeline end-to-end em Python e Spark com AWS Glue e Athena.</p>
+      </div>
+      <div class="project-card">
+        <h4>Dashboard Interativo</h4>
+        <p>Dashboard real-time com Kafka, ClickHouse e Grafana.</p>
+      </div>
+      <div class="project-card">
+        <h4>Data Lake Multi-Cloud</h4>
+        <p>Arquitetura híbrida integrando S3, ADLS e GCS com Terraform.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="certificates">
+    <h3 data-i18n="section.certificates">Certificações</h3>
+    <div class="certificates-grid">
+      <div class="certificate-card">
+        <a href="https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5" target="_blank">
+          <img src="https://img.shields.io/badge/Databricks-Spark%20Developer%20Associate-FF3030?logo=databricks&logoColor=white" alt="Spark Developer Associate" class="cert-badge">
+        </a>
+        <div>
+          <strong>Spark Developer Associate</strong>
+          <a href="https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5" target="_blank">Ver credencial</a>
+        </div>
+      </div>
+      <div class="certificate-card">
+        <a href="https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2" target="_blank">
+          <img src="https://img.shields.io/badge/Databricks-Spark%20Data%20Engineer%20Associate-FF3030?logo=databricks&logoColor=white" alt="Spark Data Engineer Associate" class="cert-badge">
+        </a>
+        <div>
+          <strong>Spark Data Engineer Associate</strong>
+          <a href="https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2" target="_blank">Ver credencial</a>
+        </div>
+      </div>
+      <div class="certificate-card">
+        <a href="https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1" target="_blank">
+          <img src="https://img.shields.io/badge/AWS-Data%20Engineer%20Associate-232F3E?logo=amazon-aws&logoColor=white" alt="AWS Certified Data Engineer Associate" class="cert-badge">
+        </a>
+        <div>
+          <strong>AWS Certified Data Engineer – Associate</strong>
+          <a href="https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1" target="_blank">Ver credencial</a>
+        </div>
+      </div>
+      <div class="certificate-card">
+        <a href="https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj" target="_blank">
+          <img src="https://img.shields.io/badge/AWS-Cloud%20Practitioner-232F3E?logo=amazon-aws&logoColor=white" alt="AWS Cloud Practitioner" class="cert-badge">
+        </a>
+        <div>
+          <strong>AWS Practitioner Foundational</strong>
+          <a href="https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj" target="_blank">Ver credencial</a>
+        </div>
+      </div>
+      <div class="certificate-card">
+        <a href="https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1" target="_blank"></a>
+          <img src="https://img.shields.io/badge/Astronomer-Apache%20Airflow%202%20Fundamentals-017CEE?logo=apache-airflow&logoColor=white" alt="Astronomer Apache Airflow 2 Fundamentals" class="cert-badge">
+        </a>
+        <div>
+          <strong>Astronomer Apache Airflow 2 Fundamentals</strong>
+          <a href="https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1" target="_blank">Ver credencial</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h3 data-i18n="section.contact">Contato</h3>
+    <form id="contact-form">
+      <input type="text" name="name" placeholder="Seu nome" required>
+      <input type="email" name="email" placeholder="Seu email" required>
+      <textarea name="message" placeholder="Sua mensagem" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+    <div id="contact-result"></div>
+  </section>
+
+  <!-- Floating CV download button -->
+  <a href="https://api-id.execute-api.us-east-1.amazonaws.com/prod/resume" target="_blank" id="btn-download-float" class="btn-download" data-i18n="nav.download">Baixar CV</a>
+  <script src="js/main.js"></script>
+</body>
+</html>
