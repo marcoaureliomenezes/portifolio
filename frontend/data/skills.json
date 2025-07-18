@@ -1,0 +1,54 @@
+{
+  "skills": {
+    "pt": {
+      "cloud_platforms": [
+        "AWS (EC2, S3, Lambda, RDS, Redshift, EMR)",
+        "Azure (Data Factory, Databricks, SQL Database)",
+        "Google Cloud Platform (BigQuery, Cloud Storage)"
+      ],
+      "programming": [
+        "Python (Pandas, NumPy, Scikit-learn)",
+        "SQL (PostgreSQL, MySQL, SQL Server)",
+        "Scala (Apache Spark)",
+        "R (Data Analysis, Visualization)"
+      ],
+      "big_data": [
+        "Apache Spark (PySpark, Spark SQL)",
+        "Apache Kafka (Stream Processing)",
+        "Apache Airflow (Workflow Orchestration)",
+        "Elasticsearch (Search & Analytics)"
+      ],
+      "tools": [
+        "Docker & Kubernetes",
+        "Terraform (Infrastructure as Code)",
+        "Git & GitHub/GitLab",
+        "Jupyter Notebooks, VS Code"
+      ]
+    },
+    "en": {
+      "cloud_platforms": [
+        "AWS (EC2, S3, Lambda, RDS, Redshift, EMR)",
+        "Azure (Data Factory, Databricks, SQL Database)",
+        "Google Cloud Platform (BigQuery, Cloud Storage)"
+      ],
+      "programming": [
+        "Python (Pandas, NumPy, Scikit-learn)",
+        "SQL (PostgreSQL, MySQL, SQL Server)",
+        "Scala (Apache Spark)",
+        "R (Data Analysis, Visualization)"
+      ],
+      "big_data": [
+        "Apache Spark (PySpark, Spark SQL)",
+        "Apache Kafka (Stream Processing)",
+        "Apache Airflow (Workflow Orchestration)",
+        "Elasticsearch (Search & Analytics)"
+      ],
+      "tools": [
+        "Docker & Kubernetes",
+        "Terraform (Infrastructure as Code)",
+        "Git & GitHub/GitLab",
+        "Jupyter Notebooks, VS Code"
+      ]
+    }
+  }
+}

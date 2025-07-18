@@ -1,0 +1,51 @@
+# =====================================================
+# EXEMPLO DE CONFIGURAÇÃO DE VARIÁVEIS
+# =====================================================
+# 
+# Copie este arquivo para terraform.tfvars e ajuste
+# os valores conforme sua configuração.
+# 
+# IMPORTANTE: Nunca commite terraform.tfvars com
+# dados sensíveis no Git!
+# =====================================================
+
+# Configuração básica
+aws_region   = "us-east-1"
+environment  = "prod"
+domain_name  = "marcomenezes.com"  # Substitua pelo seu domínio
+project_name = "marco-portfolio"
+
+# Configurações opcionais
+enable_versioning = true
+enable_logging    = true
+
+# Tags personalizadas (opcional)
+tags = {
+  Environment = "prod"
+  Project     = "marco-portfolio"
+  Owner       = "Marco Menezes"
+  ManagedBy   = "Terraform"
+  CostCenter  = "Personal"
+  Purpose     = "Portfolio Website"
+}
+
+# Configurações de S3 (opcional)
+force_destroy = false  # true apenas para desenvolvimento
+
+# =====================================================
+# INSTRUÇÕES DE USO:
+# =====================================================
+# 
+# 1. Copie este arquivo:
+#    cp terraform.tfvars.example terraform.tfvars
+# 
+# 2. Edite terraform.tfvars com seus valores:
+#    - domain_name: seu domínio registrado
+#    - aws_region: região AWS de sua preferência
+# 
+# 3. Execute o Terraform:
+#    terraform init
+#    terraform plan
+#    terraform apply
+# 
+# =====================================================

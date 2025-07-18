@@ -1,0 +1,208 @@
+{
+  "experiences": {
+    "pt": [
+      {
+        "company": "F1rst Digital Services (Santander Brazil)",
+        "shortName": "F1rst Digital Services",
+        "roles": [
+          {
+            "title": "Senior Data Engineer",
+            "period": "02/2024 - Presente",
+            "responsibilities": [
+              "Responsável por liderar a equipe de DE contábil através do movimento estratégico de Transformação de Dados",
+              "Migração de pipelines de dados batch e streaming de on-premises para Azure usando Databricks, Data Factory e ADLS gen2",
+              "Migração de pipelines streaming (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) para AWS (MSK, Aurora, EKS)",
+              "Projetei pipelines batch diários para entregar tabelas Delta Bronze e Silver de Contabilidade para o domínio Cash Management"
+            ],
+            "technologies": "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
+          },
+          {
+            "title": "Mid-level Data Engineer",
+            "period": "07/2022 - 02/2024",
+            "responsibilities": [
+              "Liderei a migração para Cloud do sistema Plano de Descontinuidade Operacional, melhorando a durabilidade de tabelas Hive entre clusters",
+              "Copiei tabelas Delta entre data lakes Azure com configuração de redundância de zona para reduzir custos de armazenamento",
+              "Garantiu governança, compliance e segurança para migrações de dados sensíveis de alto volume"
+            ],
+            "technologies": "Python, Spark, Shell Script, Hadoop Ecosystem, Databricks, Azure Cloud"
+          },
+          {
+            "title": "Junior Data Engineer",
+            "period": "05/2021 - 07/2022",
+            "responsibilities": [
+              "Projetei, implementei e mantive pipelines de big data para relatórios e propósitos regulatórios",
+              "Entregue dados para compliance financeiro e relatórios regulatórios",
+              "Certificado como Advanced Data Engineer pelo Santander Brazil, ranking top 10 após caso técnico e exame"
+            ],
+            "technologies": "Python, Spark, SQL, Hadoop, Hive, Shell Script"
+          }
+        ]
+      },
+      {
+        "company": "Trie Engineering",
+        "shortName": "Trie Engineering",
+        "location": "Remoto",
+        "roles": [
+          {
+            "title": "Junior Data Engineer",
+            "period": "10/2020 - 05/2021",
+            "responsibilities": [
+              "Mantive pipelines ETL alimentando dashboards a partir de Google Sheets e dados de campo",
+              "Forneci feeds de dados para apoiar tomada de decisão para stakeholders da indústria de cimento"
+            ],
+            "technologies": "Python, Pandas, NumPy"
+          }
+        ]
+      },
+      {
+        "company": "Fire Labs - Universidade Federal de Ouro Preto",
+        "shortName": "Fire Labs - UFOP",
+        "roles": [
+          {
+            "title": "Bolsista de Pesquisa",
+            "period": "08/2016 - 08/2017",
+            "responsibilities": [
+              "Desenvolveu software embarcado para controle de forno a gás via sensores de temperatura e fluxo usando Arduino",
+              "Implementou loops de controle em C para automação de motor AC e válvula de gás"
+            ],
+            "technologies": "C, Arduino, Sistemas de Controle"
+          }
+        ]
+      },
+      {
+        "company": "Analógica Instrumentação e Controle",
+        "shortName": "Analógica",
+        "roles": [
+          {
+            "title": "Estagiário de Verão",
+            "period": "01/2015 - 02/2015",
+            "responsibilities": [
+              "Construiu aplicação Python para extrair dados de sensores de tanques de combustível para ingestão downstream",
+              "Primeira experiência profissional com Python na plataforma Raspberry PI"
+            ],
+            "technologies": "Python, Raspberry PI"
+          }
+        ]
+      }
+    ],
+    "en": [
+      {
+        "company": "F1rst Digital Services (Santander Brazil)",
+        "shortName": "F1rst Digital Services",
+        "roles": [
+          {
+            "title": "Senior Data Engineer",
+            "period": "02/2024 - Present",
+            "responsibilities": [
+              "Responsible for conducting the DE accounting team through the Data Transformation strategic movement",
+              "Migrated batch and streaming data pipelines from on-premises to Azure using Databricks, Data Factory and ADLS gen2",
+              "Migrated streaming pipelines (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) to AWS (MSK, Aurora, EKS)",
+              "Designed daily batch pipelines to deliver Bronze and Silver Accounting Delta tables to Cash Management domain"
+            ],
+            "technologies": "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
+          },
+          {
+            "title": "Mid-level Data Engineer",
+            "period": "07/2022 - 02/2024",
+            "responsibilities": [
+              "Led Cloud migration for the Operational Discontinuity Plan system, improving durability of Hive tables across clusters",
+              "Copied Delta tables between Azure data lakes with zone redundancy configuration to reduce storage costs",
+              "Ensured governance, compliance and security for high-volume sensitive data migrations"
+            ],
+            "technologies": "Python, Spark, Shell Script, Hadoop Ecosystem, Databricks, Azure Cloud"
+          },
+          {
+            "title": "Junior Data Engineer",
+            "period": "05/2021 - 07/2022",
+            "responsibilities": [
+              "Designed, implemented and maintained big data pipelines for reporting and regulatory purposes",
+              "Delivered data for financial compliance and regulatory reporting",
+              "Certified as Advanced Data Engineer by Santander Brazil, ranking top 10 after technical case and exam"
+            ],
+            "technologies": "Python, Spark, SQL, Hadoop, Hive, Shell Script"
+          }
+        ]
+      },
+      {
+        "company": "Trie Engineering",
+        "shortName": "Trie Engineering",
+        "location": "Remote",
+        "roles": [
+          {
+            "title": "Junior Data Engineer",
+            "period": "10/2020 - 05/2021",
+            "responsibilities": [
+              "Maintained ETL pipelines feeding dashboards from Google Sheets and field data",
+              "Provided data feeds to support decision-making for cement industry stakeholders"
+            ],
+            "technologies": "Python, Pandas, NumPy"
+          }
+        ]
+      },
+      {
+        "company": "Fire Labs - Federal University of Ouro Preto",
+        "shortName": "Fire Labs - UFOP",
+        "roles": [
+          {
+            "title": "Scholarship Recipient",
+            "period": "08/2016 - 08/2017",
+            "responsibilities": [
+              "Developed embedded software for gas oven control via temperature and flow sensors using Arduino",
+              "Implemented control loops on C for AC motor and gas valve automation"
+            ],
+            "technologies": "C, Arduino, Control Systems"
+          }
+        ]
+      },
+      {
+        "company": "Analógica Instrumentation and Control",
+        "shortName": "Analógica",
+        "roles": [
+          {
+            "title": "Summer Intern",
+            "period": "01/2015 - 02/2015",
+            "responsibilities": [
+              "Built Python application to extract sensor data from fuel tanks for downstream ingestion",
+              "First professional experience with Python on Raspberry PI platform"
+            ],
+            "technologies": "Python, Raspberry PI"
+          }
+        ]
+      }
+    ]
+  }
+}
+              "Architecture and implementation of large-scale data pipelines using Apache Spark",
+              "Development of ETL/ELT solutions in AWS and Azure",
+              "Performance optimization of complex SQL queries",
+              "Mentoring junior developers in data engineering best practices"
+            ]
+          },
+          {
+            "title": "Data Engineer",
+            "period": "2020 - 2022",
+            "responsibilities": [
+              "Migration of legacy systems to cloud-native architectures",
+              "Implementation of monitoring and alerting for data pipelines",
+              "Collaboration with Data Science teams for ML model deployment"
+            ]
+          }
+        ]
+      },
+      {
+        "company": "Data Analytics Corp.",
+        "roles": [
+          {
+            "title": "Data Analyst",
+            "period": "2018 - 2020",
+            "responsibilities": [
+              "Exploratory data analysis to identify business insights",
+              "Creation of interactive dashboards using Power BI and Tableau",
+              "Report automation using Python and SQL"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

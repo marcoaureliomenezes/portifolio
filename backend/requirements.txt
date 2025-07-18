@@ -1,0 +1,25 @@
+# Dependências para o Servidor do Portfólio Marco Menezes
+# 
+# Para instalar, execute:
+# pip install -r requirements.txt
+#
+# ou com seu ambiente virtual ativo:
+# .venv/bin/pip install -r requirements.txt
+
+# === SERVIDOR WEB ===
+# Flask - Framework web leve e simples
+flask>=2.3.0
+
+# Flask-CORS - Habilita CORS para desenvolvimento
+flask-cors>=4.0.0
+
+# === UTILITÁRIOS OPCIONAIS ===
+# Requests - Para futuras integrações com APIs externas (opcional)
+requests>=2.31.0
+
+# Gunicorn - Servidor WSGI para produção (opcional)
+gunicorn>=21.0.0
+
+# === DESENVOLVIMENTO ===
+# Watchdog - Para auto-reload em desenvolvimento (opcional)
+watchdog>=3.0.0

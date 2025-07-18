@@ -1,0 +1,229 @@
+/* ===== CABEÇALHO (HEADER) =====
+ * Este arquivo contém todos os estilos do cabeçalho fixo do site.
+ * O cabeçalho inclui:
+ * - Foto do perfil
+ * - Nome e título profissional
+ * - Informações de contato
+ * - Seletor de idioma
+ * - Botão de download do CV
+ */
+
+/* === ESTRUTURA PRINCIPAL DO HEADER === */
+header {
+  display: flex;                  /* Layout flexível */
+  flex-direction: column;         /* Organiza elementos em coluna */
+  align-items: center;            /* Centraliza horizontalmente */
+  justify-content: center;        /* Centraliza verticalmente */
+  text-align: center;             /* Alinha texto ao centro */
+  position: fixed;                /* Fica fixo no topo da página */
+  top: 0;
+  left: 0;
+  width: 100%;                    /* Ocupa toda a largura */
+  height: var(--header-height);   /* Usa a altura definida nas variáveis */
+  padding: 1rem 1rem 0.5rem;      /* Espaçamento interno */
+  background: #111;               /* Fundo preto fosco */
+  color: #fff;                    /* Texto branco */
+  z-index: 1001;                  /* Fica acima de outros elementos */
+  margin-bottom: 2rem;
+}
+
+/* Remove faixa branca na base do header */
+header::after {
+  display: none;
+}
+
+/* === CONTAINER DO HEADER === */
+/* Organiza o conteúdo do header com largura máxima */
+.header-container {
+  max-width: 900px;               /* Largura máxima do conteúdo */
+  height: 100%;                   /* Ocupa toda a altura do header */
+  margin: 0 auto;                 /* Centraliza horizontalmente */
+  display: flex;                  /* Layout flexível */
+  align-items: center;            /* Alinha itens ao centro */
+  padding: 0 2rem;                /* Espaçamento lateral */
+  gap: 1.5rem;                    /* Espaço entre elementos */
+}
+
+/* === SELETOR DE IDIOMA === */
+/* Posicionado no canto superior direito */
+#lang-select {
+  position: absolute;             /* Posição absoluta */
+  top: 1rem;                      /* 1rem do topo */
+  right: 1rem;                    /* 1rem da direita */
+  z-index: 1002;                  /* Acima do header */
+  background: var(--bg-card);     /* Fundo branco */
+  border: 1px solid var(--border-light);  /* Borda sutil */
+  color: var(--text-primary);     /* Texto escuro */
+  padding: 0.4rem 0.6rem;         /* Espaçamento interno */
+  border-radius: 4px;             /* Bordas arredondadas */
+  font-size: 0.9rem;              /* Tamanho da fonte */
+  font-weight: 500;               /* Peso da fonte */
+  cursor: pointer;                /* Cursor de clique */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);  /* Sombra suave */
+  transition: border-color 0.2s;  /* Animação da borda */
+}
+
+/* Estado de foco do seletor de idioma */
+#lang-select:focus {
+  outline: none;                  /* Remove outline padrão */
+  border-color: var(--btn-bg);    /* Borda verde ao focar */
+}
+
+/* === FOTO DO PERFIL === */
+.profile-img {
+  width: 150px;                   /* Largura fixa */
+  height: 150px;                  /* Altura fixa (quadrada) */
+  object-fit: cover;              /* Recorta a imagem para caber */
+  object-position: center 10%;    /* Posiciona a imagem */
+  border-radius: 50%;             /* Torna circular */
+  border: 5px solid #fff;         /* Borda branca */
+  margin: 0;
+  margin-right: 1.5rem;           /* Espaço à direita */
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);  /* Sombra */
+  flex-shrink: 0;                 /* Não encolhe no flex */
+}
+
+/* === INFORMAÇÕES DO HEADER === */
+.header-info {
+  text-align: left;               /* Alinha texto à esquerda */
+  margin-top: 0;
+}
+
+/* Nome principal (h1) */
+header h1 {
+  font-size: 2.2rem;              /* Reduzido de 2.8rem para 2.2rem */
+  margin: 0.5rem 0 0.3rem;        /* Margens específicas */
+  font-weight: 700;               /* Negrito */
+  letter-spacing: 1px;            /* Reduzido de 1.2px para 1px */
+  color: #ffffff;                 /* Branco puro */
+}
+
+/* Título profissional (h2) */
+header h2 {
+  font-size: 1.2rem;              /* Reduzido de 1.4rem para 1.2rem */
+  margin: 0.2rem 0 0.6rem;        /* Margens específicas */
+  font-weight: 400;               /* Peso normal */
+  opacity: 0.9;                   /* Levemente transparente */
+  color: #c9d1d9;                 /* Cinza claro */
+}
+
+/* Parágrafos no header */
+header p {
+  margin: 0.2rem 0;               /* Margens pequenas */
+  font-size: 0.9rem;              /* Reduzido de 1rem para 0.9rem */
+  color: rgba(255,255,255,0.9);   /* Branco com transparência */
+}
+
+/* Links no header */
+/* Links no header */
+header a {
+  color: #fbbf24;                 /* Amarelo/dourado */
+  text-decoration: none;          /* Remove sublinhado */
+  font-size: 0.85rem;             /* Tamanho reduzido para os links */
+  font-weight: 500;               /* Peso médio */
+  margin: 0 0.2rem;               /* Margem lateral */
+  transition: color 0.2s;         /* Animação de cor */
+}
+
+/* Efeito hover nos links */
+header a:hover {
+  color: #fff;                    /* Branco no hover */
+  text-decoration: underline;     /* Sublinha no hover */
+}
+
+/* === BOTÃO DE DOWNLOAD === */
+.btn-download {
+  margin-top: 0 !important;       /* Remove margem superior */
+  background: var(--btn-bg);      /* Fundo verde */
+  color: #fff;                    /* Texto branco */
+  padding: 0.8rem 1.6rem;         /* Espaçamento interno */
+  border-radius: 8px;             /* Bordas arredondadas */
+  font-size: 1rem;                /* Tamanho da fonte */
+  font-weight: 600;               /* Negrito */
+  text-decoration: none;          /* Remove sublinhado */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);  /* Sombra */
+  transition: transform 0.2s, box-shadow 0.2s;  /* Animações */
+}
+
+/* Efeito hover no botão de download */
+.btn-download:hover {
+  transform: translateY(-3px);    /* Move para cima */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);  /* Sombra mais intensa */
+}
+
+/* === ESTRUTURA RESPONSIVA DO CONTATO === */
+
+/* Desktop: uma linha só */
+.contact-desktop {
+  display: block;                 /* Visível no desktop */
+}
+
+/* Mobile: linhas separadas - escondido por padrão */
+.contact-mobile {
+  display: none;                  /* Escondido no desktop */
+}
+
+/* Estilo da linha de localização no mobile */
+.contact-location {
+  margin-bottom: 0.3rem;          /* Espaço entre as linhas */
+  font-weight: 500;               /* Levemente mais negrito */
+}
+
+/* Estilo da linha de links no mobile */
+.contact-links {
+  line-height: 1.4;               /* Altura da linha */
+}
+
+/* Estilos para os links de contato */
+.header-contact a {
+  color: #fff;                    /* Links brancos */
+  text-decoration: none;          /* Remove sublinhado */
+  transition: color 0.2s ease;    /* Transição suave */
+}
+
+/* Hover nos links */
+.header-contact a:hover {
+  color: var(--accent-color, #2ecc71);  /* Cor de destaque */
+  text-decoration: underline;     /* Sublinha no hover */
+}
+
+/* === AJUSTES ESPECÍFICOS PARA DESKTOP === */
+
+/* Contato no desktop - fonte menor */
+.header-contact {
+  font-size: 0.85rem;             /* Fonte menor para informações de contato */
+  line-height: 1.4;               /* Altura de linha adequada */
+}
+
+.header-contact a {
+  font-size: 0.85rem;             /* Fonte menor para links */
+}
+
+/* Responsividade: Mobile */
+@media (max-width: 900px) {
+  /* Esconde estrutura desktop */
+  .contact-desktop {
+    display: none !important;
+  }
+  
+  /* Mostra estrutura mobile */
+  .contact-mobile {
+    display: block !important;
+  }
+  
+  /* Ajusta espaçamento no mobile */
+  .header-contact {
+    margin-top: 0.5rem;
+  }
+  
+  /* Diminui fonte dos links no mobile */
+  .contact-links {
+    font-size: 0.85rem;
+  }
+  
+  /* Estilização específica para mobile */
+  .contact-location {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+}

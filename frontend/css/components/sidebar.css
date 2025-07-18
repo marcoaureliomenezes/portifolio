@@ -1,0 +1,80 @@
+/* ===== BARRA LATERAL (SIDEBAR) =====
+ * Este arquivo contém todos os estilos da barra lateral de navegação.
+ * A sidebar inclui:
+ * - Menu de navegação entre seções
+ * - Botão destacado para download do CV
+ * - Posicionamento fixo ao lado do conteúdo
+ */
+
+/* === ESTRUTURA PRINCIPAL DA SIDEBAR === */
+.sidebar-nav {
+  position: fixed;                /* Fica fixa na lateral */
+  top: calc(var(--header-height) + 40px);  /* Posiciona abaixo do header */
+  left: 0;                        /* Alinhada à esquerda */
+  height: calc(100% - var(--header-height) - 40px);  /* Altura total menos header */
+  width: 200px;                   /* Largura fixa */
+  background: var(--bg-card);     /* Fundo branco */
+  box-shadow: 2px 0 8px var(--shadow-light);  /* Sombra à direita */
+  padding-top: 3rem;              /* Espaçamento superior */
+}
+
+/* === MENU DE NAVEGAÇÃO === */
+.sidebar-menu {
+  list-style: none;               /* Remove bullets da lista */
+  padding: 0;                     /* Remove padding padrão */
+  margin: 0;                      /* Remove margem padrão */
+}
+
+/* Espaçamento entre itens do menu */
+.sidebar-menu li + li {
+  margin-top: 1rem;               /* 1rem de espaço entre itens */
+}
+
+/* === LINKS DO MENU === */
+.sidebar-menu a {
+  display: block;                 /* Ocupa toda a largura disponível */
+  padding: 0.6rem 1rem;           /* Espaçamento interno */
+  color: var(--text-primary);     /* Cor do texto principal */
+  text-decoration: none;          /* Remove sublinhado */
+  font-weight: 500;               /* Peso médio da fonte */
+  transition: background 0.2s;    /* Animação do fundo */
+}
+
+/* Efeito hover e estado ativo dos links */
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background: var(--border-light); /* Fundo cinza claro */
+}
+
+/* === BOTÃO DE DOWNLOAD NA SIDEBAR === */
+/* Destaque especial para o link "Baixar CV" na sidebar */
+.sidebar-nav .sidebar-menu a.btn-download {
+  display: inline-block;          /* Permite transformações */
+  background: var(--btn-bg);      /* Fundo verde */
+  color: #fff;                    /* Texto branco */
+  padding: 0.6rem 1rem;           /* Espaçamento interno */
+  border-radius: 6px;             /* Bordas arredondadas */
+  font-weight: 600;               /* Negrito */
+  text-decoration: none;          /* Remove sublinhado */
+  margin-top: 1rem;               /* Espaço acima do botão */
+  transition: background 0.2s, transform 0.2s;  /* Animações */
+}
+
+/* Efeito hover no botão de download da sidebar */
+.sidebar-nav .sidebar-menu a.btn-download:hover {
+  background: var(--btn-bg-hover); /* Verde mais escuro */
+  transform: translateY(-2px);    /* Move ligeiramente para cima */
+}
+
+/* === AJUSTE DO CONTEÚDO PRINCIPAL === */
+/* O conteúdo principal precisa ser deslocado para não ficar atrás da sidebar */
+.main-content {
+  margin-top: calc(var(--header-height) + 40px);  /* Espaço abaixo do header */
+  margin-left: calc(var(--sidebar-width) + 20px); /* Espaço à direita da sidebar */
+  transition: margin 0.2s;        /* Animação suave das margens */
+}
+
+/* Remove padding superior do body (já controlado pelo main-content) */
+body {
+  padding-top: 0;
+}

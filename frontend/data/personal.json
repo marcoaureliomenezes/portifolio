@@ -1,0 +1,31 @@
+{
+  "personal": {
+    "name": "Marco Aurelio Menezes",
+    "title": {
+      "pt": "Engenheiro de Dados | Especialista em Nuvem",
+      "en": "Data Engineer | Cloud Specialist"
+    },
+    "location": {
+      "pt": "Belo Horizonte, MG - Brasil",
+      "en": "Belo Horizonte, MG - Brazil"
+    },
+    "email": "marcoaurelioreislima@gmail.com",
+    "linkedin": "https://linkedin.com/in/marco-menezes-731542b9",
+    "github": "https://github.com/marcoaureliomenezes",
+    "photo": "images/profile.png",
+    "resume_file": "assets/marco_menezes_resume.pdf"
+  },
+  
+  "summary": {
+    "pt": "Engenheiro de Dados especializado em soluções cloud com mais de 8 anos de experiência em arquiteturas de dados escaláveis. Expertise em AWS, Azure, Apache Spark e ferramentas modernas de Big Data. Apaixonado por transformar dados em insights valiosos para negócios.",
+    "en": "Data Engineer specialized in cloud solutions with over 8 years of experience in scalable data architectures. Expertise in AWS, Azure, Apache Spark and modern Big Data tools. Passionate about transforming data into valuable business insights."
+  },
+  
+  "contact": {
+    "form_endpoint": "/api/contact",
+    "success_message": {
+      "pt": "Mensagem enviada com sucesso! Retornarei em breve.",
+      "en": "Message sent successfully! I'll get back to you soon."
+    }
+  }
+}

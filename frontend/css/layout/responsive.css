@@ -1,0 +1,390 @@
+/* ===== RESPONSIVIDADE (MEDIA QUERIES) =====
+ * Este arquivo contém todas as regras de responsividade para diferentes tamanhos de tela.
+ * As regras estão organizadas do maior para o menor (desktop → mobile).
+ * 
+ * Breakpoints utilizados:
+ * - 1024px: Tablets grandes
+ * - 900px: Tablets e smartphones grandes (landscape)
+ * - 600px: Smartphones (portrait)
+ * - 400px: Smartphones pequenos
+ * - Landscape móvel: Orientação paisagem em dispositivos móveis
+ */
+
+/* === TABLETS GRANDES (até 1024px) === */
+@media (max-width: 1024px) {
+  .header-container {
+    max-width: 100%;              /* Remove limite de largura */
+    padding: 0 1.5rem;            /* Reduz padding lateral */
+  }
+  
+  .main-content {
+    margin-left: calc(var(--sidebar-width) + 15px); /* Reduz margem */
+    margin-right: 15px;           /* Adiciona margem direita */
+  }
+  
+  section {
+    max-width: 100%;              /* Remove limite de largura */
+    margin: 2rem auto;            /* Reduz margem vertical */
+  }
+}
+
+/* === TABLETS E SMARTPHONES GRANDES (até 900px) === */
+@media (max-width: 900px) {
+  /* Exibe o menu hamburger */
+  .menu-toggle {
+    display: block;               /* Mostra o botão hamburger */
+  }
+  
+  /* Esconde a sidebar por padrão */
+  .sidebar-nav {
+    transform: translateX(-100%); /* Move para fora da tela */
+    transition: transform 0.3s ease; /* Animação suave */
+    z-index: 1000;                /* Fica acima do conteúdo */
+    width: 250px;                 /* Largura maior no mobile */
+  }
+  
+  /* Mostra a sidebar quando ativa */
+  .sidebar-nav.active {
+    transform: translateX(0);     /* Volta para posição original */
+  }
+  
+  /* Ajusta o conteúdo principal */
+  .main-content {
+    margin-left: 20px !important; /* Remove margem da sidebar */
+    margin-right: 20px;           /* Margem direita */
+    margin-top: calc(var(--header-height) + 20px); /* Margem superior */
+  }
+  
+  /* Ajustes no header */
+  .header-container {
+    padding: 0 1rem;              /* Reduz padding */
+  }
+  
+  .profile-img {
+    width: 120px;                 /* Reduz tamanho da foto */
+    height: 120px;
+    margin-right: 1rem;           /* Reduz margem */
+  }
+  
+  header h1 {
+    font-size: 2.2rem;            /* Reduz fonte do nome */
+  }
+  
+  header h2 {
+    font-size: 1.2rem;            /* Reduz fonte do título */
+  }
+  
+  /* Ajusta grids */
+  .certificates-grid,
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colunas maiores */
+  }
+  
+  /* Ajusta botão flutuante */
+  #btn-download-float {
+    bottom: 1rem;                 /* Menos distância do fundo */
+    right: 1rem;                  /* Menos distância da direita */
+    padding: 0.7rem 1.2rem;       /* Reduz padding */
+    font-size: 0.9rem;            /* Reduz fonte */
+  }
+  
+  /* Ajustes para experiência profissional */
+  .experience-list details summary .company {
+    font-size: 1.1rem;            /* Reduz tamanho da fonte */
+    line-height: 1.3;             /* Melhora espaçamento de linha */
+    word-break: break-word;       /* Quebra palavras longas */
+  }
+
+  .experience-list details summary {
+    padding: 0.7rem 1rem 0.7rem 2.2rem; /* Reduz padding */
+  }
+}
+
+/* === SMARTPHONES (até 600px) === */
+@media (max-width: 600px) {
+  /* Aumenta altura do header para mobile */
+  :root {
+    --header-height: 240px;       /* Header mais alto */
+  }
+  
+  /* Ajusta menu hamburger */
+  .menu-toggle {
+    top: 10px;                    /* Mais próximo do topo */
+    left: 10px;                   /* Mais próximo da esquerda */
+    padding: 0.6rem;              /* Reduz padding */
+    font-size: 1rem;              /* Reduz fonte */
+  }
+  
+  /* Ajusta header */
+  header {
+    height: var(--header-height); /* Usa nova altura */
+    padding: 1rem 0.5rem 0.5rem;  /* Reduz padding */
+  }
+  
+  /* Layout em coluna no header */
+  .header-container {
+    flex-direction: column;       /* Organiza em coluna */
+    align-items: center;          /* Centraliza itens */
+    text-align: center;           /* Centraliza texto */
+    padding: 0.5rem 1rem;         /* Reduz padding */
+    gap: 1rem;                    /* Reduz gap */
+    max-width: 100%;              /* Largura total */
+  }
+  
+  /* Centraliza foto do perfil */
+  .profile-img {
+    margin: 0 auto 0.5rem auto;   /* Centraliza */
+    width: 100px;                 /* Reduz tamanho */
+    height: 100px;
+  }
+  
+  /* Centraliza informações do header */
+  .header-info {
+    text-align: center;           /* Centraliza texto */
+    width: 100%;                  /* Largura total */
+  }
+  
+  /* Reduz fontes do header */
+  header h1 {
+    font-size: 1.8rem;            /* Fonte menor */
+    margin: 0.3rem 0;             /* Margens menores */
+    line-height: 1.2;             /* Altura da linha */
+  }
+  
+  header h2 {
+    font-size: 1rem;              /* Fonte menor */
+    margin: 0.2rem 0 0.5rem;      /* Margens menores */
+  }
+  
+  /* Ajusta contato no header */
+  .header-contact {
+    font-size: 0.85rem;           /* Fonte menor */
+    line-height: 1.4;             /* Altura da linha */
+  }
+  
+  .header-contact .contact-mobile {
+    word-break: break-word;       /* Quebra palavras longas */
+  }
+  
+  /* Reposiciona seletor de idioma */
+  #lang-select {
+    position: fixed;              /* Posição fixa */
+    top: 10px;                    /* Próximo ao topo */
+    right: 10px;                  /* Próximo à direita */
+    font-size: 0.8rem;            /* Fonte menor */
+    padding: 0.3rem 0.5rem;       /* Padding menor */
+  }
+  
+  /* Ajusta conteúdo principal */
+  .main-content {
+    margin-top: calc(var(--header-height) + 15px); /* Margem superior */
+    margin-left: 10px;            /* Margens laterais menores */
+    margin-right: 10px;
+    padding: 0;                   /* Remove padding */
+  }
+  
+  /* Ajusta seções */
+  section {
+    margin: 1.5rem 0;             /* Margens menores */
+    padding: 1.5rem 1rem;         /* Padding menor */
+    border-radius: 12px;          /* Bordas menos arredondadas */
+  }
+  
+  /* Reduz fonte dos títulos */
+  section h3 {
+    font-size: 1.3rem;            /* Fonte menor */
+    margin-bottom: 1rem;          /* Margem menor */
+  }
+  
+  /* === AJUSTES ESPECÍFICOS PARA MOBILE === */
+  
+  /* Habilidades responsivas */
+  #skills ul, #certificates ul {
+    padding-left: 1.2rem;         /* Reduz padding */
+    margin-bottom: 0.5rem;        /* Reduz margem */
+  }
+  
+  #skills li, #certificates li {
+    font-size: 0.9rem !important; /* Fonte menor - garantir consistência */
+    line-height: 1.5;             /* Altura da linha */
+    margin-bottom: 0.5rem;        /* Margem menor */
+    padding: 0.1rem 0;            /* Padding menor */
+  }
+  
+  /* Resumo responsivo */
+  #summary .summary-content {
+    font-size: 0.9rem !important; /* Fonte menor - forçar aplicação */
+    line-height: 1.5;             /* Altura da linha */
+  }
+  
+  #summary .summary-content p {
+    font-size: 0.9rem !important; /* Fonte menor - forçar aplicação */
+    line-height: 1.5;             /* Altura da linha */
+  }
+  
+  .btn-toggle {
+    font-size: 0.85rem;           /* Fonte menor */
+    margin-top: 0.75rem;          /* Margem maior */
+  }
+  
+  /* Grids em uma coluna */
+  .certificates-grid,
+  .projects-grid {
+    grid-template-columns: 1fr;   /* Uma coluna apenas */
+    gap: 1rem;                    /* Gap menor */
+  }
+  
+  /* Ajusta experiências */
+  .experience-list details summary {
+    font-size: 0.95rem;           /* Fonte menor */
+    padding: 1rem;                /* Padding uniforme */
+  }
+  
+  .experience-list details .role {
+    padding: 1rem;                /* Padding uniforme */
+  }
+  
+  .experience-list details .role-header {
+    flex-direction: column;       /* Layout em coluna */
+    align-items: flex-start;      /* Alinha à esquerda */
+    gap: 0.3rem;                  /* Gap menor */
+  }
+  
+  /* Cards de certificação em coluna */
+  .certificate-card {
+    flex-direction: column;       /* Layout em coluna */
+    text-align: center;           /* Centraliza texto */
+    padding: 1rem;                /* Padding uniforme */
+  }
+  
+  .cert-badge {
+    align-self: center;           /* Centraliza badge */
+    margin-bottom: 0.5rem;        /* Margem inferior */
+  }
+  
+  /* Ajusta botão flutuante */
+  #btn-download-float {
+    bottom: 15px;                 /* Próximo ao fundo */
+    right: 10px;                  /* Próximo à direita */
+    padding: 0.7rem 1rem;         /* Padding menor */
+    font-size: 0.85rem;           /* Fonte menor */
+  }
+}
+
+/* === SMARTPHONES PEQUENOS (até 400px) === */
+@media (max-width: 400px) {
+  /* Header ainda mais alto */
+  :root {
+    --header-height: 260px;       /* Header maior */
+  }
+  
+  /* Fontes ainda menores */
+  header h1 {
+    font-size: 1.5rem;            /* Fonte muito pequena */
+  }
+  
+  header h2 {
+    font-size: 0.9rem;            /* Fonte muito pequena */
+  }
+  
+  /* Contato no header para telas muito pequenas */
+  .header-contact {
+    font-size: 0.75rem;           /* Fonte muito pequena */
+  }
+  
+  /* Margens ainda menores */
+  .main-content {
+    margin-left: 5px;             /* Margens mínimas */
+    margin-right: 5px;
+  }
+  
+  section {
+    padding: 1rem 0.75rem;        /* Padding mínimo */
+    margin: 1rem 0;               /* Margem menor */
+  }
+  
+  /* Fontes ainda menores para habilidades */
+  #skills li, #certificates li {
+    font-size: 0.8rem !important; /* Fonte muito pequena - garantir consistência */
+    line-height: 1.4;             /* Altura da linha */
+    margin-bottom: 0.4rem;        /* Margem menor */
+  }
+  
+  /* Resumo ainda menor */
+  #summary .summary-content,
+  #summary .summary-content p {
+    font-size: 0.8rem !important; /* Fonte muito pequena - forçar aplicação */
+    line-height: 1.4;             /* Altura da linha */
+  }
+  
+  /* Experiências em dispositivos muito pequenos */
+  .experience-list details summary .company {
+    font-size: 0.9rem;            /* Fonte muito pequena */
+    padding-right: 0.5rem;        /* Padding lateral */
+  }
+  
+  .experience-list details summary {
+    padding: 0.5rem 0.6rem 0.5rem 1.8rem; /* Padding mínimo */
+  }
+  
+  .experience-list details ul,
+  .experience-list details p {
+    padding-left: 1.8rem;         /* Alinha com summary */
+    padding-right: 0.6rem;        /* Padding direito reduzido */
+    font-size: 0.8rem;            /* Fonte muito pequena */
+  }
+}
+
+/* === ORIENTAÇÃO PAISAGEM EM MOBILE === */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  /* Reduz altura do header no landscape */
+  :root {
+    --header-height: 120px;       /* Header menor */
+  }
+  
+  header {
+    height: var(--header-height); /* Usa altura reduzida */
+    padding: 0.5rem;              /* Padding mínimo */
+  }
+  
+  /* Layout horizontal compacto */
+  .header-container {
+    flex-direction: row;          /* Volta para linha */
+    align-items: center;          /* Centraliza verticalmente */
+    gap: 0.5rem;                  /* Gap menor */
+    padding: 0 1rem;              /* Padding lateral */
+  }
+  
+  /* Foto menor no landscape */
+  .profile-img {
+    width: 80px;                  /* Tamanho reduzido */
+    height: 80px;
+    margin-right: 0.5rem;         /* Margem menor */
+  }
+  
+  /* Fontes menores no landscape */
+  header h1 {
+    font-size: 1.2rem;            /* Fonte reduzida */
+    margin: 0;                    /* Remove margens */
+  }
+  
+  header h2 {
+    font-size: 0.9rem;            /* Fonte reduzida */
+    margin: 0;                    /* Remove margens */
+  }
+  
+  /* Informações compactas */
+  .header-info {
+    text-align: left;             /* Alinha à esquerda */
+  }
+  
+  .header-contact p {
+    font-size: 0.7rem;            /* Fonte muito pequena */
+    margin: 0;                    /* Remove margens */
+  }
+  
+  /* Ajusta conteúdo principal */
+  .main-content {
+    margin-top: calc(var(--header-height) + 10px); /* Margem reduzida */
+  }
+}

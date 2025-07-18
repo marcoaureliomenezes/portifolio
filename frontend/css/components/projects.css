@@ -1,0 +1,277 @@
+/* ===== COMPONENTES DE PROJETOS E EXPERIÊNCIA =====
+ * Este arquivo contém estilos para:
+ * - Grid e cards de projetos
+ * - Lista de experiências profissionais
+ * - Detalhes expansíveis das experiências
+ * - Ícones e animações
+ */
+
+/* === GRID DE PROJETOS === */
+.projects-grid {
+  display: grid;                  /* Layout em grid */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Colunas responsivas */
+  gap: 1.5rem;                    /* Espaço entre cards */
+  margin-top: 1.5rem;             /* Espaço acima do grid */
+}
+
+/* Cards individuais de projeto */
+.project-card {
+  background: var(--bg-card);     /* Fundo branco */
+  box-shadow: 0 2px 12px var(--shadow-light); /* Sombra suave */
+  padding: 1.2rem;                /* Espaçamento interno */
+  transition: transform 0.2s, box-shadow 0.2s; /* Animações */
+}
+
+/* Efeito hover nos cards de projeto */
+.project-card:hover {
+  box-shadow: 0 6px 24px var(--shadow-dark); /* Sombra mais intensa */
+}
+
+/* Título do projeto */
+.project-card h4 {
+  margin: 0 0 0.5rem 0;           /* Margens específicas */
+  font-size: 1.2rem;              /* Tamanho da fonte */
+  color: #1f2937;                 /* Cor escura */
+}
+
+/* Descrição do projeto */
+.project-card p {
+  margin: 0;                      /* Remove margens */
+  color: #4b5563;                 /* Cor cinza */
+  font-size: 0.95rem;             /* Fonte menor */
+}
+
+/* === SEÇÃO DE EXPERIÊNCIA ANTIGA (COMPATIBILIDADE) === */
+#exp-list > div {
+  background: var(--bg-card);     /* Fundo branco */
+  border-left-color: var(--link-color); /* Borda esquerda azul */
+  box-shadow: 0 2px 8px var(--shadow-light); /* Sombra */
+  padding: 1rem;                  /* Espaçamento interno */
+  margin-bottom: 1rem;            /* Espaço entre itens */
+  border-radius: 6px;             /* Bordas arredondadas */
+}
+
+/* Título da experiência */
+#exp-list > div strong {
+  display: block;                 /* Exibe como bloco */
+  font-size: 1.1rem;              /* Fonte maior */
+  color: #1f2937;                 /* Cor escura */
+  margin-bottom: 0.3rem;          /* Espaço abaixo */
+}
+
+/* Parágrafos da experiência */
+#exp-list > div p {
+  margin: 0.2rem 0;               /* Margens pequenas */
+  color: #4b5563;                 /* Cor cinza */
+  font-size: 0.93rem;             /* Fonte menor */
+}
+
+/* === NOVA LISTA DE EXPERIÊNCIAS (EXPANSÍVEL) === */
+.experience-list {
+  margin-top: 1.5rem;             /* Espaço acima da lista */
+}
+
+/* Container de cada experiência (details) */
+.experience-list details {
+  background: var(--bg-card);     /* Fundo branco */
+  border-left: 4px solid var(--link-color); /* Borda esquerda azul */
+  border-radius: 8px;             /* Bordas arredondadas */
+  margin-bottom: 1rem;            /* Espaço entre experiências */
+  box-shadow: 0 2px 8px var(--shadow-light); /* Sombra */
+  overflow: hidden;               /* Esconde conteúdo que vaza */
+}
+
+/* Experiências principais têm borda mais destacada */
+.experience-list details.main {
+  border-left-width: 6px;         /* Borda mais espessa */
+  border-left-color: #4f46e5;     /* Cor diferenciada */
+}
+
+/* === CABEÇALHO DA EXPERIÊNCIA (SUMMARY) === */
+.experience-list details summary {
+  list-style: none;               /* Remove estilo de lista */
+  cursor: pointer;                /* Cursor de clique */
+  position: relative;             /* Para posicionar o ícone */
+  outline: none;                  /* Remove outline no foco */
+  transition: background 0.2s;    /* Animação do fundo */
+  padding: 0;                     /* Remove padding padrão */
+}
+
+/* Efeito hover no cabeçalho */
+.experience-list details summary:hover {
+  background: var(--border-light); /* Fundo cinza claro */
+}
+
+/* Remove marcador padrão do details */
+.experience-list details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* === ESTRUTURA DO CABEÇALHO === */
+.experience-header {
+  display: flex;                  /* Layout flexível */
+  align-items: flex-start;        /* Alinha ao topo */
+  padding: 1rem 1.2rem 1rem 2.8rem; /* Espaço para ícone */
+  gap: 1.5rem;                    /* Espaço entre período e empresa */
+}
+
+/* Período total (à esquerda) */
+.total-period {
+  font-weight: 600;               /* Negrito */
+  font-size: 0.95rem;             /* Fonte menor */
+  color: var(--link-color);       /* Cor azul */
+  min-width: 140px;               /* Largura mínima */
+  line-height: 1.3;               /* Altura da linha */
+}
+
+/* Informações da empresa (à direita) */
+.company-info, .simple-info {
+  flex: 1;                        /* Ocupa espaço restante */
+}
+
+/* Nome da empresa (principal) */
+.company-name {
+  font-size: 1.2rem;              /* Fonte maior */
+  font-weight: 600;               /* Negrito */
+  color: var(--text-primary);     /* Cor do texto principal */
+  margin-bottom: 0.2rem;          /* Espaço inferior */
+}
+
+/* Nome completo da empresa */
+.company-full {
+  font-size: 0.9rem;              /* Fonte menor */
+  color: var(--text-secondary);   /* Cor secundária */
+  margin-bottom: 0.2rem;          /* Espaço inferior */
+}
+
+/* Localização da empresa */
+.company-location {
+  font-size: 0.85rem;             /* Fonte ainda menor */
+  color: var(--text-muted);       /* Cor mais clara */
+}
+
+/* Título do cargo (para experiências simples) */
+.simple-info .job-title {
+  font-size: 1.1rem;              /* Fonte média */
+  font-weight: 500;               /* Peso médio */
+  color: var(--text-primary);     /* Cor principal */
+  margin-bottom: 0.3rem;          /* Espaço inferior */
+}
+
+/* === ÍCONE DE EXPANSÃO === */
+.experience-list details summary::before {
+  content: "▼";                   /* Símbolo de seta para baixo */
+  font-family: Arial, sans-serif; /* Fonte padrão do sistema */
+  font-weight: normal;            /* Peso normal */
+  position: absolute;             /* Posição absoluta */
+  left: 1rem;                     /* 1rem da esquerda */
+  top: 50%;                       /* Centro vertical */
+  transform: translateY(-50%);    /* Centraliza verticalmente */
+  transition: transform 0.3s;     /* Animação da rotação */
+  color: var(--link-color);       /* Cor do link */
+  font-size: 0.8rem;              /* Tamanho menor */
+}
+
+/* Rotaciona o ícone quando expandido */
+.experience-list details[open] summary::before {
+  content: "▲";                   /* Símbolo de seta para cima */
+  transform: translateY(-50%);    /* Mantém centralizado */
+}
+
+/* === CONTEÚDO EXPANDIDO === */
+/* Container dos cargos (para empresas principais) */
+.roles-container {
+  background: #f8fafc;            /* Fundo levemente diferente */
+  border-top: 1px solid var(--border-light); /* Borda superior */
+}
+
+/* Item de cargo individual */
+.role-item {
+  padding: 1rem 1.2rem;           /* Espaçamento interno */
+  border-bottom: 1px solid var(--border-light); /* Divisor entre cargos */
+}
+
+.role-item:last-child {
+  border-bottom: none;            /* Remove borda do último item */
+}
+
+/* Header do cargo */
+.role-header {
+  display: flex;                  /* Layout flexível */
+  justify-content: space-between; /* Espaça título e período */
+  align-items: center;            /* Centraliza verticalmente */
+  margin-bottom: 0.8rem;          /* Espaço inferior */
+}
+
+.role-header .job-title {
+  font-size: 1.05rem;             /* Fonte média */
+  font-weight: 500;               /* Peso médio */
+  color: var(--text-primary);     /* Cor principal */
+}
+
+.role-header .job-period {
+  font-size: 0.9rem;              /* Fonte menor */
+  color: var(--text-secondary);   /* Cor secundária */
+  font-weight: 400;               /* Peso normal */
+}
+
+/* === RESPONSABILIDADES E TECNOLOGIAS === */
+/* Listas de responsabilidades */
+.experience-list .responsibilities {
+  margin: 0 0 0.8rem 0;           /* Margem apenas inferior */
+  padding-left: 1.5rem;           /* Espaço para bullets */
+  list-style: disc;               /* Bullets padrão */
+  color: var(--text-secondary);   /* Cor secundária */
+  font-size: 0.95rem;             /* Fonte menor */
+  line-height: 1.5;               /* Altura da linha */
+}
+
+.experience-list .responsibilities li {
+  margin-bottom: 0.4rem;          /* Espaço entre itens */
+}
+
+/* Parágrafos de tecnologias */
+.experience-list .technologies {
+  margin: 0;                      /* Remove margens */
+  color: var(--text-secondary);   /* Cor secundária */
+  font-size: 0.9rem;              /* Fonte menor */
+  padding: 0.5rem 0.8rem;         /* Padding interno */
+  background: #f1f5f9;            /* Fundo cinza claro */
+  border-radius: 6px;             /* Bordas arredondadas */
+  border-left: 3px solid var(--link-color); /* Borda esquerda */
+}
+
+/* Para experiências simples, ajustar padding */
+.experience-list details.minor .responsibilities,
+.experience-list details.minor .technologies {
+  margin-left: 1rem;              /* Margem esquerda adicional */
+  margin-right: 1rem;             /* Margem direita adicional */
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .experience-header {
+    flex-direction: column;       /* Layout vertical no mobile */
+    gap: 0.8rem;                  /* Espaço menor */
+    padding: 1rem 1rem 1rem 2.5rem; /* Padding ajustado */
+  }
+  
+  .total-period {
+    min-width: auto;              /* Remove largura mínima */
+    font-size: 0.9rem;            /* Fonte menor */
+  }
+  
+  .company-name {
+    font-size: 1.1rem;            /* Fonte menor no mobile */
+  }
+  
+  .role-header {
+    flex-direction: column;       /* Layout vertical */
+    align-items: flex-start;      /* Alinha à esquerda */
+    gap: 0.3rem;                  /* Espaço menor */
+  }
+  
+  .role-header .job-period {
+    font-size: 0.85rem;           /* Fonte ainda menor */
+  }
+}
