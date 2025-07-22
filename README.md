@@ -2,75 +2,150 @@
 
 **Engenheiro de Dados | Cloud Specialist**
 
-Este é um portfólio profissional moderno e responsivo, desenvolvido com arquitetura limpa e organizada para fácil manutenção e escalabilidade.
+Este é um portfólio profissional moderno e responsivo, desenvolvido com React/TypeScript e hospedado na AWS S3.
 
 ## 🗂️ Estrutura do Projeto
 
 ```
 portifolio/
-├── 📁 backend/              # Servidor Flask para desenvolvimento
-│   ├── flask_server.py      # Servidor principal
-│   ├── requirements.txt     # Dependências Python
-│   ├── setup.sh            # Script de instalação
-│   └── README.md           # Documentação do backend
-│
-├── 📁 frontend/             # Interface do usuário
-│   ├── index.html          # Página principal
-│   ├── 📁 css/             # Estilos organizados e modulares
-│   ├── 📁 js/              # JavaScript
-│   ├── 📁 images/          # Imagens e ícones
-│   ├── 📁 assets/          # Recursos (CV, etc.)
-│   ├── 📁 data/            # Dados estruturados (JSON)
+├── 📁 frontend/             # Interface React/TypeScript
+│   ├── src/                # Código fonte
+│   ├── public/             # Arquivos públicos
+│   ├── dist/               # Build de produção
+│   ├── package.json        # Dependências e scripts
 │   └── README.md           # Documentação do frontend
 │
-├── 📁 devops/              # Infraestrutura e automação AWS
-│   ├── 📁 terraform/       # Configuração da infraestrutura
-│   ├── 📁 scripts/         # Scripts de deploy e automação
-│   ├── Makefile           # Comandos automatizados
-│   └── README.md          # Documentação do DevOps
+├── 📁 backend/              # Servidor Flask para desenvolvimento local
+│   ├── stable_server.py    # Servidor de produção
+│   ├── auto_reload_server.py # Servidor de desenvolvimento
+│   ├── requirements.txt    # Dependências Python
+│   └── README.md           # Documentação do backend
+│
+├── 📁 terraform/            # Infraestrutura AWS
+│   ├── main.tf             # Configuração principal
+│   ├── s3.tf               # Bucket S3 para hospedagem
+│   ├── variables.tf        # Variáveis do Terraform
+│   ├── outputs.tf          # Outputs da infraestrutura
+│   └── terraform.tfvars    # Configurações específicas
+│
+├── 📁 scripts/              # Scripts de automação
+│   ├── deploy_complete.sh  # Deploy completo (build + infraestrutura + deploy)
+│   ├── deploy_frontend.sh  # Deploy apenas do frontend
+│   ├── check_infrastructure.sh # Verificação do status
+│   └── terraform_manager.sh # Gerenciamento do Terraform
+│
+└── README.md               # Esta documentação
 │
 ├── 📁 .venv/               # Ambiente virtual Python
 ├── .gitignore              # Arquivos ignorados pelo Git
 └── README.md               # Esta documentação
 ```
 
+```
+
 ## 🚀 Início Rápido
+
+### � Pré-requisitos
+
+- **Node.js** 18+ e npm
+- **Python** 3.8+ (para desenvolvimento local)
+- **Terraform** 1.0+
+- **AWS CLI** configurado
+- Conta AWS com permissões S3
 
 ### 💻 Desenvolvimento Local
 
-1. **Clone e Configure:**
+1. **Instalar dependências do frontend:**
 ```bash
-git clone <repository-url>
-cd portifolio
-
-# Instalação automática
-./backend/setup.sh
+cd frontend/
+npm install
 ```
 
-2. **Inicie o Servidor:**
+2. **Executar em modo desenvolvimento:**
 ```bash
-# Ativar ambiente virtual
-source .venv/bin/activate
+# Frontend (React + Vite)
+npm run dev
 
-# Iniciar servidor Flask
-python backend/flask_server.py
+# OU servidor Flask local
+cd ../backend/
+python stable_server.py
 ```
 
-3. **Acesse o portfólio:**
-```
-http://localhost:8000
-```
-
-### ☁️ Deploy em Produção (AWS)
-
-1. **Configure o DevOps:**
+3. **Build do frontend:**
 ```bash
-cd devops/
+cd frontend/
+npm run build
+```
 
-# Configure suas credenciais AWS
-aws configure
+### ☁️ Deploy para AWS S3
 
-# Configure as variáveis
+#### Opção 1: Deploy Completo (Recomendado)
+```bash
+# Deploy completo: build + infraestrutura + deploy
+./scripts/deploy_complete.sh
+
+# Primeira vez (inicializar Terraform)
+./scripts/deploy_complete.sh --init
+```
+
+#### Opção 2: Deploy por Etapas
+```bash
+# 1. Criar/atualizar infraestrutura
+./scripts/terraform_manager.sh init
+./scripts/terraform_manager.sh apply
+
+# 2. Build do frontend
+cd frontend/
+npm run build
+
+# 3. Deploy para S3
+./scripts/deploy_frontend.sh
+```
+
+#### Verificar Status
+```bash
+# Verificar status completo da infraestrutura
+./scripts/check_infrastructure.sh
+```
+
+### 🛠️ Scripts Disponíveis
+
+| Script | Descrição |
+|--------|-----------|
+| `deploy_complete.sh` | Deploy completo (build + infraestrutura + S3) |
+| `deploy_frontend.sh` | Deploy apenas do frontend para S3 |
+| `check_infrastructure.sh` | Verificação do status da infraestrutura |
+| `terraform_manager.sh` | Gerenciamento do Terraform |
+
+#### Parâmetros dos Scripts
+
+```bash
+# Deploy completo com opções
+./scripts/deploy_complete.sh --init      # Inicializar Terraform
+./scripts/deploy_complete.sh --force     # Forçar rebuild
+./scripts/deploy_complete.sh --dry-run   # Simular sem executar
+
+# Terraform
+./scripts/terraform_manager.sh init      # Inicializar
+./scripts/terraform_manager.sh plan      # Planejar mudanças
+./scripts/terraform_manager.sh apply     # Aplicar mudanças
+./scripts/terraform_manager.sh destroy   # Destruir recursos
+```
+
+### ⚙️ Configuração
+
+#### Terraform Variables
+Edite `terraform/terraform.tfvars`:
+```hcl
+aws_region   = "sa-east-1"        # Região AWS
+environment  = "prod"             # Ambiente
+project_name = "marco-portfolio"  # Nome do projeto
+```
+
+#### Personalização do Frontend
+- **Conteúdo**: Edite arquivos em `frontend/src/`
+- **Estilos**: Customize Tailwind CSS em `frontend/tailwind.config.ts`
+- **Componentes**: Adicione componentes em `frontend/src/components/`
 cp terraform/terraform.tfvars.example terraform/terraform.tfvars
 # Edite terraform.tfvars com seu domínio
 ```

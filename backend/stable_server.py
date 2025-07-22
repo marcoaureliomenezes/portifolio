@@ -16,22 +16,27 @@ CORS(app)
 # Diretório do frontend
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
-FRONTEND_DIR = os.path.join(PROJECT_ROOT, 'frontend')
+FRONTEND_DIST_DIR = os.path.join(PROJECT_ROOT, 'frontend', 'dist')
 
 @app.route('/')
 def index():
-    return send_file(os.path.join(FRONTEND_DIR, 'index.html'))
+    return send_file(os.path.join(FRONTEND_DIST_DIR, 'index.html'))
 
 @app.route('/<path:filename>')
 def serve_static(filename):
     try:
-        return send_from_directory(FRONTEND_DIR, filename)
+        # Primeiro tenta servir o arquivo da pasta dist
+        return send_from_directory(FRONTEND_DIST_DIR, filename)
     except:
-        return f"Arquivo não encontrado: {filename}", 404
+        # Se não encontrar, tenta servir o index.html (para SPAs com roteamento)
+        try:
+            return send_file(os.path.join(FRONTEND_DIST_DIR, 'index.html'))
+        except:
+            return f"Arquivo não encontrado: {filename}", 404
 
 if __name__ == '__main__':
     print(f"🚀 Servidor rodando em http://localhost:{PORT}")
-    print(f"📁 Servindo: {FRONTEND_DIR}")
+    print(f"📁 Servindo: {FRONTEND_DIST_DIR}")
     
     app.run(
         host='0.0.0.0',

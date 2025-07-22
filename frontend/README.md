@@ -1,239 +1,165 @@
-# 📄 Frontend - Interface do Usuário
+# Portfolio Profissional - Data Engineer
 
-Este diretório contém todos os arquivos do frontend do portfólio.
+Um portfólio interativo e responsivo desenvolvido para apresentar experiência profissional, habilidades técnicas e certificações na área de Engenharia de Dados.
 
-## 📁 Estrutura
+## 🚀 Características do Projeto
+
+- **Design Responsivo**: Interface otimizada para desktop e mobile
+- **Multilíngue**: Suporte para Português e Inglês
+- **Interativo**: Accordions expansíveis e navegação intuitiva
+- **Moderno**: Design system consistente com Tailwind CSS
+- **Tipado**: TypeScript para melhor manutenibilidade
+
+## 📁 Estrutura do Projeto
 
 ```
-frontend/
-├── index.html           # Página principal
-├── css/                 # Estilos organizados
-│   ├── main.css         # Arquivo principal (importa todos)
-│   ├── base/            # Configurações base
-│   │   ├── variables.css # Variáveis CSS (cores, tamanhos)
-│   │   └── reset.css    # Reset e configurações base
-│   ├── components/      # Componentes específicos
-│   │   ├── header.css   # Cabeçalho
-│   │   ├── sidebar.css  # Menu lateral
-│   │   ├── sections.css # Seções (skills, certificações)
-│   │   ├── projects.css # Projetos e experiências
-│   │   └── floating.css # Elementos flutuantes
-│   ├── layout/          # Layout e responsividade
-│   │   └── responsive.css # Media queries para mobile
-│   └── utilities/       # Utilitários
-│       └── helpers.css  # Classes auxiliares
-├── js/                  # JavaScript
-│   ├── main.js          # Funcionalidades principais
-│   └── experiences.js   # Carregamento dinâmico de experiências
-├── data/                # Dados estruturados (JSON)
-│   ├── personal.json    # Informações pessoais
-│   ├── skills.json      # Habilidades técnicas
-│   ├── experiences.json # Experiências profissionais
-│   ├── certifications.json # Certificações
-│   └── projects.json    # Projetos pessoais
-├── images/              # Imagens e ícones
-│   ├── profile.jpg      # Foto de perfil
-│   └── badges/          # Badges de certificação
-├── assets/              # Recursos diversos
-│   └── marco_menezes_resume.pdf # Currículo em PDF
-└── README.md            # Esta documentação
+src/
+├── components/
+│   ├── ui/                 # Componentes shadcn/ui
+│   ├── Header.tsx          # Cabeçalho com seletor de idioma
+│   ├── Portfolio.tsx       # Componente principal do portfólio
+│   └── AppSidebar.tsx      # Barra lateral com navegação
+├── data/
+│   └── content/           # Conteúdo em múltiplos idiomas
+│       ├── en.ts          # Conteúdo em inglês
+│       ├── pt.ts          # Conteúdo em português
+│       ├── types.ts       # Definições de tipos
+│       └── index.ts       # Exportações centralizadas
+├── assets/                # Logos e imagens
+└── pages/
+    └── Index.tsx          # Página principal
 ```
 
-## 🆕 Principais Mudanças Implementadas
+## 🛠️ Tecnologias Utilizadas
 
-### ✅ Dados Estruturados em JSON
-- **Experiências**: Arquivo `data/experiences.json` com dados em PT/EN
-- **Carregamento Dinâmico**: JavaScript carrega e renderiza experiências automaticamente
-- **Internacionalização**: Suporte a português e inglês
-- **Fallback**: Dados estáticos como backup em caso de erro
+- **Frontend Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Routing**: React Router Dom
+- **Deployment**: Lovable Platform
 
-### ✅ Responsividade Melhorada
-- **Mobile-First**: Otimizado para dispositivos móveis
-- **Quebra de Texto**: Nomes longos de empresa quebram corretamente
-- **Fontes Responsivas**: Tamanhos ajustados por breakpoint
-- **Padding Otimizado**: Espaçamentos reduzidos em telas pequenas
+## 📋 Seções do Portfólio
 
-### ✅ Arquitetura Modular
-- **CSS Modular**: Componentes separados e organizados
-- **JavaScript Modular**: Funcionalidades específicas em arquivos próprios
-- **Data-Driven**: Conteúdo gerenciado via arquivos JSON
+### 1. **Resumo Profissional**
+- Resumo expandível da carreira
+- Destaque das principais competências
 
-## 🚀 Recursos Implementados
+### 2. **Experiência Profissional**
+- Timeline interativa de experiências
+- Detalhes por cargo com responsabilidades e tecnologias
+- Cards individuais para experiências com múltiplas posições
 
-### 📱 Responsividade
-- **Breakpoints**: 1024px, 900px, 600px, 400px
-- **Menu Mobile**: Hamburger menu para dispositivos pequenos
-- **Layout Adaptativo**: Sidebar oculta em mobile
-- **Fontes Escaláveis**: Tamanhos ajustados por dispositivo
+### 3. **Formação Acadêmica**
+- Informações sobre educação formal
+- Detalhes sobre cursos e especializações
 
-### 🎨 Experiência de Usuário
-- **Accordion Interativo**: Experiências expansíveis
-- **Animações Suaves**: Transições CSS
-- **Feedback Visual**: Hover states e indicadores
-- **Carregamento Progressivo**: Scripts não bloqueantes
+### 4. **Certificações**
+- Agrupamento por categoria (AWS, Azure, Databricks)
+- Cards expansíveis com detalhes de cada certificação
+- Links para validação de credenciais
 
-### 🔧 Funcionalidades JavaScript
+### 5. **Habilidades Técnicas**
+- Categorização por tipo de habilidade
+- Icons personalizados para cada categoria
+- Layout responsivo em grid
 
-#### experiences.js
-```javascript
-// Carregamento automático de experiências
-loadExperiences()           // Carrega dados do JSON
-renderExperiences()         // Renderiza na página
-createCompanyElement()      // Cria elementos DOM
-createRoleElement()         // Cria elementos de cargo
+## 🌐 Suporte a Idiomas
+
+O portfólio oferece suporte completo para:
+- **Português** (idioma padrão)
+- **Inglês**
+
+A troca de idiomas é feita via dropdown no cabeçalho, com persistência da seleção durante a navegação.
+
+## 📱 Design Responsivo
+
+- **Desktop**: Layout em duas colunas com sidebar de navegação
+- **Mobile**: Design em acordeon com navegação otimizada para toque
+- **Tablets**: Adaptação automática baseada no tamanho da tela
+
+## 🎨 Sistema de Design
+
+O projeto utiliza um sistema de design consistente com:
+- **Cores**: Tokens semânticos definidos no CSS
+- **Tipografia**: Hierarquia clara e legível
+- **Espaçamento**: Grid system baseado em Tailwind
+- **Animações**: Transições suaves e feedback visual
+- **Componentes**: Biblioteca shadcn/ui customizada
+
+## 🔄 Como Editar o Conteúdo
+
+### Adicionando Nova Experiência
+1. Abra `src/data/content/pt.ts` (ou `en.ts` para inglês)
+2. Adicione nova entrada no array `experiences`
+3. Inclua todas as propriedades obrigatórias (empresa, cargo, período, etc.)
+
+### Adicionando Nova Certificação
+1. Acesse `src/data/content/pt.ts`
+2. Adicione nova entrada no array `certifications`
+3. Defina a categoria apropriada para agrupamento automático
+
+### Modificando Habilidades
+1. Edite o array `skills` nos arquivos de conteúdo
+2. Agrupe por categoria para melhor organização
+3. Use icons consistentes para cada categoria
+
+## 🚀 Como Executar Localmente
+
+```bash
+# 1. Clone o repositório
+git clone <URL_DO_REPOSITORIO>
+
+# 2. Navegue para o diretório
+cd <NOME_DO_PROJETO>
+
+# 3. Instale as dependências
+npm install
+
+# 4. Execute o servidor de desenvolvimento
+npm run dev
 ```
 
-#### Estrutura de Dados (experiences.json)
-```json
-{
-  "experiences": {
-    "pt": [...],  // Experiências em português
-    "en": [...]   // Experiências em inglês
-  }
-}
+## 📦 Build e Deploy
+
+```bash
+# Gerar build de produção
+npm run build
+
+# Preview do build local
+npm run preview
 ```
 
-## 📊 Melhorias de Responsividade
+### Deploy no Lovable
+1. Acesse o [projeto no Lovable](https://lovable.dev/projects/459c5097-855a-4d57-8e8c-e4e115978f0c)
+2. Clique em "Share" → "Publish"
+3. Configure domínio customizado se necessário
 
-### Experiências Profissionais
-- **Nomes Longos**: Quebra automática de texto
-- **Fontes Reduzidas**: Tamanhos menores em mobile
-- **Padding Otimizado**: Espaçamentos ajustados
-- **Layout Flexível**: Adaptação automática
+## 🔧 Desenvolvimento
 
-### Media Queries Implementadas
-```css
-/* Tablets e smartphones grandes */
-@media (max-width: 900px) {
-  .experience-list details summary .company {
-    font-size: 1.1rem;
-    word-break: break-word;
-  }
-}
+### Adicionando Novo Idioma
+1. Crie novo arquivo em `src/data/content/`
+2. Implemente a interface `ContentData`
+3. Adicione ao `getContent()` em `index.ts`
+4. Atualize o componente `Header` com nova opção
 
-/* Smartphones */
-@media (max-width: 600px) {
-  .experience-list details summary .company {
-    font-size: 1rem;
-    hyphens: auto;
-    overflow-wrap: break-word;
-  }
-}
+### Customizando Tema
+- Edite `src/index.css` para tokens de design
+- Modifique `tailwind.config.ts` para configurações específicas
+- Atualize componentes shadcn em `src/components/ui/`
 
-/* Smartphones pequenos */
-@media (max-width: 400px) {
-  .experience-list details summary .company {
-    font-size: 0.9rem;
-  }
-}
-```
+## 📄 Licença
 
-## 🎯 Problemas Resolvidos
+Este projeto é de uso pessoal para apresentação de portfólio profissional.
 
-### ✅ Nome da Empresa Muito Longo
-- **Problema**: "F1rst Digital Services (Santander Brazil)" quebrava em mobile
-- **Solução**: 
-  - `word-break: break-word`
-  - `overflow-wrap: break-word`
-  - `hyphens: auto`
-  - Fontes reduzidas progressivamente
+## 🔗 Links Úteis
 
-### ✅ Dados Hardcoded
-- **Problema**: Experiências fixas no HTML
-- **Solução**:
-  - Migração para JSON estruturado
-  - Carregamento dinâmico via JavaScript
-  - Suporte a múltiplos idiomas
-
-### ✅ Manutenibilidade
-- **Problema**: Difícil atualizar conteúdo
-- **Solução**:
-  - Dados centralizados em JSON
-  - Separação de concerns (HTML/CSS/JS/Data)
-  - Documentação clara
-
-## 🚀 Como Usar
-
-### Atualizar Experiências
-1. Edite `data/experiences.json`
-2. Adicione entrada em `pt` e `en`
-3. Recarregue a página
-
-### Adicionar Nova Empresa
-```json
-{
-  "company": "Nome da Empresa",
-  "shortName": "Nome Curto",  // Para mobile
-  "location": "Local",        // Opcional
-  "roles": [
-    {
-      "title": "Cargo",
-      "period": "MM/YYYY - MM/YYYY",
-      "responsibilities": ["..."],
-      "technologies": "Tech1, Tech2, Tech3"
-    }
-  ]
-}
-```
-
-### Testar Responsividade
-1. Abra DevTools (F12)
-2. Use Device Mode
-3. Teste breakpoints: 400px, 600px, 900px, 1024px
-4. Verifique quebra de texto e layout
-
-## 📚 Documentação Técnica
-
-### Arquivos CSS Responsivos
-- `layout/responsive.css`: Media queries principais
-- `components/projects.css`: Estilos de experiências
-- Breakpoints: Mobile-first approach
-
-### Arquivos JavaScript
-- `experiences.js`: Lógica de experiências
-- `main.js`: Funcionalidades gerais
-- Carregamento: Non-blocking scripts
-
-### Arquivos de Dados
-- `experiences.json`: Experiências PT/EN
-- Estrutura: Hierárquica empresa → cargos
-- Validação: JSON válido obrigatório
-
-## 🎨 Customização
-
-### Cores e Variáveis
-Edite `css/base/variables.css`:
-```css
-:root {
-  --text-primary: #2c3e50;
-  --link-color: #3498db;
-  --bg-card: #ffffff;
-}
-```
-
-### Breakpoints
-Edite `css/layout/responsive.css`:
-```css
-@media (max-width: SEU_BREAKPOINT) {
-  /* Suas regras */
-}
-```
-
-### Conteúdo
-Edite arquivos em `data/`:
-- `experiences.json`: Experiências
-- `skills.json`: Habilidades
-- `projects.json`: Projetos
-- `certifications.json`: Certificações
-
-## ✅ Próximos Passos
-
-1. **Internacionalização Completa**: Implementar troca de idioma
-2. **Lazy Loading**: Carregar dados sob demanda
-3. **Cache**: Implementar cache de dados JSON
-4. **Validação**: Validar estrutura JSON
-5. **Testes**: Testes automatizados para responsividade
+- **Projeto no Lovable**: https://lovable.dev/projects/459c5097-855a-4d57-8e8c-e4e115978f0c
+- **Documentação Lovable**: https://docs.lovable.dev/
+- **shadcn/ui**: https://ui.shadcn.com/
+- **Tailwind CSS**: https://tailwindcss.com/
 
 ---
 
-**Última atualização**: Implementação de dados dinâmicos e responsividade melhorada
+**Última atualização**: Desenvolvido com ❤️ usando Lovable Platform

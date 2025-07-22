@@ -1,133 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Marco Menezes | Engenheiro de Dados Cloud</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfólio de Marco Menezes - Engenheiro de Dados especializado em soluções cloud">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Menu hamburger para mobile -->
-  <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
-    <i class="fas fa-bars"></i>
-  </button>
-  
-  <!-- Overlay para fechar menu em mobile -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-  
-  <header>
-    <div class="header-container">
-      <img src="images/profile.png" alt="Foto de perfil" class="profile-img">
-      <div class="header-info">
-        <h1 data-i18n="header.name">Marco Aurelio Menezes</h1>
-        <h2 data-i18n="header.title">Engenheiro de Dados | Especialista em Nuvem</h2>
-        <div class="header-contact">
-          <!-- Desktop: uma linha só -->
-          <div class="contact-desktop">
-            <span data-i18n="header.location">Belo Horizonte, MG - Brasil</span> | 
-            <a href="mailto:marcoaurelioreislima@gmail.com">marcoaurelioreislima@gmail.com</a> | 
-            <a href="https://linkedin.com/in/marco-menezes-731542b9" target="_blank">LinkedIn</a> | 
-            <a href="https://github.com/marcoaureliomenezes" target="_blank">GitHub</a>
-          </div>
-          
-          <!-- Mobile: linhas separadas -->
-          <div class="contact-mobile">
-            <div class="contact-location">
-              <span data-i18n="header.location">Belo Horizonte, MG - Brasil</span>
-            </div>
-            <div class="contact-links">
-              <a href="mailto:marcoaurelioreislima@gmail.com">marcoaurelioreislima@gmail.com</a> | 
-              <a href="https://linkedin.com/in/marco-menezes-731542b9" target="_blank">LinkedIn</a> | 
-              <a href="https://github.com/marcoaureliomenezes" target="_blank">GitHub</a>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <select id="lang-select">
-        <option value="pt">Português</option>
-        <option value="en">English</option>
-      </select>
-    </div>
-  </header>
-  <aside class="sidebar-nav" id="sidebar-nav">
-    <ul class="sidebar-menu">
-      <li><a href="#summary" data-i18n="nav.summary">Resumo</a></li>
-      <li><a href="#skills" data-i18n="nav.skills">Habilidades</a></li>
-      <li><a href="#experience" data-i18n="nav.experience">Experiência</a></li>
-      <li><a href="#projects" data-i18n="nav.projects">Projetos</a></li>
-      <li><a href="#certificates" data-i18n="nav.certificates">Certificações</a></li>
-    </ul>
-  </aside>
-  <main class="main-content">
-  <section id="summary">
-    <h3 data-i18n="section.summary">Resumo</h3>
-    <div class="summary-content clamp">
-      <p>Senior Data Engineer – DE with over 8 years of experience in Python programming language, 4 years of work experience, designing and implementing data pipelines related with Big Data workloads, using Python, Spark, Hadoop Ecosystem, and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating Accounting streaming data pipelines to AWS. Background in Control and Automation Engineering studies. Known for the expertise in Python, Spark and big data fundamentals with a passion about sharing knowledge. Proven ability to integrate DE concepts with new tools and frameworks, as technology evolves, always balancing purpose, performance, costs and other trade-offs.</p>
-    </div>
-    <button id="toggle-summary" class="btn-toggle" data-i18n="button.readMore">Ver mais</button>
-  </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>marco-menezes</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="description" content="Portfolio de Marco Aurelio Menezes - Engenheiro de Dados especialista em Azure, AWS e soluções de Big Data" />
+    <meta name="author" content="Marco Aurelio Menezes" />
+    
+    <!-- Desabilitar tradução automática -->
+    <meta name="google" content="notranslate">
+    <meta name="robots" content="notranslate">
+    <meta http-equiv="Content-Language" content="pt-BR">
 
-  <section id="skills">
-    <h3 data-i18n="section.skills">Habilidades</h3>
-    <ul>
-      <li>Python, SQL, Spark, Linux, Cloud Migration</li>
-      <li>Java, Scala, PostgreSQL, Aurora, DynamoDB, Redis, Kafka, Airflow, Iceberg, Databricks</li>
-      <li>Agile, CI/CD, Git, Jenkins</li>
-    </ul>
-  </section>
+    <meta property="og:title" content="Marco Aurelio Menezes - Engenheiro de Dados" />
+    <meta property="og:description" content="Portfolio de Marco Aurelio Menezes - Engenheiro de Dados especialista em Azure, AWS e soluções de Big Data" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
 
-  <section id="experience">
-    <h3 data-i18n="section.experience">Experiência Profissional</h3>
-    <div class="experience-list">
-      <!-- Experiências serão carregadas dinamicamente via JavaScript -->
-    </div>
-  </section>
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
 
-  <section id="projects">
-    <h3 data-i18n="section.projects">Projetos Pessoais</h3>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h4>Data Pipeline Analytics</h4>
-        <p>Pipeline end-to-end em Python e Spark com AWS Glue e Athena.</p>
-      </div>
-      <div class="project-card">
-        <h4>Dashboard Interativo</h4>
-        <p>Dashboard real-time com Kafka, ClickHouse e Grafana.</p>
-      </div>
-      <div class="project-card">
-        <h4>Data Lake Multi-Cloud</h4>
-        <p>Arquitetura híbrida integrando S3, ADLS e GCS com Terraform.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="certificates">
-    <h3 data-i18n="section.certificates">Certificações</h3>
-    <div class="certificates-grid">
-      <!-- Certificações serão carregadas dinamicamente via JavaScript -->
-    </div>
-  </section>
-
-  <section id="contact">
-    <h3 data-i18n="section.contact">Contato</h3>
-    <form id="contact-form">
-      <input type="text" name="name" placeholder="Seu nome" required>
-      <input type="email" name="email" placeholder="Seu email" required>
-      <textarea name="message" placeholder="Sua mensagem" required></textarea>
-      <button type="submit">Enviar</button>
-    </form>
-    <div id="contact-result"></div>
-  </section>
-  </main>
-
-  <!-- Floating CV download button -->
-  <button id="btn-download-float" class="btn-download" data-i18n="nav.download">Baixar CV</button>
-  <script src="js/certifications.js"></script>
-  <script src="js/experiences.js"></script>
-  <script src="js/main.js"></script>
-</body>
+  <body translate="no">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
