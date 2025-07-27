@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { Mail, MapPin, Github, Linkedin, X, Copy, Check, Download } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { getContent, SupportedLanguages } from "@/data/content";
 import profileAvatar from "@/assets/profile.png";
 
 interface HeaderProps {
   name?: string;
-  title?: string;
-  location?: string;
   email?: string;
   linkedinUrl?: string;
   githubUrl?: string;
@@ -18,8 +17,6 @@ interface HeaderProps {
 
 export const Header = ({
   name = "Marco Aurelio Menezes",
-  title = "Engenheiro de Dados | Especialista em Nuvem",
-  location = "Belo Horizonte, MG - Brasil",
   email = "marcoaureliorelislima@gmail.com",
   linkedinUrl = "https://linkedin.com",
   githubUrl = "https://github.com",
@@ -31,6 +28,9 @@ export const Header = ({
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+
+  // Busca o conteúdo baseado no idioma selecionado
+  const currentContent = getContent(language as SupportedLanguages);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,10 +65,14 @@ export const Header = ({
   };
 
   const handleDownloadResume = () => {
-    const resumeUrl = language === "Português" ? "/curriculo-marco-aurelio.pdf" : "/resume-marco-aurelio.pdf";
+    const resumeUrl = language === "Português" ? "/curriculo-marco-aurelio.pdf" : 
+                      language === "English" ? "/resume-marco-aurelio.pdf" : 
+                      "/lebenslauf-marco-aurelio.pdf";
     const link = document.createElement('a');
     link.href = resumeUrl;
-    link.download = language === "Português" ? "Curriculo-Marco-Aurelio-Menezes.pdf" : "Resume-Marco-Aurelio-Menezes.pdf";
+    link.download = language === "Português" ? "Curriculo-Marco-Aurelio-Menezes.pdf" : 
+                    language === "English" ? "Resume-Marco-Aurelio-Menezes.pdf" : 
+                    "Lebenslauf-Marco-Aurelio-Menezes.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -88,7 +92,7 @@ export const Header = ({
                 <Select value={language} onValueChange={onLanguageChange}>
                   <SelectTrigger className="w-16 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1">
                     <SelectValue>
-                      {language === "Português" ? "PT" : "EN"}
+                      {language === "Português" ? "PT" : language === "English" ? "EN" : "DE"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent className="bg-header-bg border-header-text/30 z-50">
@@ -97,6 +101,9 @@ export const Header = ({
                     </SelectItem>
                     <SelectItem value="English" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
                       English
+                    </SelectItem>
+                    <SelectItem value="Deutsch" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
+                      Deutsch
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -124,14 +131,14 @@ export const Header = ({
                     {name}
                   </h1>
                   <p className="text-sm text-header-text-muted whitespace-nowrap">
-                    {title}
+                    {currentContent.header.title}
                   </p>
                 </div>
                 
                 {/* Localização centralizada */}
                 <div className="flex items-center justify-center gap-1 text-sm text-header-text-muted">
                   <MapPin className="w-4 h-4" />
-                  <span>{location}</span>
+                  <span>{currentContent.header.location}</span>
                 </div>
                 
                 {/* Linha de contatos */}
@@ -141,7 +148,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Mail className="w-3 h-3" />
-                    <span>Ver email</span>
+                    <span>{currentContent.header.viewEmail}</span>
                   </button>
                   
                   <span className="text-header-text-muted">|</span>
@@ -175,7 +182,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : "Resume"}</span>
+                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
                   </button>
                 </div>
               </div>
@@ -188,7 +195,7 @@ export const Header = ({
                 <Select value={language} onValueChange={onLanguageChange}>
                   <SelectTrigger className="w-16 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1">
                     <SelectValue>
-                      {language === "Português" ? "PT" : "EN"}
+                      {language === "Português" ? "PT" : language === "English" ? "EN" : "DE"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent className="bg-header-bg border-header-text/30 z-50">
@@ -197,6 +204,9 @@ export const Header = ({
                     </SelectItem>
                     <SelectItem value="English" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
                       English
+                    </SelectItem>
+                    <SelectItem value="Deutsch" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
+                      Deutsch
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -209,7 +219,7 @@ export const Header = ({
                     {name}
                   </h1>
                   <p className="text-xs text-header-text-muted whitespace-nowrap">
-                    {title}
+                    {currentContent.header.title}
                   </p>
                 </div>
                 
@@ -220,7 +230,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Mail className="w-3 h-3" />
-                    <span>Ver email</span>
+                    <span>{currentContent.header.viewEmail}</span>
                   </button>
                   
                   <span className="text-header-text-muted">|</span>
@@ -254,7 +264,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : "Resume"}</span>
+                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
                   </button>
                 </div>
               </div>
@@ -271,7 +281,7 @@ export const Header = ({
                   <Select value={language} onValueChange={onLanguageChange}>
                     <SelectTrigger className="w-12 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1">
                       <SelectValue>
-                        {language === "Português" ? "PT" : "EN"}
+                        {language === "Português" ? "PT" : language === "English" ? "EN" : "DE"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent className="bg-header-bg border-header-text/30 z-50">
@@ -281,6 +291,9 @@ export const Header = ({
                       <SelectItem value="English" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
                         English
                       </SelectItem>
+                      <SelectItem value="Deutsch" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs">
+                        Deutsch
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -288,7 +301,7 @@ export const Header = ({
                 {/* Linha 2: Título */}
                 <div className="flex">
                   <p className="text-xs text-header-text-muted whitespace-nowrap">
-                    {title}
+                    {currentContent.header.title}
                   </p>
                 </div>
                 
@@ -299,7 +312,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Mail className="w-3 h-3" />
-                    <span>Ver email</span>
+                    <span>{currentContent.header.viewEmail}</span>
                   </button>
                   
                   <span className="text-header-text-muted">|</span>
@@ -333,7 +346,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : "Resume"}</span>
+                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
                   </button>
                 </div>
               </div>
@@ -356,13 +369,16 @@ export const Header = ({
                 <SelectItem value="English" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10">
                   English
                 </SelectItem>
+                <SelectItem value="Deutsch" className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10">
+                  Deutsch
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Container para o conteúdo principal */}
           <div className="max-w-4xl mx-auto px-6 md:px-8 lg:px-12">
-            <div className="flex items-center gap-4 py-2">
+            <div className="flex items-center gap-8 py-2">
               {/* Avatar menor */}
               <div className="flex-shrink-0">
                 <button
@@ -387,14 +403,14 @@ export const Header = ({
                 </h1>
                 
                 <p className="text-sm lg:text-base text-header-text-muted">
-                  {title}
+                  {currentContent.header.title}
                 </p>
                 
                 {/* Linha única com localização e contatos */}
                 <div className="flex items-center gap-3 text-xs lg:text-sm flex-wrap">
                   <div className="flex items-center gap-1 text-header-text-muted whitespace-nowrap">
                     <MapPin className="w-3 h-3 flex-shrink-0" />
-                    <span>{location}</span>
+                    <span>{currentContent.header.location}</span>
                   </div>
                   
                   <span className="text-header-text-muted">|</span>
@@ -404,7 +420,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
                   >
                     <Mail className="w-3 h-3 flex-shrink-0" />
-                    <span>Ver email</span>
+                    <span>{currentContent.header.viewEmail}</span>
                   </button>
                   
                   <span className="text-header-text-muted">|</span>
@@ -438,7 +454,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
                   >
                     <Download className="w-3 h-3 flex-shrink-0" />
-                    <span>{language === "Português" ? "Currículo" : "Resume"}</span>
+                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
                   </button>
                 </div>
               </div>

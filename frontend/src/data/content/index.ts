@@ -1,10 +1,12 @@
 import { ContentMap, SupportedLanguages } from './types';
 import { portugueseContent } from './pt';
 import { englishContent } from './en';
+import { germanContent } from './de';
 
 export const content: ContentMap = {
   "Português": portugueseContent,
-  "English": englishContent
+  "English": englishContent,
+  "Deutsch": germanContent
 };
 
 export const getContent = (language: SupportedLanguages) => {

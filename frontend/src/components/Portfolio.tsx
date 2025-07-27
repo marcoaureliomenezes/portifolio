@@ -132,17 +132,37 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
     return Code2; // fallback
   };
 
+  // Função para mapear cores dos ícones das habilidades
+  const getSkillIconColor = (title: string) => {
+    if (title.toLowerCase().includes('idioma') || title.toLowerCase().includes('language')) {
+      return 'text-purple-600';
+    }
+    if (title.toLowerCase().includes('program') || title.toLowerCase().includes('linguagem')) {
+      return 'text-blue-600';
+    }
+    if (title.toLowerCase().includes('cloud')) {
+      return 'text-sky-600';
+    }
+    if (title.toLowerCase().includes('dados') || title.toLowerCase().includes('data')) {
+      return 'text-orange-600';
+    }
+    if (title.toLowerCase().includes('devops')) {
+      return 'text-green-600';
+    }
+    return 'text-blue-600'; // fallback
+  };
+
   return (
     <div className="container mx-auto px-4 pt-64 md:pt-32 pb-12 space-y-12 max-w-4xl md:ml-0">
       {/* Hero Section - Resumo */}
       <Card className="w-full shadow-glow border-0 bg-gradient-to-br from-card to-accent/30 hover:shadow-large transition-all duration-300">
         <CardHeader className="pb-1">
-          <CardTitle className="text-lg md:text-3xl font-bold text-primary">
+          <CardTitle className="text-lg md:text-2xl font-bold text-primary">
             {currentContent.resumeTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className={`text-muted-foreground leading-relaxed mb-6 text-sm md:text-base ${!isResumeExpanded ? 'line-clamp-4' : ''}`}>
+          <p className={`text-muted-foreground leading-relaxed mb-6 text-sm md:text-sm ${!isResumeExpanded ? 'line-clamp-4' : ''}`}>
             {isResumeExpanded ? currentContent.resume.full : currentContent.resume.short}
           </p>
           <Button
@@ -161,7 +181,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
         <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
           <CardHeader className="pb-4">
             <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3">
-              <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-primary flex-shrink-0" />
+              <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-blue-600 flex-shrink-0" />
               <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
               {currentContent.experienceTitle}
             </CardTitle>
@@ -182,21 +202,21 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                         {experience.roles[0].title}
                       </h4>
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4 text-primary" />
+                        <Calendar className="w-4 h-4 text-green-600" />
                         <p className="text-primary font-semibold text-xs md:text-sm">
                           {experience.roles[0].period}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center justify-end gap-1 text-muted-foreground mb-4">
-                      <MapPin className="w-3 h-3" />
+                      <MapPin className="w-3 h-3 text-red-600" />
                       <span>{experience.location}</span>
                     </div>
                     
                     {experience.roles[0].responsibilities && (
                       <div className="space-y-3 pt-2">
                         <h5 className="font-semibold text-foreground text-sm flex items-center gap-2">
-                          <Award className="h-4 w-4 text-primary" />
+                          <Award className="h-4 w-4 text-yellow-600" />
                           {currentContent.responsibilities}
                         </h5>
                         <ul className="space-y-2 pl-2">
@@ -215,7 +235,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                     {experience.roles[0].technologies && (
                       <div className="pt-4 border-t border-border/30">
                         <h5 className="font-semibold text-foreground text-sm mb-3 flex items-center gap-2">
-                          <ExternalLink className="h-4 w-4 text-primary" />
+                          <ExternalLink className="h-4 w-4 text-blue-600" />
                           {currentContent.technologies}
                         </h5>
                         <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-lg p-4 border border-primary/20">
@@ -236,16 +256,14 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                       <h3 className="text-base md:text-xl font-bold text-foreground mb-2">
                         {experience.fullName}
                       </h3>
-                      <div className="flex items-center gap-3 text-sm mb-3">
-                        <p className="text-primary font-semibold">{experience.totalPeriod}</p>
-                        <span className="text-muted-foreground">|</span>
-                        <div className="flex items-center justify-end gap-1 text-muted-foreground text-right">
-                          <MapPin className="w-3 h-3" />
+                      <div className="flex items-center justify-between text-sm mb-3">
+                        <div className="text-sm text-muted-foreground font-medium">
+                          Progressão de carreira ({experience.roles.length} {experience.roles.length === 1 ? 'cargo' : 'cargos'}):
+                        </div>
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                          <MapPin className="w-3 h-3 text-red-600" />
                           <span>{experience.location}</span>
                         </div>
-                      </div>
-                      <div className="text-sm text-muted-foreground font-medium">
-                        Progressão de carreira ({experience.roles.length} {experience.roles.length === 1 ? 'cargo' : 'cargos'}):
                       </div>
                     </div>
 
@@ -263,18 +281,20 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                               <h4 className="font-bold text-foreground text-sm md:text-lg">
                                 {role.title}
                               </h4>
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4 text-primary" />
-                                <p className="text-primary font-semibold text-xs md:text-sm">
-                                  {role.period}
-                                </p>
-                              </div>
-                              <div className="flex items-center text-primary ml-2">
-                                {openExperiences[expIndex]?.[posIndex] ? (
-                                  <ChevronUp className="h-5 w-5" />
-                                ) : (
-                                  <ChevronDown className="h-5 w-5" />
-                                )}
+                              <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4 text-green-600" />
+                                  <p className="text-primary font-semibold text-xs md:text-sm">
+                                    {role.period}
+                                  </p>
+                                </div>
+                                <div className="flex items-center text-primary">
+                                  {openExperiences[expIndex]?.[posIndex] ? (
+                                    <ChevronUp className="h-5 w-5" />
+                                  ) : (
+                                    <ChevronDown className="h-5 w-5" />
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </CollapsibleTrigger>
@@ -283,7 +303,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             {role.responsibilities && (
                               <div className="space-y-3 pt-2">
                                 <h5 className="font-semibold text-foreground text-sm flex items-center gap-2">
-                                  <Award className="h-4 w-4 text-primary" />
+                                  <Award className="h-4 w-4 text-yellow-600" />
                                   {currentContent.responsibilities}
                                 </h5>
                                 <ul className="space-y-2 pl-2">
@@ -302,7 +322,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             {role.technologies && (
                               <div className="pt-4 border-t border-border/30">
                                 <h5 className="font-semibold text-foreground text-sm mb-3 flex items-center gap-2">
-                                  <ExternalLink className="h-4 w-4 text-primary" />
+                                  <ExternalLink className="h-4 w-4 text-blue-600" />
                                   {currentContent.technologies}
                                 </h5>
                                 <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-lg p-4 border border-primary/20">
@@ -334,7 +354,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
               <CardHeader className="pb-4">
                  <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <Briefcase className="w-5 h-5 text-primary flex-shrink-0" />
+                    <Briefcase className="w-5 h-5 text-blue-600 flex-shrink-0" />
                     <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                     {currentContent.experienceTitle}
                   </div>
@@ -363,21 +383,21 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             {experience.roles[0].title}
                           </h4>
                           <div className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3 text-primary" />
+                            <Calendar className="w-3 h-3 text-green-600" />
                             <p className="text-primary font-semibold text-xs">
                               {experience.roles[0].period}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center justify-end gap-1 text-muted-foreground text-xs mb-4">
-                          <MapPin className="w-3 h-3 flex-shrink-0" />
+                          <MapPin className="w-3 h-3 flex-shrink-0 text-red-600" />
                           <span className="truncate">{experience.location}</span>
                         </div>
                         
                         {experience.roles[0].responsibilities && (
                           <div className="space-y-3 pt-2">
                             <h5 className="font-semibold text-foreground text-sm flex items-center gap-2">
-                              <Award className="h-4 w-4 text-primary" />
+                              <Award className="h-4 w-4 text-yellow-600" />
                               {currentContent.responsibilities}
                             </h5>
                             <ul className="space-y-2 pl-2">
@@ -396,7 +416,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                         {experience.roles[0].technologies && (
                           <div className="pt-4 border-t border-border/30">
                             <h5 className="font-semibold text-foreground text-sm mb-3 flex items-center gap-2">
-                              <ExternalLink className="h-4 w-4 text-primary" />
+                              <ExternalLink className="h-4 w-4 text-blue-600" />
                               {currentContent.technologies}
                             </h5>
                             <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-lg p-4 border border-primary/20">
@@ -421,7 +441,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             <p className="text-primary font-semibold text-xs whitespace-nowrap overflow-hidden text-ellipsis flex-shrink-0">{experience.totalPeriod}</p>
                             <span className="text-muted-foreground flex-shrink-0">|</span>
                             <div className="flex items-center gap-1 text-muted-foreground text-xs whitespace-nowrap overflow-hidden text-ellipsis min-w-0">
-                              <MapPin className="w-3 h-3 flex-shrink-0" />
+                              <MapPin className="w-3 h-3 flex-shrink-0 text-red-600" />
                               <span className="truncate">{experience.location}</span>
                             </div>
                           </div>
@@ -446,7 +466,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                                       {role.title}
                                     </h4>
                                     <div className="flex items-center gap-1">
-                                      <Calendar className="w-3 h-3 text-primary" />
+                                      <Calendar className="w-3 h-3 text-green-600" />
                                       <p className="text-primary font-semibold text-xs">
                                         {role.period}
                                       </p>
@@ -466,7 +486,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                                 {role.responsibilities && (
                                   <div className="space-y-3 pt-2">
                                     <h5 className="font-semibold text-foreground text-sm flex items-center gap-2">
-                                      <Award className="h-4 w-4 text-primary" />
+                                      <Award className="h-4 w-4 text-yellow-600" />
                                       {currentContent.responsibilities}
                                     </h5>
                                     <ul className="space-y-2 pl-2">
@@ -485,7 +505,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                                 {role.technologies && (
                                   <div className="pt-4 border-t border-border/30">
                                     <h5 className="font-semibold text-foreground text-sm mb-3 flex items-center gap-2">
-                                      <ExternalLink className="h-4 w-4 text-primary" />
+                                      <ExternalLink className="h-4 w-4 text-blue-600" />
                                       {currentContent.technologies}
                                     </h5>
                                     <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-lg p-4 border border-primary/20">
@@ -515,7 +535,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
         <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
           <CardHeader className="pb-4">
             <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3">
-              <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-primary flex-shrink-0" />
+              <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-green-600 flex-shrink-0" />
               <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
               {currentContent.educationTitle}
             </CardTitle>
@@ -555,7 +575,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <GraduationCap className="w-5 h-5 text-primary flex-shrink-0" />
+                    <GraduationCap className="w-5 h-5 text-green-600 flex-shrink-0" />
                     <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                     {currentContent.educationTitle}
                   </div>
@@ -601,7 +621,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
         <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
           <CardHeader className="pb-4">
             <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3">
-              <Award className="w-6 h-6 md:w-8 md:h-8 text-primary flex-shrink-0" />
+              <Award className="w-6 h-6 md:w-8 md:h-8 text-yellow-600 flex-shrink-0" />
               <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
               {currentContent.certificationsTitle}
             </CardTitle>
@@ -626,7 +646,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             />
                           ) : (
                             <>
-                              <Trophy className="w-6 h-6 text-primary" />
+                              <Trophy className="w-6 h-6 text-yellow-600" />
                               <h3 className="text-base md:text-xl font-bold text-foreground">
                                 {category}
                               </h3>
@@ -667,7 +687,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                                      <Medal className="w-12 h-12 md:w-16 md:h-16 text-primary flex-shrink-0" />
                                    )}
                                    <div className="space-y-2">
-                                     <h4 className="font-bold text-foreground text-sm md:text-lg">
+                                     <h4 className="font-bold text-foreground text-sm md:text-base line-clamp-1">
                                        {cert.name}
                                      </h4>
                                      <div className="flex items-center gap-2">
@@ -751,7 +771,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <Award className="w-5 h-5 text-primary flex-shrink-0" />
+                    <Award className="w-5 h-5 text-yellow-600 flex-shrink-0" />
                     <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                     {currentContent.certificationsTitle}
                   </div>
@@ -784,7 +804,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                                 />
                               ) : (
                                 <>
-                                  <Trophy className="w-4 h-4 text-primary" />
+                                  <Trophy className="w-4 h-4 text-yellow-600" />
                                   <h3 className="text-sm font-bold text-foreground">
                                     {category}
                                   </h3>
@@ -893,13 +913,14 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
           <CardContent className="space-y-6">
             {currentContent.skills.map((skillCategory, index) => {
               const IconComponent = getSkillIcon(skillCategory.title);
+              const iconColor = getSkillIconColor(skillCategory.title);
               return (
                 <div key={index} className="relative">
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                   <div className="pl-8">
                     <div className="bg-gradient-to-r from-accent/10 to-secondary/10 rounded-xl p-6 border border-border/50">
                       <div className="flex items-center gap-3 mb-4">
-                        <IconComponent className="w-6 h-6 text-primary" />
+                        <IconComponent className={`w-6 h-6 ${iconColor}`} />
                         <h3 className="text-base md:text-xl font-bold text-foreground">
                           {skillCategory.title}
                         </h3>
@@ -949,13 +970,14 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
               <CardContent className="space-y-4">
                 {currentContent.skills.map((skillCategory, index) => {
                   const IconComponent = getSkillIcon(skillCategory.title);
+                  const iconColor = getSkillIconColor(skillCategory.title);
                   return (
                     <div key={index} className="relative">
                       <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-accent rounded-full"></div>
                       <div className="pl-8">
                         <div className="bg-gradient-to-r from-accent/10 to-secondary/10 rounded-xl p-4 border border-border/50">
                           <div className="flex items-center gap-2 mb-3">
-                            <IconComponent className="w-4 h-4 text-primary" />
+                            <IconComponent className={`w-4 h-4 ${iconColor}`} />
                             <h3 className="text-sm font-bold text-foreground">
                               {skillCategory.title}
                             </h3>

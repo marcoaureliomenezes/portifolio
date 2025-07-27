@@ -2,7 +2,10 @@
 
 **Engenheiro de Dados | Cloud Specialist**
 
-Este é um portfólio profissional moderno e responsivo, desenvolvido com React/TypeScript e hospedado na AWS S3.
+Este é um portfólio profissional moderno e responsivo, desenvolvido com React/TypeScript e hospedado na AWS S3 com deploy automático via GitHub Actions.
+
+🌐 **Site Live**: https://marco-menezes.com  
+🚀 **Deploy Automático**: Push para main → GitHub Actions → S3
 
 ## 🗂️ Estrutura do Projeto
 
@@ -14,6 +17,10 @@ portifolio/
 │   ├── dist/               # Build de produção
 │   ├── package.json        # Dependências e scripts
 │   └── README.md           # Documentação do frontend
+│
+├── 📁 .github/              # CI/CD GitHub Actions
+│   ├── workflows/          # Workflows de deploy
+│   └── PULL_REQUEST_TEMPLATE.md # Template de PR
 │
 ├── 📁 backend/              # Servidor Flask para desenvolvimento local
 │   ├── stable_server.py    # Servidor de produção
@@ -29,31 +36,67 @@ portifolio/
 │   └── terraform.tfvars    # Configurações específicas
 │
 ├── 📁 scripts/              # Scripts de automação
-│   ├── deploy_complete.sh  # Deploy completo (build + infraestrutura + deploy)
-│   ├── deploy_frontend.sh  # Deploy apenas do frontend
+│   ├── setup-deployment.sh # Configuração inicial do pipeline
+│   ├── manual-deploy.sh    # Deploy manual para emergências
+│   ├── deploy_complete.sh  # Deploy completo (legado)
+│   ├── deploy_frontend.sh  # Deploy apenas do frontend (legado)
 │   ├── check_infrastructure.sh # Verificação do status
 │   └── terraform_manager.sh # Gerenciamento do Terraform
 │
-└── README.md               # Esta documentação
+├── 📁 docs/                 # Documentação
+│   └── DEPLOYMENT-GUIDE.md # Guia completo de deploy
 │
-├── 📁 .venv/               # Ambiente virtual Python
-├── .gitignore              # Arquivos ignorados pelo Git
 └── README.md               # Esta documentação
 ```
 
 ```
 
-## 🚀 Início Rápido
+## 🚀 Deploy Automático (Recomendado)
 
-### � Pré-requisitos
+### ⚙️ Configuração Inicial
+
+1. **Executar configuração automática:**
+```bash
+./scripts/setup-deployment.sh
+```
+
+2. **Configurar secrets no GitHub:**
+   - Vá em `Settings → Secrets and variables → Actions`
+   - Adicione os secrets:
+     - `AWS_ACCESS_KEY_ID`
+     - `AWS_SECRET_ACCESS_KEY`
+     - `CLOUDFRONT_DISTRIBUTION_ID`
+
+### 🔄 Workflow de Deploy
+
+```bash
+# Desenvolvimento
+git checkout -b feature/nova-funcionalidade
+# ... fazer mudanças ...
+git add .
+git commit -m "feat: nova funcionalidade"
+git push origin feature/nova-funcionalidade
+
+# Criar PR no GitHub para main
+# Merge PR → Deploy automático para produção! 🚀
+```
+
+### 📊 Status do Deploy
+
+- **GitHub Actions**: [Workflows](https://github.com/marcoaureliomenezes/portifolio/actions)
+- **Site de Produção**: https://marco-menezes.com
+- **Documentação Completa**: [docs/DEPLOYMENT-GUIDE.md](docs/DEPLOYMENT-GUIDE.md)
+
+## 💻 Desenvolvimento Local
+
+### 🛠️ Pré-requisitos
 
 - **Node.js** 18+ e npm
 - **Python** 3.8+ (para desenvolvimento local)
-- **Terraform** 1.0+
+- **Terraform** 1.0+ (para infraestrutura)
 - **AWS CLI** configurado
-- Conta AWS com permissões S3
 
-### 💻 Desenvolvimento Local
+### 🏃‍♂️ Início Rápido
 
 1. **Instalar dependências do frontend:**
 ```bash
@@ -71,24 +114,34 @@ cd ../backend/
 python stable_server.py
 ```
 
-3. **Build do frontend:**
+3. **Build local para teste:**
 ```bash
 cd frontend/
 npm run build
+npm run preview
 ```
 
-### ☁️ Deploy para AWS S3
+## ☁️ Deploy Manual (Emergência)
 
-#### Opção 1: Deploy Completo (Recomendado)
+Caso precise fazer deploy manual:
+
+## ☁️ Deploy Manual (Emergência)
+
+Caso precise fazer deploy manual:
+
 ```bash
-# Deploy completo: build + infraestrutura + deploy
-./scripts/deploy_complete.sh
+# Configurar credenciais AWS
+export AWS_ACCESS_KEY_ID=sua_access_key
+export AWS_SECRET_ACCESS_KEY=sua_secret_key
+export CLOUDFRONT_DISTRIBUTION_ID=sua_distribution_id
 
-# Primeira vez (inicializar Terraform)
-./scripts/deploy_complete.sh --init
+# Executar deploy manual
+./scripts/manual-deploy.sh
 ```
 
-#### Opção 2: Deploy por Etapas
+### 🏗️ Deploy Legado (Infraestrutura)
+
+Para mudanças na infraestrutura AWS:
 ```bash
 # 1. Criar/atualizar infraestrutura
 ./scripts/terraform_manager.sh init

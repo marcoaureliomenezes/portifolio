@@ -35,7 +35,7 @@ build: ## Compila frontend otimizado
 
 test-build: build ## Testa o build localmente (porta 8001)
 	@echo "$(GREEN)🧪 Testando build com servidor Flask...$(NC)"
-	@echo "$(YELLOW)Acesse: http://localhost:8001$(NC)"
+	@echo "$(YELLOW)Acesse: http://localhost:8000$(NC)"
 	@echo "$(YELLOW)Pressione Ctrl+C para parar$(NC)"
 	@cd scripts && ./server_manager.sh start test
 

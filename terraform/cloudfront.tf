@@ -62,15 +62,9 @@ resource "aws_cloudfront_origin_access_control" "website" {
 # CloudFront Distribution
 resource "aws_cloudfront_distribution" "website" {
   origin {
-    domain_name              = aws_s3_bucket_website_configuration.website.website_endpoint
+    domain_name              = aws_s3_bucket.website.bucket_regional_domain_name
     origin_id                = "S3-${aws_s3_bucket.website.bucket}"
-    
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
+    origin_access_control_id = aws_cloudfront_origin_access_control.website.id
   }
 
   enabled             = true
@@ -81,7 +75,7 @@ resource "aws_cloudfront_distribution" "website" {
   aliases = [var.domain_name]
 
   default_cache_behavior {
-    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "S3-${aws_s3_bucket.website.bucket}"
 

@@ -12,6 +12,11 @@ export const englishContent: ContentData = {
   technologies: "Technologies:",
   validUntil: "Valid until",
   viewCredential: "View credential",
+  header: {
+    title: "Data Engineer | Cloud Specialist",
+    location: "Belo Horizonte, MG - Brazil",
+    viewEmail: "View email"
+  },
   resume: {
     short: "Senior Data Engineer with over 8 years of experience in Python language, 4 years of professional experience, designing and implementing data pipelines related to Big Data workloads, using Python, Spark, Hadoop Ecosystem and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating accounting streaming data pipelines to AWS...",
     full: "Senior Data Engineer with over 8 years of experience in Python language, 4 years of professional experience, designing and implementing data pipelines related to Big Data workloads, using Python, Spark, Hadoop Ecosystem and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating accounting streaming data pipelines to AWS. Background in Control and Automation Engineering. Recognized for expertise in Python, Spark and big data fundamentals with passion for sharing knowledge. Proven ability to integrate DE concepts with new tools and frameworks as technology evolves, always balancing purpose, performance, costs and other trade-offs."

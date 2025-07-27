@@ -12,6 +12,11 @@ export const portugueseContent: ContentData = {
   technologies: "Tecnologias:",
   validUntil: "Válido até",
   viewCredential: "Ver credencial",
+  header: {
+    title: "Engenheiro de Dados | Especialista em Nuvem",
+    location: "Belo Horizonte, MG - Brasil",
+    viewEmail: "Ver e-mail"
+  },
   resume: {
     short: "Engenheiro de Dados Senior com mais de 8 anos de experiência em linguagem Python, 4 anos de experiência profissional, projetando e implementando pipelines de dados relacionados a cargas de trabalho de Big Data, usando Python, Spark, Ecossistema Hadoop e SQL para validações. Mais de 2 anos migrando pipelines de dados e sistemas de on-premises para Cloud - Azure + Databricks. Desde este ano responsável por migrar pipelines de dados de streaming contábil para AWS...",
     full: "Engenheiro de Dados Senior com mais de 8 anos de experiência em linguagem Python, 4 anos de experiência profissional, projetando e implementando pipelines de dados relacionados a cargas de trabalho de Big Data, usando Python, Spark, Ecossistema Hadoop e SQL para validações. Mais de 2 anos migrando pipelines de dados e sistemas de on-premises para Cloud - Azure + Databricks. Desde este ano responsável por migrar pipelines de dados de streaming contábil para AWS. Formação em Engenharia de Controle e Automação. Reconhecido pela expertise em Python, Spark e fundamentos de big data com paixão por compartilhar conhecimento. Habilidade comprovada para integrar conceitos de DE com novas ferramentas e frameworks, conforme a tecnologia evolui, sempre equilibrando propósito, performance, custos e outros trade-offs."

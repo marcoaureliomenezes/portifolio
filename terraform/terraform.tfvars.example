@@ -32,6 +32,10 @@ tags = {
 # Configurações de S3 (opcional)
 force_destroy = false  # true apenas para desenvolvimento
 
+# Configurações de IAM (opcional)
+create_iam_user = true
+iam_user_name   = "portifolio-maintainer"
+
 # =====================================================
 # INSTRUÇÕES DE USO:
 # =====================================================

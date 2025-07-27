@@ -47,6 +47,12 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export interface HeaderInfo {
+  title: string;
+  location: string;
+  viewEmail: string;
+}
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -59,6 +65,7 @@ export interface ContentData {
   technologies: string;
   validUntil: string;
   viewCredential: string;
+  header: HeaderInfo;
   resume: Resume;
   skills: SkillCategory[];
   experiences: Experience[];
@@ -66,6 +73,6 @@ export interface ContentData {
   certifications: Certification[];
 }
 
-export type SupportedLanguages = "Português" | "English";
+export type SupportedLanguages = "Português" | "English" | "Deutsch";
 
 export type ContentMap = Record<SupportedLanguages, ContentData>;

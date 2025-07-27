@@ -92,3 +92,44 @@ output "ssl_certificate_arn" {
   description = "ARN do certificado SSL"
   value       = aws_acm_certificate.website.arn
 }
+
+# =====================================================
+# IAM USER OUTPUTS
+# =====================================================
+
+output "iam_user_name" {
+  description = "Nome do usuário IAM para manutenção do portfólio"
+  value       = var.create_iam_user ? aws_iam_user.portfolio_maintainer[0].name : null
+}
+
+output "iam_user_arn" {
+  description = "ARN do usuário IAM"
+  value       = var.create_iam_user ? aws_iam_user.portfolio_maintainer[0].arn : null
+}
+
+# IMPORTANTE: Access Keys devem ser criadas manualmente via AWS Console
+output "iam_user_instructions" {
+  description = "Instruções para configurar access keys"
+  value = var.create_iam_user ? {
+    step_1 = "Acesse o AWS Console -> IAM -> Users -> ${aws_iam_user.portfolio_maintainer[0].name}"
+    step_2 = "Clique em 'Security credentials' -> 'Create access key'"
+    step_3 = "Escolha 'Application running outside AWS' -> 'Create access key'"
+    step_4 = "Copie as credenciais e configure nos GitHub Secrets"
+    github_secrets = {
+      AWS_ACCESS_KEY_ID     = "Cole a Access Key ID aqui"
+      AWS_SECRET_ACCESS_KEY = "Cole a Secret Access Key aqui"
+      AWS_REGION           = var.aws_region
+      S3_BUCKET_NAME       = aws_s3_bucket.website.bucket
+      CLOUDFRONT_DISTRIBUTION_ID = aws_cloudfront_distribution.website.id
+    }
+  } : null
+}
+
+output "deployment_commands" {
+  description = "Comandos úteis para deployment"
+  value = {
+    sync_to_s3       = "aws s3 sync ./frontend/dist s3://${aws_s3_bucket.website.bucket} --delete"
+    invalidate_cache = "aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.website.id} --paths '/*'"
+    test_website     = "curl -I https://${var.domain_name}"
+  }
+}
