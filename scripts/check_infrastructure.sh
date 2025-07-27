@@ -75,62 +75,6 @@ check_terraform_state() {
     return 0
 }
 
-# Função para verificar bucket S3
-check_s3_bucket() {
-    echo -e "${BLUE}🪣 Verificando bucket S3...${NC}"
-    
-    cd "$TERRAFORM_DIR"
-    
-    # Obter nome do bucket
-    BUCKET_NAME=$(terraform output -raw website_bucket_name 2>/dev/null)
-    
-    if [ -z "$BUCKET_NAME" ]; then
-        echo -e "${YELLOW}⚠️ Não foi possível obter nome do bucket${NC}"
-        return 1
-    fi
-    
-    echo -e "${BLUE}Bucket: $BUCKET_NAME${NC}"
-    
-    # Verificar se bucket existe
-    if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
-        echo -e "${GREEN}✅ Bucket existe e está acessível${NC}"
-        
-        # Verificar configuração de website
-        if aws s3api get-bucket-website --bucket "$BUCKET_NAME" &>/dev/null; then
-            echo -e "${GREEN}✅ Configuração de website habilitada${NC}"
-            
-            # Obter URL do website
-            WEBSITE_URL=$(terraform output -raw website_url 2>/dev/null)
-            CUSTOM_DOMAIN_URL=$(terraform output -raw custom_domain_url 2>/dev/null)
-            
-            if [ -n "$CUSTOM_DOMAIN_URL" ]; then
-                echo -e "${BLUE}🌐 URL do domínio customizado: $CUSTOM_DOMAIN_URL${NC}"
-            fi
-            if [ -n "$WEBSITE_URL" ]; then
-                echo -e "${BLUE}🔗 URL direta do S3: $WEBSITE_URL${NC}"
-            fi
-        else
-            echo -e "${RED}❌ Configuração de website não encontrada${NC}"
-            return 1
-        fi
-        
-        # Verificar se há arquivos
-        FILE_COUNT=$(aws s3 ls "s3://$BUCKET_NAME" --recursive | wc -l)
-        echo -e "${BLUE}📁 Arquivos no bucket: $FILE_COUNT${NC}"
-        
-        if [ "$FILE_COUNT" -eq 0 ]; then
-            echo -e "${YELLOW}⚠️ Bucket está vazio - faça o deploy do frontend${NC}"
-            echo -e "${BLUE}Execute: ./scripts/deploy_frontend.sh${NC}"
-        fi
-        
-    else
-        echo -e "${RED}❌ Bucket não existe ou não está acessível${NC}"
-        return 1
-    fi
-    
-    return 0
-}
-
 # Função para verificar frontend
 check_frontend() {
     echo -e "${BLUE}⚛️ Verificando frontend...${NC}"
@@ -148,6 +92,39 @@ check_frontend() {
     # Verificar package.json
     if [ ! -f "package.json" ]; then
         echo -e "${RED}❌ package.json não encontrado${NC}"
+        return 1
+    fi
+    
+    # Verificar node_modules
+    if [ ! -d "node_modules" ]; then
+        echo -e "${YELLOW}⚠️ Dependências não instaladas${NC}"
+        echo -e "${BLUE}Execute: cd frontend && npm install${NC}"
+        return 1
+    fi
+    
+    # Verificar build
+    if [ ! -d "$DIST_DIR" ]; then
+        echo -e "${YELLOW}⚠️ Build não encontrado${NC}"
+        echo -e "${BLUE}Execute: cd frontend && npm run build${NC}"
+        return 1
+    fi
+    
+    # Verificar se index.html exists no build
+    if [ ! -f "$DIST_DIR/index.html" ]; then
+        echo -e "${RED}❌ index.html não encontrado no build${NC}"
+        return 1
+    fi
+    
+    echo -e "${GREEN}✅ Frontend OK${NC}"
+    
+    # Mostrar estatísticas do build
+    BUILD_SIZE=$(du -sh "$DIST_DIR" | cut -f1)
+    FILE_COUNT=$(find "$DIST_DIR" -type f | wc -l)
+    echo -e "${BLUE}📊 Tamanho do build: $BUILD_SIZE${NC}"
+    echo -e "${BLUE}📁 Arquivos no build: $FILE_COUNT${NC}"
+    
+    return 0
+}
         return 1
     fi
     
@@ -191,11 +168,14 @@ show_summary() {
     cd "$TERRAFORM_DIR"
     
     # Informações básicas
-    echo -e "${BLUE}Projeto:${NC} $(terraform output -raw website_bucket_name 2>/dev/null | cut -d'-' -f1-2)"
-    echo -e "${BLUE}Região:${NC} $(terraform output -raw s3_bucket_region 2>/dev/null)"
+    PROJECT_NAME=$(terraform output -raw website_bucket_name 2>/dev/null | cut -d'-' -f1-2 2>/dev/null || echo "portifolio")
+    REGION=$(terraform output -raw s3_bucket_region 2>/dev/null || echo "sa-east-1")
+    
+    echo -e "${BLUE}Projeto:${NC} $PROJECT_NAME"
+    echo -e "${BLUE}Região:${NC} $REGION"
     echo -e "${BLUE}Ambiente:${NC} prod"
     
-    # URLs
+    # URLs (apenas para informação, deploy será via GitHub Actions)
     WEBSITE_URL=$(terraform output -raw website_url 2>/dev/null)
     CUSTOM_DOMAIN_URL=$(terraform output -raw custom_domain_url 2>/dev/null)
     
@@ -211,21 +191,13 @@ show_summary() {
     
     # Verificar se infraestrutura está OK
     if terraform state list &> /dev/null && [ -n "$(terraform output -raw website_bucket_name 2>/dev/null)" ]; then
-        # Verificar se frontend foi deployado
-        BUCKET_NAME=$(terraform output -raw website_bucket_name 2>/dev/null)
-        FILE_COUNT=$(aws s3 ls "s3://$BUCKET_NAME" --recursive 2>/dev/null | wc -l)
-        
-        if [ "$FILE_COUNT" -eq 0 ]; then
-            echo -e "${YELLOW}1. Fazer deploy do frontend:${NC} ./scripts/deploy_frontend.sh"
-        else
-            echo -e "${GREEN}✅ Sistema está funcionando!${NC}"
-            echo -e "${YELLOW}- Para atualizar:${NC} ./scripts/deploy_complete.sh"
-            echo -e "${YELLOW}- Para forçar rebuild:${NC} ./scripts/deploy_complete.sh --force"
-        fi
+        echo -e "${GREEN}✅ Infraestrutura configurada!${NC}"
+        echo -e "${YELLOW}- Para testar localmente:${NC} ./scripts/build_and_serve.sh"
+        echo -e "${YELLOW}- Deploy será feito via GitHub Actions no push para main${NC}"
     else
         echo -e "${YELLOW}1. Inicializar infraestrutura:${NC} ./scripts/terraform_manager.sh init"
         echo -e "${YELLOW}2. Criar recursos:${NC} ./scripts/terraform_manager.sh apply"
-        echo -e "${YELLOW}3. Deploy completo:${NC} ./scripts/deploy_complete.sh"
+        echo -e "${YELLOW}3. Push para main para deploy automático${NC}"
     fi
 }
 
@@ -249,15 +221,6 @@ main() {
     fi
     echo ""
     
-    # Verificar S3 (apenas se Terraform estiver OK)
-    S3_OK=true
-    if [ "$TERRAFORM_OK" = true ]; then
-        if ! check_s3_bucket; then
-            S3_OK=false
-        fi
-        echo ""
-    fi
-    
     # Verificar frontend
     FRONTEND_OK=true
     if ! check_frontend; then
@@ -270,8 +233,9 @@ main() {
     
     # Status final
     echo ""
-    if [ "$TERRAFORM_OK" = true ] && [ "$S3_OK" = true ] && [ "$FRONTEND_OK" = true ]; then
-        echo -e "${GREEN}🎉 Tudo está funcionando perfeitamente!${NC}"
+    if [ "$TERRAFORM_OK" = true ] && [ "$FRONTEND_OK" = true ]; then
+        echo -e "${GREEN}🎉 Infraestrutura e frontend estão OK!${NC}"
+        echo -e "${BLUE}💡 Deploy será realizado via GitHub Actions${NC}"
         exit 0
     else
         echo -e "${YELLOW}⚠️ Alguns componentes precisam de atenção${NC}"

@@ -377,7 +377,7 @@ export const Header = ({
           </div>
 
           {/* Container para o conteúdo principal */}
-          <div className="max-w-4xl mx-auto px-6 md:px-8 lg:px-12">
+          <div className="container mx-auto px-4 max-w-4xl md:ml-0">
             <div className="flex items-center gap-8 py-2">
               {/* Avatar menor */}
               <div className="flex-shrink-0">

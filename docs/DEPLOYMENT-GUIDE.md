@@ -119,9 +119,9 @@ export AWS_ACCESS_KEY_ID=sua_access_key
 export AWS_SECRET_ACCESS_KEY=sua_secret_key
 export CLOUDFRONT_DISTRIBUTION_ID=sua_distribution_id
 
-# Executar deploy manual
-chmod +x scripts/manual-deploy.sh
-./scripts/manual-deploy.sh
+# Deploy é feito apenas via GitHub Actions
+# Para teste local, use:
+make dev
 ```
 
 ### Build Local (Teste)

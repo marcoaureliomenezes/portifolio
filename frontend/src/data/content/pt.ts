@@ -15,7 +15,7 @@ export const portugueseContent: ContentData = {
   header: {
     title: "Engenheiro de Dados | Especialista em Nuvem",
     location: "Belo Horizonte, MG - Brasil",
-    viewEmail: "Ver e-mail"
+    viewEmail: "E-mail"
   },
   resume: {
     short: "Engenheiro de Dados Senior com mais de 8 anos de experiência em linguagem Python, 4 anos de experiência profissional, projetando e implementando pipelines de dados relacionados a cargas de trabalho de Big Data, usando Python, Spark, Ecossistema Hadoop e SQL para validações. Mais de 2 anos migrando pipelines de dados e sistemas de on-premises para Cloud - Azure + Databricks. Desde este ano responsável por migrar pipelines de dados de streaming contábil para AWS...",

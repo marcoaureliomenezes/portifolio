@@ -37,11 +37,11 @@ portifolio/
 │
 ├── 📁 scripts/              # Scripts de automação
 │   ├── setup-deployment.sh # Configuração inicial do pipeline
-│   ├── manual-deploy.sh    # Deploy manual para emergências
-│   ├── deploy_complete.sh  # Deploy completo (legado)
-│   ├── deploy_frontend.sh  # Deploy apenas do frontend (legado)
+│   ├── build_frontend.sh   # Build do frontend
+│   ├── build_and_serve.sh  # Build e servidor local
 │   ├── check_infrastructure.sh # Verificação do status
-│   └── terraform_manager.sh # Gerenciamento do Terraform
+│   ├── terraform_manager.sh # Gerenciamento do Terraform
+│   └── server_manager.sh   # Gerenciamento do servidor local
 │
 ├── 📁 docs/                 # Documentação
 │   └── DEPLOYMENT-GUIDE.md # Guia completo de deploy
@@ -127,21 +127,9 @@ Caso precise fazer deploy manual:
 
 ## ☁️ Deploy Manual (Emergência)
 
-Caso precise fazer deploy manual:
+### 🏗️ Desenvolvimento Local
 
-```bash
-# Configurar credenciais AWS
-export AWS_ACCESS_KEY_ID=sua_access_key
-export AWS_SECRET_ACCESS_KEY=sua_secret_key
-export CLOUDFRONT_DISTRIBUTION_ID=sua_distribution_id
-
-# Executar deploy manual
-./scripts/manual-deploy.sh
-```
-
-### 🏗️ Deploy Legado (Infraestrutura)
-
-Para mudanças na infraestrutura AWS:
+Para desenvolvimento e testes locais:
 ```bash
 # 1. Criar/atualizar infraestrutura
 ./scripts/terraform_manager.sh init
@@ -151,8 +139,10 @@ Para mudanças na infraestrutura AWS:
 cd frontend/
 npm run build
 
-# 3. Deploy para S3
-./scripts/deploy_frontend.sh
+# 3. Testar localmente
+make dev
+# ou
+./scripts/build_and_serve.sh
 ```
 
 #### Verificar Status
@@ -165,18 +155,18 @@ npm run build
 
 | Script | Descrição |
 |--------|-----------|
-| `deploy_complete.sh` | Deploy completo (build + infraestrutura + S3) |
-| `deploy_frontend.sh` | Deploy apenas do frontend para S3 |
+| `build_frontend.sh` | Build otimizado do frontend |
+| `build_and_serve.sh` | Build e servidor local para desenvolvimento |
 | `check_infrastructure.sh` | Verificação do status da infraestrutura |
 | `terraform_manager.sh` | Gerenciamento do Terraform |
+| `server_manager.sh` | Gerenciamento do servidor local |
 
 #### Parâmetros dos Scripts
 
 ```bash
-# Deploy completo com opções
-./scripts/deploy_complete.sh --init      # Inicializar Terraform
-./scripts/deploy_complete.sh --force     # Forçar rebuild
-./scripts/deploy_complete.sh --dry-run   # Simular sem executar
+# Desenvolvimento local
+./scripts/build_and_serve.sh --dev      # Modo desenvolvimento
+./scripts/build_and_serve.sh --prod     # Modo produção
 
 # Terraform
 ./scripts/terraform_manager.sh init      # Inicializar
@@ -310,8 +300,8 @@ python3 backend/flask_server.py
 
 ### Workflow de Deploy
 1. Desenvolvimento local com Flask
-2. Deploy automatizado para S3
-3. Invalidação do cache CloudFront
+2. Deploy automatizado via GitHub Actions
+3. Sincronização com S3 e invalidação CloudFront
 4. Verificação automática de saúde
 
 ## 📚 Documentação

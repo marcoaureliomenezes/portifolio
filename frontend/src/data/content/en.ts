@@ -15,7 +15,7 @@ export const englishContent: ContentData = {
   header: {
     title: "Data Engineer | Cloud Specialist",
     location: "Belo Horizonte, MG - Brazil",
-    viewEmail: "View email"
+    viewEmail: "Email"
   },
   resume: {
     short: "Senior Data Engineer with over 8 years of experience in Python language, 4 years of professional experience, designing and implementing data pipelines related to Big Data workloads, using Python, Spark, Hadoop Ecosystem and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating accounting streaming data pipelines to AWS...",

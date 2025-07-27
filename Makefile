@@ -8,7 +8,7 @@ YELLOW := \033[1;33m
 RED := \033[0;31m
 NC := \033[0m
 
-.PHONY: help dev stop build deploy clean test-build
+.PHONY: help dev stop build clean test-build
 
 # =====================================================
 # COMANDOS PRINCIPAIS
@@ -21,8 +21,9 @@ help: ## Mostra esta ajuda
 	@echo "$(YELLOW)stop$(NC)      - Para o servidor local"
 	@echo "$(YELLOW)build$(NC)     - Compila frontend otimizado"
 	@echo "$(YELLOW)test-build$(NC) - Testa o build localmente"
-	@echo "$(YELLOW)deploy$(NC)    - Faz deploy para S3"
 	@echo "$(YELLOW)clean$(NC)     - Limpa arquivos temporários"
+	@echo ""
+	@echo "$(GREEN)💡 Deploy é feito automaticamente via GitHub Actions$(NC)"
 
 dev: ## Inicia servidor Flask local
 	@cd scripts && ./server_manager.sh start dev
@@ -38,13 +39,6 @@ test-build: build ## Testa o build localmente (porta 8001)
 	@echo "$(YELLOW)Acesse: http://localhost:8000$(NC)"
 	@echo "$(YELLOW)Pressione Ctrl+C para parar$(NC)"
 	@cd scripts && ./server_manager.sh start test
-
-deploy: build ## Deploy para S3
-	@echo "$(GREEN)🚀 Obtendo nome do bucket...$(NC)"
-	@cd terraform && \
-		BUCKET=$$(terraform output -raw s3_bucket_name 2>/dev/null) && \
-		cd ../scripts && \
-		./deploy_frontend.sh $$BUCKET
 
 clean: ## Limpa arquivos temporários
 	@echo "$(GREEN)🧹 Limpando...$(NC)"
