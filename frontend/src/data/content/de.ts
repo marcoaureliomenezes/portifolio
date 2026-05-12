@@ -12,14 +12,35 @@ export const germanContent: ContentData = {
   technologies: "Technologien:",
   validUntil: "Gültig bis",
   viewCredential: "Zertifikat anzeigen",
+  contact: {
+    email: "marcoaurelioreislima@gmail.com",
+    linkedinUrl: "https://linkedin.com/in/marcoaureliomenezes",
+    githubUrl: "https://github.com/marcoaureliomenezes",
+  },
+  nav: {
+    experience: "Erfahrung",
+    education: "Bildung",
+    certifications: "Zertifikate",
+    skills: "Fähigkeiten",
+  },
+  ui: {
+    careerProgression: "Karriereverlauf",
+    position: "Stelle",
+    positions: "Stellen",
+    issuerLabel: "Aussteller:",
+    viewLarger: "Größer anzeigen",
+    resumeFileLabel: "Lebenslauf",
+    emailModalTitle: "Kontakt per E-Mail",
+    emailSendButton: "E-Mail senden",
+  },
   header: {
-    title: "Dateningenieur | Cloud-Spezialist",
+    title: "Senior Data Engineer | Data & AI Engineer",
     location: "Belo Horizonte, MG - Brasilien",
     viewEmail: "E-Mail anzeigen"
   },
   resume: {
-    short: "Senior Data Engineer mit über 8 Jahren Erfahrung in Python, 4 Jahre Berufserfahrung im Design und der Implementierung von Datenpipelines für Big Data-Workloads unter Verwendung von Python, Spark, Hadoop-Ökosystem und SQL für Validierungen. Über 2 Jahre Migration von Datenpipelines und Systemen von On-Premises zu Cloud - Azure + Databricks. Seit diesem Jahr verantwortlich für die Migration von Accounting-Streaming-Datenpipelines zu AWS...",
-    full: "Senior Data Engineer mit über 8 Jahren Erfahrung in Python, 4 Jahre Berufserfahrung im Design und der Implementierung von Datenpipelines für Big Data-Workloads unter Verwendung von Python, Spark, Hadoop-Ökosystem und SQL für Validierungen. Über 2 Jahre Migration von Datenpipelines und Systemen von On-Premises zu Cloud - Azure + Databricks. Seit diesem Jahr verantwortlich für die Migration von Accounting-Streaming-Datenpipelines zu AWS. Hintergrund in Steuerungs- und Automatisierungstechnik. Anerkannt für Expertise in Python, Spark und Big Data-Grundlagen mit Leidenschaft für Wissensaustausch. Bewährte Fähigkeit, DE-Konzepte mit neuen Tools und Frameworks zu integrieren, während sich die Technologie weiterentwickelt, immer unter Berücksichtigung von Zweck, Leistung, Kosten und anderen Trade-offs."
+    short: "Senior Data Engineer und Data & AI Engineer mit 10+ Jahren Python-Erfahrung und starker Praxis in skalierbaren Datenplattformen. Erfahrung mit Spark, SQL, Kafka, Azure, Databricks und AWS, inklusive Migration von Batch- und Streaming-Pipelines von On-Premises in die Cloud...",
+    full: "Senior Data Engineer und Data & AI Engineer mit 10+ Jahren Python-Erfahrung und starker Praxis in skalierbaren Datenplattformen. Entwicklung von Batch- und Streaming-Pipelines mit Spark, SQL, Kafka und Hadoop-Ökosystem sowie Migrationen von On-Premises nach Azure + Databricks und zuletzt Streaming-Workloads nach AWS. Bei F1rst/Santander arbeitet er an strategischer Datenmodernisierung und KI-gestützter Engineering-Praxis, inklusive Devin-Pilot und Integration von Workflows mit Windsurf. Hintergrund in Steuerungs- und Automatisierungstechnik mit Fokus auf Zuverlässigkeit, Performance, Kosten und nachhaltige Architekturentscheidungen."
   },
   skills: [
     {
@@ -30,7 +51,7 @@ export const germanContent: ContentData = {
     {
       title: "Programmiersprachen",
       icon: "💻",
-      skills: ["Python", "SQL", "Scala", "Java"]
+      skills: ["Python", "SQL", "Scala", "Shell Script (Bash/Linux)"]
     },
     {
       title: "Cloud-Anbieter",
@@ -63,7 +84,8 @@ export const germanContent: ContentData = {
             "Verantwortlich für die Führung des DE-Accounting-Teams durch die strategische Datentransformation",
             "Migration von Batch- und Streaming-Datenpipelines von On-Premises zu Azure mit Databricks, Data Factory und ADLS gen2",
             "Migration von Streaming-Pipelines (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) zu AWS (MSK, Aurora, EKS)",
-            "Design täglicher Batch-Pipelines zur Bereitstellung von Bronze- und Silver-Accounting-Delta-Tabellen für die Cash Management-Domäne"
+            "Design täglicher Batch-Pipelines zur Bereitstellung von Bronze- und Silver-Accounting-Delta-Tabellen für die Cash Management-Domäne",
+            "Tätigkeit als Data & AI Engineer in Initiativen mit KI-Agenten (Devin und Windsurf) zur Beschleunigung von Engineering-Workflows"
           ],
           technologies: "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
         },
@@ -189,6 +211,18 @@ export const germanContent: ContentData = {
       priority: 3
     },
     {
+      name: "AWS AI Practitioner",
+      issuer: "Amazon Web Services",
+      category: "AWS",
+      date: "September 2025",
+      validity: "September 2028",
+      level: "Foundational",
+      icon: "images/ai-900.png",
+      link: "#",
+      description: "Foundational-AWS-Zertifizierung zu KI-Grundlagen, generativer KI, praxisnahen Use Cases, Responsible AI und Security-Basics.",
+      priority: 4
+    },
+    {
       name: "Spark Data Engineer Associate",
       issuer: "Databricks",
       category: "Databricks",
@@ -198,7 +232,7 @@ export const germanContent: ContentData = {
       icon: "images/databricks_de_associate.png",
       link: "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
       description: "Spezialisierung in Data Engineering mit Apache Spark, Delta Lake und modernen Datenarchitekturen. Umfasst ETL, Streaming, Performance-Tuning und Data Governance.",
-      priority: 4
+      priority: 5
     },
     {
       name: "Spark Developer Associate",
@@ -210,7 +244,7 @@ export const germanContent: ContentData = {
       icon: "images/databricks_spark_dev.png",
       link: "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
       description: "Zertifizierung in der Entwicklung von Apache Spark-Anwendungen für verteilte Datenverarbeitung. Umfasst DataFrame API, SQL, RDD und Performance-Optimierung.",
-      priority: 5
+      priority: 6
     },
     {
       name: "Azure Data Engineer Associate",
@@ -222,7 +256,31 @@ export const germanContent: ContentData = {
       icon: "images/dp-203.png",
       link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
       description: "Data Engineering-Zertifizierung auf Azure mit Azure Data Factory, Synapse Analytics, Data Lake Storage und Streaming-Services.",
-      priority: 5
+      priority: 7
+    },
+    {
+      name: "AI-900: Microsoft Certified: Azure KI-Grundlagen",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "Juni 2024",
+      validity: "Läuft nicht ab",
+      level: "Fundamentals",
+      icon: "images/ai-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/960F73173BDB1ED7?sharingId=6EB3B3C8CB10453A",
+      description: "Grundlegende Azure KI-Zertifizierung für Machine-Learning-Dienste, Computer Vision, Natural Language Processing und verantwortungsvolle KI.",
+      priority: 8
+    },
+    {
+      name: "SC-900: Microsoft Certified: Grundlagen zu Sicherheit, Compliance und Identität",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "Dezember 2023",
+      validity: "Läuft nicht ab",
+      level: "Fundamentals",
+      icon: "images/sc-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/E94D2E747B825BA7?sharingId=6EB3B3C8CB10453A",
+      description: "Grundlegende Zertifizierung in Sicherheit, Compliance und Identität mit Azure Active Directory, Datenschutz und Governance.",
+      priority: 9
     },
     {
       name: "Azure Fundamentals",
@@ -234,7 +292,19 @@ export const germanContent: ContentData = {
       icon: "images/az-900.png",
       link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
       description: "Microsoft Azure-Grundlagenzertifizierung mit Cloud Computing-Konzepten, Kernservices und Preismodellen.",
-      priority: 6
+      priority: 10
+    },
+    {
+      name: "DP-900: Microsoft Certified: Azure-Datengrundlagen",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "Juli 2023",
+      validity: "Läuft nicht ab",
+      level: "Fundamentals",
+      icon: "images/dp-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/AE747EA0B40117F7?sharingId=6EB3B3C8CB10453A",
+      description: "Grundlegende Azure-Datenzertifizierung für Datenbankkonzepte, Analysen und Datenverarbeitung in der Cloud.",
+      priority: 11
     },
     {
       name: "Apache Airflow Fundamentals",
@@ -246,7 +316,7 @@ export const germanContent: ContentData = {
       icon: "images/badges/airflow_fundamentals.png",
       link: "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
       description: "Zertifizierung in Workflow-Orchestrierung mit Apache Airflow für Datenpipeline-Automatisierung. Umfasst DAGs, Operatoren, Sensoren und bewährte Praktiken.",
-      priority: 7
+      priority: 12
     },
     {
       name: "Santander Data Engineer",
@@ -258,7 +328,7 @@ export const germanContent: ContentData = {
       icon: "images/badges/santander-dea.svg",
       link: "#",
       description: "Fortgeschrittene interne Data Engineering-Zertifizierung von Santander Brasil. Top-10-Ranking nach technischem Fall und umfassender Prüfung zu Big Data, Cloud und verteilten Architekturen.",
-      priority: 8
+      priority: 13
     }
   ]
 };

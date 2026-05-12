@@ -53,6 +53,30 @@ export interface HeaderInfo {
   viewEmail: string;
 }
 
+export interface ContactInfo {
+  email: string;
+  linkedinUrl: string;
+  githubUrl: string;
+}
+
+export interface NavLabels {
+  experience: string;
+  education: string;
+  certifications: string;
+  skills: string;
+}
+
+export interface UiLabels {
+  careerProgression: string;
+  position: string;
+  positions: string;
+  issuerLabel: string;
+  viewLarger: string;
+  resumeFileLabel: string;
+  emailModalTitle: string;
+  emailSendButton: string;
+}
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -65,6 +89,9 @@ export interface ContentData {
   technologies: string;
   validUntil: string;
   viewCredential: string;
+  contact: ContactInfo;
+  nav: NavLabels;
+  ui: UiLabels;
   header: HeaderInfo;
   resume: Resume;
   skills: SkillCategory[];

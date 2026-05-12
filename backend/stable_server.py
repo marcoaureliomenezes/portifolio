@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# DEPRECATED: use preview_server.py --port 8000. Será removido em próxima release.
 """
 Servidor Flask ULTRA-SIMPLES para porta 8000
 Sem auto-reload problemático, apenas serve o frontend

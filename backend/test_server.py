@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# DEPRECATED: use preview_server.py --port 8001. Será removido em próxima release.
 """
 Servidor Flask simples para testar o build do frontend na porta 8001
 """

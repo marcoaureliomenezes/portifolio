@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+# DEPRECATED: use preview_server.py --port 8000 --reload. Será removido em próxima release.
 """
-🚀 Servidor Flask com Auto-Reload Inteligente
+Servidor Flask com Auto-Reload Inteligente
 Porta 8000 fixa + auto-reload que funciona sem conflitos
 """
 

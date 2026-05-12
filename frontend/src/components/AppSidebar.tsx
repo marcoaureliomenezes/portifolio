@@ -6,57 +6,47 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
+
+import { getContent, SupportedLanguages } from "@/data/content";
 
 interface AppSidebarProps {
   language: string;
 }
 
-const menuItems = {
-  pt: [
-    { title: "Experiência Profissional", anchor: "experiencia", icon: Briefcase },
-    { title: "Educação", anchor: "educacao", icon: GraduationCap },
-    { title: "Certificações", anchor: "certificacoes", icon: Award },
-    { title: "Habilidades", anchor: "habilidades", icon: User },
-  ],
-  en: [
-    { title: "Professional Experience", anchor: "experiencia", icon: Briefcase },
-    { title: "Education", anchor: "educacao", icon: GraduationCap },
-    { title: "Certifications", anchor: "certificacoes", icon: Award },
-    { title: "Skills", anchor: "habilidades", icon: User },
-  ]
-};
-
 export function AppSidebar({ language }: AppSidebarProps) {
-  const { open } = useSidebar();
   const [activeSection, setActiveSection] = useState("");
 
-  const items = language === "Português" ? menuItems.pt : menuItems.en;
+  const currentContent = getContent(language as SupportedLanguages);
+
+  const menuItems = [
+    { title: currentContent.nav.experience, anchor: "experiencia", icon: Briefcase },
+    { title: currentContent.nav.education, anchor: "educacao", icon: GraduationCap },
+    { title: currentContent.nav.certifications, anchor: "certificacoes", icon: Award },
+    { title: currentContent.nav.skills, anchor: "habilidades", icon: User },
+  ];
 
   const scrollToSection = (anchor: string) => {
     const element = document.getElementById(anchor);
     if (element) {
-      const headerHeight = 120; // Altura aproximada do header
+      const headerHeight = 120;
       const elementPosition = element.offsetTop - headerHeight;
-      
+
       window.scrollTo({
         top: elementPosition,
         behavior: 'smooth'
       });
-      
+
       setActiveSection(anchor);
     }
   };
 
   const getNavCls = (anchor: string) =>
-    activeSection === anchor 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
+    activeSection === anchor
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
       : "hover:bg-white hover:text-black hover:shadow-lg hover:shadow-black/20 transition-all duration-300";
 
   return (
@@ -67,9 +57,9 @@ export function AppSidebar({ language }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {menuItems.map((item) => (
                 <SidebarMenuItem key={item.anchor}>
-                  <SidebarMenuButton 
+                  <SidebarMenuButton
                     onClick={() => scrollToSection(item.anchor)}
                     className={`cursor-pointer ${getNavCls(item.anchor)}`}
                   >

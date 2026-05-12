@@ -258,7 +258,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                       </h3>
                       <div className="flex items-center justify-between text-sm mb-3">
                         <div className="text-sm text-muted-foreground font-medium">
-                          Progressão de carreira ({experience.roles.length} {experience.roles.length === 1 ? 'cargo' : 'cargos'}):
+                          {currentContent.ui.careerProgression} ({experience.roles.length} {experience.roles.length === 1 ? currentContent.ui.position : currentContent.ui.positions}):
                         </div>
                         <div className="flex items-center gap-1 text-muted-foreground">
                           <MapPin className="w-3 h-3 text-red-600" />
@@ -446,7 +446,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                             </div>
                           </div>
                           <div className="text-sm text-muted-foreground font-medium">
-                            Progressão de carreira ({experience.roles.length} {experience.roles.length === 1 ? 'cargo' : 'cargos'}):
+                            {currentContent.ui.careerProgression} ({experience.roles.length} {experience.roles.length === 1 ? currentContent.ui.position : currentContent.ui.positions}):
                           </div>
                         </div>
 
@@ -731,7 +731,7 @@ export const Portfolio = ({ language = "Português" }: PortfolioProps) => {
                               <div className="flex items-center justify-between pt-4 border-t border-border/30">
                                 <div className="text-xs text-muted-foreground">
                                   <p><span className="font-semibold">{currentContent.validUntil}:</span> {cert.validity}</p>
-                                  <p><span className="font-semibold">Emissor:</span> {cert.issuer}</p>
+                                  <p><span className="font-semibold">{currentContent.ui.issuerLabel}</span> {cert.issuer}</p>
                                 </div>
                                 {cert.link && cert.link !== '#' && (
                                   <Button 

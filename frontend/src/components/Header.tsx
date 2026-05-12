@@ -7,9 +7,6 @@ import profileAvatar from "@/assets/profile.png";
 
 interface HeaderProps {
   name?: string;
-  email?: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
   avatarUrl?: string;
   language?: string;
   onLanguageChange?: (language: string) => void;
@@ -17,9 +14,6 @@ interface HeaderProps {
 
 export const Header = ({
   name = "Marco Aurelio Menezes",
-  email = "marcoaureliorelislima@gmail.com",
-  linkedinUrl = "https://linkedin.com",
-  githubUrl = "https://github.com",
   avatarUrl = profileAvatar,
   language = "Português",
   onLanguageChange,
@@ -52,7 +46,7 @@ export const Header = ({
 
   const handleEmailCopy = async () => {
     try {
-      await navigator.clipboard.writeText(email);
+      await navigator.clipboard.writeText(currentContent.contact.email);
       setEmailCopied(true);
       setTimeout(() => setEmailCopied(false), 2000);
     } catch (err) {
@@ -61,13 +55,13 @@ export const Header = ({
   };
 
   const handleSendEmail = () => {
-    window.location.href = `mailto:${email}`;
+    window.location.href = `mailto:${currentContent.contact.email}`;
   };
 
   const handleDownloadResume = () => {
-    const resumeUrl = language === "Português" ? "/curriculo-marco-aurelio.pdf" : 
-                      language === "English" ? "/resume-marco-aurelio.pdf" : 
-                      "/lebenslauf-marco-aurelio.pdf";
+    const resumeUrl = language === "Português" ? "/cv/curriculo-marco-aurelio.pdf" :
+                      language === "English" ? "/cv/resume-marco-aurelio.pdf" :
+                      "/cv/lebenslauf-marco-aurelio.pdf";
     const link = document.createElement('a');
     link.href = resumeUrl;
     link.download = language === "Português" ? "Curriculo-Marco-Aurelio-Menezes.pdf" : 
@@ -121,7 +115,7 @@ export const Header = ({
                     className="w-20 h-20 rounded-full object-cover object-top border-2 border-header-text/20 transition-all duration-300 group-hover:border-header-text/40 cursor-pointer"
                   />
                   <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-xs">Ver maior</span>
+                    <span className="text-white text-xs">{currentContent.ui.viewLarger}</span>
                   </div>
                 </button>
                 
@@ -153,8 +147,8 @@ export const Header = ({
                   
                   <span className="text-header-text-muted">|</span>
                   
-                  <a 
-                    href={linkedinUrl}
+                  <a
+                    href={currentContent.contact.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -162,11 +156,11 @@ export const Header = ({
                     <Linkedin className="w-3 h-3" />
                     <span>LinkedIn</span>
                   </a>
-                  
+
                   <span className="text-header-text-muted">|</span>
-                  
-                  <a 
-                    href={githubUrl}
+
+                  <a
+                    href={currentContent.contact.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -182,7 +176,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
+                    <span>{currentContent.ui.resumeFileLabel}</span>
                   </button>
                 </div>
               </div>
@@ -235,8 +229,8 @@ export const Header = ({
                   
                   <span className="text-header-text-muted">|</span>
                   
-                  <a 
-                    href={linkedinUrl}
+                  <a
+                    href={currentContent.contact.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -244,11 +238,11 @@ export const Header = ({
                     <Linkedin className="w-3 h-3" />
                     <span>LinkedIn</span>
                   </a>
-                  
+
                   <span className="text-header-text-muted">|</span>
-                  
-                  <a 
-                    href={githubUrl}
+
+                  <a
+                    href={currentContent.contact.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -264,7 +258,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
+                    <span>{currentContent.ui.resumeFileLabel}</span>
                   </button>
                 </div>
               </div>
@@ -317,8 +311,8 @@ export const Header = ({
                   
                   <span className="text-header-text-muted">|</span>
                   
-                  <a 
-                    href={linkedinUrl}
+                  <a
+                    href={currentContent.contact.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -326,11 +320,11 @@ export const Header = ({
                     <Linkedin className="w-3 h-3" />
                     <span>LinkedIn</span>
                   </a>
-                  
+
                   <span className="text-header-text-muted">|</span>
-                  
-                  <a 
-                    href={githubUrl}
+
+                  <a
+                    href={currentContent.contact.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
@@ -346,7 +340,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors"
                   >
                     <Download className="w-3 h-3" />
-                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
+                    <span>{currentContent.ui.resumeFileLabel}</span>
                   </button>
                 </div>
               </div>
@@ -391,7 +385,7 @@ export const Header = ({
                     className="w-20 h-20 lg:w-24 lg:h-24 rounded-full object-cover object-top border-2 border-header-text/20 transition-all duration-300 group-hover:border-header-text/40 cursor-pointer"
                   />
                   <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-header-text text-xs">Ver maior</span>
+                    <span className="text-header-text text-xs">{currentContent.ui.viewLarger}</span>
                   </div>
                 </button>
               </div>
@@ -425,8 +419,8 @@ export const Header = ({
                   
                   <span className="text-header-text-muted">|</span>
                   
-                  <a 
-                    href={linkedinUrl}
+                  <a
+                    href={currentContent.contact.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
@@ -434,11 +428,11 @@ export const Header = ({
                     <Linkedin className="w-3 h-3 flex-shrink-0" />
                     <span>LinkedIn</span>
                   </a>
-                  
+
                   <span className="text-header-text-muted">|</span>
-                  
-                  <a 
-                    href={githubUrl}
+
+                  <a
+                    href={currentContent.contact.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
@@ -454,7 +448,7 @@ export const Header = ({
                     className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
                   >
                     <Download className="w-3 h-3 flex-shrink-0" />
-                    <span>{language === "Português" ? "Currículo" : language === "English" ? "Resume" : "Lebenslauf"}</span>
+                    <span>{currentContent.ui.resumeFileLabel}</span>
                   </button>
                 </div>
               </div>
@@ -506,12 +500,12 @@ export const Header = ({
               </div>
               
               <h3 className="text-lg font-semibold text-gray-900">
-                Contato por Email
+                {currentContent.ui.emailModalTitle}
               </h3>
-              
+
               <div className="bg-gray-50 rounded-lg p-3 border">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 font-mono">{email}</span>
+                  <span className="text-sm text-gray-700 font-mono">{currentContent.contact.email}</span>
                   <button
                     onClick={handleEmailCopy}
                     className="ml-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
@@ -526,11 +520,11 @@ export const Header = ({
                 </div>
               </div>
               
-              <Button 
+              <Button
                 onClick={handleSendEmail}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white"
               >
-                Enviar Email
+                {currentContent.ui.emailSendButton}
               </Button>
             </div>
           </div>

@@ -12,25 +12,46 @@ export const englishContent: ContentData = {
   technologies: "Technologies:",
   validUntil: "Valid until",
   viewCredential: "View credential",
+  contact: {
+    email: "marcoaurelioreislima@gmail.com",
+    linkedinUrl: "https://linkedin.com/in/marcoaureliomenezes",
+    githubUrl: "https://github.com/marcoaureliomenezes",
+  },
+  nav: {
+    experience: "Experience",
+    education: "Education",
+    certifications: "Certifications",
+    skills: "Skills",
+  },
+  ui: {
+    careerProgression: "Career progression",
+    position: "role",
+    positions: "roles",
+    issuerLabel: "Issuer:",
+    viewLarger: "View larger",
+    resumeFileLabel: "Resume",
+    emailModalTitle: "Contact by Email",
+    emailSendButton: "Send Email",
+  },
   header: {
-    title: "Data Engineer | Cloud Specialist",
+    title: "Senior Data Engineer | Data & AI Engineer",
     location: "Belo Horizonte, MG - Brazil",
     viewEmail: "Email"
   },
   resume: {
-    short: "Senior Data Engineer with over 8 years of experience in Python language, 4 years of professional experience, designing and implementing data pipelines related to Big Data workloads, using Python, Spark, Hadoop Ecosystem and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating accounting streaming data pipelines to AWS...",
-    full: "Senior Data Engineer with over 8 years of experience in Python language, 4 years of professional experience, designing and implementing data pipelines related to Big Data workloads, using Python, Spark, Hadoop Ecosystem and SQL for validations. Over 2 years migrating data pipelines and systems from on-premises to Cloud - Azure + Databricks. Since this year responsible for migrating accounting streaming data pipelines to AWS. Background in Control and Automation Engineering. Recognized for expertise in Python, Spark and big data fundamentals with passion for sharing knowledge. Proven ability to integrate DE concepts with new tools and frameworks as technology evolves, always balancing purpose, performance, costs and other trade-offs."
+    short: "Senior Data Engineer and Data & AI Engineer with 10+ years of Python experience and strong hands-on delivery across large-scale data platforms. Practical experience with Spark, SQL, Kafka, Azure, Databricks, and AWS, including migration of batch and streaming pipelines from on-premises to cloud...",
+    full: "Senior Data Engineer and Data & AI Engineer with 10+ years of Python experience and strong hands-on delivery across large-scale data platforms. Delivers batch and streaming pipelines with Spark, SQL, Kafka, and Hadoop ecosystem technologies, plus migration programs from on-premises to Azure + Databricks and, more recently, streaming workloads to AWS. At F1rst/Santander, works on strategic data modernization and AI-enabled engineering initiatives, including a corporate Devin pilot and workflow integration with Windsurf. Background in Control and Automation Engineering, focused on balancing reliability, performance, cost, and long-term maintainability."
   },
   skills: [
     {
       title: "Languages",
       icon: "🌍",
-      skills: ["Portuguese (Native)", "English (Advanced)"]
+      skills: ["Portuguese (Native)", "English (Advanced)", "German (Intermediate)"]
     },
     {
       title: "Programming Languages",
       icon: "💻",
-      skills: ["Python", "SQL", "Scala", "Java"]
+      skills: ["Python", "SQL", "Scala", "Shell Script (Bash/Linux)"]
     },
     {
       title: "Cloud Providers",
@@ -63,7 +84,8 @@ export const englishContent: ContentData = {
             "Responsible for conducting the DE accounting team through the Data Transformation strategic movement",
             "Migrated batch and streaming data pipelines from on-premises to Azure using Databricks, Data Factory and ADLS gen2",
             "Migrated streaming pipelines (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) to AWS (MSK, Aurora, EKS)",
-            "Designed daily batch pipelines to deliver Bronze and Silver Accounting Delta tables to Cash Management domain"
+            "Designed daily batch pipelines to deliver Bronze and Silver Accounting Delta tables to Cash Management domain",
+            "Acted as Data & AI Engineer in initiatives with AI agents (Devin and Windsurf) to accelerate engineering workflows"
           ],
           technologies: "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
         },
@@ -189,6 +211,18 @@ export const englishContent: ContentData = {
       priority: 3
     },
     {
+      name: "AWS AI Practitioner",
+      issuer: "Amazon Web Services",
+      category: "AWS",
+      date: "September 2025",
+      validity: "September 2028",
+      level: "Foundational",
+      icon: "images/ai-900.png",
+      link: "#",
+      description: "Foundational AWS AI certification covering generative AI fundamentals, practical use cases, responsible AI, and security basics.",
+      priority: 4
+    },
+    {
       name: "Spark Data Engineer Associate",
       issuer: "Databricks",
       category: "Databricks",
@@ -198,7 +232,7 @@ export const englishContent: ContentData = {
       icon: "images/databricks_de_associate.png",
       link: "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
       description: "Specialization in data engineering with Apache Spark, Delta Lake, and modern data architectures. Covers ETL, streaming, performance tuning, and data governance.",
-      priority: 4
+      priority: 5
     },
     {
       name: "Spark Developer Associate",
@@ -210,7 +244,7 @@ export const englishContent: ContentData = {
       icon: "images/databricks_spark_dev.png",
       link: "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
       description: "Certification in developing Apache Spark applications for distributed data processing. Includes DataFrame API, SQL, RDD, and performance optimization.",
-      priority: 5
+      priority: 6
     },
     {
       name: "Azure Data Engineer Associate",
@@ -222,7 +256,31 @@ export const englishContent: ContentData = {
       icon: "images/dp-203.png",
       link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
       description: "Data engineering certification on Azure, covering Azure Data Factory, Synapse Analytics, Data Lake Storage, and streaming services.",
-      priority: 5
+      priority: 7
+    },
+    {
+      name: "AI-900: Microsoft Certified: Azure AI Fundamentals",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "June 2024",
+      validity: "Does not expire",
+      level: "Fundamentals",
+      icon: "images/ai-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/960F73173BDB1ED7?sharingId=6EB3B3C8CB10453A",
+      description: "Foundational Azure AI certification covering machine learning services, computer vision, natural language processing, and responsible AI.",
+      priority: 8
+    },
+    {
+      name: "SC-900: Microsoft Certified: Security, Compliance, and Identity Fundamentals",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "December 2023",
+      validity: "Does not expire",
+      level: "Fundamentals",
+      icon: "images/sc-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/E94D2E747B825BA7?sharingId=6EB3B3C8CB10453A",
+      description: "Foundational certification in security, compliance, and identity, covering Azure Active Directory, data protection, and governance.",
+      priority: 9
     },
     {
       name: "Azure Fundamentals",
@@ -234,7 +292,19 @@ export const englishContent: ContentData = {
       icon: "images/az-900.png",
       link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
       description: "Microsoft Azure fundamental certification covering cloud computing concepts, core services, and pricing models.",
-      priority: 6
+      priority: 10
+    },
+    {
+      name: "DP-900: Microsoft Certified: Azure Data Fundamentals",
+      issuer: "Microsoft",
+      category: "Azure",
+      date: "July 2023",
+      validity: "Does not expire",
+      level: "Fundamentals",
+      icon: "images/dp-900.png",
+      link: "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/AE747EA0B40117F7?sharingId=6EB3B3C8CB10453A",
+      description: "Foundational Azure data certification covering database concepts, analytics, and data processing in the cloud.",
+      priority: 11
     },
     {
       name: "Apache Airflow Fundamentals",
@@ -246,7 +316,7 @@ export const englishContent: ContentData = {
       icon: "images/badges/airflow_fundamentals.png",
       link: "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
       description: "Certification in workflow orchestration with Apache Airflow for data pipeline automation. Covers DAGs, operators, sensors, and best practices.",
-      priority: 7
+      priority: 12
     },
     {
       name: "Santander Data Engineer",
@@ -258,7 +328,7 @@ export const englishContent: ContentData = {
       icon: "images/badges/santander-dea.svg",
       link: "#",
       description: "Advanced internal data engineering certification from Santander Brazil. Top 10 ranking after technical case and comprehensive exam covering Big Data, Cloud, and distributed architectures.",
-      priority: 8
+      priority: 13
     }
   ]
 };
