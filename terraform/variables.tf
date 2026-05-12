@@ -138,23 +138,6 @@ variable "backup_retention_days" {
   }
 }
 
-variable "create_iam_user" {
-  description = "Criar usuário IAM para manutenção do portfólio"
-  type        = bool
-  default     = true
-}
-
-variable "iam_user_name" {
-  description = "Nome do usuário IAM para manutenção"
-  type        = string
-  default     = "portifolio-maintainer"
-  
-  validation {
-    condition     = can(regex("^[a-zA-Z0-9+=,.@_-]+$", var.iam_user_name))
-    error_message = "IAM user name deve conter apenas caracteres válidos para usuários IAM."
-  }
-}
-
 # =====================================================
 # VARIÁVEIS DE TAGS
 # =====================================================
