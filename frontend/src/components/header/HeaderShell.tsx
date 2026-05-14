@@ -9,8 +9,6 @@ type ScrollState = "full" | "intermediate" | "compact";
 interface HeaderShellProps {
   name: string;
   email: string;
-  linkedinUrl: string;
-  githubUrl: string;
   avatarUrl: string;
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
@@ -20,8 +18,6 @@ interface HeaderShellProps {
 export function HeaderShell({
   name,
   email,
-  linkedinUrl,
-  githubUrl,
   avatarUrl,
   language,
   onLanguageChange,
@@ -48,8 +44,6 @@ export function HeaderShell({
   const sharedProps = {
     name,
     email,
-    linkedinUrl,
-    githubUrl,
     avatarUrl,
     language,
     onLanguageChange,

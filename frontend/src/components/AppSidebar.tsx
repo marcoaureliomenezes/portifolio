@@ -1,62 +1,41 @@
 import { useState } from "react";
 import { User, Briefcase, GraduationCap, Award } from "lucide-react";
+import { useContent } from "@/hooks/useContent";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
-interface AppSidebarProps {
-  language: string;
-}
+const SECTION_ANCHORS = [
+  { anchor: "experiencia", labelKey: "experienceTitle" as const, icon: Briefcase },
+  { anchor: "educacao", labelKey: "educationTitle" as const, icon: GraduationCap },
+  { anchor: "certificacoes", labelKey: "certificationsTitle" as const, icon: Award },
+  { anchor: "habilidades", labelKey: "skillsTitle" as const, icon: User },
+] as const;
 
-const menuItems = {
-  pt: [
-    { title: "Experiência Profissional", anchor: "experiencia", icon: Briefcase },
-    { title: "Educação", anchor: "educacao", icon: GraduationCap },
-    { title: "Certificações", anchor: "certificacoes", icon: Award },
-    { title: "Habilidades", anchor: "habilidades", icon: User },
-  ],
-  en: [
-    { title: "Professional Experience", anchor: "experiencia", icon: Briefcase },
-    { title: "Education", anchor: "educacao", icon: GraduationCap },
-    { title: "Certifications", anchor: "certificacoes", icon: Award },
-    { title: "Skills", anchor: "habilidades", icon: User },
-  ]
-};
-
-export function AppSidebar({ language }: AppSidebarProps) {
-  const { open } = useSidebar();
+export function AppSidebar() {
+  const { content } = useContent();
   const [activeSection, setActiveSection] = useState("");
-
-  const items = language === "Português" ? menuItems.pt : menuItems.en;
 
   const scrollToSection = (anchor: string) => {
     const element = document.getElementById(anchor);
     if (element) {
-      const headerHeight = 120; // Altura aproximada do header
+      const headerHeight = 120;
       const elementPosition = element.offsetTop - headerHeight;
-      
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
-      
+      window.scrollTo({ top: elementPosition, behavior: "smooth" });
       setActiveSection(anchor);
     }
   };
 
   const getNavCls = (anchor: string) =>
-    activeSection === anchor 
-      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
+    activeSection === anchor
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
       : "hover:bg-white hover:text-black hover:shadow-lg hover:shadow-black/20 transition-all duration-300";
 
   return (
@@ -66,19 +45,22 @@ export function AppSidebar({ language }: AppSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.anchor}>
-                  <SidebarMenuButton 
-                    onClick={() => scrollToSection(item.anchor)}
-                    className={`cursor-pointer ${getNavCls(item.anchor)}`}
-                  >
-                    <item.icon className="mr-2 h-4 w-4" />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <nav aria-label="primary">
+              <SidebarMenu>
+                {SECTION_ANCHORS.map(({ anchor, labelKey, icon: Icon }) => (
+                  <SidebarMenuItem key={anchor}>
+                    <SidebarMenuButton
+                      onClick={() => scrollToSection(anchor)}
+                      className={`cursor-pointer ${getNavCls(anchor)}`}
+                      aria-current={activeSection === anchor ? "location" : undefined}
+                    >
+                      <Icon className="mr-2 h-4 w-4" aria-hidden="true" />
+                      <span>{content[labelKey]}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </nav>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
