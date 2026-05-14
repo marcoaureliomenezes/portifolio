@@ -2,17 +2,21 @@ import { useContext } from "react";
 import { LanguageContext } from "@/contexts/LanguageContext";
 import type { SupportedLanguages, ContentData } from "@/types/content";
 
-// Static imports of the existing TypeScript content modules.
-// After T-CONTENT-01 these will be replaced by dynamic JSON imports.
-import { portugueseContent } from "@/data/content/pt";
-import { englishContent } from "@/data/content/en";
-import { germanContent } from "@/data/content/de";
+// Static JSON imports — Vite resolves and bundles these at build time.
+// T-CONTENT-01: migrated from TypeScript constant modules to JSON files.
+import ptJson from "@/data/content/pt.json";
+import enJson from "@/data/content/en.json";
+import deJson from "@/data/content/de.json";
+
+const ptContent = ptJson as ContentData;
+const enContent = enJson as ContentData;
+const deContent = deJson as ContentData;
 
 /** Map from locale code to raw content object. */
 const contentMap: Record<SupportedLanguages, ContentData> = {
-  pt: portugueseContent,
-  en: englishContent,
-  de: germanContent,
+  pt: ptContent,
+  en: enContent,
+  de: deContent,
 };
 
 /**

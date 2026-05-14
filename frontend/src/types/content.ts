@@ -1,9 +1,8 @@
 /**
  * Content type definitions for the portfolio i18n system.
  *
- * SupportedLanguages uses short locale codes ("pt" | "en" | "de") internally.
- * The existing data/content/types.ts uses full display names; both coexist until
- * T-CONTENT-01 migrates the data layer to JSON.
+ * SupportedLanguages uses short locale codes ("pt" | "en" | "de").
+ * Content is loaded from src/data/content/{pt,en,de}.json — T-CONTENT-01.
  */
 
 export type SupportedLanguages = "pt" | "en" | "de";
