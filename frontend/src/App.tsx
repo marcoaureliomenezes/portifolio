@@ -1,27 +1,30 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { routes } from "./routes";
 
-const queryClient = new QueryClient();
+// Component map: slug → React element
+// Stub routes (future project tabs) fall through to NotFound until T-FE-09 / T-CONTENT-*
+const componentMap: Record<string, React.ReactElement> = {
+  home: <Index />,
+  "not-found": <NotFound />,
+};
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <TooltipProvider>
+    <BrowserRouter>
+      <Routes>
+        {routes.map((route) => (
+          <Route
+            key={route.slug}
+            path={route.path}
+            element={componentMap[route.slug] ?? <NotFound />}
+          />
+        ))}
+      </Routes>
+    </BrowserRouter>
+  </TooltipProvider>
 );
 
 export default App;
