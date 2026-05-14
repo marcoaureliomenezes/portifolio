@@ -1,9 +1,20 @@
-# CODEOWNERS — all changes require review from the repo owner.
-# GitHub uses the most specific matching rule.
+# CODEOWNERS — todas as mudancas exigem review do owner do repo.
+# GitHub usa a regra mais especifica que corresponder ao path.
+# Ref: specs/foundation/SPEC.md §2
 
-# Default: everything requires owner review
+# Fallback global: qualquer path requer review
 *                           @marcoaureliomenezes
 
-# Infrastructure and CI/CD — explicitly called out
+# Infraestrutura e CI/CD — chamados explicitamente
 terraform/                  @marcoaureliomenezes
 .github/                    @marcoaureliomenezes
+
+# Frontend
+frontend/src/               @marcoaureliomenezes
+frontend/public/            @marcoaureliomenezes
+
+# Specs — dominio exclusivo do product-engineer; operador e owner de merge
+specs/                      @marcoaureliomenezes
+
+# Backend (P1)
+backend-go/                 @marcoaureliomenezes
