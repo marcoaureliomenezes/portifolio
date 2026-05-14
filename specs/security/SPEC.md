@@ -107,35 +107,59 @@ Fora de escopo: WAF, multi-region, IDS, observabilidade ativa de segurança (P2)
   `aws s3api copy-object --copy-source <bucket>?versionId=<old>`. Substitui auditoria
   custom.
 
-## 6b. No local AWS credentials (FR-S29..FR-S31)
+## 6b. No local AWS credentials por papel (FR-S29..FR-S31)
 
-- **FR-S29.** Nenhuma credencial AWS de longo prazo (access key, secret key, profile em
-  `~/.aws/credentials`) apontando para a conta `016098071081` pode existir em ambiente DEV
-  local. Toda escrita e leitura na conta para o projeto `portifolio` acontece exclusivamente
-  via GitHub Actions OIDC. Esta é uma security control que elimina a superfície de
-  vazamento de chaves e força audit trail centralizado via CloudTrail dos jobs CI.
-- **FR-S30.** Única exceção: bootstrap inicial do OIDC provider (T-DEVOPS-02) executado em
-  **AWS CloudShell** (sessão efêmera dentro do console AWS, sem persistência de chaves em
-  disco local). Após o bootstrap, qualquer execução de `terraform`, `aws iam *`, ou
-  `aws s3 *` contra recursos do projeto roda **exclusivamente** em workflow GitHub Actions
-  (`terraform.yml`, `deploy.yml`). Vide `foundation/SPEC.md §10` para lista completa de
-  comandos proibidos e autorizados.
-- **FR-S31.** Diagnóstico read-only (sts/list/describe) também é proibido localmente —
-  deve ser executado em CloudShell ou em job CI dedicado. O motivo: qualquer caminho que
-  permita ler estado AWS local exige credenciais válidas, e credenciais válidas violam
-  FR-S29.
+A constraint é definida por **papel (persona)**, alinhada com `foundation/SPEC.md §10`.
+Dois papéis distintos operam neste projeto, com permissões mutuamente exclusivas:
+
+- **Developer** (papel padrão — 99% das interações com o repo)
+- **Infra Specialist** (papel raro — bootstrap inicial e break-glass durante incidentes)
+
+- **FR-S29.** **Developer:** zero credenciais AWS de longo prazo. Nenhum access key,
+  secret key ou profile em `~/.aws/credentials` apontando para a conta `016098071081`
+  pode existir em ambiente DEV local usado para tarefas de Developer. Toda escrita e
+  leitura na conta para o projeto `portifolio` no fluxo de Developer acontece
+  **exclusivamente via GitHub Actions OIDC**. **Infra Specialist:** credenciais AWS locais
+  são uma exceção autorizada durante bootstrap inicial (T-DEVOPS-02) e durante incidentes
+  de break-glass (pipeline quebrado, caminho via CI bloqueado). O escopo é restrito a
+  criação do OIDC provider/role e diagnóstico read-only. A justificativa de uso é
+  documentada (chat, incident log, ADR) e a operação é auditável via CloudTrail. Detalhes
+  e checklist em `foundation/SPEC.md §10.b` e `§10.c`.
+- **FR-S30.** **Bootstrap inicial** do OIDC provider (T-DEVOPS-02) pode ocorrer via uma
+  das duas opções autorizadas, ambas auditáveis via CloudTrail:
+  - **Opção A (preferida):** AWS CloudShell — sessão efêmera dentro do console AWS, sem
+    persistência de chaves em disco local. Mantém zero chaves persistidas localmente.
+  - **Opção B (autorizada):** máquina local do Infra Specialist com credenciais AWS de
+    privilégio IAM. Resultado e idempotência idênticos à Opção A.
+  Após o bootstrap, qualquer execução de `terraform`, `aws iam *`, ou `aws s3 *` contra
+  recursos do projeto roda **exclusivamente** em workflow GitHub Actions (`terraform.yml`,
+  `deploy.yml`, `cleanup-bootstrap.yml`) — não retorna a ser local para nenhum dos dois
+  papéis. Vide `foundation/SPEC.md §10` para lista completa de comandos proibidos e
+  autorizados.
+- **FR-S31.** **Diagnóstico read-only AWS local** (`aws sts get-caller-identity`,
+  `aws iam list-*`, `aws s3 ls`, `aws cloudfront list-*`, etc.):
+  - **Developer:** proibido. Deve ser executado em CloudShell ou em job CI dedicado.
+    Qualquer caminho que permita ler estado AWS local exigiria credenciais válidas, e
+    credenciais válidas no fluxo de Developer violam FR-S29.
+  - **Infra Specialist em break-glass:** autorizado para troubleshooting quando o pipeline
+    está quebrado e o caminho via CI está bloqueado. Após o incidente, a checklist
+    de `foundation/SPEC.md §10.c` confirma a restauração do caminho via CI.
 
 **Verificação:**
 
 ```bash
-# Nenhum profile AWS configurado localmente para a conta do projeto
+# Para o papel Developer: nenhum profile AWS configurado localmente para a conta do projeto
 test ! -f ~/.aws/credentials || ! grep -q "016098071081\|portifolio" ~/.aws/credentials
 
-# CloudTrail mostra que toda activity em IAM/S3/CloudFront do projeto vem de
-# arn:aws:sts::016098071081:assumed-role/github-actions-portfolio-*/<workflow-run-id>
+# CloudTrail mostra que toda activity em IAM/S3/CloudFront do projeto vem de:
+#   - arn:aws:sts::016098071081:assumed-role/github-actions-portfolio-*/<workflow-run-id>
+#     (operações de aplicação via CI — esperado para Developer)
+#   - identidade humana via SSO/console (apenas durante bootstrap T-DEVOPS-02 ou em
+#     incidentes de break-glass documentados — esperado para Infra Specialist; deve ser
+#     raro e justificado retroativamente via checklist em foundation §10.c)
 aws cloudtrail lookup-events \
   --lookup-attributes AttributeKey=ResourceName,AttributeValue=portifolio-marco-menezes \
-  --max-results 20  # executado em CloudShell, não localmente
+  --max-results 20  # executado em CloudShell ou job CI; Infra Specialist pode rodar local
 ```
 
 ## 7. CSP e content-type (FR-S26..FR-S28)
