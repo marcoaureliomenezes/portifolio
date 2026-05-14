@@ -222,17 +222,11 @@ make destroy        # Destruir infraestrutura (cuidado!)
 
 ### Scripts Diretos
 ```bash
-# Backend
-./backend/setup.sh               # Instalar dependências
-python backend/flask_server.py  # Servidor local
+# Backend (servidor local de desenvolvimento)
+python3 backend/stable_server.py
 
-# DevOps
-./devops/scripts/setup.sh        # Setup da infraestrutura
-./devops/scripts/deploy.sh       # Deploy do frontend
-./devops/scripts/status.sh       # Status da infraestrutura
-./devops/scripts/destroy.sh      # Destruir (cuidado!)
-```
-python3 backend/flask_server.py
+# Bootstrap OIDC (rodar em AWS CloudShell apenas — não local)
+bash scripts/bootstrap-oidc.sh
 ```
 
 ### 3. **Acesse:**
@@ -306,9 +300,10 @@ python3 backend/flask_server.py
 
 ## 📚 Documentação
 
-- [Backend](./backend/README.md) - Servidor Flask
+- [Backend](./backend/README.md) - Servidor Flask local
 - [Frontend](./frontend/README.md) - Interface e estrutura
-- [DevOps](./devops/README.md) - Infraestrutura e automação
+- [Specs](./specs/SPEC.md) - SDD: specs, plan e tasks do Portfólio 2.0
+- [Terraform](./terraform/) - Infraestrutura AWS (módulos + envs stage/prod)
 
 ## 🎯 Objetivos do Projeto
 
