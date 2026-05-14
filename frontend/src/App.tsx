@@ -3,13 +3,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { DadaiaWorkspacePage } from "./pages/projects/DadaiaWorkspacePage";
+import { TauanGamesPage } from "./pages/projects/TauanGamesPage";
+import { ArchitecturePage } from "./pages/projects/ArchitecturePage";
 import { routes } from "./routes";
 
 // Component map: slug → React element
-// Stub routes (future project tabs) fall through to NotFound until T-FE-09 / T-CONTENT-*
+// T-CONTENT-02/03/04: project tab pages wired up
 const componentMap: Record<string, React.ReactElement> = {
   home: <Index />,
   "not-found": <NotFound />,
+  "dadaia-workspace": <DadaiaWorkspacePage />,
+  "tauan-games": <TauanGamesPage />,
+  portifolio: <ArchitecturePage />,
 };
 
 const App = () => (
