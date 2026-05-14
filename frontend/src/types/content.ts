@@ -61,6 +61,94 @@ export interface HeaderInfo {
   viewEmail: string;
 }
 
+// ── Project tab content types ─────────────────────────────────────────────
+
+export interface ProjectSeoData {
+  title: string;
+  description: string;
+}
+
+export interface ProjectCtaData {
+  github: string;
+  docs?: string;
+}
+
+export interface ProjectHeroData {
+  title: string;
+  tagline: string;
+  logo?: string;
+}
+
+export interface ProjectSectionData {
+  id: string;
+  title: string;
+  body?: string;
+  diagram?: string;
+  items?: Array<{ label: string; value: string }>;
+}
+
+export interface DadaiaWorkspaceProject {
+  hero: ProjectHeroData;
+  sections: ProjectSectionData[];
+  cta: ProjectCtaData;
+  seo: ProjectSeoData;
+}
+
+export interface GameItem {
+  slug: string;
+  title: string;
+  engine: string;
+  image: string;
+  body: string;
+  repo: string;
+}
+
+export interface TauanGamesProject {
+  hero: ProjectHeroData;
+  items: GameItem[];
+  seo: ProjectSeoData;
+}
+
+export interface StackRow {
+  layer: string;
+  tech: string;
+}
+
+export interface CostRow {
+  service: string;
+  monthly_usd: number;
+}
+
+export interface ArchDecision {
+  title: string;
+  rationale: string;
+  spec: string;
+}
+
+export interface PortifolioProjectLinks {
+  repo: string;
+  terraform: string;
+  specs: string;
+}
+
+export interface PortifolioProject {
+  hero: ProjectHeroData;
+  diagram: string;
+  stack: StackRow[];
+  costs: CostRow[];
+  decisions: ArchDecision[];
+  links: PortifolioProjectLinks;
+  seo: ProjectSeoData;
+}
+
+export interface ProjectsContent {
+  "dadaia-workspace": DadaiaWorkspaceProject;
+  "tauan-games": TauanGamesProject;
+  portifolio: PortifolioProject;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -79,4 +167,5 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
+  projects?: ProjectsContent;
 }
