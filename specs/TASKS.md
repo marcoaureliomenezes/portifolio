@@ -35,28 +35,63 @@
   - Script presente, idempotente, e segue spec em `features/infra-retomada/SPEC.md §5.2`:
     detecta OIDC provider existente e pula criação; detecta role existente e pula criação;
     re-attach idempotente da policy.
-  - Script aborta com mensagem clara se executado fora de AWS CloudShell (assume sem
-    credenciais locais).
+  - Script aborta com mensagem clara se executado fora de AWS CloudShell **e sem
+    `INFRA_SPECIALIST_MODE=1`** (assume sem credenciais locais para o papel Developer).
   - Output do script imprime `BOOTSTRAP_ROLE_ARN=<arn>` em uma linha (fácil copiar para
     `gh secret set`).
   - Header do script documenta como rodar em CloudShell: `git clone <repo> && cd portifolio && bash scripts/bootstrap-oidc.sh`.
   - Commitado em `develop` via PR.
 
-### `[ ]` T-DEVOPS-02 — Executar bootstrap OIDC em AWS CloudShell (uma única vez)
+### `[ ]` T-DEVOPS-02a-fix — Atualizar `scripts/bootstrap-oidc.sh` para dual-mode (CloudShell + Infra Specialist local)
 
-- **Agente:** `[devops-engineer]` (operacional — operador executa em CloudShell;
-  devops-engineer apenas verifica pós-condições via job CI ou CloudShell read-only)
-- **Dep:** T-DEVOPS-02a
-- **Toca:** AWS IAM (via **AWS CloudShell** — sessão efêmera dentro do console AWS, sem
-  credenciais persistidas em disco local; **proibido** rodar localmente com
-  `~/.aws/credentials`)
+- **Agente:** `[devops-engineer]`
+- **Dep:** T-DEVOPS-02a (script base existente)
+- **Toca:** `scripts/bootstrap-oidc.sh` (atualização do guard de execução)
+- **Contexto:** foundation/SPEC.md §10 e features/infra-retomada/SPEC.md §5.2 foram
+  atualizados para autorizar o **Fluxo B** (Infra Specialist local) além do Fluxo A
+  (CloudShell). O script precisa refletir essa autorização.
 - **Critério de pronto:**
-  - `aws iam list-open-id-connect-providers` (executado em CloudShell ou em job CI
-    read-only) retorna ARN `token.actions.githubusercontent.com`.
+  - Guard antigo de `AWS_EXECUTION_ENV` vira **warning** (não erro) quando a variável
+    `INFRA_SPECIALIST_MODE=1` está presente no ambiente. Mensagem do warning:
+    "INFO: Running outside CloudShell as Infra Specialist (INFRA_SPECIALIST_MODE=1).
+    Ensure credentials are scoped per foundation/SPEC.md §10.b and §10.c checklist."
+  - Em CloudShell (`AWS_EXECUTION_ENV` setado pelo ambiente), o script continua executando
+    sem warning, como antes.
+  - Sem nenhum dos dois (Developer mode), o script aborta com erro claro orientando a
+    escolher um dos dois caminhos autorizados.
+  - Idempotência preservada: rerun no Fluxo A ou Fluxo B leva ao mesmo estado final.
+  - Verificação manual: rodando local com `INFRA_SPECIALIST_MODE=1 bash scripts/bootstrap-oidc.sh`
+    executa sem erro (assumindo credenciais IAM válidas); em CloudShell continua
+    funcionando sem flag.
+  - Commitado em `develop` via PR separado (não bloqueante — bootstrap já foi feito em
+    2026-05-14; este fix garante reproducibilidade futura).
+- **Nota:** o bootstrap real já foi executado em 2026-05-14 antes deste fix existir, o
+  que valida empiricamente que o Fluxo B funciona. Este task formaliza a mudança no
+  artefato versionado.
+
+### `[x]` T-DEVOPS-02 — Executar bootstrap OIDC (uma única vez, papel Infra Specialist)
+
+- **Agente:** `[devops-engineer]` (operacional — operador executa no papel **Infra
+  Specialist**; devops-engineer verifica pós-condições via job CI ou CloudShell read-only)
+- **Dep:** T-DEVOPS-02a
+- **Toca:** AWS IAM. Pode ser executado **via AWS CloudShell (preferido)** OU
+  **localmente por Infra Specialist autorizado** com `INFRA_SPECIALIST_MODE=1` (vide
+  `foundation/SPEC.md §10.b` e `features/infra-retomada/SPEC.md §5`). **Developer**
+  continua sem credenciais AWS locais — sem exceção. Foundation §10 distingue os dois
+  papéis explicitamente.
+- **Estado em 2026-05-14:** já executado por marco no papel Infra Specialist (Fluxo B —
+  local). Resultado documentado em `specs/_archive/2026-05-14-bootstrap-notes.md`. Para
+  rerun (caso destruído), os critérios abaixo continuam válidos.
+- **Critério de pronto:**
+  - `aws iam list-open-id-connect-providers` (executado em CloudShell, em job CI read-only,
+    ou localmente pelo Infra Specialist) retorna ARN
+    `arn:aws:iam::016098071081:oidc-provider/token.actions.githubusercontent.com`.
   - Role `github-actions-portfolio-bootstrap` existe com `AdministratorAccess` e trust
-    `repo:marcoaureliomenezes/portifolio:*`.
+    `repo:marcoaureliomenezes/portifolio:*`. ARN observado:
+    `arn:aws:iam::016098071081:role/github-actions-portfolio-bootstrap`.
   - ARN da bootstrap role anotado pelo operador para uso em T-DEVOPS-03.
-  - Sessão CloudShell encerrada; nenhum credencial AWS volta a sair do ambiente AWS.
+  - Sessão encerrada (CloudShell ou shell local); nenhum credencial AWS retorna a fluxo
+    de Developer. Caminho via CI assume o ciclo daí em diante.
 
 ### `[ ]` T-DEVOPS-03 — Configurar GitHub environments + secrets temporários
 
@@ -555,8 +590,8 @@
 
 | Janela | Tarefas paralelas |
 |---|---|
-| W0 (paralelo a T-DEVOPS-01) | T-DEVOPS-02a (script bootstrap) — pré-requisito de T-DEVOPS-02 |
-| W1 (após T-DEVOPS-01 e T-DEVOPS-02a) | T-DEVOPS-02, T-DEVOPS-04, T-DEVOPS-05, T-DEVOPS-06, T-FE-01, T-FE-08, T-FE-10, T-QA-04 |
+| W0 (paralelo a T-DEVOPS-01) | T-DEVOPS-02a (script bootstrap) — pré-requisito de T-DEVOPS-02. T-DEVOPS-02a-fix (dual-mode) pode rodar em paralelo após T-DEVOPS-02a; não-bloqueante para T-DEVOPS-02 pois bootstrap já foi feito em 2026-05-14. |
+| W1 (após T-DEVOPS-01 e T-DEVOPS-02a) | T-DEVOPS-02 (já `[x]`), T-DEVOPS-02a-fix, T-DEVOPS-04, T-DEVOPS-05, T-DEVOPS-06, T-FE-01, T-FE-08, T-FE-10, T-QA-04 |
 | W2 (após T-DEVOPS-08, T-FE-01) | T-FE-02, T-DEVOPS-09, T-QA-01 |
 | W3 (após T-FE-02) | T-FE-03, T-FE-04, T-QA-02 |
 | W4 (após T-FE-03/04) | T-FE-05, T-FE-06, T-FE-07, T-FE-09, T-QA-03 |
@@ -572,7 +607,10 @@ agente `devops-engineer`.
 
 - `T-DEVOPS-01` cria a branch `develop` e cherry-picka commits OIDC.
 - `T-DEVOPS-02a` cria `scripts/bootstrap-oidc.sh` versionado no repo (pré-requisito de
-  T-DEVOPS-02, que roda em AWS CloudShell).
+  rerun de T-DEVOPS-02 caso necessário; bootstrap em si já foi executado em 2026-05-14 via
+  Fluxo B, registro em `specs/_archive/2026-05-14-bootstrap-notes.md`).
+- `T-DEVOPS-02a-fix` atualiza o script para o modo dual (CloudShell + Infra Specialist
+  local) — pode entrar em paralelo após T-DEVOPS-02a. Não-bloqueante.
 
 Após a aprovação deste TASKS.md pelo operador, o ciclo de implementação inicia com o
-`devops-engineer` pegando T-DEVOPS-01 e T-DEVOPS-02a em paralelo.
+`devops-engineer` pegando T-DEVOPS-01, T-DEVOPS-02a e T-DEVOPS-02a-fix em paralelo.

@@ -80,13 +80,25 @@ aliases = var.environment == "prod" ? [var.domain_name, "www.${var.domain_name}"
 inicial: 1 role compartilhada via foundation §5; refinar para split se devops detectar
 necessidade).
 
-## 5. Bootstrap manual (uma vez, via AWS CloudShell)
+## 5. Bootstrap manual (uma vez, via AWS CloudShell **ou** Infra Specialist local autorizado)
 
-> **Hard constraint** (foundation §10, security FR-S29..S31): operador **não** tem
-> credenciais AWS locais. O bootstrap inicial — a única operação que precede o ciclo OIDC —
-> roda em **AWS CloudShell**, sessão efêmera dentro do console AWS sem chaves persistidas
-> em disco local. Daí em diante, todo `terraform apply` / `terraform import` / `aws iam *`
-> roda **exclusivamente** em GitHub Actions.
+> **Hard constraint** (foundation §10, security FR-S29..S31): a política de credenciais AWS
+> é definida por **papel**. **Developer** continua sem credenciais AWS locais — sem
+> exceção. **Infra Specialist** (papel raro, acionado durante bootstrap inicial e
+> break-glass) é a única persona autorizada a usar credenciais AWS locais durante o
+> bootstrap. Dois caminhos são autorizados para o bootstrap, equivalentes em resultado e
+> ambos auditáveis via CloudTrail:
+>
+> - **Fluxo A (preferido):** AWS CloudShell — mantém zero chaves persistidas localmente.
+> - **Fluxo B (autorizado):** Infra Specialist roda `scripts/bootstrap-oidc.sh` localmente
+>   com credenciais AWS de privilégio IAM (criar OIDC provider + criar role).
+>
+> A motivação declarada do operador para autorizar o Fluxo B: nestas configurações iniciais
+> de projeto, o papel Infra Specialist precisa de pragmatismo para automatizar o serviço
+> sem CloudShell. A governança é preservada por **escopo restrito + audit log centralizado
+> + checklist de §10.c** — não por proibição absoluta. Após o bootstrap concluído, ambos os
+> papéis voltam à regra geral: todo `terraform apply`/`import` e `aws iam *` rodam
+> **exclusivamente** em GitHub Actions.
 >
 > O bucket de state `dadaia-s3-bucket-terraform-rm-state/portifolio/` já existe (criado em
 > ciclo anterior); o bootstrap deste projeto NÃO recria o state bucket — apenas o OIDC
@@ -96,24 +108,34 @@ necessidade).
 
 | Passo | Onde executa | Quem | Saída esperada |
 |---|---|---|---|
-| (a) | AWS CloudShell | operador | OIDC provider + bootstrap role criados |
-| (b) | CloudShell (output do passo a) | operador anota ARN | string ARN da bootstrap role |
-| (c) | terminal local (sem AWS creds) | operador via `gh secret set` | secrets stage/prod apontam para bootstrap role |
+| (a-A) | AWS CloudShell (Fluxo A — preferido) | Infra Specialist (operador) | OIDC provider + bootstrap role criados |
+| (a-B) | Máquina local do Infra Specialist (Fluxo B — autorizado) | Infra Specialist (operador) com `INFRA_SPECIALIST_MODE=1` | OIDC provider + bootstrap role criados |
+| (b) | Output do passo (a-A) ou (a-B) | Infra Specialist anota ARN | string ARN da bootstrap role |
+| (c) | terminal local (qualquer papel; `gh` usa GitHub token, não AWS) | operador via `gh secret set` | secrets stage/prod apontam para bootstrap role |
 | (d) | GitHub Actions (`terraform.yml` job `terraform-stage-apply`) | workflow | role OIDC final + recursos stage criados |
-| (e) | terminal local (sem AWS creds) | operador via `gh secret set` | secrets trocados para role final (`github-actions-portfolio-deploy`) |
+| (e) | terminal local (qualquer papel; `gh` usa GitHub token, não AWS) | operador via `gh secret set` | secrets trocados para role final (`github-actions-portfolio-deploy`) |
 | (f) | GitHub Actions (workflow `cleanup-bootstrap.yml` ou job manual-trigger em `terraform.yml`) | workflow | bootstrap role e suas policies deletadas |
 
 ### 5.2. Conteúdo de `scripts/bootstrap-oidc.sh`
 
 O script é artefato **versionado neste repo** (`scripts/bootstrap-oidc.sh`) e é criado em
-T-DEVOPS-02a antes de T-DEVOPS-02 começar. Operador clona o repo no CloudShell (ou
-copia/cola o script) e executa. Requisitos do script:
+T-DEVOPS-02a antes de T-DEVOPS-02 começar. Infra Specialist clona o repo (no CloudShell ou
+na máquina local autorizada) e executa. Requisitos do script:
 
 - **Idempotente:** detecta se OIDC provider já existe (`aws iam list-open-id-connect-providers`)
   e pula a criação; detecta se a bootstrap role existe (`aws iam get-role`) e pula a criação;
   re-attach idempotente do policy se já anexado.
-- **Sem credenciais locais:** assume que está rodando em CloudShell (verifica via
-  `[ -n "$AWS_EXECUTION_ENV" ]` ou similar; aborta com mensagem clara se rodado fora).
+- **Modos de execução autorizados (dual-mode):**
+  - **CloudShell (Fluxo A):** o script detecta `AWS_EXECUTION_ENV` setado pelo CloudShell
+    e executa sem necessidade de flag adicional.
+  - **Local Infra Specialist (Fluxo B):** o script aceita execução local quando a variável
+    `INFRA_SPECIALIST_MODE=1` está explicitamente definida no ambiente. O guard antigo de
+    `AWS_EXECUTION_ENV` é convertido em **warning** (não erro) quando `INFRA_SPECIALIST_MODE=1`
+    está presente, sinalizando "rodando fora de CloudShell por decisão deliberada".
+  - **Sem nenhum dos dois (modo Developer):** o script aborta com mensagem clara orientando
+    a usar CloudShell ou setar `INFRA_SPECIALIST_MODE=1` se a persona for Infra Specialist.
+    Isso evita que um Developer rode o script por engano com credenciais que não deveria
+    ter.
 - **Operações que executa:**
   1. Cria OIDC provider `token.actions.githubusercontent.com` com thumbprint
      `6938fd4d98bab03faadb97b34396831e3780aea1` (idempotente).
@@ -129,8 +151,17 @@ copia/cola o script) e executa. Requisitos do script:
     trust correta.
   - `aws iam list-attached-role-policies --role-name github-actions-portfolio-bootstrap`
     contém `AdministratorAccess`.
-- **Saída esperada:** o operador copia `BOOTSTRAP_ROLE_ARN=<arn>` para clipboard e fecha
-  a sessão CloudShell. Nenhum dado sensível fica em disco.
+- **Saída esperada:**
+  - **Fluxo A:** o Infra Specialist copia `BOOTSTRAP_ROLE_ARN=<arn>` para clipboard e fecha
+    a sessão CloudShell. Nenhum dado sensível fica em disco.
+  - **Fluxo B:** o Infra Specialist copia `BOOTSTRAP_ROLE_ARN=<arn>` para clipboard e fecha
+    o shell local. Credenciais AWS locais retornam ao estado "ausentes/inativas" assim que
+    o bootstrap termina; o caminho via CI assume o ciclo daí em diante.
+
+> **Nota de implementação:** o ajuste do script para suportar o modo dual (CloudShell +
+> local com `INFRA_SPECIALIST_MODE=1`) é responsabilidade de **T-DEVOPS-02a-fix** no
+> `devops-engineer`. Esta spec apenas especifica a mudança; o script não é editado por
+> esta task.
 
 ### 5.3. Configuração de secrets (passo c) — sem AWS creds
 
@@ -191,10 +222,15 @@ operação one-shot). Não há `aws iam delete-role` rodado localmente.
 - **A13.** `.github/CODEOWNERS` criado (vide foundation §2).
 - **A14.** Diretório `backend/` Flask permanece (dev local), porém scripts vazios
   (`setup.sh`, `start_server.sh`) e `.flask.pid` são removidos.
-- **A15.** Nenhuma execução local de `terraform apply`, `terraform import`, `aws iam *` ou
-  `aws s3 *` contra recursos do projeto durante todo o ciclo (vide foundation §10 e
-  security FR-S29..S31). Toda operação de provisionamento ocorre via workflow GitHub
-  Actions; bootstrap (T-DEVOPS-02) é a única exceção e roda em AWS CloudShell.
+- **A15.** Nenhuma execução local de `terraform apply`, `terraform import` ou `aws s3 *`
+  contra recursos do projeto durante todo o ciclo (vide foundation §10 e security
+  FR-S29..S31). Toda operação de provisionamento (apply, import, deploy, invalidation)
+  ocorre via workflow GitHub Actions. Bootstrap (T-DEVOPS-02) é a única exceção autorizada
+  e roda como **Infra Specialist** via Fluxo A (CloudShell — preferido) **ou** Fluxo B
+  (máquina local do Infra Specialist com `INFRA_SPECIALIST_MODE=1` — autorizado por
+  foundation §10.b). `aws iam *` local é tolerado **apenas** durante T-DEVOPS-02 no Fluxo
+  B (criação de OIDC provider + bootstrap role); pós-bootstrap, qualquer `aws iam *` roda
+  via CI.
 
 ## 7. Fora de escopo (P2)
 
@@ -218,13 +254,20 @@ operação one-shot). Não há `aws iam delete-role` rodado localmente.
 - **DEV-06.** Build artifact reusado via `actions/upload-artifact` entre CI e deploy jobs
   (devops §4.2).
 - **DEV-07.** ACM em us-east-1 (requisito CloudFront), demais recursos em sa-east-1.
-- **DEV-08.** Bootstrap do OIDC provider e da bootstrap role roda em **AWS CloudShell**, não
-  em terminal local com credenciais admin. Operador não tem `~/.aws/credentials` para a
-  conta `016098071081` no ambiente DEV. Script idempotente `scripts/bootstrap-oidc.sh`
-  versionado no repo (T-DEVOPS-02a) é o único artefato copiado/clonado para CloudShell.
-  Após o bootstrap, todo `terraform apply`/`terraform import`/`aws iam delete-role` roda
-  exclusivamente via workflow GitHub Actions (`terraform.yml`). Vide `foundation/SPEC.md §10`
-  e `security/SPEC.md FR-S29..S31`.
+- **DEV-08.** Bootstrap do OIDC provider e da bootstrap role roda como **Infra Specialist**
+  (não como Developer), em uma das duas opções autorizadas: **(A)** AWS CloudShell —
+  preferida, mantém zero chaves persistidas localmente; ou **(B)** máquina local do Infra
+  Specialist com `INFRA_SPECIALIST_MODE=1` — autorizada por decisão registrada em chat
+  ("Aqui estamos nas configurações iniciais. Não são os desenvolvedores com as credenciais,
+  são os especialistas em Infra. Continua ativo que nada se criará via SDK posteriormente.
+  Isso busca mantermos uma governança. Mas nessas configurações agora, iniciais, precisamos
+  para automatizar o serviço."). Developer não tem `~/.aws/credentials` para a conta
+  `016098071081` no ambiente DEV — essa regra permanece intocada. Script idempotente
+  `scripts/bootstrap-oidc.sh` versionado no repo (T-DEVOPS-02a + T-DEVOPS-02a-fix para o
+  dual-mode) é o único artefato executado. Após o bootstrap, todo `terraform apply` /
+  `terraform import` / `aws iam delete-role` roda exclusivamente via workflow GitHub
+  Actions (`terraform.yml`, `cleanup-bootstrap.yml`) — ambos os papéis voltam à regra geral.
+  Vide `foundation/SPEC.md §10` e `security/SPEC.md FR-S29..S31`.
 
 ## 9. Riscos e mitigações
 
@@ -235,7 +278,8 @@ operação one-shot). Não há `aws iam delete-role` rodado localmente.
 | Branch `develop` sem conteúdo de `ci/oidc-pipelines-compliance` | Cherry-pick explícito + check pré-PR antes de merge. |
 | Environment `production` sem reviewer | Configurar via UI **antes** de qualquer push em `main`. |
 | Bucket import com typo no nome | Verificar `aws s3 ls` em CloudShell antes de o job `terraform-prod-apply` rodar o `terraform import`. |
-| Operador esquecer e tentar `terraform apply` local | Foundation §10 + security FR-S29 documentam a proibição. Ausência de `~/.aws/credentials` torna o comando inoperante por construção. |
+| Operador esquecer e tentar `terraform apply` local | Foundation §10 + security FR-S29 documentam a proibição **para ambos os papéis após bootstrap**. Para Developer, ausência de `~/.aws/credentials` torna o comando inoperante por construção. Para Infra Specialist (que pode ter credenciais durante bootstrap/incidentes), a checklist de §10.c força justificativa retroativa via CloudTrail. |
+| Infra Specialist normalizar uso local de `terraform apply` pós-bootstrap | Foundation §10.b e §10.d explicitam que após o bootstrap o caminho via CI é mandatório mesmo para Infra Specialist. CloudTrail mostra o principal humano vs. role OIDC, tornando o desvio auditável retroativamente. Checklist de §10.c é o gate cultural. |
 | Bootstrap role permanecer após go-live (privilege creep) | T-DEVOPS-13 obrigatório no critério A8; verificação automática `aws iam list-roles \| grep bootstrap` em job CI pós-cleanup. |
 
 ## 10. Referências
