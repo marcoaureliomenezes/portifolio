@@ -40,7 +40,7 @@ output "github_actions_role_arn" {
 
 output "oidc_provider_arn" {
   description = "ARN do OIDC provider do GitHub Actions"
-  value       = aws_iam_openid_connect_provider.github.arn
+  value       = data.aws_iam_openid_connect_provider.github.arn
 }
 
 output "hosted_zone_id" {

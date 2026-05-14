@@ -9,17 +9,11 @@
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_openid_connect_provider" "github" {
+# OIDC provider é account-wide (compartilhado entre todos os envs e repos).
+# Provisionado uma vez via scripts/bootstrap-oidc.sh (T-DEVOPS-02).
+# Referenciado aqui via data source para não conflitar entre envs.
+data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
-
-  client_id_list = ["sts.amazonaws.com"]
-
-  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
-
-  tags = merge(local.common_tags, {
-    Name    = "github-actions-oidc"
-    Purpose = "OIDC provider for GitHub Actions"
-  })
 }
 
 resource "aws_iam_role" "github_actions_deploy" {
@@ -31,7 +25,7 @@ resource "aws_iam_role" "github_actions_deploy" {
       {
         Effect = "Allow"
         Principal = {
-          Federated = aws_iam_openid_connect_provider.github.arn
+          Federated = data.aws_iam_openid_connect_provider.github.arn
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
