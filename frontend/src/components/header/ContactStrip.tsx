@@ -1,9 +1,8 @@
 import { Github, Linkedin, Download } from "lucide-react";
 import type { SupportedLanguages } from "@/types/content";
+import { profile } from "@/data/profile";
 
 interface ContactStripProps {
-  linkedinUrl: string;
-  githubUrl: string;
   language: SupportedLanguages;
 }
 
@@ -19,7 +18,7 @@ const RESUME_FILES: Record<SupportedLanguages, { href: string; download: string 
   de: { href: "/lebenslauf-marco-aurelio.pdf", download: "Lebenslauf-Marco-Aurelio-Menezes.pdf" },
 };
 
-export function ContactStrip({ linkedinUrl, githubUrl, language }: ContactStripProps) {
+export function ContactStrip({ language }: ContactStripProps) {
   const resume = RESUME_FILES[language];
 
   const handleDownload = () => {
@@ -34,7 +33,7 @@ export function ContactStrip({ linkedinUrl, githubUrl, language }: ContactStripP
   return (
     <>
       <a
-        href={linkedinUrl}
+        href={profile.linkedinUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
@@ -47,7 +46,7 @@ export function ContactStrip({ linkedinUrl, githubUrl, language }: ContactStripP
       <span className="text-header-text-muted">|</span>
 
       <a
-        href={githubUrl}
+        href={profile.githubUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"

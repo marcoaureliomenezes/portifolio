@@ -1,6 +1,7 @@
 import { useContent } from "@/hooks/useContent";
 import type { SupportedLanguages } from "@/types/content";
 import profileAvatar from "@/assets/profile.png";
+import { profile } from "@/data/profile";
 import { HeaderShell } from "./header/HeaderShell";
 
 /** Maps old display-name strings to locale codes (bridge for T-FE-04 consumers). */
@@ -22,10 +23,6 @@ const LOCALE_TO_DISPLAY: Record<SupportedLanguages, string> = {
 
 interface HeaderProps {
   name?: string;
-  email?: string;
-  linkedinUrl?: string;
-  githubUrl?: string;
-  avatarUrl?: string;
   /** Accepts both locale codes ("pt"|"en"|"de") and legacy display names. */
   language?: string;
   /** Called with the same format as the input language (locale code or display name). */
@@ -34,10 +31,6 @@ interface HeaderProps {
 
 export const Header = ({
   name = "Marco Aurelio Menezes",
-  email = "marcoaureliorelislima@gmail.com",
-  linkedinUrl = "https://linkedin.com",
-  githubUrl = "https://github.com",
-  avatarUrl = profileAvatar,
   language,
   onLanguageChange,
 }: HeaderProps) => {
@@ -64,10 +57,8 @@ export const Header = ({
       <div className="container mx-auto px-6 md:px-8 lg:px-12 transition-all duration-300">
         <HeaderShell
           name={name}
-          email={email}
-          linkedinUrl={linkedinUrl}
-          githubUrl={githubUrl}
-          avatarUrl={avatarUrl}
+          email={profile.email}
+          avatarUrl={profileAvatar}
           language={activeLocale}
           onLanguageChange={handleLanguageChange}
           headerInfo={content.header}

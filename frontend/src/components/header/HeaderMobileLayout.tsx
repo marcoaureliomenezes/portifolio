@@ -10,8 +10,6 @@ type ScrollState = "full" | "intermediate" | "compact";
 interface HeaderMobileLayoutProps {
   name: string;
   email: string;
-  linkedinUrl: string;
-  githubUrl: string;
   avatarUrl: string;
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
@@ -31,8 +29,6 @@ function EmailTriggerMobile({ label }: { label: string }) {
 export function HeaderMobileLayout({
   name,
   email,
-  linkedinUrl,
-  githubUrl,
   avatarUrl,
   language,
   onLanguageChange,
@@ -78,7 +74,7 @@ export function HeaderMobileLayout({
               trigger={<EmailTriggerMobile label={headerInfo.viewEmail} />}
             />
             <span className="text-header-text-muted">|</span>
-            <ContactStrip linkedinUrl={linkedinUrl} githubUrl={githubUrl} language={language} />
+            <ContactStrip language={language} />
           </div>
         </div>
       </div>
@@ -106,7 +102,7 @@ export function HeaderMobileLayout({
               trigger={<EmailTriggerMobile label={headerInfo.viewEmail} />}
             />
             <span className="text-header-text-muted">|</span>
-            <ContactStrip linkedinUrl={linkedinUrl} githubUrl={githubUrl} language={language} />
+            <ContactStrip language={language} />
           </div>
         </div>
       </div>
@@ -134,7 +130,7 @@ export function HeaderMobileLayout({
             trigger={<EmailTriggerMobile label={headerInfo.viewEmail} />}
           />
           <span className="text-header-text-muted">|</span>
-          <ContactStrip linkedinUrl={linkedinUrl} githubUrl={githubUrl} language={language} />
+          <ContactStrip language={language} />
         </div>
       </div>
     </div>

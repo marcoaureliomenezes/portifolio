@@ -8,8 +8,6 @@ import { EmailModal } from "./EmailModal";
 interface HeaderDesktopLayoutProps {
   name: string;
   email: string;
-  linkedinUrl: string;
-  githubUrl: string;
   avatarUrl: string;
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
@@ -19,8 +17,6 @@ interface HeaderDesktopLayoutProps {
 export function HeaderDesktopLayout({
   name,
   email,
-  linkedinUrl,
-  githubUrl,
   avatarUrl,
   language,
   onLanguageChange,
@@ -74,11 +70,7 @@ export function HeaderDesktopLayout({
 
               <span className="text-header-text-muted">|</span>
 
-              <ContactStrip
-                linkedinUrl={linkedinUrl}
-                githubUrl={githubUrl}
-                language={language}
-              />
+              <ContactStrip language={language} />
             </div>
           </div>
         </div>
