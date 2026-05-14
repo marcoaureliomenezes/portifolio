@@ -36,8 +36,8 @@ jobs:
     name: Terraform / Stage Plan
     runs-on: ubuntu-24.04
     if: |
-      github.event_name == 'pull_request' &&
-      (github.base_ref == 'develop' || github.base_ref == 'main')
+      github.event_name == 'pull_request' && github.base_ref == 'develop'
+    environment: stage
     defaults:
       run:
         working-directory: terraform/envs/stage
@@ -137,6 +137,7 @@ jobs:
     runs-on: ubuntu-24.04
     if: |
       github.event_name == 'pull_request' && github.base_ref == 'main'
+    environment: production
     defaults:
       run:
         working-directory: terraform/envs/prod
