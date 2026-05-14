@@ -1,0 +1,87 @@
+import { useState } from "react";
+import { ChevronDown, ChevronUp, Calendar, Award, ExternalLink } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import type { Position, ContentData } from "@/types/content";
+
+interface RoleCollapsibleProps {
+  role: Position;
+  responsibilitiesLabel: string;
+  technologiesLabel: string;
+  /** Optional initial open state; defaults to false */
+  defaultOpen?: boolean;
+  labels: Pick<ContentData, "responsibilities" | "technologies">;
+}
+
+export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleCollapsibleProps) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <div className="bg-gradient-to-br from-card to-accent/5 rounded-xl border border-border/30 overflow-hidden hover:border-primary/30 transition-all duration-200 shadow-soft hover:shadow-medium ml-6 relative">
+        <div className="absolute -left-6 top-1/2 w-6 h-0.5 border-t-2 border-dotted border-primary/40" />
+        <div className="absolute -left-7 top-1/2 w-2 h-2 bg-primary rounded-full transform -translate-y-1/2" />
+        <CollapsibleTrigger className="w-full p-4 md:p-6 text-left hover:bg-accent/5 transition-colors duration-200">
+          <div className="flex items-center justify-between w-full">
+            <h4 className="font-bold text-foreground text-sm md:text-lg">
+              {role.title}
+            </h4>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <Calendar className="w-3 h-3 md:w-4 md:h-4 text-green-600" />
+                <p className="text-primary font-semibold text-xs md:text-sm">
+                  {role.period}
+                </p>
+              </div>
+              <div className="flex items-center text-primary">
+                {open ? (
+                  <ChevronUp className="h-5 w-5" />
+                ) : (
+                  <ChevronDown className="h-5 w-5" />
+                )}
+              </div>
+            </div>
+          </div>
+        </CollapsibleTrigger>
+
+        <CollapsibleContent className="px-4 md:px-6 pb-6 space-y-4">
+          {role.responsibilities && (
+            <div className="space-y-3 pt-2">
+              <h5 className="font-semibold text-foreground text-sm flex items-center gap-2">
+                <Award className="h-4 w-4 text-yellow-600" />
+                {labels.responsibilities}
+              </h5>
+              <ul className="space-y-2 pl-2">
+                {role.responsibilities.map((responsibility, idx) => (
+                  <li key={idx} className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <p className="text-foreground text-sm leading-relaxed">
+                      {responsibility}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {role.technologies && (
+            <div className="pt-4 border-t border-border/30">
+              <h5 className="font-semibold text-foreground text-sm mb-3 flex items-center gap-2">
+                <ExternalLink className="h-4 w-4 text-blue-600" />
+                {labels.technologies}
+              </h5>
+              <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-lg p-4 border border-primary/20">
+                <p className="text-foreground font-medium text-sm leading-relaxed">
+                  {role.technologies}
+                </p>
+              </div>
+            </div>
+          )}
+        </CollapsibleContent>
+      </div>
+    </Collapsible>
+  );
+}
