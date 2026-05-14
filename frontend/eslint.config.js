@@ -24,6 +24,10 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "@typescript-eslint/no-unused-vars": "off",
+      // typescript-eslint 8.11 + eslint 9.x bug com `allowShortCircuit`.
+      // Desabilitar até bump para typescript-eslint >= 8.18.
+      "@typescript-eslint/no-unused-expressions": "off",
+      "no-unused-expressions": "off",
     },
   }
 );
