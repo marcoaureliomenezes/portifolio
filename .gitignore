@@ -29,8 +29,21 @@ coverage/
 
 # Terraform
 terraform/.terraform/
+terraform/**/.terraform/
 terraform/.terraform.lock.hcl
+terraform/**/.terraform.lock.hcl
 terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
+terraform/**/*.tfstate
+terraform/**/*.tfstate.backup
 *.tfplan
 *.tfplan.*
+
+# Runtime PID files
+.flask.pid
+**/.flask.pid
+
+# Playwright
+frontend/playwright-report/
+frontend/test-results/
+frontend/blob-report/
+frontend/playwright/.cache/
