@@ -34,7 +34,7 @@
   - Branch `ci/oidc-pipelines-compliance` ausente local e remoto. ✅
   - PR `develop → main` é tarefa do go-live (T-DEVOPS-14), não pré-condição desta task.
 
-### `[ ]` T-DEVOPS-02a — Criar `scripts/bootstrap-oidc.sh` (versionado no repo)
+### `[x]` T-DEVOPS-02a — Criar `scripts/bootstrap-oidc.sh` (versionado no repo)
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** —
@@ -50,7 +50,7 @@
   - Header do script documenta como rodar em CloudShell: `git clone <repo> && cd portifolio && bash scripts/bootstrap-oidc.sh`.
   - Commitado em `develop` via PR.
 
-### `[ ]` T-DEVOPS-02a-fix — Atualizar `scripts/bootstrap-oidc.sh` para dual-mode (CloudShell + Infra Specialist local)
+### `[x]` T-DEVOPS-02a-fix — Atualizar `scripts/bootstrap-oidc.sh` para dual-mode (CloudShell + Infra Specialist local)
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-02a (script base existente)
@@ -101,7 +101,7 @@
   - Sessão encerrada (CloudShell ou shell local); nenhum credencial AWS retorna a fluxo
     de Developer. Caminho via CI assume o ciclo daí em diante.
 
-### `[ ]` T-DEVOPS-03 — Configurar GitHub environments + secrets temporários
+### `[x]` T-DEVOPS-03 — Configurar GitHub environments + secrets temporários
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-02
@@ -135,7 +135,7 @@
   - `terraform validate` passa em ambos os envs. ✅ (verificado por `867df32`)
   - PR aberto para `develop`. ✅ (mergeado)
 
-### `[ ]` T-DEVOPS-05 — Reescrever `ci.yml`, `deploy.yml`, `terraform.yml`
+### `[x]` T-DEVOPS-05 — Reescrever `ci.yml`, `deploy.yml`, `terraform.yml`
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-01
@@ -158,7 +158,7 @@
 - **Critério de pronto:**
   - Arquivo presente com conteúdo de `specs/foundation/SPEC.md §2`. ✅
 
-### `[ ]` T-DEVOPS-07 — Aplicar branch protection em `main` e `develop`
+### `[x]` T-DEVOPS-07 — Aplicar branch protection em `main` e `develop`
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-01, T-DEVOPS-06
@@ -169,7 +169,7 @@
   - Idem para `develop` (FR-S12).
   - `dadaia` regras documentadas em `foundation/SPEC.md §1` aplicadas.
 
-### `[ ]` T-DEVOPS-08 — `terraform apply` em stage (provisionar do zero) — **via CI**
+### `[x]` T-DEVOPS-08 — `terraform apply` em stage (provisionar do zero) — **via CI**
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-02, T-DEVOPS-04, T-DEVOPS-05
