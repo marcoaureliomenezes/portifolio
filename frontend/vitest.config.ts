@@ -15,7 +15,7 @@ export default defineConfig({
       reporter: ['text', 'lcov', 'html'],
       include: [
         'src/components/**/*.tsx',
-        'src/hooks/**/*.tsx',
+        'src/hooks/**/*.{ts,tsx}',
         'src/data/**/*.ts',
       ],
       exclude: [
