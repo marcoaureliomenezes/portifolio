@@ -17,12 +17,15 @@ export function SkillsSection({ content }: SkillsSectionProps) {
   ));
 
   return (
-    <section id="habilidades">
+    <section id="habilidades" aria-labelledby="habilidades-heading">
       {/* Desktop */}
       <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3">
-            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" />
+          <CardTitle
+            id="habilidades-heading"
+            className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3"
+          >
+            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" aria-hidden="true" />
             {content.skillsTitle}
           </CardTitle>
         </CardHeader>
@@ -30,7 +33,10 @@ export function SkillsSection({ content }: SkillsSectionProps) {
       </Card>
 
       {/* Mobile */}
-      <MobileCollapsibleSection title={content.skillsTitle}>
+      <MobileCollapsibleSection
+        title={content.skillsTitle}
+        headingId="habilidades-heading"
+      >
         <div className="space-y-4">{compactCards}</div>
       </MobileCollapsibleSection>
     </section>
