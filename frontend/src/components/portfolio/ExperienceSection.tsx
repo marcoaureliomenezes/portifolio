@@ -19,13 +19,16 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
   ));
 
   return (
-    <section id="experiencia">
+    <section id="experiencia" aria-labelledby="experiencia-heading">
       {/* Desktop — always visible */}
       <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
         <CardHeader className="pb-4">
-          <CardTitle className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3">
-            <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-blue-600 flex-shrink-0" />
-            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" />
+          <CardTitle
+            id="experiencia-heading"
+            className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3"
+          >
+            <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-blue-600 flex-shrink-0" aria-hidden="true" />
+            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" aria-hidden="true" />
             {content.experienceTitle}
           </CardTitle>
         </CardHeader>
@@ -37,6 +40,7 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
         title={content.experienceTitle}
         icon={Briefcase}
         iconColor="text-blue-600"
+        headingId="experiencia-heading"
       >
         <div className="space-y-8">{cards}</div>
       </MobileCollapsibleSection>
