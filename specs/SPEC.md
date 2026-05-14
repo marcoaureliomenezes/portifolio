@@ -60,24 +60,39 @@ Essas mudanças vivem como tasks específicas em `TASKS.md` (T-FE-01..T-FE-09).
 
 ## 4b. Constraints transversais (decisões fechadas)
 
-Restrições absolutas que valem para **todas** as features P0 e P1:
+Restrições absolutas que valem para **todas** as features P0 e P1, definidas por **papel
+(persona)**:
 
-- **CT-01 — No local AWS credentials.** Operador e qualquer desenvolvedor **não** têm
-  credenciais AWS de longo prazo apontando para a conta `016098071081` em ambiente DEV
-  local. Toda escrita e leitura na conta para o projeto `portifolio` acontece
-  exclusivamente via **GitHub Actions OIDC**. Única exceção: bootstrap inicial do OIDC
-  provider (T-DEVOPS-02) em AWS CloudShell, com script versionado
-  `scripts/bootstrap-oidc.sh`. Detalhes em `foundation/SPEC.md §10` e
-  `security/SPEC.md FR-S29..S31`.
-- **CT-02 — All provisioning via CI.** `terraform apply`, `terraform import`,
-  `terraform destroy`, `aws iam create-*`, `aws iam delete-*`, `aws s3 cp`/`sync` para
-  buckets do projeto rodam **exclusivamente** em workflow GitHub Actions
-  (`terraform.yml`, `deploy.yml`, `cleanup-bootstrap.yml`).
+- **CT-01 — No local AWS credentials por papel.** A política se aplica a duas personas
+  distintas com permissões mutuamente exclusivas:
+  - **Developer** (papel padrão, 99% das interações com o repo): **não** tem credenciais
+    AWS de longo prazo apontando para a conta `016098071081` em ambiente DEV local. Toda
+    escrita e leitura na conta para o projeto `portifolio` no fluxo de Developer acontece
+    exclusivamente via **GitHub Actions OIDC**. Sem exceções.
+  - **Infra Specialist** (papel raro, bootstrap inicial e break-glass): credenciais AWS
+    locais autorizadas em escopo restrito a (i) bootstrap do OIDC provider e bootstrap
+    role (T-DEVOPS-02 + T-DEVOPS-02a-fix), e (ii) diagnóstico read-only durante incidentes
+    em que o caminho via CI está bloqueado. Cada uso justificado via checklist de
+    `foundation/SPEC.md §10.c` e auditável via CloudTrail.
+  - Bootstrap inicial (T-DEVOPS-02) pode ocorrer via **CloudShell** (preferido) **ou** via
+    máquina local do Infra Specialist (autorizado, com `INFRA_SPECIALIST_MODE=1`). Após
+    bootstrap, ambos os papéis voltam à regra geral. Detalhes em `foundation/SPEC.md §10`
+    e `security/SPEC.md FR-S29..S31`.
+- **CT-02 — All provisioning via CI (pós-bootstrap).** `terraform apply`,
+  `terraform import`, `terraform destroy`, `aws iam create-*` e `aws iam delete-*` de
+  recursos de aplicação, `aws s3 cp`/`sync` para buckets do projeto rodam
+  **exclusivamente** em workflow GitHub Actions (`terraform.yml`, `deploy.yml`,
+  `cleanup-bootstrap.yml`) — para ambos os papéis após o bootstrap concluído. A única
+  exceção autorizada a `aws iam create-*` local é durante o próprio T-DEVOPS-02 no Fluxo
+  B (criação do OIDC provider e da bootstrap role).
 - **CT-03 — `gh` CLI permitido local.** `gh secret set`, `gh api`, `gh pr create` usam
-  GitHub token pessoal e **não** são credencial AWS — execução local permitida.
-- **CT-04 — Diagnóstico read-only AWS.** Comandos `aws sts get-caller-identity`,
-  `aws iam list-*`, `aws s3 ls`, `aws cloudfront list-*` etc. rodam em AWS CloudShell ou
-  em job CI dedicado — nunca localmente.
+  GitHub token pessoal e **não** são credencial AWS — execução local permitida para
+  ambos os papéis.
+- **CT-04 — Diagnóstico read-only AWS.** Para **Developer**: comandos
+  `aws sts get-caller-identity`, `aws iam list-*`, `aws s3 ls`, `aws cloudfront list-*`
+  etc. rodam em AWS CloudShell ou em job CI dedicado — nunca localmente. Para **Infra
+  Specialist** durante break-glass: autorizado localmente quando o caminho via CI está
+  bloqueado, com justificativa documentada (FR-S31).
 
 ## 5. Critérios globais de "pronto" do P0
 
@@ -98,10 +113,16 @@ Restrições absolutas que valem para **todas** as features P0 e P1:
 - **A9.** Conteúdo todo em JSON (não mais em `.ts` constants — F-P0-06).
 - **A10.** Os 3 defeitos CRITICAL do architect são resolvidos: URLs sociais reais (não
   defaults fake), modais com Radix Dialog, bundle sem deps órfãs.
-- **A11.** Nenhuma operação AWS (apply, import, IAM, S3) foi executada localmente durante
-  o ciclo de retomada. CloudTrail mostra todas as ações com principal
-  `arn:aws:sts::016098071081:assumed-role/github-actions-portfolio-*/<workflow-run-id>`
-  (CT-01..CT-04 verificadas).
+- **A11.** Nenhuma operação AWS (apply, import, IAM de aplicação, S3) foi executada
+  localmente durante o ciclo de retomada **fora da janela autorizada de bootstrap**.
+  CloudTrail mostra:
+  - 99%+ das ações com principal
+    `arn:aws:sts::016098071081:assumed-role/github-actions-portfolio-*/<workflow-run-id>`
+    (operações via CI — esperado).
+  - Eventos pontuais de bootstrap (T-DEVOPS-02) com principal humano via SSO/console,
+    documentados em `specs/_archive/` ou incident log (operações como Infra Specialist —
+    autorizado por foundation §10.b).
+  - CT-01..CT-04 verificadas, incluindo a separação de papéis.
 
 ## 6. Estado de aprovação
 
