@@ -1,0 +1,298 @@
+{
+  "resumeTitle": "Resumo",
+  "skillsTitle": "Habilidades",
+  "experienceTitle": "Experiência Profissional",
+  "educationTitle": "Educação",
+  "certificationsTitle": "Certificações",
+  "seeMore": "Ver mais",
+  "seeLess": "Ver menos",
+  "responsibilities": "Responsabilidades:",
+  "technologies": "Tecnologias:",
+  "validUntil": "Válido até",
+  "viewCredential": "Ver credencial",
+  "header": {
+    "title": "Engenheiro de Dados | Especialista em Nuvem",
+    "location": "Belo Horizonte, MG - Brasil",
+    "viewEmail": "E-mail"
+  },
+  "resume": {
+    "short": "Engenheiro de Dados Senior com mais de 8 anos de experiência em linguagem Python, 4 anos de experiência profissional, projetando e implementando pipelines de dados relacionados a cargas de trabalho de Big Data, usando Python, Spark, Ecossistema Hadoop e SQL para validações. Mais de 2 anos migrando pipelines de dados e sistemas de on-premises para Cloud - Azure + Databricks. Desde este ano responsável por migrar pipelines de dados de streaming contábil para AWS...",
+    "full": "Engenheiro de Dados Senior com mais de 8 anos de experiência em linguagem Python, 4 anos de experiência profissional, projetando e implementando pipelines de dados relacionados a cargas de trabalho de Big Data, usando Python, Spark, Ecossistema Hadoop e SQL para validações. Mais de 2 anos migrando pipelines de dados e sistemas de on-premises para Cloud - Azure + Databricks. Desde este ano responsável por migrar pipelines de dados de streaming contábil para AWS. Formação em Engenharia de Controle e Automação. Reconhecido pela expertise em Python, Spark e fundamentos de big data com paixão por compartilhar conhecimento. Habilidade comprovada para integrar conceitos de DE com novas ferramentas e frameworks, conforme a tecnologia evolui, sempre equilibrando propósito, performance, custos e outros trade-offs."
+  },
+  "skills": [
+    {
+      "title": "Idiomas",
+      "icon": "🌍",
+      "skills": ["Português (Nativo)", "Inglês (Avançado)"]
+    },
+    {
+      "title": "Linguagens de Programação",
+      "icon": "💻",
+      "skills": ["Python", "SQL", "Scala", "Java"]
+    },
+    {
+      "title": "Provedores Cloud",
+      "icon": "☁️",
+      "skills": ["AWS", "Azure", "Databricks"]
+    },
+    {
+      "title": "Tecnologias de Dados On-premises",
+      "icon": "🏗️",
+      "skills": ["Hadoop", "Hive", "Spark", "Kafka"]
+    },
+    {
+      "title": "Tecnologias de DevOps",
+      "icon": "🔧",
+      "skills": ["Git", "GitHub", "GitHub Actions", "Jenkins", "Docker"]
+    }
+  ],
+  "experiences": [
+    {
+      "company": "F1rst Digital Services",
+      "fullName": "F1rst Digital Services - Santander Brasil",
+      "location": "São Paulo, SP - Brasil",
+      "totalPeriod": "05-2021 a Presente",
+      "type": "main",
+      "roles": [
+        {
+          "title": "Engenheiro de Dados Sênior",
+          "period": "02-2024 a Presente",
+          "responsibilities": [
+            "Responsável por liderar a equipe de DE contábil através do movimento estratégico de Transformação de Dados",
+            "Migrei pipelines de dados batch e streaming de on-premises para Azure usando Databricks, Data Factory e ADLS gen2",
+            "Migrei pipelines streaming (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) para AWS (MSK, Aurora, EKS)",
+            "Projetei pipelines batch diários para entregar tabelas Delta Bronze e Silver de Contabilidade para o domínio Cash Management"
+          ],
+          "technologies": "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
+        },
+        {
+          "title": "Engenheiro de Dados Pleno",
+          "period": "07-2022 a 02-2024",
+          "responsibilities": [
+            "Liderei a migração para Cloud do sistema Plano de Descontinuidade Operacional, melhorando a durabilidade de tabelas Hive entre clusters",
+            "Copiei tabelas Delta entre data lakes Azure com configuração de redundância de zona para reduzir custos de armazenamento",
+            "Garanti governança, compliance e segurança para migrações de dados sensíveis de alto volume"
+          ],
+          "technologies": "Python, Spark, Shell Script, Hadoop Ecosystem, Databricks, Azure Cloud"
+        },
+        {
+          "title": "Engenheiro de Dados Júnior",
+          "period": "05-2021 a 07-2022",
+          "responsibilities": [
+            "Migrei jobs Hadoop e Hive on-premises para plataforma Databricks na nuvem Azure",
+            "Desenvolvi pipelines Python para transformação de dados e integração com APIs REST",
+            "Implementei logs estruturados e monitoramento para pipelines de dados críticos"
+          ],
+          "technologies": "Python, Spark, Hadoop, Hive, Databricks, Azure, Shell Script"
+        }
+      ]
+    },
+    {
+      "company": "Trie Engineering",
+      "fullName": "Trie Engineering",
+      "location": "Remoto",
+      "totalPeriod": "10-2020 a 05-2021",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Engenheiro de Dados Júnior",
+          "period": "10-2020 a 05-2021",
+          "responsibilities": [
+            "Mantive pipelines ETL alimentando dashboards a partir de Google Sheets e dados de campo",
+            "Forneci feeds de dados para apoiar tomada de decisão para stakeholders da indústria de cimento"
+          ],
+          "technologies": "Python, Pandas, NumPy"
+        }
+      ]
+    },
+    {
+      "company": "Fire Labs - Universidade Federal de Ouro Preto",
+      "fullName": "Fire Labs - Universidade Federal de Ouro Preto",
+      "location": "Ouro Preto, MG - Brasil",
+      "totalPeriod": "08-2016 a 08-2017",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Bolsista de Pesquisa",
+          "period": "08-2016 a 08-2017",
+          "responsibilities": [
+            "Desenvolveu software embarcado para controle de forno a gás via sensores de temperatura e fluxo usando Arduino",
+            "Implementou loops de controle em C para automação de motor AC e válvula de gás"
+          ],
+          "technologies": "C, Arduino, Sistemas de Controle"
+        }
+      ]
+    },
+    {
+      "company": "Analógica Instrumentação e Controle",
+      "fullName": "Analógica Instrumentação e Controle",
+      "location": "Ouro Preto, MG - Brasil",
+      "totalPeriod": "01-2015 a 02-2015",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Estagiário de Verão",
+          "period": "01-2015 a 02-2015",
+          "responsibilities": [
+            "Construiu aplicação Python para extrair dados de sensores de tanques de combustível para ingestão downstream",
+            "Primeira experiência profissional com Python na plataforma Raspberry PI"
+          ],
+          "technologies": "Python, Raspberry PI"
+        }
+      ]
+    }
+  ],
+  "education": {
+    "degree": "Bacharelado em Engenharia de Controle e Automação",
+    "institution": "Universidade Federal de Ouro Preto, Minas Gerais, Brasil",
+    "period": "08/2018",
+    "coursework": "Disciplinas relevantes: Eletrônica, sistemas embarcados, projeto de sistemas de controle, C e Python.",
+    "thesis": "Trabalho de Conclusão de Curso: Análise da Dinâmica e Projeto de Controladores de Temperatura para Chuveiros Elétricos."
+  },
+  "certifications": [
+    {
+      "name": "AWS Data Engineer",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Dezembro 2024",
+      "validity": "Dezembro 2027",
+      "level": "Associate",
+      "icon": "images/badges/aws_data_engineer_associate.png",
+      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
+      "description": "Certificação avançada em engenharia de dados na AWS, cobrindo pipelines, ETL, armazenamento e análise de dados em escala. Inclui serviços como Glue, Redshift, Kinesis, EMR e Lake Formation.",
+      "priority": 1
+    },
+    {
+      "name": "AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Janeiro 2025",
+      "validity": "Janeiro 2028",
+      "level": "Associate",
+      "icon": "images/badges/aws_solutions_architect_associate.png",
+      "link": "https://www.credly.com/badges/3d7aeb44-78db-430f-8103-550f89660989/public_url",
+      "description": "Certificação em arquitetura de soluções na AWS, cobrindo design de sistemas distribuídos, alta disponibilidade, tolerância a falhas e otimização de custos. Inclui serviços como EC2, VPC, S3, RDS, Lambda e CloudFormation.",
+      "priority": 2
+    },
+    {
+      "name": "AWS Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Julho 2024",
+      "validity": "Julho 2027",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
+      "description": "Certificação fundamental cobrindo conceitos básicos da AWS Cloud, serviços principais, segurança, arquitetura e melhores práticas de custo.",
+      "priority": 3
+    },
+    {
+      "name": "Spark Data Engineer Associate",
+      "issuer": "Databricks",
+      "category": "Databricks",
+      "date": "Setembro 2024",
+      "validity": "Setembro 2026",
+      "level": "Associate",
+      "icon": "images/databricks_de_associate.png",
+      "link": "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
+      "description": "Especialização em engenharia de dados com Apache Spark, Delta Lake e arquiteturas de dados modernas. Cobre ETL, streaming, performance tuning e governança de dados.",
+      "priority": 4
+    },
+    {
+      "name": "Spark Developer Associate",
+      "issuer": "Databricks",
+      "category": "Databricks",
+      "date": "Agosto 2024",
+      "validity": "Agosto 2026",
+      "level": "Associate",
+      "icon": "images/databricks_spark_dev.png",
+      "link": "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
+      "description": "Certificação em desenvolvimento de aplicações Apache Spark para processamento distribuído de dados. Inclui DataFrame API, SQL, RDD e otimização de performance.",
+      "priority": 5
+    },
+    {
+      "name": "DP-203: Engenheiro de Dados Associado Certificado pela Microsoft: Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Agosto 2023",
+      "validity": "Agosto 2025",
+      "level": "Associate",
+      "icon": "images/dp-203.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
+      "description": "Certificação em engenharia de dados no Azure, cobrindo Azure Data Factory, Synapse Analytics, Data Lake Storage e serviços de streaming.",
+      "priority": 5
+    },
+    {
+      "name": "AI-900: Microsoft Certified: Conceitos básicos da IA do Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Junho 2024",
+      "validity": "Não expira",
+      "level": "Fundamentals",
+      "icon": "images/ai-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/960F73173BDB1ED7?sharingId=6EB3B3C8CB10453A",
+      "description": "Certificação fundamental em IA do Azure cobrindo serviços de machine learning, visão computacional, processamento de linguagem natural e IA responsável.",
+      "priority": 6
+    },
+    {
+      "name": "SC-900: Microsoft Certified: Conceitos básicos de segurança, conformidade e identidade",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Dezembro 2023",
+      "validity": "Não expira",
+      "level": "Fundamentals",
+      "icon": "images/sc-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/E94D2E747B825BA7?sharingId=6EB3B3C8CB10453A",
+      "description": "Certificação fundamental em segurança, conformidade e identidade, cobrindo Azure Active Directory, proteção de dados e governança.",
+      "priority": 7
+    },
+    {
+      "name": "AZ-900: Microsoft Certified: Conceitos básicos do Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Julho 2023",
+      "validity": "Não expira",
+      "level": "Fundamentals",
+      "icon": "images/az-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
+      "description": "Certificação fundamental do Microsoft Azure cobrindo conceitos de cloud computing, serviços principais e modelos de preços.",
+      "priority": 8
+    },
+    {
+      "name": "DP-900: Microsoft Certified: Conceitos básicos de dados do Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Julho 2023",
+      "validity": "Não expira",
+      "level": "Fundamentals",
+      "icon": "images/dp-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/AE747EA0B40117F7?sharingId=6EB3B3C8CB10453A",
+      "description": "Certificação fundamental em dados do Azure cobrindo conceitos de banco de dados, analytics e processamento de dados na nuvem.",
+      "priority": 9
+    },
+    {
+      "name": "Apache Airflow Fundamentals",
+      "issuer": "Astronomer",
+      "category": "Outras",
+      "date": "Junho 2024",
+      "validity": "Junho 2026",
+      "level": "Fundamentals",
+      "icon": "images/badges/airflow_fundamentals.png",
+      "link": "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
+      "description": "Certificação em orquestração de workflows com Apache Airflow para automação de pipelines de dados. Cobre DAGs, operadores, sensores e melhores práticas.",
+      "priority": 10
+    },
+    {
+      "name": "Santander Data Engineer",
+      "issuer": "Santander Brasil",
+      "category": "Data Master",
+      "date": "Novembro 2022",
+      "validity": "Não expira",
+      "level": "Advanced",
+      "icon": "images/badges/santander-dea.svg",
+      "link": "#",
+      "description": "Certificação interna avançada em engenharia de dados do Santander Brasil. Ranking top 10 após caso técnico e exame abrangendo Big Data, Cloud e arquiteturas distribuídas.",
+      "priority": 11
+    }
+  ]
+}

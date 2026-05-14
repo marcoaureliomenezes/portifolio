@@ -9,21 +9,21 @@ import type { ContentData } from "@/types/content";
  *
  * Strategy: wrap renderHook with LanguageProvider so useContext receives a
  * real context value. For the fallback test (PE-08 / D-CONT-03) we mock the
- * german content module via vi.mock to inject a shape that has one top-level
+ * german content JSON module via vi.mock to inject a shape that has one top-level
  * key set to null, proving the en fallback fires.
  */
 
 // --------------------------------------------------------------------------
-// Module-level mock for de content (Opção A — per-test mock)
+// Module-level mock for de content JSON (T-CONTENT-01 — now imports from .json)
 // --------------------------------------------------------------------------
 
-// We mock the de module to expose a version with `resumeTitle` set to null,
+// We mock the de.json module to expose a version with `resumeTitle` set to null,
 // so deepMergeWithFallback must fall back to the en value.
-vi.mock("@/data/content/de", async (importOriginal) => {
-  const original = await importOriginal<typeof import("@/data/content/de")>();
+vi.mock("@/data/content/de.json", async (importOriginal) => {
+  const original = await importOriginal<typeof import("@/data/content/de.json")>();
   return {
-    germanContent: {
-      ...original.germanContent,
+    default: {
+      ...original.default,
       // Explicitly absent key — triggers en fallback in deepMergeWithFallback
       resumeTitle: null,
     } as unknown as ContentData,
