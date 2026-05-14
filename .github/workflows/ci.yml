@@ -74,7 +74,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Unit tests — stub. Implementar em T-QA-12." && exit 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: frontend
+        run: npm run test:run
 
   e2e:
     name: CI / E2E
@@ -83,7 +96,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: echo "E2E tests — stub. Implementar em T-QA-12." && exit 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        working-directory: frontend
+        run: npm run test:e2e
 
   lighthouse:
     name: CI / Lighthouse
@@ -92,4 +122,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Lighthouse — stub. Implementar em T-QA-12." && exit 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        working-directory: frontend
+        run: npm run lighthouse
