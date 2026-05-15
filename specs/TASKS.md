@@ -376,6 +376,70 @@
   - Diagrama SVG estático em `public/assets/projects/portifolio/architecture.svg`. ✅
   - Critérios A1-A8. ✅
 
+### `[ ]` T-CONTENT-06 — Refresh do conteúdo do LinkedIn nos 3 JSONs (EN→PT→DE) + cv.pdf
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-CONTENT-01 (`[x]`)
+- **Toca:**
+  - `frontend/src/data/content/{en,pt,de}.json` (fonte de verdade EN; overlays PT/DE
+    seguem mesma ordem de arrays — `deepMergeWithFallback` substitui arrays inteiros)
+  - `frontend/src/types/content.ts` (somente se um campo novo for necessário, ex.
+    nova categoria de skills)
+  - `frontend/src/data/profile.ts` (validar `linkedinUrl =
+    https://www.linkedin.com/in/marco-menezes-731542b9`)
+  - `frontend/public/cv.pdf` (substituir pelo `Profile (1).pdf` atual em
+    `/home/marco/workspace/dadaia/Profile (1).pdf` — copiar sem espaço no destino)
+  - `frontend/src/hooks/useContent.test.ts` (atualizar string asserts hardcoded de
+    `header.title` e quaisquer outras que mudem)
+- **Contexto:** o JSON atual contém 4 erros factuais graves (Trie como "Junior Data
+  Engineer" em vez de "Data Analyst Jr"; UFOP como "Fire Labs/Scholarship Recipient" em
+  vez de UFOP/Laboratory Assistant; ausência completa do Colégio Técnico Inconfidentes;
+  summary defasado vs LinkedIn) e 1 omissão de skills (sem AI/LLM/Devin = Top Skills do
+  LinkedIn). O PDF de origem é `Profile (1).pdf` exportado do LinkedIn em 2026-05.
+- **Critério de pronto:**
+  - **Paridade estrutural:** `cd frontend && jq 'paths(scalars)'
+    src/data/content/en.json src/data/content/pt.json src/data/content/de.json | sort -u
+    | uniq -c` — todos os paths aparecem 3x (sem desvio entre idiomas).
+  - **5 entries de experience corretas (não 4):**
+    1. `Santander Brasil — F1rst` (renomeado de "F1rst Digital Services") — 3 cargos
+       com responsibilities reescritas (Senior Accounts&Fees+Finance+DB2↔Aurora; Mid
+       Internal Systems+ADLS/KeyVault/ADF; Junior Finance+Hadoop/Spark+Data Master cash
+       award).
+    2. `Trie Engenharia` — cargo `Data Analyst Jr` (NÃO "Data Engineer"); período
+       `11/2020-05/2021`; responsibilities Python/Lambda cement industry +
+       JupyterLab extension Python+React/OpenFOAM.
+    3. **NOVA:** `Colégio Técnico Inconfidentes Álvares Maciel`, Adjunct Instructor
+       `04/2015–07/2018`, Ouro Preto MG, 5 disciplinas (CNC, Hidráulica/Pneumática
+       FluidSIM, Desenho Técnico II AutoCAD, Computação básica, Matemática Aplicada
+       Eletrotécnica).
+    4. `Universidade Federal de Ouro Preto` (NÃO "Fire Labs"!) — cargo `Laboratory
+       Assistant` (NÃO "Scholarship Recipient"); responsibilities hardware
+       controle/eletrônica + firmware C embarcado + forno a gás.
+    5. `Analógica Instrumentação e Controle` — Summer Intern `01-02/2015`;
+       responsibilities Raspberry Pi + TLS-300 + Python p/ inventory de postos.
+  - **Skills:** nova categoria `"AI / Modern Tooling"` com `["AI", "LLM", "Devin"]`;
+    `Languages` com 3 idiomas (`Portuguese (Native)`, `English (Native or Bilingual)`,
+    `German (Full Professional)`); programming languages com antiguidade narrativa
+    (Python 10+/SQL 5+/Shell 5+/Scala 2+); `Control-M` em on-prem; `Jira, ServiceNow`
+    em DevOps.
+  - **Certifications:** adicionar `AWS Certified AI Practitioner` (categoria AWS) +
+    `Curso de Alemão Nível B1` (categoria Languages); revisar `validity` de Azure DP-203
+    (vencida em Mar 2025); manter as outras 9.
+  - **Header/Resume:** `header.title = "Data Engineer | Big Data | Azure | AWS |
+    Databricks"`; `resume.short` e `resume.full` reescritos a partir do Summary do PDF
+    (5 anos profissional, Cloudera on-prem, migração Azure+Databricks medallion,
+    streaming DB2→Aurora via Kafka/MSK CDC, DevOps tooling Git/Jenkins/GHA/Jira/
+    ServiceNow/Docker, Python 10+/SQL 5+/Shell 5+/Scala 2+, formação em Control &
+    Automation/Mechatronics).
+  - **Education:** UFOP mantida; `degree` expandido para `"Bachelor of Control and
+    Automation / Mechatronics Engineering"` (alinha com Summary).
+  - **3 idiomas alternados** no `npm run dev` (Header → seletor) sem fallback EN
+    inadvertido em PT/DE.
+  - **`useContent.test.ts` asserts atualizados** — `npm run test -- useContent` verde.
+  - **`frontend/public/cv.pdf` substituído** pelo `Profile (1).pdf` atual; após deploy
+    `curl -sI https://stage.marco-menezes.com/cv.pdf | head -1` retorna `200`.
+  - PR único para `develop` (conteúdo + testes na mesma janela atômica).
+
 ### `[ ]` T-CONTENT-05 — Otimização de assets globais
 
 - **Agente:** `[software-engineer]`
@@ -610,13 +674,50 @@
   - `deploy.yml` job `deploy-prod` completa em ≤ 6 min.
   - CloudFront invalidation criada.
 
-### `[ ]` T-QA-15 — Smoke E2E pós-deploy contra prod
+### `[ ]` T-QA-15 — E2E pós-deploy contra URL real (stage bloqueante + prod smoke)
 
-- **Agente:** `[qa-engineer]`
-- **Dep:** T-DEVOPS-14
-- **Toca:** `.github/workflows/deploy.yml` (job `smoke-e2e`)
+- **Agente:** `[qa-engineer]` + `[devops-engineer]` (workflow GHA)
+- **Dep:** T-QA-13 (`[ ]` — gates reativados; precondição para que `e2e-stage`
+  bloqueante faça sentido), T-DEVOPS-14 (URL prod no ar)
+- **Toca:**
+  - `frontend/playwright.config.ts` — `webServer: process.env.E2E_BASE_URL ?
+    undefined : { command: 'npm run dev', port: 8080, timeout: 60_000 }` (sem isso,
+    jobs externos tentam subir Vite e travam)
+  - `frontend/tests/e2e/pages/{home,project-tabs}.spec.ts` — adicionar tag `@smoke`
+    no nome do test (ex: `test('E2E-01 @smoke: home renders 200', ...)`) para o
+    subset crítico de prod
+  - `frontend/index.html` — `<meta name="commit" content="${VITE_COMMIT_SHA}">` (poll
+    em CI até bater commit esperado, max 6 retries × 30s)
+  - `frontend/vite.config.ts` — `define: { 'import.meta.env.VITE_COMMIT_SHA':
+    JSON.stringify(process.env.GITHUB_SHA || 'dev') }`
+  - `.github/workflows/deploy.yml` — 2 jobs novos (vide critério abaixo)
 - **Critério de pronto:**
-  - Job `smoke-e2e` (E2E-01, E2E-08, E2E-09) roda contra `https://marco-menezes.com` e passa.
+  - **`e2e-stage`** (needs `deploy-stage`, `if: github.ref ==
+    'refs/heads/develop'`): após `aws cloudfront wait invalidation-completed`, roda
+    `E2E_BASE_URL=https://stage.marco-menezes.com npx playwright test
+    --project=chromium --project=mobile-chrome` (subset 2 projects ≈ 60% economia
+    CI vs 5). **Bloqueante:** falha aborta promoção `develop → main`.
+  - **`e2e-prod-smoke`** (needs `deploy-prod`, `if: github.ref ==
+    'refs/heads/main'`): roda `E2E_BASE_URL=https://www.marco-menezes.com npx
+    playwright test --grep="@smoke" --project=chromium`. **Falha cria issue auto**
+    via `gh issue create --label prod-e2e-fail --title "prod E2E smoke failed @
+    <sha>"` (não rollback automático — fica como improvement futuro).
+  - `playwright.config.ts` `webServer` condicional `E2E_BASE_URL` aplicado e
+    verificado (rodar `E2E_BASE_URL=https://stage.marco-menezes.com npx playwright
+    test --project=chromium tests/e2e/pages/home.spec.ts` localmente sem subir Vite).
+  - Tag `@smoke` aplicada em `home.spec.ts` (E2E-01) e `project-tabs.spec.ts` (E2E-05
+    a E2E-07).
+  - `<meta name="commit">` injetado via `vite.config.ts define` e visível em
+    `view-source:https://stage.marco-menezes.com`.
+  - `aws cloudfront wait invalidation-completed --distribution-id <id>
+    --id <invalidation-id>` chamado **antes** do step de E2E stage.
+  - **1 PR demo end-to-end** com mudança visível em stage prova ambos workflows
+    funcionando (PR develop→main bloqueado em vermelho via `e2e-stage` simulado;
+    depois verde após fix; merge em main dispara `e2e-prod-smoke` verde).
+- **Justificativa:** classifica-se como CRÍTICO no plano operador
+  (`agora-precisamos-que-nossos-twinkling-frost.md`). Garante que zero deploy stage
+  promove para prod sem validação contra URL real, e zero deploy prod fica sem alerta
+  de regressão funcional.
 
 ### `[ ]` T-QA-16 — Validar Lighthouse em prod
 
@@ -633,6 +734,128 @@
 
 ---
 
+## Fase 6 — Identidade visual (Onda 1/2/3)
+
+> Spec: `specs/features/visual-identity/SPEC.md` (F-P0-07, **Aprovado** em 2026-05-14).
+> Sequencial: cada onda assume estilos da anterior. Owner único: `[software-engineer]`;
+> `[qa-engineer]` pareia em PR review (Axe + Lighthouse local).
+
+### `[ ]` T-FE-WAVE1 — Identidade visual: paleta amber + Inter/JetBrains Mono + dark mode toggle
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-CONTENT-06
+- **Toca:**
+  - `frontend/src/index.css` — vars `:root` e `.dark` (adicionar `--accent: 28 90%
+    55%`/`28 95% 62%`, `--accent-subtle: 28 90% 95%`/`28 40% 18%`, ajustar `--ring`)
+  - `frontend/src/main.tsx` — `import "@fontsource/inter/{400,500,600,700}.css"` +
+    `@fontsource/jetbrains-mono/{400,500}.css`
+  - `frontend/tailwind.config.ts` — `fontFamily.sans = ['Inter', ...defaults]`,
+    `fontFamily.mono = ['JetBrains Mono', ...defaults]`, color `accent-subtle`
+  - `frontend/package.json` — adicionar `@fontsource/inter` e
+    `@fontsource/jetbrains-mono` (justificativa: zero request externo, melhor LCP vs
+    Google Fonts CDN)
+  - `frontend/src/components/Header.tsx` — REMOVER `bg-gradient-to-b from-slate-900
+    to-slate-800` hardcoded; trocar por `bg-header-bg`
+  - `frontend/src/components/header/ThemeToggle.tsx` — NOVO (~30 linhas, Sun/Moon de
+    `lucide-react`)
+  - `frontend/src/hooks/useTheme.ts` — NOVO (~40 linhas; lê `localStorage.theme` >
+    `prefers-color-scheme`; persiste; toggle classe `dark` em `<html>`)
+  - `frontend/src/components/header/{HeaderDesktopLayout,HeaderMobileLayout}.tsx` —
+    slot `<ThemeToggle />` ANTES do `<LanguageSelector />`
+  - `frontend/index.html` — script inline no `<head>` ANTES do bundle React:
+    `<script>try{const t=localStorage.theme||(matchMedia('(prefers-color-scheme:dark)')
+    .matches?'dark':'light');if(t==='dark')document.documentElement.classList.add(
+    'dark')}catch(e){}</script>` (evita flash no first paint)
+  - `frontend/src/components/portfolio/HeroSection.tsx` — apenas tipografia maior
+    (text-2xl→text-3xl no title, accent underline)
+- **Critério de pronto:**
+  - Lighthouse desktop+mobile: Performance ≥ 90 e Accessibility ≥ 90 (target
+    F-P0-02).
+  - Axe DevTools no painel Issues: contraste WCAG AA OK; **accent amber
+    `28 90% 55%` light / `28 95% 62%` dark usado SOMENTE em CTAs/borders/badges,
+    NUNCA em body text** (verificável por grep no JSX dos componentes Section/Card).
+  - Toggle dark/light persiste após F5 (verificar `localStorage.theme` no DevTools).
+  - **Zero flash de tema** no first paint com `prefers-color-scheme: dark` emulado
+    no DevTools (script inline em `<head>` aplicado antes do bundle React).
+  - Testes: `Header.test.tsx` adiciona caso "renders ThemeToggle";
+    `ThemeToggle.test.tsx` (novo) verifica toggle altera `<html>.classList` e
+    persiste em `localStorage` mockado; `useTheme.test.ts` (novo) respeita
+    `prefers-color-scheme` no first mount.
+  - PR isolado para `develop`; QA pareia em review com Axe + Lighthouse local.
+
+### `[ ]` T-FE-WAVE2 — Microinteractions + scroll-triggered + skill semantic colors
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-WAVE1
+- **Toca:**
+  - `frontend/tailwind.config.ts` — keyframes `fade-up`, `fade-in` + animations
+    correspondentes
+  - `frontend/src/hooks/useInView.ts` — NOVO (~25 linhas, IntersectionObserver
+    wrapper)
+  - `frontend/src/lib/skillCategoryColors.ts` — NOVO (mapper categoria→Tailwind
+    class: cloud=blue, language=emerald, database=purple, ai-tooling=accent)
+  - `frontend/src/components/portfolio/{ExperienceSection,EducationSection,
+    CertificationsSection,SkillsSection}.tsx` — wrap section com `useInView` +
+    className condicional `animate-fade-up`
+  - `frontend/src/components/portfolio/{ExperienceCard,CertificationCard,
+    SkillCategoryCard}.tsx` — `hover:-translate-y-1 hover:shadow-large
+    hover:border-accent/40 transition-all duration-200`
+  - `frontend/src/components/header/HeaderShell.tsx` — `backdrop-blur-md
+    bg-header-bg/85` quando `scrollState !== "full"`
+  - `frontend/src/test-setup.ts` — mock `IntersectionObserver` para jsdom
+- **Critério de pronto:**
+  - DevTools Performance trace ao scroll: **CLS = 0**.
+  - DevTools Rendering > "Emulate prefers-reduced-motion: reduce": **animações
+    desligam** (verificável visualmente + via media query no CSS gerado).
+  - **Mock IntersectionObserver** aplicado no `test-setup.ts` do Vitest — `npm run
+    test` verde.
+  - **Cores semânticas por categoria** aplicadas: cloud=blue, language=emerald,
+    database=purple, ai-tooling=accent (verificável por inspeção visual nas badges
+    de SkillCategoryCard).
+  - PR isolado para `develop`; QA valida `prefers-reduced-motion` e Performance
+    trace.
+
+### `[ ]` T-FE-WAVE3 — Hero memorável: avatar+halo+tagline+stats+CTAs
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-WAVE2
+- **Toca:**
+  - `frontend/src/components/portfolio/HeroSection.tsx` — REESCRITA: layout 2-col
+    desktop (60% texto / 40% avatar+halo); mobile stack vertical
+    - Esquerda: tagline `text-4xl md:text-6xl font-bold` (vem de
+      `content.heroTagline` — campo novo); stats inline `<span className="font-mono
+      text-accent">5+ years</span> · 9 certs · 4 clouds`; CTAs `Download CV`
+      (variant=default) + `Ver experiência` (variant=outline, scroll para
+      `#experience`)
+    - Direita: avatar 192px com halo `box-shadow: 0 0 80px hsl(var(--accent)/0.3)`
+      + radial gradient mesh atrás
+  - `frontend/src/types/content.ts` — adicionar `heroTagline: string` e
+    `heroStats: { years: number; certifications: number; clouds: number }`
+  - `frontend/src/data/content/{pt,en,de}.json` — popular `heroTagline` (PT:
+    "Construo pipelines de dados em escala"; EN: "I build data pipelines at scale";
+    DE: "Ich baue Datenpipelines im Maßstab") e `heroStats`
+  - `frontend/public/decorators/{dot-grid,blob-amber}.svg` — NOVOS estáticos ~2KB
+    cada, com **`width`/`height` explícitos** para zero CLS
+  - `frontend/src/components/portfolio/HeroSection.test.tsx` — NOVO (smoke + asserts
+    dos 2 CTAs + ID `#hero-heading`)
+- **Critério de pronto:**
+  - **LCP ≤ 2.5s** (avatar com `loading="eager" fetchpriority="high"`); medido em
+    Lighthouse mobile desktop.
+  - **CLS ≤ 0.1** (decoradores SVG com width/height explícitos no `<img>` ou
+    `<svg viewBox>`).
+  - **Tab order:** ThemeToggle → LanguageSelector → CTA Download CV → CTA Ver
+    experiência (verificável via `tab` manual + Playwright `keyboard.press("Tab")`).
+  - **`heroTagline` traduzida nos 3 idiomas** sem fallback EN inadvertido em PT/DE.
+  - **ID `#hero-heading` preservado** no `<h1>` para não quebrar `home.spec.ts`
+    (E2E-01); rodar `npx playwright test home.spec.ts` antes do merge.
+  - SVGs em `public/decorators/` referenciados via `<img src="/decorators/*.svg"
+    width="..." height="...">`.
+  - 3 viewports respondem: 1440 / 768 / 375 px.
+  - PR isolado para `develop`; QA valida 3 viewports + 3 idiomas + LCP budget +
+    atualiza seletores de E2E que dependiam do Hero antigo.
+
+---
+
 ## Matriz de paralelismo (resumo)
 
 Estado em 2026-05-14: Fases 0 (parcial), 2, 3 (parcial) e 4 (parcial) entregues.
@@ -645,7 +868,10 @@ Pendências consolidadas para retomada:
 | W2 — bloqueada por W1 | T-DEVOPS-08 (stage apply via CI), T-DEVOPS-09 (secrets stage), T-QA-13 (recalibrar gates contra stage real) |
 | W3 — frontend resíduo | T-FE-05 (Radix Dialog), T-CONTENT-05 (otimização assets) — independentes de DEVOPS |
 | W4 — branch protection | T-QA-14 (status checks) após T-QA-13 verde + T-DEVOPS-07 |
-| W5 — Fase 5 (go-live) | T-DEVOPS-10 → T-DEVOPS-11 → T-DEVOPS-12 → T-DEVOPS-13 → T-DEVOPS-14 → T-QA-15/16 |
+| W5 — Fase 5 (go-live) | T-DEVOPS-10 → T-DEVOPS-11 → T-DEVOPS-12 → T-DEVOPS-13 → T-DEVOPS-14 → T-QA-16 |
+| W6 — conteúdo refresh | T-CONTENT-06 (LinkedIn → JSONs i18n + cv.pdf) — independente; pode rodar paralelo a W1/W2 |
+| W7 — identidade visual (sequencial) | T-FE-WAVE1 → T-FE-WAVE2 → T-FE-WAVE3; cada onda é 1 PR; QA pareia em PR review |
+| W8 — E2E pós-deploy | T-QA-15 (stage bloqueante + prod smoke); precisa T-QA-13 verde + T-DEVOPS-14 |
 
 ## Próxima tarefa imediata
 
@@ -656,6 +882,14 @@ T-DEVOPS-03, T-DEVOPS-05 são o caminho crítico para destravar T-DEVOPS-08 (sta
 (otimização de assets) podem ser pegos pelo `software-engineer` em paralelo — não dependem
 de nenhuma task DevOps em curso.
 
+**Frente Conteúdo + Identidade Visual (sequencial, alta prioridade do operador):**
+T-CONTENT-06 (refresh LinkedIn nos 3 JSONs + cv.pdf) é o destravador de T-FE-WAVE1
+(paleta amber + dark mode toggle), seguido de T-FE-WAVE2 (microinteractions) e
+T-FE-WAVE3 (Hero memorável). Owner: `software-engineer`; QA pareia em PR review com
+Axe + Lighthouse local.
+
 **Frente QA (bloqueada):** T-QA-13 fica em fila — só destrava após T-DEVOPS-08 (precisa de
 URL `https://stage.marco-menezes.com` real para calibrar Lighthouse). É o próximo da
-qa-engineer assim que stage estiver no ar.
+qa-engineer assim que stage estiver no ar. Em seguida, T-QA-15 (E2E pós-deploy stage
+bloqueante + prod smoke) é o gate crítico classificado pelo operador como CRÍTICO no
+plano `agora-precisamos-que-nossos-twinkling-frost.md`.
