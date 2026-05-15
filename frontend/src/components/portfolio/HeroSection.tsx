@@ -50,11 +50,11 @@ export function HeroSection({ content }: HeroSectionProps) {
             />
           </h1>
 
-          <p className="font-mono text-sm md:text-base text-muted-foreground">
-            <span className="text-accent font-semibold">{stats.years}+ years</span>
-            <span className="mx-2 text-border">·</span>
+          <p className="font-mono text-sm md:text-base text-foreground/80">
+            <span className="font-bold text-foreground">{stats.years}+ years</span>
+            <span className="mx-2 text-border" aria-hidden="true">·</span>
             <span>{stats.certifications} certs</span>
-            <span className="mx-2 text-border">·</span>
+            <span className="mx-2 text-border" aria-hidden="true">·</span>
             <span>{stats.clouds} clouds</span>
           </p>
 
@@ -65,7 +65,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-sm font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+            className="text-sm font-semibold text-foreground underline hover:text-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
           >
             {isExpanded ? content.seeLess : content.seeMore}
           </button>

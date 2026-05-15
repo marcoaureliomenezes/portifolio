@@ -27,9 +27,11 @@ All colors MUST be HSL.
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
-    /* Amber accent: CTA + borders + badges only — NEVER body text (WCAG AA) */
+    /* Amber accent: CTA + borders + badges only — NEVER body text (WCAG AA).
+       --accent-foreground is dark (not white) because white on amber 28/90/55 yields
+       contrast 2.55 (fails 4.5:1). Dark-on-amber clears WCAG AA. */
     --accent: 28 90% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 220 13% 8%;
     --accent-subtle: 28 90% 95%;
 
     --destructive: 0 84% 60%;
