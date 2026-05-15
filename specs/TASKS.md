@@ -16,7 +16,7 @@
 Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
 Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
 
-- [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
+(nenhuma — sweep do encerramento P0 concluído em 2026-05-15)
 
 ---
 
@@ -602,7 +602,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - **Justificativa:** regressão temporária introduzida em `b94b8d0`; o repo não pode
   entrar em fase P1 com gates de qualidade desativados.
 
-### `[-]` T-QA-14 — Adicionar status checks às branch protections
+### `[x]` T-QA-14 — Adicionar status checks às branch protections
 
 - **Agente:** `[devops-engineer]` (operacional após T-QA-13 verde)
 - **Dep:** T-QA-13, T-DEVOPS-07
