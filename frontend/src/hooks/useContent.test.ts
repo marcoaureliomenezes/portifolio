@@ -170,7 +170,7 @@ describe("useContent", () => {
 
     expect(result.current.content.resumeTitle).toBe("Resume");
     expect(result.current.content.header.title).toBe(
-      "Data Engineer | Cloud Specialist",
+      "Data Engineer | Big Data | Azure | AWS | Databricks",
     );
   });
 
@@ -180,10 +180,10 @@ describe("useContent", () => {
     });
 
     expect(result.current.content.header.title).toBe(
-      "Engenheiro de Dados | Especialista em Nuvem",
+      "Engenheiro de Dados | Big Data | Azure | AWS | Databricks",
     );
     expect(result.current.content.header.title).not.toBe(
-      "Data Engineer | Cloud Specialist",
+      "Data Engineer | Big Data | Azure | AWS | Databricks",
     );
   });
 });

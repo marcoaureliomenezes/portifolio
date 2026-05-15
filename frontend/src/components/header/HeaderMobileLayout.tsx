@@ -60,9 +60,9 @@ export function HeaderMobileLayout({
         </div>
         <div className="flex flex-col items-center text-center space-y-3 py-4 min-h-[240px] transition-all duration-300">
           <AvatarImageModal avatarUrl={avatarUrl} name={name} trigger={avatarTrigger} />
-          <div className="space-y-1">
-            <h1 className="text-lg font-bold text-header-text whitespace-nowrap">{name}</h1>
-            <p className="text-sm text-header-text-muted whitespace-nowrap">{headerInfo.title}</p>
+          <div className="space-y-1 w-full px-2">
+            <h1 className="text-lg font-bold text-header-text break-words">{name}</h1>
+            <p className="text-sm text-header-text-muted break-words leading-snug">{headerInfo.title}</p>
           </div>
           <div className="flex items-center justify-center gap-1 text-sm text-header-text-muted">
             <MapPin className="w-4 h-4" />
@@ -92,9 +92,9 @@ export function HeaderMobileLayout({
           />
         </div>
         <div className="flex flex-col items-center text-center space-y-3 py-3 transition-all duration-300">
-          <div className="space-y-1">
-            <h1 className="text-base font-bold text-header-text whitespace-nowrap">{name}</h1>
-            <p className="text-xs text-header-text-muted whitespace-nowrap">{headerInfo.title}</p>
+          <div className="space-y-1 w-full px-2">
+            <h1 className="text-base font-bold text-header-text break-words">{name}</h1>
+            <p className="text-xs text-header-text-muted break-words leading-snug">{headerInfo.title}</p>
           </div>
           <div className="flex items-center justify-center gap-1 text-xs flex-shrink-0 whitespace-nowrap">
             <EmailModal
@@ -113,8 +113,8 @@ export function HeaderMobileLayout({
   return (
     <div className="block md:hidden relative pt-9">
       <div className="flex flex-col space-y-2 pb-3 transition-all duration-300">
-        <div className="flex items-center justify-between">
-          <h1 className="text-sm font-bold text-header-text whitespace-nowrap">{name}</h1>
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-sm font-bold text-header-text truncate min-w-0">{name}</h1>
           <LanguageSelector
             language={language}
             onLanguageChange={onLanguageChange}
@@ -122,7 +122,7 @@ export function HeaderMobileLayout({
           />
         </div>
         <div className="flex">
-          <p className="text-xs text-header-text-muted whitespace-nowrap">{headerInfo.title}</p>
+          <p className="text-xs text-header-text-muted break-words">{headerInfo.title}</p>
         </div>
         <div className="flex items-center gap-1 text-xs flex-shrink-0 whitespace-nowrap">
           <EmailModal
