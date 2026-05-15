@@ -7,9 +7,6 @@ import { ROUTES } from '../fixtures/routes';
 
 test.describe('Home page', () => {
   test('E2E-01: home carrega e hero section é visível', async ({ page }) => {
-    await page.goto(ROUTES.home);
-
-    // Page responds with 200
     const response = await page.goto(ROUTES.home);
     expect(response?.status()).toBe(200);
 

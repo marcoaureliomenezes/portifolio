@@ -149,6 +149,17 @@ export interface ProjectsContent {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+export interface HeroStats {
+  years: number;
+  certifications: number;
+  clouds: number;
+}
+
+export interface HeroCTAs {
+  downloadCv: string;
+  seeExperience: string;
+}
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -163,6 +174,12 @@ export interface ContentData {
   viewCredential: string;
   header: HeaderInfo;
   resume: Resume;
+  /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
+  heroTagline?: string;
+  /** Inline stats line under the tagline (T-FE-WAVE3). */
+  heroStats?: HeroStats;
+  /** CTA labels for Hero (T-FE-WAVE3). */
+  heroCTAs?: HeroCTAs;
   skills: SkillCategory[];
   experiences: Experience[];
   education: Education;

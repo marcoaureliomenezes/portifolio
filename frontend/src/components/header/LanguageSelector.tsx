@@ -29,7 +29,10 @@ export function LanguageSelector({
   if (compact) {
     return (
       <Select value={language} onValueChange={(v) => onLanguageChange(v as SupportedLanguages)}>
-        <SelectTrigger className="w-12 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1">
+        <SelectTrigger
+          className="w-12 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1"
+          aria-label="Select language"
+        >
           <SelectValue>{current?.short ?? language.toUpperCase()}</SelectValue>
         </SelectTrigger>
         <SelectContent className="bg-header-bg border-header-text/30 z-50">
@@ -49,7 +52,10 @@ export function LanguageSelector({
 
   return (
     <Select value={language} onValueChange={(v) => onLanguageChange(v as SupportedLanguages)}>
-      <SelectTrigger className="w-28 h-8 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-sm">
+      <SelectTrigger
+        className="w-28 h-8 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-sm"
+        aria-label="Select language"
+      >
         <SelectValue placeholder="Language" />
       </SelectTrigger>
       <SelectContent className="bg-header-bg border-header-text/30 z-50">

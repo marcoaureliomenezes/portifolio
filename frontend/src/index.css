@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Elegant dark theme with matte black */
+    /* Light theme — neutral base with amber accent (F-P0-07) */
     --background: 0 0% 98%;
     --foreground: 220 13% 18%;
 
@@ -18,7 +18,6 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 13% 18%;
 
-    /* Sophisticated dark primary */
     --primary: 220 13% 25%;
     --primary-foreground: 0 0% 98%;
 
@@ -28,21 +27,25 @@ All colors MUST be HSL.
     --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 217 19% 35%;
-    --accent-foreground: 0 0% 98%;
+    /* Amber accent: CTA + borders + badges only — NEVER body text (WCAG AA).
+       --accent-foreground is dark (not white) because white on amber 28/90/55 yields
+       contrast 2.55 (fails 4.5:1). Dark-on-amber clears WCAG AA. */
+    --accent: 28 90% 55%;
+    --accent-foreground: 220 13% 8%;
+    --accent-subtle: 28 90% 95%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 220 13% 25%;
+    --ring: 28 90% 55%;
 
-    /* Professional matte black header */
+    /* Matte header — same for light/dark (intentional contrast anchor) */
     --header-bg: 220 13% 8%;
     --header-text: 0 0% 95%;
     --header-text-muted: 0 0% 75%;
-    --header-link: 210 100% 70%;
+    --header-link: 28 90% 65%;
     
     /* Modern design tokens with dark elegance */
     --gradient-primary: linear-gradient(135deg, hsl(220 13% 25%) 0%, hsl(217 19% 35%) 100%);
@@ -91,15 +94,17 @@ All colors MUST be HSL.
     --muted: 220 13% 18%;
     --muted-foreground: 0 0% 65%;
 
-    --accent: 217 19% 25%;
-    --accent-foreground: 0 0% 95%;
+    /* Amber dark variant — contrast 4.5:1+ vs background 220/13%/8% */
+    --accent: 28 95% 62%;
+    --accent-foreground: 220 13% 8%;
+    --accent-subtle: 28 40% 18%;
 
     --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 95%;
 
     --border: 220 13% 18%;
     --input: 220 13% 18%;
-    --ring: 0 0% 75%;
+    --ring: 28 95% 62%;
     
     --sidebar-background: 220 13% 8%;
     --sidebar-foreground: 0 0% 95%;

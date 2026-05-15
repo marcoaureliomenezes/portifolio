@@ -15,7 +15,7 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
 
       {isSingleRole ? (
-        <div className="bg-gradient-to-r from-accent/10 to-secondary/10 rounded-xl p-4 border border-border/50 relative">
+        <div className="bg-card rounded-xl p-4 border border-border/50 relative motion-safe:transition-all motion-safe:duration-200 hover:-translate-y-1 hover:shadow-large hover:border-accent/40">
           <h3 className="text-xs md:text-xl font-bold text-foreground mb-2 md:whitespace-normal whitespace-nowrap overflow-hidden text-ellipsis">
             {experience.fullName}
           </h3>
@@ -69,7 +69,7 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
       ) : (
         <div className="pl-8 space-y-6 relative">
           <div className="absolute left-4 top-20 bottom-4 w-0.5 border-l-2 border-dotted border-primary/40" />
-          <div className="bg-gradient-to-r from-accent/10 to-secondary/10 rounded-xl p-4 border border-border/50 relative">
+          <div className="bg-card rounded-xl p-4 border border-border/50 relative motion-safe:transition-all motion-safe:duration-200 hover:-translate-y-1 hover:shadow-large hover:border-accent/40">
             <h3 className="text-xs md:text-xl font-bold text-foreground mb-2 md:whitespace-normal whitespace-nowrap overflow-hidden text-ellipsis">
               {experience.fullName}
             </h3>

@@ -11,24 +11,27 @@
   "validUntil": "Gültig bis",
   "viewCredential": "Zertifikat anzeigen",
   "header": {
-    "title": "Dateningenieur | Cloud-Spezialist",
+    "title": "Data Engineer | Big Data | Azure | AWS | Databricks",
     "location": "Belo Horizonte, MG - Brasilien",
     "viewEmail": "E-Mail anzeigen"
   },
+  "heroTagline": "Ich baue Datenpipelines im Maßstab",
+  "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
+  "heroCTAs": { "downloadCv": "Lebenslauf herunterladen", "seeExperience": "Erfahrung ansehen" },
   "resume": {
-    "short": "Senior Data Engineer mit über 8 Jahren Erfahrung in Python, 4 Jahre Berufserfahrung im Design und der Implementierung von Datenpipelines für Big Data-Workloads unter Verwendung von Python, Spark, Hadoop-Ökosystem und SQL für Validierungen. Über 2 Jahre Migration von Datenpipelines und Systemen von On-Premises zu Cloud - Azure + Databricks. Seit diesem Jahr verantwortlich für die Migration von Accounting-Streaming-Datenpipelines zu AWS...",
-    "full": "Senior Data Engineer mit über 8 Jahren Erfahrung in Python, 4 Jahre Berufserfahrung im Design und der Implementierung von Datenpipelines für Big Data-Workloads unter Verwendung von Python, Spark, Hadoop-Ökosystem und SQL für Validierungen. Über 2 Jahre Migration von Datenpipelines und Systemen von On-Premises zu Cloud - Azure + Databricks. Seit diesem Jahr verantwortlich für die Migration von Accounting-Streaming-Datenpipelines zu AWS. Hintergrund in Steuerungs- und Automatisierungstechnik. Anerkannt für Expertise in Python, Spark und Big Data-Grundlagen mit Leidenschaft für Wissensaustausch. Bewährte Fähigkeit, DE-Konzepte mit neuen Tools und Frameworks zu integrieren, während sich die Technologie weiterentwickelt, immer unter Berücksichtigung von Zweck, Leistung, Kosten und anderen Trade-offs."
+    "short": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praxiserfahrung mit Cloudera On-Premises-Stacks, Cloud-Migrationen zu Azure + Databricks (Medallion-Architektur) und Streaming-Replikation von IBM DB2 zu Amazon Aurora über Kafka/MSK mit CDC.",
+    "full": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praktische Expertise in: Entwurf und Wartung von On-Premises-Datenpipelines mit Cloudera (Hadoop, Hive, Spark), Linux-Servern (Einstiegspunkte, File Watcher, Dateiübertragungen) und BMC Control-M für die Orchestrierung. Re-Architekturierung von Pipelines von On-Premises (Cloudera / SAS) in die Cloud mit Azure Data Factory für die Aufnahme und Databricks für die Transformation unter Anwendung der Medallion-Architektur. Entwicklung von Streaming-Pipelines zur Replikation von Transaktionsdaten von IBM DB2 zu Amazon Aurora PostgreSQL mit Kafka, Amazon MSK und MSK Connect über CDC. Erfahrung mit CI/CD und DevOps-Tools: Git, Jenkins, GitHub Actions, Jira, ServiceNow, Docker. Fundierte Kenntnisse in Python (10+ Jahre), SQL (5+ Jahre), Shell-Scripting (5+ Jahre) und Scala (2+ Jahre). Bachelorabschluss in Steuerungs- und Automatisierungstechnik / Mechatronik im August 2018."
   },
   "skills": [
     {
       "title": "Sprachen",
       "icon": "🌍",
-      "skills": ["Portugiesisch (Muttersprache)", "Englisch (Fortgeschritten)", "Deutsch (Grundkenntnisse)"]
+      "skills": ["Portugiesisch (Muttersprache)", "Englisch (Muttersprache oder zweisprachig)", "Deutsch (Vollständige berufliche Kompetenz)"]
     },
     {
       "title": "Programmiersprachen",
       "icon": "💻",
-      "skills": ["Python", "SQL", "Scala", "Java"]
+      "skills": ["Python (10+ J.)", "SQL (5+ J.)", "Shell (5+ J.)", "Scala (2+ J.)", "Java"]
     },
     {
       "title": "Cloud-Anbieter",
@@ -36,114 +39,155 @@
       "skills": ["AWS", "Azure", "Databricks"]
     },
     {
+      "title": "KI / Moderne Tools",
+      "icon": "🤖",
+      "skills": ["AI", "LLM", "Devin"]
+    },
+    {
       "title": "On-Premises Datentechnologien",
       "icon": "🏗️",
-      "skills": ["Hadoop", "Hive", "Spark", "Kafka"]
+      "skills": ["Hadoop", "Hive", "Spark", "Kafka", "Control-M"]
     },
     {
       "title": "DevOps-Technologien",
       "icon": "🔧",
-      "skills": ["Git", "GitHub", "GitHub Actions", "Jenkins", "Docker"]
+      "skills": ["Git", "GitHub", "GitHub Actions", "Jenkins", "Docker", "Jira", "ServiceNow"]
     }
   ],
   "experiences": [
     {
-      "company": "F1rst Digital Services",
-      "fullName": "F1rst Digital Services - Santander Brasil",
-      "location": "São Paulo, SP - Brasilien",
-      "totalPeriod": "05/2021 bis Heute",
+      "company": "Santander Brasil — F1rst",
+      "fullName": "Santander Brasil — F1rst",
+      "location": "Belo Horizonte, MG - Brasilien",
+      "totalPeriod": "05/2021 bis Heute (5 J. 1 M.)",
       "type": "main",
       "roles": [
         {
           "title": "Senior Data Engineer",
           "period": "02/2024 bis Heute",
           "responsibilities": [
-            "Verantwortlich für die Führung des DE-Accounting-Teams durch die strategische Datentransformation",
-            "Migration von Batch- und Streaming-Datenpipelines von On-Premises zu Azure mit Databricks, Data Factory und ADLS gen2",
-            "Migration von Streaming-Pipelines (DB2, Kafka, Spark Streaming, ScyllaDB, Openshift) zu AWS (MSK, Aurora, EKS)",
-            "Design täglicher Batch-Pipelines zur Bereitstellung von Bronze- und Silver-Accounting-Delta-Tabellen für die Cash Management-Domäne"
+            "Tätigkeit in den Geschäftsbereichen Konten & Gebühren (2024) und Finanzen (2025), verantwortlich für Entwurf, Entwicklung und Wartung von Datenpipelines.",
+            "Migration von Systemen von On-Premises (Cloudera und SAS/Oracle) in die Cloud (Azure + Databricks) unter Implementierung von Data Mesh und Medallion-Architektur.",
+            "Erstellung und Konfiguration von Azure-Ressourcen: ADLS, Key Vault, Azure Data Factory und Service Principals.",
+            "Migration der Datenpipelines für Konten & Gebühren zur Erfüllung der Open-Finance-Anforderungen.",
+            "Umgestaltung der reinen Streaming-Lösung zu einem Echtzeit-Replikationsmodell mit bedarfsgesteuertem Konsum.",
+            "Entwicklung und Bereitstellung von Replikationsflüssen für Kernkontotabellen von IBM DB2 zu Amazon Aurora: Ist-Zustand (DB2 → CDC Agent → Kafka → Spark Streaming On-Prem → Scylla / Azure CosmosDB); Soll-Zustand (DB2 → CDC Agent → Kafka → Amazon MSK → MSK Connect → Aurora → RESTful APIs)."
           ],
-          "technologies": "Spark, Hadoop, Hive, Databricks, Azure Data Factory, ADLS gen2, Amazon MSK, Aurora, EKS, S3, CloudWatch"
+          "achievements": [
+            "AWS Certified Solutions Architect – Associate",
+            "AWS Certified Data Engineer Associate",
+            "AWS Certified Cloud Practitioner",
+            "AWS Certified AI Practitioner",
+            "Databricks Apache Spark Developer"
+          ]
         },
         {
           "title": "Data Engineer",
           "period": "07/2022 bis 02/2024",
           "responsibilities": [
-            "Leitete die Cloud-Migration für das Operational Discontinuity Plan-System und verbesserte die Haltbarkeit von Hive-Tabellen über Cluster hinweg",
-            "Kopierte Delta-Tabellen zwischen Azure Data Lakes mit zonenredundanter Konfiguration zur Reduzierung der Speicherkosten",
-            "Stellte Governance, Compliance und Sicherheit für hochvolumige sensible Datenmigrationen sicher"
+            "Geschäftsbereich Interne Systeme — Betrieblicher Stilllegungsplan und Migration in die Cloud.",
+            "Migration von Systemen von On-Premises (Cloudera) zu Azure + Databricks.",
+            "Konfiguration von ADLS, Key Vault, Azure Data Factory, Event Hub und Service Principals.",
+            "Pipeline-Entwicklung mit Databricks (Python, SQL, Scala) und BMC Control-M für Orchestrierung.",
+            "Implementierung von Data Mesh und Medallion-Architektur für interne Systeme."
           ],
-          "technologies": "Python, Spark, Shell Script, Hadoop-Ökosystem, Databricks, Azure Cloud"
+          "achievements": [
+            "Databricks Data Engineer Associate",
+            "Microsoft DP-203: Azure Data Engineer Associate",
+            "Microsoft AZ-900, DP-900, SC-900, AI-900"
+          ]
         },
         {
           "title": "Junior Data Engineer",
           "period": "05/2021 bis 07/2022",
           "responsibilities": [
-            "Migration von On-Premises Hadoop- und Hive-Jobs zur Databricks-Plattform in der Azure Cloud",
-            "Entwicklung von Python-Pipelines für Datentransformation und REST-API-Integration",
-            "Implementierung strukturierter Protokollierung und Überwachung für kritische Datenpipelines"
+            "Finanzbereich — anfänglich Überwachung und Pflege von Batch-Pipelines auf Basis von Hadoop/Spark/Hive.",
+            "Entwicklung von ETL-Pipelines für Finanz- und regulatorische Berichte mit PySpark und SQL.",
+            "Automatisierung von File Watchern und Dateiübertragungen mit Shell-Scripting und BMC Control-M.",
+            "Arbeit nach Scrum/Kanban-Methodik mit CI/CD-Praktiken."
           ],
-          "technologies": "Python, Spark, Hadoop, Hive, Databricks, Azure, Shell Script"
+          "achievements": [
+            "Zertifizierung Advanced Data Engineer im Santander Data Master Programm (Geldprämie + zusätzliche Leistungen)"
+          ]
         }
       ]
     },
     {
-      "company": "Trie Engineering",
-      "fullName": "Trie Engineering",
-      "location": "Remote",
-      "totalPeriod": "10/2020 bis 05/2021",
+      "company": "Trie Engenharia",
+      "fullName": "Trie Engenharia",
+      "location": "Belo Horizonte, MG - Brasilien (Remote)",
+      "totalPeriod": "11/2020 bis 05/2021",
       "type": "minor",
       "roles": [
         {
-          "title": "Junior Data Engineer",
-          "period": "10/2020 bis 05/2021",
+          "title": "Data Analyst Jr",
+          "period": "11/2020 bis 05/2021",
           "responsibilities": [
-            "Wartung von ETL-Pipelines, die Dashboards aus Google Sheets und Felddaten speisten",
-            "Bereitstellung von Datenfeeds zur Unterstützung der Entscheidungsfindung für Stakeholder der Zementindustrie"
-          ],
-          "technologies": "Python, Pandas, NumPy"
+            "Mitarbeit an einem Python-basierten Tool zur Datenaufnahme und -verarbeitung mit Lambda-Architektur für die Zementindustrie — Daten aus Industrieanlagen und von Mitarbeitern für Dashboards, Berichte und BI.",
+            "Entwicklung einer JupyterLab-Erweiterung in Python (Back-End) und React (Front-End), integriert mit der CFD-Software OpenFOAM zur Simulation von Zementöfen."
+          ]
         }
       ]
     },
     {
-      "company": "Fire Labs - Bundesuniversität Ouro Preto",
-      "fullName": "Fire Labs - Bundesuniversität Ouro Preto",
+      "company": "Colégio Técnico Inconfidentes Álvares Maciel",
+      "fullName": "Colégio Técnico Inconfidentes Álvares Maciel",
       "location": "Ouro Preto, MG - Brasilien",
-      "totalPeriod": "08/2016 bis 08/2017",
+      "totalPeriod": "04/2015 bis 07/2018 (3 J. 4 M.)",
       "type": "minor",
       "roles": [
         {
-          "title": "Stipendiat",
+          "title": "Dozent",
+          "period": "04/2015 bis 07/2018",
+          "responsibilities": [
+            "Unterricht in Industriemechanik, Elektrotechnik und Arbeitssicherheit für Berufsschüler.",
+            "Hauptfächer: CNC-Maschinenprogrammierung (computergestützte Prozesse und integrierte Fertigung).",
+            "Einführung in Hydraulik und Pneumatik (FluidSIM-Simulationssoftware).",
+            "Technisches Zeichnen II (AutoCAD).",
+            "Einführung in die Informatik (Grundlagen, Betriebssysteme, MS Office).",
+            "Angewandte Mathematik in der Elektrotechnik."
+          ]
+        }
+      ]
+    },
+    {
+      "company": "Universidade Federal de Ouro Preto",
+      "fullName": "Universidade Federal de Ouro Preto",
+      "location": "Ouro Preto, MG - Brasilien",
+      "totalPeriod": "08/2016 bis 08/2017 (1 J. 1 M.)",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Laboratory Assistant",
           "period": "08/2016 bis 08/2017",
           "responsibilities": [
-            "Entwicklung eingebetteter Software für Gasofensteuerung über Temperatur- und Durchflusssensoren mit Arduino",
-            "Implementierung von Regelkreisen in C für AC-Motor- und Gasventilautomatisierung"
-          ],
-          "technologies": "C, Arduino, Steuerungssysteme"
+            "Hardware-Entwickler für Steuerungs- und Leistungselektroniksysteme.",
+            "Firmware-Entwicklung in eingebettetem C auf Mikrocontroller für ein Gasofen-Wärmetestprojekt.",
+            "Implementierung eines zeitbasierten Temperaturregelungssystems für den Ofen."
+          ]
         }
       ]
     },
     {
-      "company": "Analógica Instrumentation and Control",
-      "fullName": "Analógica Instrumentation and Control",
-      "location": "Ouro Preto, MG - Brasilien",
-      "totalPeriod": "01/2015 bis 02/2015",
+      "company": "Analógica Instrumentação e Controle",
+      "fullName": "Analógica Instrumentação e Controle",
+      "location": "Belo Horizonte, MG - Brasilien",
+      "totalPeriod": "01/2015 bis 02/2015 (2 M.)",
       "type": "minor",
       "roles": [
         {
           "title": "Sommerpraktikant",
           "period": "01/2015 bis 02/2015",
           "responsibilities": [
-            "Entwicklung einer Python-Anwendung zur Extraktion von Sensordaten aus Kraftstofftanks für nachgelagerte Aufnahme",
-            "Erste berufliche Erfahrung mit Python auf Raspberry PI-Plattform"
-          ],
-          "technologies": "Python, Raspberry PI"
+            "Softwareentwicklung für Datenerfassung zur Bestandsverwaltung in Tankstellen.",
+            "Implementierung der Schnittstelle zwischen Raspberry Pi und TLS-300 (Gerät zur Messung von Tankparametern) mit Python."
+          ]
         }
       ]
     }
   ],
   "education": {
-    "degree": "Bachelor in Steuerungs- und Automatisierungstechnik",
+    "degree": "Bachelor in Steuerungs- und Automatisierungstechnik / Mechatronik",
     "institution": "Bundesuniversität Ouro Preto, Minas Gerais, Brasilien",
     "period": "08/2018",
     "coursework": "Relevante Kurse: Elektronik, eingebettete Systeme, Steuerungssystemdesign, C und Python.",
@@ -175,6 +219,18 @@
       "priority": 2
     },
     {
+      "name": "AWS AI Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "2025",
+      "validity": "2028",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "#",
+      "description": "Grundlagenzertifizierung für KI und maschinelles Lernen auf AWS, einschließlich generativer KI, verantwortungsvoller KI und AWS KI/ML-Services.",
+      "priority": 3
+    },
+    {
       "name": "AWS Cloud Practitioner",
       "issuer": "Amazon Web Services",
       "category": "AWS",
@@ -184,7 +240,7 @@
       "icon": "images/badges/aws_practitioner.png",
       "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
       "description": "Grundlagenzertifizierung für AWS Cloud-Grundlagen, Kernservices, Sicherheit, Architektur und bewährte Praktiken der Kostenoptimierung.",
-      "priority": 3
+      "priority": 4
     },
     {
       "name": "Spark Data Engineer Associate",
@@ -196,7 +252,7 @@
       "icon": "images/databricks_de_associate.png",
       "link": "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
       "description": "Spezialisierung in Data Engineering mit Apache Spark, Delta Lake und modernen Datenarchitekturen. Umfasst ETL, Streaming, Performance-Tuning und Data Governance.",
-      "priority": 4
+      "priority": 5
     },
     {
       "name": "Spark Developer Associate",
@@ -208,19 +264,19 @@
       "icon": "images/databricks_spark_dev.png",
       "link": "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
       "description": "Zertifizierung in der Entwicklung von Apache Spark-Anwendungen für verteilte Datenverarbeitung. Umfasst DataFrame API, SQL, RDD und Performance-Optimierung.",
-      "priority": 5
+      "priority": 6
     },
     {
       "name": "Azure Data Engineer Associate",
       "issuer": "Microsoft",
       "category": "Azure",
       "date": "März 2023",
-      "validity": "März 2025",
+      "validity": "März 2025 (abgelaufen)",
       "level": "Associate",
       "icon": "images/dp-203.png",
       "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
       "description": "Data Engineering-Zertifizierung auf Azure mit Azure Data Factory, Synapse Analytics, Data Lake Storage und Streaming-Services.",
-      "priority": 5
+      "priority": 9
     },
     {
       "name": "Azure Fundamentals",
@@ -232,7 +288,7 @@
       "icon": "images/az-900.png",
       "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
       "description": "Microsoft Azure-Grundlagenzertifizierung mit Cloud Computing-Konzepten, Kernservices und Preismodellen.",
-      "priority": 6
+      "priority": 7
     },
     {
       "name": "Apache Airflow Fundamentals",
@@ -244,7 +300,7 @@
       "icon": "images/badges/airflow_fundamentals.png",
       "link": "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
       "description": "Zertifizierung in Workflow-Orchestrierung mit Apache Airflow für Datenpipeline-Automatisierung. Umfasst DAGs, Operatoren, Sensoren und bewährte Praktiken.",
-      "priority": 7
+      "priority": 8
     },
     {
       "name": "Santander Data Engineer",
@@ -256,7 +312,19 @@
       "icon": "images/badges/santander-dea.svg",
       "link": "#",
       "description": "Fortgeschrittene interne Data Engineering-Zertifizierung von Santander Brasil. Top-10-Ranking nach technischem Fall und umfassender Prüfung zu Big Data, Cloud und verteilten Architekturen.",
-      "priority": 8
+      "priority": 10
+    },
+    {
+      "name": "Deutschkurs Niveau B1",
+      "issuer": "Sprachinstitut",
+      "category": "Languages",
+      "date": "2024",
+      "validity": "Läuft nicht ab",
+      "level": "B1",
+      "icon": "images/badges/santander-dea.svg",
+      "link": "#",
+      "description": "Deutschsprachzertifikat auf B1-Niveau (Mittelstufe), das vollständige berufliche Kommunikationsfähigkeiten auf Deutsch belegt.",
+      "priority": 11
     }
   ],
   "projects": {
