@@ -376,7 +376,7 @@
   - Diagrama SVG estático em `public/assets/projects/portifolio/architecture.svg`. ✅
   - Critérios A1-A8. ✅
 
-### `[ ]` T-CONTENT-06 — Refresh do conteúdo do LinkedIn nos 3 JSONs (EN→PT→DE) + cv.pdf
+### `[x]` T-CONTENT-06 — Refresh do conteúdo do LinkedIn nos 3 JSONs (EN→PT→DE) + cv.pdf
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-CONTENT-01 (`[x]`)
