@@ -38,6 +38,8 @@ export function CertificationCard({
                 <img
                   src={cert.icon}
                   alt={`${cert.name} badge`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-10 h-10 md:w-16 md:h-16 flex-shrink-0 object-contain"
                 />
               ) : (

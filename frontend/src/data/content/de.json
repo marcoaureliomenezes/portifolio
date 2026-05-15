@@ -15,6 +15,9 @@
     "location": "Belo Horizonte, MG - Brasilien",
     "viewEmail": "E-Mail anzeigen"
   },
+  "heroTagline": "Ich baue Datenpipelines im Maßstab",
+  "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
+  "heroCTAs": { "downloadCv": "Lebenslauf herunterladen", "seeExperience": "Erfahrung ansehen" },
   "resume": {
     "short": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praxiserfahrung mit Cloudera On-Premises-Stacks, Cloud-Migrationen zu Azure + Databricks (Medallion-Architektur) und Streaming-Replikation von IBM DB2 zu Amazon Aurora über Kafka/MSK mit CDC.",
     "full": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praktische Expertise in: Entwurf und Wartung von On-Premises-Datenpipelines mit Cloudera (Hadoop, Hive, Spark), Linux-Servern (Einstiegspunkte, File Watcher, Dateiübertragungen) und BMC Control-M für die Orchestrierung. Re-Architekturierung von Pipelines von On-Premises (Cloudera / SAS) in die Cloud mit Azure Data Factory für die Aufnahme und Databricks für die Transformation unter Anwendung der Medallion-Architektur. Entwicklung von Streaming-Pipelines zur Replikation von Transaktionsdaten von IBM DB2 zu Amazon Aurora PostgreSQL mit Kafka, Amazon MSK und MSK Connect über CDC. Erfahrung mit CI/CD und DevOps-Tools: Git, Jenkins, GitHub Actions, Jira, ServiceNow, Docker. Fundierte Kenntnisse in Python (10+ Jahre), SQL (5+ Jahre), Shell-Scripting (5+ Jahre) und Scala (2+ Jahre). Bachelorabschluss in Steuerungs- und Automatisierungstechnik / Mechatronik im August 2018."
