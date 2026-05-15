@@ -1,6 +1,8 @@
 import { GraduationCap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 import type { ContentData } from "@/types/content";
 
 interface EducationSectionProps {
@@ -41,8 +43,14 @@ function EducationBody({ content, mobile = false }: { content: ContentData; mobi
 }
 
 export function EducationSection({ content }: EducationSectionProps) {
+  const { ref, inView } = useInView<HTMLElement>();
   return (
-    <section id="educacao" aria-labelledby="educacao-heading">
+    <section
+      id="educacao"
+      aria-labelledby="educacao-heading"
+      ref={ref}
+      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+    >
       {/* Desktop */}
       <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
         <CardHeader className="pb-4">

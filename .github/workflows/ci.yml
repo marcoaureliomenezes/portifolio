@@ -93,9 +93,6 @@ jobs:
     name: CI / E2E
     runs-on: ubuntu-24.04
     needs: build
-    # Temporariamente non-blocking — alguns cenários (a11y/responsive/deep-link) precisam
-    # ajuste fino dos seletores. Voltar a `continue-on-error: false` em task futura.
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4
@@ -112,7 +109,7 @@ jobs:
 
       - name: Install Playwright browsers
         working-directory: frontend
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: Run E2E tests
         working-directory: frontend
@@ -122,9 +119,6 @@ jobs:
     name: CI / Lighthouse
     runs-on: ubuntu-24.04
     needs: build
-    # Temporariamente non-blocking — budgets de performance precisam calibração contra
-    # runs reais de CI. Voltar a `continue-on-error: false` quando estabilizado.
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v4

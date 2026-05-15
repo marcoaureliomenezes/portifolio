@@ -1,98 +1,77 @@
 #!/bin/bash
+# setup-deployment.sh — Verificacao pre-deploy e template de commit
+# Uso: bash scripts/setup-deployment.sh
+# Pre-requisito: Node.js 20+ instalado.
 
 set -e
 
-echo "🚀 Configurando Pipeline de Deploy..."
+echo "Configurando ambiente de desenvolvimento..."
 
-# Verificar se estamos no repositório correto
+# Verificar se estamos na raiz do repositorio
 if [ ! -d ".git" ]; then
-    echo "❌ Este script deve ser executado na raiz do repositório Git"
+    echo "ERRO: Execute este script na raiz do repositorio Git." >&2
     exit 1
 fi
 
 # Verificar se a pasta frontend existe
 if [ ! -d "frontend" ]; then
-    echo "❌ Pasta frontend não encontrada"
+    echo "ERRO: Pasta frontend nao encontrada." >&2
     exit 1
 fi
 
 # Testar build local
-echo "🏗️  Testando build local..."
+echo "Testando build local..."
 cd frontend
 
 if [ ! -f "package.json" ]; then
-    echo "❌ package.json não encontrado na pasta frontend"
+    echo "ERRO: package.json nao encontrado em frontend/." >&2
     exit 1
 fi
 
-# Instalar dependências se necessário
+# Instalar dependencias se necessario
 if [ ! -d "node_modules" ]; then
-    echo "📦 Instalando dependências..."
+    echo "Instalando dependencias..."
     npm install
 fi
 
-# Fazer build de teste
-echo "🔨 Fazendo build de teste..."
+echo "Fazendo build de teste..."
 npm run build
 
 if [ ! -f "dist/index.html" ]; then
-    echo "❌ Build falhou - index.html não foi gerado"
+    echo "ERRO: Build falhou — dist/index.html nao foi gerado." >&2
     exit 1
 fi
 
-echo "✅ Build local bem-sucedido!"
+echo "Build local ok."
 
-# Voltar para raiz
 cd ..
 
-# Criar .gitmessage template
+# Template de commit (Conventional Commits)
 cat > .gitmessage << 'EOF'
-# Tipo: Descrição curta (máximo 50 caracteres)
+# Tipo(escopo): descricao curta
 #
-# Corpo da mensagem (opcional, máximo 72 caracteres por linha)
+# Tipos validos: feat, fix, docs, style, refactor, test, chore, ci, perf, build, revert
+# Exemplo: feat(header): adicionar seletor de idioma
 #
-# Tipos válidos:
-# feat: nova funcionalidade
-# fix: correção de bug
-# docs: documentação
-# style: formatação, estilo
-# refactor: refatoração de código
-# test: testes
-# chore: manutenção, build
-# deploy: mudanças de deploy
-#
-# Exemplo:
-# feat: adicionar suporte ao idioma alemão
-# 
-# - Criar arquivo de tradução de.ts
-# - Atualizar componente Header com seletor DE
-# - Adicionar tipo Deutsch ao SupportedLanguages
+# Corpo opcional (limite 72 chars por linha)
 EOF
 
-# Configurar template de commit
 git config commit.template .gitmessage
 
-echo "✅ Pipeline de deploy configurado com sucesso!"
 echo ""
-echo "📋 Próximos passos:"
+echo "Setup concluido. Proximos passos:"
 echo ""
-echo "1. 🔐 Configurar secrets no GitHub:"
-echo "   Vá em Settings → Secrets and variables → Actions"
-echo "   Adicione os seguintes secrets:"
-echo "   - AWS_ACCESS_KEY_ID"
-echo "   - AWS_SECRET_ACCESS_KEY"
-echo "   - CLOUDFRONT_DISTRIBUTION_ID"
+echo "1. Desenvolvimento local:"
+echo "   cd frontend && npm run dev   # Vite HMR em localhost:5173"
 echo ""
-echo "2. 🌊 Workflow de uso:"
-echo "   - Desenvolva em qualquer branch"
-echo "   - Crie PR para main para testar build"
-echo "   - Merge/push para main → Deploy automático via GitHub Actions"
+echo "2. Criar feature branch:"
+echo "   git checkout -b feature/<slug>"
+echo "   git push origin feature/<slug>"
+echo "   # Abrir PR para develop no GitHub"
 echo ""
-echo "3. 🛠️  Comandos úteis:"
-echo "   - git checkout -b feature/nova-funcionalidade"
-echo "   - git add . && git commit"
-echo "   - git push origin feature/nova-funcionalidade"
-echo "   - Criar PR no GitHub"
+echo "3. Deploy:"
+echo "   Merge para develop  -> deploy automatico para stage (stage.marco-menezes.com)"
+echo "   Merge para main     -> deploy para prod (aprovacao manual obrigatoria)"
 echo ""
-echo "4. 🚀 Deploy local para desenvolvimento:"
-echo "   - Use os scripts build_frontend.sh ou build_and_serve.sh"
+echo "Autenticacao AWS e exclusivamente via OIDC no GitHub Actions."
+echo "Nenhuma chave estatica necessaria. Vide README.md para detalhes."

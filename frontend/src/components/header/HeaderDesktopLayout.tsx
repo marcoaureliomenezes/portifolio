@@ -4,6 +4,7 @@ import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
 import { EmailModal } from "./EmailModal";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface HeaderDesktopLayoutProps {
   name: string;
@@ -44,7 +45,8 @@ export function HeaderDesktopLayout({
 
   return (
     <div className="hidden md:block relative">
-      <div className="absolute top-2 right-0 z-10">
+      <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+        <ThemeToggle />
         <LanguageSelector language={language} onLanguageChange={onLanguageChange} />
       </div>
 

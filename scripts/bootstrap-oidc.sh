@@ -2,39 +2,75 @@
 # ==============================================================================
 # bootstrap-oidc.sh — Bootstrap OIDC provider + IAM bootstrap role
 #
-# IMPORTANTE: RODAR APENAS EM AWS CLOUDSHELL
-# Nunca rode este script localmente com ~/.aws/credentials.
-# Fundamento: specs/foundation/SPEC.md §10 (FR-FOUND-01).
+# Dois fluxos autorizados (foundation/SPEC.md §10, infra-retomada/SPEC.md §5):
 #
-# Como usar (vide features/infra-retomada/SPEC.md §5, fluxo passo a):
+# FLUXO A — AWS CloudShell (preferido, nenhuma credencial sai do ambiente AWS):
 #   1. Abra o AWS CloudShell no console AWS (conta 016098071081).
 #   2. git clone https://github.com/marcoaureliomenezes/portifolio.git
 #      cd portifolio && bash scripts/bootstrap-oidc.sh
 #   3. Copie a linha "BOOTSTRAP_ROLE_ARN=..." exibida ao final.
-#   4. Execute localmente (usa GitHub token, NÃO credencial AWS):
+#   4. Execute LOCALMENTE (usa GitHub token, NAO credencial AWS):
 #        gh secret set AWS_ROLE_ARN_STAGE --env stage --body "<arn copiado>"
 #        gh secret set AWS_ROLE_ARN       --env production --body "<arn copiado>"
-#   5. Encerre a sessão CloudShell. Nenhuma credencial sai do ambiente AWS.
+#   5. Encerre a sessao CloudShell.
 #
-# O que este script cria (idempotente — pula se já existir):
+# FLUXO B — Maquina local (papel Infra Specialist autorizado):
+#   Requer credenciais AWS com privilegio IAM e a flag explícita:
+#     INFRA_SPECIALIST_MODE=1 bash scripts/bootstrap-oidc.sh
+#   Cumpra o checklist de foundation/SPEC.md §10.b e §10.c antes de usar.
+#   Desenvolvedores (papel Developer) NAO devem usar este fluxo.
+#
+# O que este script cria (idempotente — pula se ja existir):
 #   a) OIDC Identity Provider: token.actions.githubusercontent.com
 #   b) IAM Role: github-actions-portfolio-bootstrap (AdministratorAccess)
 #      Trust: repo:marcoaureliomenezes/portifolio:* (qualquer ref)
 #
-# Esta role é TEMPORÁRIA. Após o primeiro terraform apply bem-sucedido
-# (T-DEVOPS-08), a role OIDC final é criada pelo próprio terraform.
+# Esta role e TEMPORARIA. Apos o primeiro terraform apply bem-sucedido
+# (T-DEVOPS-08), a role OIDC final e criada pelo proprio terraform.
 # A bootstrap role deve ser deletada via job CI dedicado (T-DEVOPS-13).
 # ==============================================================================
 
 set -euo pipefail
 
 # ------------------------------------------------------------------------------
-# Guarda de ambiente: somente AWS CloudShell
+# Guarda de ambiente: CloudShell (Fluxo A) ou Infra Specialist local (Fluxo B)
+#
+# Fluxo A — AWS CloudShell (preferido):
+#   AWS_EXECUTION_ENV e setado automaticamente pelo ambiente CloudShell.
+#   Nenhuma flag adicional necessaria.
+#
+# Fluxo B — Maquina local autorizada (Infra Specialist):
+#   Requer INFRA_SPECIALIST_MODE=1 explicitamente.
+#   Credenciais IAM devem estar configuradas localmente com privilegio suficiente.
+#   Checklist obrigatorio antes de usar (foundation/SPEC.md §10.c):
+#     1. Confirmar que e o papel Infra Specialist (nao Developer) que esta atuando.
+#     2. Verificar que as credenciais sao temporarias ou de uso restrito ao bootstrap.
+#     3. Encerrar a sessao local apos conclusao; nenhuma credencial AWS permanece ativa.
+#     4. Registrar a execucao no incident log ou no specs/_archive/ do repo.
+#
+# Qualquer outro contexto (sem AWS_EXECUTION_ENV e sem INFRA_SPECIALIST_MODE=1)
+# indica papel Developer — aborta com mensagem clara.
+# Ref: foundation/SPEC.md §10.a (Developer) e §10.b (Infra Specialist).
 # ------------------------------------------------------------------------------
-if [[ -z "${AWS_EXECUTION_ENV:-}" ]]; then
-  echo "ERRO: Este script deve ser executado EXCLUSIVAMENTE no AWS CloudShell." >&2
-  echo "      Variavel AWS_EXECUTION_ENV nao encontrada — ambiente nao e CloudShell." >&2
-  echo "      Vide specs/foundation/SPEC.md §10 (FR-FOUND-01)." >&2
+if [[ -n "${AWS_EXECUTION_ENV:-}" ]]; then
+  : # Fluxo A — CloudShell. Continua sem aviso.
+elif [[ "${INFRA_SPECIALIST_MODE:-}" == "1" ]]; then
+  echo "INFO: Running outside CloudShell as Infra Specialist (INFRA_SPECIALIST_MODE=1)." >&2
+  echo "      Ensure credentials are scoped per foundation/SPEC.md §10.b and §10.c checklist." >&2
+else
+  echo "ERRO: Ambiente nao reconhecido como CloudShell nem como Infra Specialist local." >&2
+  echo "" >&2
+  echo "      Fluxo A (preferido) — AWS CloudShell:" >&2
+  echo "        Abra o CloudShell no console AWS (conta 016098071081)." >&2
+  echo "        git clone https://github.com/marcoaureliomenezes/portifolio.git" >&2
+  echo "        cd portifolio && bash scripts/bootstrap-oidc.sh" >&2
+  echo "" >&2
+  echo "      Fluxo B — Maquina local (Infra Specialist autorizado):" >&2
+  echo "        INFRA_SPECIALIST_MODE=1 bash scripts/bootstrap-oidc.sh" >&2
+  echo "        Cumpra o checklist de foundation/SPEC.md §10.b e §10.c antes de usar." >&2
+  echo "" >&2
+  echo "      Desenvolvedores (papel Developer) NAO devem executar este script localmente." >&2
+  echo "      Vide specs/foundation/SPEC.md §10.a (FR-FOUND-01)." >&2
   exit 1
 fi
 

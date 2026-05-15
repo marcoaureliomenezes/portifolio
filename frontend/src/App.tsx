@@ -1,15 +1,28 @@
+import { lazy, Suspense } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import { DadaiaWorkspacePage } from "./pages/projects/DadaiaWorkspacePage";
-import { TauanGamesPage } from "./pages/projects/TauanGamesPage";
-import { ArchitecturePage } from "./pages/projects/ArchitecturePage";
 import { routes } from "./routes";
 
-// Component map: slug → React element
-// T-CONTENT-02/03/04: project tab pages wired up
+// Lazy chunks — keep home (LCP route) eager; defer everything else.
+const NotFound = lazy(() => import("./pages/NotFound"));
+const DadaiaWorkspacePage = lazy(() =>
+  import("./pages/projects/DadaiaWorkspacePage").then((m) => ({
+    default: m.DadaiaWorkspacePage,
+  })),
+);
+const TauanGamesPage = lazy(() =>
+  import("./pages/projects/TauanGamesPage").then((m) => ({
+    default: m.TauanGamesPage,
+  })),
+);
+const ArchitecturePage = lazy(() =>
+  import("./pages/projects/ArchitecturePage").then((m) => ({
+    default: m.ArchitecturePage,
+  })),
+);
+
 const componentMap: Record<string, React.ReactElement> = {
   home: <Index />,
   "not-found": <NotFound />,
@@ -22,15 +35,17 @@ const App = () => (
   <LanguageProvider>
     <TooltipProvider>
       <BrowserRouter>
-        <Routes>
-          {routes.map((route) => (
-            <Route
-              key={route.slug}
-              path={route.path}
-              element={componentMap[route.slug] ?? <NotFound />}
-            />
-          ))}
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            {routes.map((route) => (
+              <Route
+                key={route.slug}
+                path={route.path}
+                element={componentMap[route.slug] ?? <NotFound />}
+              />
+            ))}
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </LanguageProvider>
