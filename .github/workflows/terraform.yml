@@ -1,11 +1,14 @@
 name: Terraform
 
 on:
-  pull_request:
-    branches: [develop, main]
-    paths:
-      - "terraform/**"
-      - ".github/workflows/terraform.yml"
+  # Apply-only workflow: roda em push pra develop/main + workflow_dispatch para
+  # ações administrativas. Plan-on-PR foi removido (jobs `terraform-stage-plan`
+  # e `terraform-prod-plan`) porque exigiam `environment: stage/production` para
+  # acessar AWS_ROLE_ARN secrets env-scoped, e o environment `production` rejeita
+  # refs/pull/*/merge via custom_branch_policies. O resultado era um check
+  # vermelho permanente em todo PR sem nenhum signal acionável. Quando precisar
+  # voltar com plan-on-PR, criar role read-only IAM dedicada com secret a nível
+  # de repo e remover env protection desses jobs.
   push:
     branches: [develop, main]
     paths:
@@ -29,70 +32,9 @@ env:
   TF_STATE_REGION: ${{ vars.TF_STATE_REGION }}
 
 # ---------------------------------------------------------------------------
-# Stage — plan em PR, apply em push develop
+# Stage — apply em push develop
 # ---------------------------------------------------------------------------
 jobs:
-  terraform-stage-plan:
-    name: Terraform / Stage Plan
-    runs-on: ubuntu-24.04
-    if: |
-      github.event_name == 'pull_request' && github.base_ref == 'develop'
-    environment: stage
-    defaults:
-      run:
-        working-directory: terraform/envs/stage
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGE }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-stage-plan-${{ github.run_id }}
-
-      - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/stage/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
-
-      - name: Terraform Format check
-        run: terraform fmt -check -recursive
-
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Plan
-        id: plan
-        run: |
-          terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
-          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-          cat plan_output.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Comment plan on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const output = `#### Terraform Plan — Stage
-            \`\`\`
-            ${{ steps.plan.outputs.plan_output }}
-            \`\`\``;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
-
   terraform-stage-apply:
     name: Terraform / Stage Apply
     runs-on: ubuntu-24.04
@@ -130,69 +72,8 @@ jobs:
         run: terraform apply -auto-approve -var-file=terraform.tfvars
 
   # ---------------------------------------------------------------------------
-  # Prod — plan em PR, apply em push main (gate manual via environment)
+  # Prod — apply em push main (gate manual via environment)
   # ---------------------------------------------------------------------------
-  terraform-prod-plan:
-    name: Terraform / Prod Plan
-    runs-on: ubuntu-24.04
-    if: |
-      github.event_name == 'pull_request' && github.base_ref == 'main'
-    environment: production
-    defaults:
-      run:
-        working-directory: terraform/envs/prod
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-prod-plan-${{ github.run_id }}
-
-      - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/prod/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
-
-      - name: Terraform Format check
-        run: terraform fmt -check -recursive
-
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Plan
-        id: plan
-        run: |
-          terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
-          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-          cat plan_output.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Comment plan on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const output = `#### Terraform Plan — Prod
-            \`\`\`
-            ${{ steps.plan.outputs.plan_output }}
-            \`\`\``;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
-
   terraform-prod-apply:
     name: Terraform / Prod Apply
     runs-on: ubuntu-24.04
