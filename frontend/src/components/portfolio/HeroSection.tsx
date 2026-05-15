@@ -1,7 +1,7 @@
 import { Download, ArrowDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import profileAvatar from "@/assets/profile.png";
+import profileAvatar from "@/assets/profile.webp";
 import { profile } from "@/data/profile";
 import type { ContentData } from "@/types/content";
 
