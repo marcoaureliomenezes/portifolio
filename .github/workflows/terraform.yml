@@ -37,7 +37,8 @@ jobs:
     runs-on: ubuntu-24.04
     if: |
       github.event_name == 'pull_request' && github.base_ref == 'develop'
-    environment: stage
+    # Plan is read-only: no environment protection needed.
+    # Stage apply (push to develop) keeps `environment: stage` for the deploy gate.
     defaults:
       run:
         working-directory: terraform/envs/stage
@@ -137,7 +138,10 @@ jobs:
     runs-on: ubuntu-24.04
     if: |
       github.event_name == 'pull_request' && github.base_ref == 'main'
-    environment: production
+    # Plan is read-only: no environment protection needed. Without this fix the job
+    # is rejected by `production` env (custom_branch_policies allows only `main`),
+    # which means no PR can ever surface the prod plan before merge. The deploy
+    # gate stays on `terraform-prod-apply` (push to main + reviewer).
     defaults:
       run:
         working-directory: terraform/envs/prod
