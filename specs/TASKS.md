@@ -16,8 +16,7 @@
 Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
 Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
 
-- [-] T-DEVOPS-09 — atualizar secrets stage com role OIDC final
-- [-] T-QA-14 — status checks nas branch protections
+- [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 
 ---
 
@@ -191,7 +190,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
   - Outputs do terraform: `cloudfront_distribution_id`, `github_actions_role_arn`
     (acessíveis via `terraform output` em job CI subsequente ou via state no S3).
 
-### `[-]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
+### `[x]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-08
