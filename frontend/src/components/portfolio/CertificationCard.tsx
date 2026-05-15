@@ -30,7 +30,7 @@ export function CertificationCard({
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
-      <div className="bg-gradient-to-br from-card to-accent/5 rounded-xl border border-border/30 overflow-hidden hover:border-primary/30 transition-all duration-200 shadow-soft hover:shadow-medium ml-6">
+      <div className="bg-card rounded-xl border border-border/30 overflow-hidden motion-safe:transition-all motion-safe:duration-200 hover:-translate-y-1 hover:border-accent/40 shadow-soft hover:shadow-large ml-6">
         <CollapsibleTrigger className="w-full p-4 md:p-6 text-left hover:bg-accent/5 transition-colors duration-200">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">

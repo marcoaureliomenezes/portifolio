@@ -2,6 +2,8 @@ import { Briefcase } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { ExperienceCard } from "./ExperienceCard";
+import { useInView } from "@/hooks/useInView";
+import { cn } from "@/lib/utils";
 import type { ContentData } from "@/types/content";
 
 interface ExperienceSectionProps {
@@ -9,6 +11,8 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ content }: ExperienceSectionProps) {
+  const { ref, inView } = useInView<HTMLElement>();
+
   const labels = {
     responsibilities: content.responsibilities,
     technologies: content.technologies,
@@ -19,7 +23,12 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
   ));
 
   return (
-    <section id="experiencia" aria-labelledby="experiencia-heading">
+    <section
+      id="experiencia"
+      aria-labelledby="experiencia-heading"
+      ref={ref}
+      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+    >
       {/* Desktop — always visible */}
       <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
         <CardHeader className="pb-4">
