@@ -53,7 +53,7 @@ export const Header = ({
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-gradient-to-b from-slate-900 to-slate-800 text-header-text w-full z-30 transition-all duration-300 shadow-lg border-b border-slate-700/30">
+    <header className="fixed top-0 left-0 right-0 bg-header-bg text-header-text w-full z-30 transition-all duration-300 shadow-lg border-b border-white/5">
       <div className="container mx-auto px-6 md:px-8 lg:px-12 transition-all duration-300">
         <HeaderShell
           name={name}

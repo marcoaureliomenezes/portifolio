@@ -4,6 +4,7 @@ import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
 import { EmailModal } from "./EmailModal";
+import { ThemeToggle } from "./ThemeToggle";
 
 type ScrollState = "full" | "intermediate" | "compact";
 
@@ -51,7 +52,8 @@ export function HeaderMobileLayout({
 
     return (
       <div className="block md:hidden relative">
-        <div className="absolute top-2 right-0 z-10">
+        <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+          <ThemeToggle />
           <LanguageSelector
             language={language}
             onLanguageChange={onLanguageChange}
@@ -84,7 +86,8 @@ export function HeaderMobileLayout({
   if (scrollState === "intermediate") {
     return (
       <div className="block md:hidden relative">
-        <div className="absolute top-2 right-0 z-10">
+        <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+          <ThemeToggle />
           <LanguageSelector
             language={language}
             onLanguageChange={onLanguageChange}
@@ -115,11 +118,14 @@ export function HeaderMobileLayout({
       <div className="flex flex-col space-y-2 pb-3 transition-all duration-300">
         <div className="flex items-center justify-between gap-2">
           <h1 className="text-sm font-bold text-header-text truncate min-w-0">{name}</h1>
-          <LanguageSelector
-            language={language}
-            onLanguageChange={onLanguageChange}
-            compact
-          />
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <LanguageSelector
+              language={language}
+              onLanguageChange={onLanguageChange}
+              compact
+            />
+          </div>
         </div>
         <div className="flex">
           <p className="text-xs text-header-text-muted break-words">{headerInfo.title}</p>
