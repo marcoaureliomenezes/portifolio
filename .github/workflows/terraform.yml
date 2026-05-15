@@ -24,7 +24,6 @@ on:
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
 
 env:
   TF_VERSION: "1.9.0"
@@ -45,14 +44,14 @@ jobs:
         working-directory: terraform/envs/stage
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd  # v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c  # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGE }}
           aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
@@ -84,14 +83,14 @@ jobs:
         working-directory: terraform/envs/prod
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd  # v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c  # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
@@ -123,10 +122,10 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
 
       - name: Configure AWS credentials (OIDC — role final)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c  # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}

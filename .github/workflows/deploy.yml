@@ -7,6 +7,10 @@ on:
       - "frontend/**"
       - ".github/workflows/deploy.yml"
 
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   id-token: write
   contents: read
@@ -19,9 +23,9 @@ jobs:
       artifact-name: dist-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
         with:
           node-version: "20"
           cache: "npm"
@@ -42,7 +46,7 @@ jobs:
           test -s dist/index.html || { echo "dist/index.html is empty"; exit 1; }
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
         with:
           name: dist-${{ github.sha }}
           path: frontend/dist/
@@ -56,13 +60,13 @@ jobs:
     environment: stage
 
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
         with:
           name: dist-${{ github.sha }}
           path: dist/
 
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c  # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGE }}
           aws-region: ${{ vars.AWS_REGION }}
@@ -103,13 +107,13 @@ jobs:
     environment: production
 
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
         with:
           name: dist-${{ github.sha }}
           path: dist/
 
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c  # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
