@@ -863,6 +863,108 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ---
 
+## Fase 7 — Content AI emphasis (Onda 5/6)
+
+> Spec: `specs/features/content-ai-emphasis/SPEC.md` (F-P0-08, **Aprovado** em 2026-05-15).
+> Sequencial: Onda 6 consome tipos + dados introduzidos pela Onda 5. Cada onda é 1 PR.
+> Owner único: `[software-engineer]`; `[qa-engineer]` pareia em PR review (Axe +
+> Lighthouse local). Não toca em rotas, projetos, header ou estrutura do `HeroSection`
+> — apenas conteúdo + 2 componentes novos ancorados em tokens já estabelecidos por
+> F-P0-07.
+
+### `[ ]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-WAVE3 (`[x]`), T-CONTENT-06 (`[x]`)
+- **Toca:**
+  - `frontend/src/types/content.ts` — adicionar `interface HighlightProject` (com
+    `title`, `body`, `impact?: string[]`, `links?: { label; url }[]`) e estender
+    `Position` com `skills?: string[]` e `highlightProject?: HighlightProject`
+  - `frontend/src/data/content/{pt,en,de}.json` —
+    - `heroTagline` atualizado: PT `"AI-augmented data engineering em escala"` /
+      EN `"AI-augmented data engineering at scale"` /
+      DE `"KI-gestütztes Data Engineering im Maßstab"`
+    - Cada `Position.skills` populado com ≥10 tags (Santander Senior: 15 tags
+      incluindo `Claude Code`, `GitHub Copilot`, `Devin`, `Windsurf`,
+      `Spec-Driven Development`, `TDD com AI`; Santander Pleno: ~12 tags;
+      cargos anteriores: 10–12 tags contextualizadas)
+    - **Santander Senior recebe `highlightProject`** com title "Migração SAS →
+      Azure + Databricks", body de 1-2 parágrafos sobre execução solo com
+      AI-augmented engineering, e `impact[]` incluindo
+      `"Redução do tempo de migração: 12 meses → 2 meses (SLA de execução do projeto)"`
+    - Bullets do Santander Senior generalizados para liderança técnica em
+      AI-augmented engineering + 1–2 bullets de stack tradicional
+  - `frontend/src/lib/skillCategoryColors.ts` — expandir array `KEYWORDS` da
+    categoria `ai-tooling` com `/claude/i, /devin/i, /windsurf/i, /copilot/i,
+    /codex/i, /opencode/i, /openclaw/i, /hermes/i, /spec[\s-]?driven/i,
+    /tdd com ai/i, /ai[\s-]augmented/i, /\bai\b/i, /machine learning/i, /\bllm\b/i,
+    /agent/i, /ai-tooling/i, /tooling/i, /ferramenta/i, /werkzeug/i`
+  - `frontend/src/lib/skillCategoryColors.test.ts` — adicionar casos para as
+    novas keywords (Claude, Devin, Windsurf, Copilot, SDD, TDD com AI)
+  - `frontend/tests/e2e/pages/home.spec.ts` — adaptar assertion da tagline para
+    o novo texto PT
+  - `frontend/tests/e2e/pages/language-switch.spec.ts` — adaptar asserts das 3
+    taglines (PT/EN/DE) para os novos textos
+- **Critério de pronto:**
+  - `cd frontend && npm run test:run` verde (incluindo `skillCategoryColors.test.ts`
+    com novos casos de AI tooling).
+  - **Paridade estrutural i18n**:
+    `jq 'paths(scalars)' src/data/content/{en,pt,de}.json | sort -u | uniq -c` —
+    todos os paths novos (`heroTagline`, `experience.positions[].skills`,
+    `experience.positions[].highlightProject.title|body|impact[]`) presentes 3x.
+  - `npm run dev` local com troca PT ↔ EN ↔ DE: nova tagline visível em cada
+    idioma sem fallback EN inadvertido em PT/DE.
+  - **Privacidade verificada via diff**: nenhum dos JSONs contém `R$`, `6M`,
+    `6 milhões`, nem qualquer valor financeiro relacionado ao projeto SAS.
+    Métrica de impacto é exclusivamente "12 meses → 2 meses".
+  - `home.spec.ts` e `language-switch.spec.ts` verdes localmente
+    (`npx playwright test home language-switch`).
+  - Lighthouse desktop+mobile em `/`: Performance ≥ 90, Accessibility ≥ 90 (sem
+    regressão vs. WAVE3).
+  - PR isolado para `develop`; QA pareia em review.
+
+### `[ ]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
+
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-WAVE5
+- **Toca:**
+  - `frontend/src/components/portfolio/RoleSkillBadges.tsx` (NOVO, ~30 linhas)
+    — props `{ skills: string[] }`; renderiza cluster de `<Badge>` em
+    `flex flex-wrap gap-2`; cor via `skillCategoryStyle(skill).badge`
+  - `frontend/src/components/portfolio/HighlightProjectBlock.tsx` (NOVO, ~70
+    linhas) — props `{ highlight: HighlightProject }`; visual
+    `bg-accent-subtle border border-accent rounded-xl p-5`; header com badge
+    `⚡ Impacto` (aria-label="Impacto") em `bg-accent text-accent-foreground` +
+    título `font-bold text-lg`; body em `<p class="text-foreground">`
+    (não em accent — preserva contraste WCAG AA); `impact[]` como lista
+    vertical em `font-mono text-sm`; `links[]` opcional como botões `outline`
+    com `rel="noopener noreferrer"`
+  - `frontend/src/components/portfolio/ExperienceCard.tsx` — após bloco
+    `technologies`, renderizar `<RoleSkillBadges>` (condicional) e
+    `<HighlightProjectBlock>` (condicional)
+  - `frontend/src/components/portfolio/RoleCollapsible.tsx` — dentro do
+    `CollapsibleContent`, mesmo padrão de inserção
+  - `frontend/src/components/portfolio/RoleSkillBadges.test.tsx` (NOVO) —
+    smoke + assert de cor por categoria (`ai-tooling` aplica `bg-accent-subtle`;
+    `cloud` aplica `bg-blue-100`)
+  - `frontend/src/components/portfolio/HighlightProjectBlock.test.tsx` (NOVO)
+    — smoke + render de `impact[]` como lista + render condicional de
+    `links[]`
+- **Critério de pronto:**
+  - `npm run test:run` verde, incluindo os 2 testes novos.
+  - **Axe DevTools** no painel Issues: zero violações em `/`. Contraste do
+    `bg-accent-subtle` + `text-foreground` validado em light e dark mode.
+  - **Lighthouse a11y ≥ 0.9** em `/` desktop + mobile.
+  - Inspeção visual: cada `Position` com `skills` renderiza ≥10 badges
+    colorizados (ai-tooling em amber, cloud em blue, language em emerald,
+    database em purple); Santander Senior mostra o `HighlightProjectBlock`
+    com "Redução do tempo de migração: 12 meses → 2 meses".
+  - 3 viewports respondem: 1440 / 768 / 375 px.
+  - `home.spec.ts` continua verde após render dos componentes novos.
+  - PR isolado para `develop`; QA valida Axe + Lighthouse + 3 viewports.
+
+---
+
 ## Matriz de paralelismo (resumo)
 
 Estado em 2026-05-14: Fases 0 (parcial), 2, 3 (parcial) e 4 (parcial) entregues.
@@ -879,6 +981,7 @@ Pendências consolidadas para retomada:
 | W6 — conteúdo refresh | T-CONTENT-06 (LinkedIn → JSONs i18n + cv.pdf) — independente; pode rodar paralelo a W1/W2 |
 | W7 — identidade visual (sequencial) | T-FE-WAVE1 → T-FE-WAVE2 → T-FE-WAVE3; cada onda é 1 PR; QA pareia em PR review |
 | W8 — E2E pós-deploy | T-QA-15 (stage bloqueante + prod smoke); precisa T-QA-13 verde + T-DEVOPS-14 |
+| W9 — content AI emphasis (sequencial) | T-FE-WAVE5 → T-FE-WAVE6; depende de T-FE-WAVE3 e T-CONTENT-06 (`[x]`); paralelo seguro com W2/W4/W5/W8 |
 
 ## Próxima tarefa imediata
 
@@ -893,7 +996,14 @@ de nenhuma task DevOps em curso.
 T-CONTENT-06 (refresh LinkedIn nos 3 JSONs + cv.pdf) é o destravador de T-FE-WAVE1
 (paleta amber + dark mode toggle), seguido de T-FE-WAVE2 (microinteractions) e
 T-FE-WAVE3 (Hero memorável). Owner: `software-engineer`; QA pareia em PR review com
-Axe + Lighthouse local.
+Axe + Lighthouse local. **Concluído em 2026-05-15.**
+
+**Frente Content AI emphasis (Fase 7, próxima da fila do `software-engineer`):**
+T-FE-WAVE5 (conteúdo refresh AI-aware: nova tagline, `Position.skills`,
+`highlightProject` no Santander Senior, matchers `ai-tooling` expandidos) →
+T-FE-WAVE6 (componentes `RoleSkillBadges` + `HighlightProjectBlock`). Owner:
+`software-engineer`; QA pareia em PR review com Axe + Lighthouse local.
+Especificada em `specs/features/content-ai-emphasis/SPEC.md` (F-P0-08).
 
 **Frente QA (bloqueada):** T-QA-13 fica em fila — só destrava após T-DEVOPS-08 (precisa de
 URL `https://stage.marco-menezes.com` real para calibrar Lighthouse). É o próximo da
