@@ -2,19 +2,21 @@ import { Globe, Code2, Cloud, Database, Settings } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { SkillCategory } from "@/types/content";
 import type { LucideIcon } from "lucide-react";
+import { classifySkillCategory, skillCategoryStyle } from "@/lib/skillCategoryColors";
+import { cn } from "@/lib/utils";
 
-const ICON_MAP: Array<{ match: string[]; icon: LucideIcon; color: string }> = [
-  { match: ["idioma", "language"], icon: Globe, color: "text-purple-600" },
-  { match: ["program", "linguagem"], icon: Code2, color: "text-blue-600" },
-  { match: ["cloud"], icon: Cloud, color: "text-sky-600" },
-  { match: ["dados", "data"], icon: Database, color: "text-orange-600" },
-  { match: ["devops"], icon: Settings, color: "text-green-600" },
+const ICON_MAP: Array<{ match: string[]; icon: LucideIcon }> = [
+  { match: ["idioma", "language"], icon: Globe },
+  { match: ["program", "linguagem"], icon: Code2 },
+  { match: ["cloud"], icon: Cloud },
+  { match: ["dados", "data"], icon: Database },
+  { match: ["devops"], icon: Settings },
 ];
 
-function resolveIcon(title: string): { icon: LucideIcon; color: string } {
+function resolveIcon(title: string): LucideIcon {
   const lower = title.toLowerCase();
   const found = ICON_MAP.find(({ match }) => match.some((m) => lower.includes(m)));
-  return found ?? { icon: Code2, color: "text-blue-600" };
+  return found?.icon ?? Code2;
 }
 
 interface SkillCategoryCardProps {
@@ -24,19 +26,23 @@ interface SkillCategoryCardProps {
 }
 
 export function SkillCategoryCard({ skillCategory, compact = false }: SkillCategoryCardProps) {
-  const { icon: Icon, color } = resolveIcon(skillCategory.title);
+  const Icon = resolveIcon(skillCategory.title);
+  const category = classifySkillCategory(skillCategory.title);
+  const style = skillCategoryStyle(skillCategory.title);
 
   return (
-    <div className="relative">
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-accent rounded-full" />
+    <div className="relative" data-category={category}>
+      <div className={cn("absolute left-0 top-0 bottom-0 w-1 rounded-full", style.dot)} />
       <div className="pl-8">
         <div
-          className={`bg-gradient-to-r from-accent/10 to-secondary/10 rounded-xl border border-border/50 ${
-            compact ? "p-4" : "p-6"
-          }`}
+          className={cn(
+            "bg-card rounded-xl border motion-safe:transition-all motion-safe:duration-200 hover:-translate-y-1 hover:shadow-large",
+            style.border,
+            compact ? "p-4" : "p-6",
+          )}
         >
           <div className={`flex items-center gap-${compact ? "2" : "3"} mb-${compact ? "3" : "4"}`}>
-            <Icon className={`${compact ? "w-4 h-4" : "w-6 h-6"} ${color}`} />
+            <Icon className={cn(compact ? "w-4 h-4" : "w-6 h-6", "text-foreground/70")} />
             <h3
               className={`${
                 compact ? "text-sm" : "text-base md:text-xl"
@@ -50,9 +56,7 @@ export function SkillCategoryCard({ skillCategory, compact = false }: SkillCateg
               <Badge
                 key={idx}
                 variant="secondary"
-                className={`${
-                  compact ? "text-xs" : ""
-                } text-foreground bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 hover:border-primary/40 transition-colors`}
+                className={cn(compact ? "text-xs" : "", style.badge)}
               >
                 {skill}
               </Badge>

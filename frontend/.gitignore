@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Lighthouse CI local run artefacts
+.lighthouseci/
+test-results/
+playwright-report/
+coverage/

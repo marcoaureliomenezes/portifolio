@@ -42,6 +42,8 @@ export function CertificationCategoryGroup({
                   <img
                     src={providerIcon}
                     alt={category}
+                    loading="lazy"
+                    decoding="async"
                     className="h-8 md:h-10 object-contain"
                   />
                 ) : (

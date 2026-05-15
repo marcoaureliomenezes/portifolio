@@ -147,4 +147,10 @@ describe("Header", () => {
     render(<Header language="pt" onLanguageChange={spy} />, { wrapper: Wrapper });
     expect(screen.getByRole("banner")).toBeInTheDocument();
   });
+
+  it("renders ThemeToggle (T-FE-WAVE1)", () => {
+    installMatchMediaMock(false);
+    render(<Header />, { wrapper: Wrapper });
+    expect(screen.getByRole("switch")).toBeInTheDocument();
+  });
 });

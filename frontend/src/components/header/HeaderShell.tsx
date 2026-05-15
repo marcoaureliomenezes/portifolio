@@ -50,13 +50,16 @@ export function HeaderShell({
     headerInfo,
   };
 
+  const blurClass =
+    scrollState !== "full" ? "backdrop-blur-md bg-header-bg/85" : "";
+
   return (
-    <>
+    <div className={blurClass}>
       {isMobile ? (
         <HeaderMobileLayout {...sharedProps} scrollState={scrollState} />
       ) : (
         <HeaderDesktopLayout {...sharedProps} />
       )}
-    </>
+    </div>
   );
 }

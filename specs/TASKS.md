@@ -11,6 +11,13 @@
 > Convenção de paralelismo: tarefas com `dep: —` ou com dependências já `[x]` podem rodar
 > em paralelo se forem de agentes diferentes. Dentro de um mesmo agente, segue ordem de ID.
 
+## Currently in progress
+
+Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
+Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
+
+- [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
+
 ---
 
 ## Fase 0 — Pre-bootstrap
@@ -183,7 +190,7 @@
   - Outputs do terraform: `cloudfront_distribution_id`, `github_actions_role_arn`
     (acessíveis via `terraform output` em job CI subsequente ou via state no S3).
 
-### `[ ]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
+### `[x]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-08
@@ -250,7 +257,7 @@
   - Cada filho ≤ 200 linhas. ✅
   - Sem duplicação desktop/mobile. ✅
 
-### `[ ]` T-FE-05 — Substituir modais inline do Header por Radix Dialog
+### `[x]` T-FE-05 — Substituir modais inline do Header por Radix Dialog
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-03
@@ -440,7 +447,7 @@
     `curl -sI https://stage.marco-menezes.com/cv.pdf | head -1` retorna `200`.
   - PR único para `develop` (conteúdo + testes na mesma janela atômica).
 
-### `[ ]` T-CONTENT-05 — Otimização de assets globais
+### `[x]` T-CONTENT-05 — Otimização de assets globais
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-CONTENT-02, T-CONTENT-03, T-CONTENT-04
@@ -571,7 +578,7 @@
   unit-tests/e2e/lighthouse". Jobs `e2e` e `lighthouse` estão `continue-on-error: true`
   desde `b94b8d0` para destrabar primeiro go-live — fechamento desse débito é T-QA-13.
 
-### `[ ]` T-QA-13 — Reativar gates Lighthouse + E2E (fechar tech debt b94b8d0)
+### `[x]` T-QA-13 — Reativar gates Lighthouse + E2E (fechar tech debt b94b8d0)
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-DEVOPS-08 (precisa de URL stage real para calibrar Lighthouse)
@@ -595,7 +602,7 @@
 - **Justificativa:** regressão temporária introduzida em `b94b8d0`; o repo não pode
   entrar em fase P1 com gates de qualidade desativados.
 
-### `[ ]` T-QA-14 — Adicionar status checks às branch protections
+### `[-]` T-QA-14 — Adicionar status checks às branch protections
 
 - **Agente:** `[devops-engineer]` (operacional após T-QA-13 verde)
 - **Dep:** T-QA-13, T-DEVOPS-07
@@ -740,7 +747,7 @@
 > Sequencial: cada onda assume estilos da anterior. Owner único: `[software-engineer]`;
 > `[qa-engineer]` pareia em PR review (Axe + Lighthouse local).
 
-### `[ ]` T-FE-WAVE1 — Identidade visual: paleta amber + Inter/JetBrains Mono + dark mode toggle
+### `[x]` T-FE-WAVE1 — Identidade visual: paleta amber + Inter/JetBrains Mono + dark mode toggle
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-CONTENT-06
@@ -783,7 +790,7 @@
     `prefers-color-scheme` no first mount.
   - PR isolado para `develop`; QA pareia em review com Axe + Lighthouse local.
 
-### `[ ]` T-FE-WAVE2 — Microinteractions + scroll-triggered + skill semantic colors
+### `[x]` T-FE-WAVE2 — Microinteractions + scroll-triggered + skill semantic colors
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE1
@@ -815,7 +822,7 @@
   - PR isolado para `develop`; QA valida `prefers-reduced-motion` e Performance
     trace.
 
-### `[ ]` T-FE-WAVE3 — Hero memorável: avatar+halo+tagline+stats+CTAs
+### `[x]` T-FE-WAVE3 — Hero memorável: avatar+halo+tagline+stats+CTAs
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE2
