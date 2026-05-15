@@ -11,6 +11,18 @@
 > Convenção de paralelismo: tarefas com `dep: —` ou com dependências já `[x]` podem rodar
 > em paralelo se forem de agentes diferentes. Dentro de um mesmo agente, segue ordem de ID.
 
+## Currently in progress
+
+Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
+Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
+
+- [-] T-FE-WAVE1 — visual identity foundation (amber + Inter/JBMono + dark toggle)
+- [-] T-FE-WAVE2 — microinteractions + scroll-triggered + skill semantic colors
+- [-] T-FE-WAVE3 — Hero memorável (avatar+halo+tagline+stats+CTAs)
+- [-] T-FE-05 — verificar Radix Dialog nos modais inline do Header
+- [-] T-CONTENT-05 — otimização de assets globais
+- [-] T-QA-13 — reativar gates Lighthouse + E2E (worktree paralelo)
+
 ---
 
 ## Fase 0 — Pre-bootstrap
