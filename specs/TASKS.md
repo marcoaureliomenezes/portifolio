@@ -16,12 +16,7 @@
 Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
 Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
 
-- [-] T-FE-WAVE1 — visual identity foundation (amber + Inter/JBMono + dark toggle)
-- [-] T-FE-WAVE2 — microinteractions + scroll-triggered + skill semantic colors
-- [-] T-FE-WAVE3 — Hero memorável (avatar+halo+tagline+stats+CTAs)
-- [-] T-FE-05 — verificar Radix Dialog nos modais inline do Header
-- [-] T-CONTENT-05 — otimização de assets globais
-- [-] T-QA-13 — reativar gates Lighthouse + E2E (worktree paralelo)
+- [-] T-QA-13 — reativar gates Lighthouse + E2E (worktree paralelo, em curso)
 
 ---
 
@@ -262,7 +257,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
   - Cada filho ≤ 200 linhas. ✅
   - Sem duplicação desktop/mobile. ✅
 
-### `[-]` T-FE-05 — Substituir modais inline do Header por Radix Dialog
+### `[x]` T-FE-05 — Substituir modais inline do Header por Radix Dialog
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-03
@@ -452,7 +447,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
     `curl -sI https://stage.marco-menezes.com/cv.pdf | head -1` retorna `200`.
   - PR único para `develop` (conteúdo + testes na mesma janela atômica).
 
-### `[-]` T-CONTENT-05 — Otimização de assets globais
+### `[x]` T-CONTENT-05 — Otimização de assets globais
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-CONTENT-02, T-CONTENT-03, T-CONTENT-04
@@ -752,7 +747,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 > Sequencial: cada onda assume estilos da anterior. Owner único: `[software-engineer]`;
 > `[qa-engineer]` pareia em PR review (Axe + Lighthouse local).
 
-### `[-]` T-FE-WAVE1 — Identidade visual: paleta amber + Inter/JetBrains Mono + dark mode toggle
+### `[x]` T-FE-WAVE1 — Identidade visual: paleta amber + Inter/JetBrains Mono + dark mode toggle
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-CONTENT-06
@@ -795,7 +790,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
     `prefers-color-scheme` no first mount.
   - PR isolado para `develop`; QA pareia em review com Axe + Lighthouse local.
 
-### `[-]` T-FE-WAVE2 — Microinteractions + scroll-triggered + skill semantic colors
+### `[x]` T-FE-WAVE2 — Microinteractions + scroll-triggered + skill semantic colors
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE1
@@ -827,7 +822,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
   - PR isolado para `develop`; QA valida `prefers-reduced-motion` e Performance
     trace.
 
-### `[-]` T-FE-WAVE3 — Hero memorável: avatar+halo+tagline+stats+CTAs
+### `[x]` T-FE-WAVE3 — Hero memorável: avatar+halo+tagline+stats+CTAs
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE2
