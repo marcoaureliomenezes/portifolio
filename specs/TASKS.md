@@ -16,7 +16,8 @@
 Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [-]`).
 Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
 
-- [-] T-QA-13 — reativar gates Lighthouse + E2E (worktree paralelo, em curso)
+- [-] T-DEVOPS-09 — atualizar secrets stage com role OIDC final
+- [-] T-QA-14 — status checks nas branch protections
 
 ---
 
@@ -190,7 +191,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
   - Outputs do terraform: `cloudfront_distribution_id`, `github_actions_role_arn`
     (acessíveis via `terraform output` em job CI subsequente ou via state no S3).
 
-### `[ ]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
+### `[-]` T-DEVOPS-09 — Atualizar secrets stage com role OIDC final
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-DEVOPS-08
@@ -578,7 +579,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
   unit-tests/e2e/lighthouse". Jobs `e2e` e `lighthouse` estão `continue-on-error: true`
   desde `b94b8d0` para destrabar primeiro go-live — fechamento desse débito é T-QA-13.
 
-### `[ ]` T-QA-13 — Reativar gates Lighthouse + E2E (fechar tech debt b94b8d0)
+### `[x]` T-QA-13 — Reativar gates Lighthouse + E2E (fechar tech debt b94b8d0)
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-DEVOPS-08 (precisa de URL stage real para calibrar Lighthouse)
@@ -602,7 +603,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - **Justificativa:** regressão temporária introduzida em `b94b8d0`; o repo não pode
   entrar em fase P1 com gates de qualidade desativados.
 
-### `[ ]` T-QA-14 — Adicionar status checks às branch protections
+### `[-]` T-QA-14 — Adicionar status checks às branch protections
 
 - **Agente:** `[devops-engineer]` (operacional após T-QA-13 verde)
 - **Dep:** T-QA-13, T-DEVOPS-07
