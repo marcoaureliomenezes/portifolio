@@ -42,6 +42,9 @@ terraform/**/*.tfstate.backup
 .flask.pid
 **/.flask.pid
 
+# Git worktrees
+.worktrees/
+
 # Playwright
 frontend/playwright-report/
 frontend/test-results/
