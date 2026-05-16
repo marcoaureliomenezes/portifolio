@@ -54,6 +54,9 @@ const { useContent } = await import("./useContent");
 describe("useContent", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // LanguageProvider now reads localStorage on init; clear any value written
+    // by a previous test so initialLanguage prop is respected as intended.
+    localStorage.clear();
   });
 
   // -------------------------------------------------------------------------
