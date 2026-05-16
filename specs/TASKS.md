@@ -18,6 +18,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
+- [-] T-FE-QUAL-01 — TypeScript hygiene: fix 13 erros de compilação + enable strict
 
 ---
 
@@ -616,6 +617,371 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ---
 
+## Fase 2b — Qualidade Frontend (frontend-engineer)
+
+> Origem: rodada de revisão profunda (software-architect + frontend-engineer) em
+> 2026-05-16. Reports:
+> `.dadaia/reports/portifolio/software-architect/2026-05-16T030500Z-frontend-audit.html`
+> e `.dadaia/reports/portifolio/frontend-engineer/2026-05-16T031944Z-consensus-positions.md`.
+> Consenso entre os dois agentes em 5 dos 7 pontos; `[product-engineer]` decidiu os 2
+> pontos restantes (D1 e D2 abaixo).
+
+### Decisões do product-engineer (2026-05-16)
+
+**D1 — sidebar.tsx replacement como pré-requisito de T-FE-PROJ-02 (bloqueante).**
+Justificativa: ambos os agentes convergiram para HIGH em Q1. T-FE-PROJ-02 adiciona
+`/projetos` ao `routes.ts` e o `AppSidebar` consome essa lista. Estender uma nav
+construída sobre 761 LOC de `ui/sidebar.tsx` (Radix Sheet + 6 ui/ shadow files)
+para depois substituir o primitivo seria retrabalho garantido. Substituir AGORA
+significa adicionar a entrada `/projetos` em uma `<nav>` Tailwind de ~30 LOC ao
+invés de em vendor code. Custo: ~3h hoje vs. risco de extender a primitiva
+inflada e ter que refazer depois. T-FE-PROJ-02 ganha dependência explícita de
+T-FE-QUAL-03 (atualizada acima).
+
+**D2 — Bridges Header.tsx/Portfolio.tsx no sprint atual, mesmo PR de T-FE-QUAL-01.**
+Justificativa: architect rateou HIGH (cognitive overhead, build-on-stale risk),
+FE rateou MEDIUM mas recomendou incluir no sprint pelo baixo esforço. Custo de
+~30 min é trivial e está diretamente relacionado a T-FE-QUAL-01 (ao deletar
+`use-toast.ts` e consertar imports já se está mexendo na mesma camada). Marcar
+como independente (`Dep: —`) para permitir bundling no mesmo PR de T-FE-QUAL-01
+sem violar contrato de tasks atômicas; se forem PRs separados, qualquer ordem
+funciona.
+
+> Tasks abaixo: T-FE-QUAL-01 a T-FE-QUAL-10. Owner padrão: `frontend-engineer`.
+> `qa-engineer` pareia em PR review (Axe + tipos + smoke).
+
+### `[-]` T-FE-QUAL-01 — TypeScript hygiene: fix 13 erros de compilação + enable strict
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** —
+- **Toca:**
+  - `frontend/tsconfig.app.json` — habilitar `"strict": true`
+  - `frontend/src/hooks/use-toast.ts` — **DELETAR** (192 linhas mortas, import quebrado,
+    nenhum consumidor)
+  - `frontend/src/hooks/useContent.ts` — corrigir 2 unsafe casts (lines 45-46)
+  - `frontend/src/test-setup.ts` — limpar diretivas e mocks staleados
+  - `frontend/src/**/*.test.tsx` que envolvem `LanguageProvider` — adicionar `children`
+    prop missing nos render helpers
+  - Arquivos de teste com `@ts-expect-error` stale (notadamente
+    `frontend/src/hooks/useInView.test.tsx`) — remover diretivas que suprimem erros
+    inexistentes
+  - `.github/workflows/ci.yml` — adicionar job `typecheck` (`npx tsc --noEmit -p
+    tsconfig.app.json`) como gate de merge
+- **Contexto:** software-architect e frontend-engineer alinharam CRITICAL em Q6.
+  FE rodou `tsc --noEmit --strict` empiricamente e confirmou que strict adiciona
+  apenas ~3 erros novos em código de produção (vs. estimativa do architect de 30-80).
+  A maior parte dos 13 erros existentes está em test files. Sequência: fix dos 13
+  primeiro, depois enable strict, depois CI gate — evita misturar erros novos com
+  legados no mesmo diff de review.
+- **Critério de pronto:**
+  - `cd frontend && npx tsc --noEmit -p tsconfig.app.json` retorna 0 erros
+  - `frontend/src/hooks/use-toast.ts` deletado; `git status` confirma remoção
+  - `frontend/tsconfig.app.json` contém `"strict": true`
+  - `cd frontend && npm run build` passa sem warnings de tipo
+  - Job `typecheck` adicionado a `.github/workflows/ci.yml` e bloqueia merge em
+    caso de erro de tipo
+  - PR isolado para `develop`; QA pareia em review (verifica que o gate trava)
+
+### `[ ]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** — (pode ser bundled no mesmo PR de T-FE-QUAL-01 por decisão D2; ou rodar
+  como PR separado em qualquer ordem)
+- **Toca:**
+  - `frontend/src/components/Header.tsx` — reduzir a thin re-export de
+    `components/header/HeaderShell` (ou inline do wrapper `<header className="fixed...">`
+    em `HeaderShell` e deletar o arquivo)
+  - `frontend/src/components/Portfolio.tsx` — **DELETAR** (8 linhas de re-export
+    com `language` prop ignorada)
+  - `frontend/src/pages/Index.tsx` — atualizar imports para apontar diretamente para
+    `components/portfolio/Portfolio` e `components/header/HeaderShell`
+- **Contexto:** Q2 do consensus report. `Header.tsx` (69 linhas) tem
+  `DISPLAY_TO_LOCALE`/`LOCALE_TO_DISPLAY` + `isLegacy` branch que serve uma prop
+  `language="Português"` que `Index.tsx:10` nunca passa (`<Header />` sem props).
+  Bridge é fóssil de migração concluída. Architect: HIGH (build-on-stale).
+  FE: MEDIUM (sem bug ativo). PE D2: incluir no sprint, baixo esforço (~30 min).
+- **Critério de pronto:**
+  - `frontend/src/components/Portfolio.tsx` deletado; `Index.tsx` importa
+    diretamente de `components/portfolio/Portfolio`
+  - `frontend/src/components/Header.tsx` reduzido a thin re-export de
+    `components/header/HeaderShell` (ou removido se o wrapper `<header>` for
+    inlined em `HeaderShell`)
+  - Lógica `DISPLAY_TO_LOCALE`, `LOCALE_TO_DISPLAY`, `isLegacy` removida
+    completamente do repo (`grep -rn 'DISPLAY_TO_LOCALE\|LOCALE_TO_DISPLAY\|isLegacy'
+    frontend/src/` retorna vazio)
+  - `cd frontend && npx tsc --noEmit` continua 0 erros após a mudança
+  - `cd frontend && npm run build` verde; smoke E2E `home.spec.ts` passa
+  - PR isolado (ou bundled com T-FE-QUAL-01) para `develop`
+
+### `[ ]` T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-QUAL-01 (precisa de typecheck limpo + strict ligado para garantir
+  que nenhum consumidor escondido de `ui/sidebar.tsx` quebre em silêncio)
+- **Toca:**
+  - `frontend/src/components/ui/sidebar.tsx` — **DELETAR** (761 LOC vendor; apenas
+    8 dos ~26 exports são consumidos)
+  - `frontend/src/components/AppSidebar.tsx` — REWRITE como `<nav>` Tailwind nativa
+    (~30 LOC); consome `routes.ts`; mantém `aria-label="primary"`,
+    `aria-current="location"` (preserva critério de T-FE-07)
+  - `frontend/src/components/ui/{sheet,input,skeleton,separator,label}.tsx` —
+    **DELETAR** se `grep -rn 'from "@/components/ui/<arquivo>"' frontend/src`
+    confirmar zero consumidores fora de `ui/sidebar.tsx`
+  - `frontend/src/App.tsx` — remover `SidebarProvider` wrap (e qualquer hook
+    `useSidebar` correspondente em outros consumidores)
+  - `frontend/package.json` — remover Radix runtime deps que ficarem órfãs
+    (`@radix-ui/react-separator`, `@radix-ui/react-label` e Sheet/Tooltip/Skeleton
+    que só sobreviviam pela `ui/sidebar.tsx`); validar com `npm ls` antes
+- **Contexto:** Q1 do consensus report. Ambos os agentes convergiram em HIGH.
+  FE empiricamente confirmou que `sheet.tsx`, `tooltip.tsx`, `skeleton.tsx` são
+  importados unconditionally no topo de `sidebar.tsx` (lines 6-18) — esbuild
+  module-level tree-shaking não remove. Decisão D1 do PE: bloqueante de
+  T-FE-PROJ-02 (a nav `/projetos` deve ser adicionada na shape limpa).
+- **Critério de pronto:**
+  - `frontend/src/components/AppSidebar.tsx` reescrito como `<nav>` Tailwind
+    sem importar `ui/sidebar.tsx`; ≤ 50 LOC
+  - `frontend/src/components/ui/sidebar.tsx` deletado (`git status` confirma)
+  - Dependências órfãs removidas de `frontend/package.json` quando `npm ls`
+    confirmar zero consumidores; documentar no PR description quais foram
+    removidas e quais foram mantidas (e por quê)
+  - Visual/layout preservado (sidebar collapsível ou fixo conforme design atual);
+    QA valida em review
+  - Landmarks ARIA preservados: `<nav aria-label="primary">` + `aria-current="location"`
+    no link da rota ativa (não regredir T-FE-07)
+  - `cd frontend && npm run build` passa
+  - **Bundle delta:** ≥ 100KB de redução minified vs. baseline (registrar
+    snapshot antes/depois no PR description)
+  - `cd frontend && npm run test:run` verde; E2E `home.spec.ts` verde (sidebar
+    nav continua funcionando)
+  - PR isolado para `develop`; QA pareia em review
+
+### `[ ]` T-FE-QUAL-04 — Project layout shell: ProjectLayoutShell para `/projetos/*`
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-QUAL-03 (AppSidebar precisa estar limpo antes de extrair shell;
+  evita layering de shell sobre primitiva inflada)
+- **Toca:**
+  - `frontend/src/components/layout/ProjectLayoutShell.tsx` — NOVO; encapsula
+    Header (com `LanguageSelector` + `ThemeToggle`), link "← Voltar para Home" e
+    `<main>` com `<Outlet />` para conteúdo da página filha
+  - `frontend/src/App.tsx` — wrapping das rotas `/projetos/*` dentro de
+    `<Route element={<ProjectLayoutShell />}>...</Route>`
+  - `frontend/src/data/content/{pt,en,de}.json` — chave nova
+    `nav.backToHome` (PT: "Voltar para Home"; EN: "Back to Home";
+    DE: "Zurück zur Startseite")
+- **Contexto:** project pages atualmente perdem language selector e theme
+  toggle (não compartilham Header). Shell unifica Header + back-link + main
+  para todas as rotas `/projetos/*`. Pré-requisito de T-FE-QUAL-05 (que
+  unifica os 3 templates de project page no shell).
+- **Critério de pronto:**
+  - `ProjectLayoutShell` renderiza Header completo (LanguageSelector +
+    ThemeToggle) + link "← Voltar para Home" (router-link, não anchor) + `<main>`
+    com `<Outlet />`
+  - Todas as rotas `/projetos/*` (incluindo `/projetos`, `/projetos/<slug>`)
+    renderizam dentro de `ProjectLayoutShell`
+  - Navegação de volta funciona em todos os project pages (clique no link
+    leva a `/` via SPA, sem reload)
+  - LanguageSelector e ThemeToggle visíveis e funcionais nas project pages;
+    troca de idioma persiste ao navegar de volta para `/`
+  - E2E novo (ou estendido em E2E existente): navegar de `/` para
+    `/projetos/dadaia-workspace` e de volta para `/` funciona; LanguageSelector
+    visível em cada step
+  - Paridade i18n confirmada: `nav.backToHome` nos 3 JSONs
+  - `cd frontend && npm run test:run` verde; `npm run build` verde
+  - PR isolado para `develop`; QA pareia em review (3 viewports)
+
+### `[ ]` T-FE-QUAL-05 — ProjectTabPage unification: migrar TauanGamesPage e ArchitecturePage
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-QUAL-04
+- **Toca:**
+  - `frontend/src/pages/projects/ProjectTabPage.tsx` — estender
+    `ProjectSection` type com `"grid"` (game cards) e `"table"` (cost table);
+    remover JSX ad-hoc embutido se houver
+  - `frontend/src/pages/projects/TauanGamesPage.tsx` — REWRITE para compor via
+    `ProjectTabPage` (sem JSX ad-hoc); estrutura de jogos em
+    `frontend/src/data/content/{pt,en,de}.json` (já existe em `projects.tauan-games`)
+  - `frontend/src/pages/projects/ArchitecturePage.tsx` — REWRITE para compor via
+    `ProjectTabPage`; seções de costs/decisions/links via tipos `"table"`/`"grid"`
+- **Contexto:** atualmente as 3 project pages divergem: `DadaiaWorkspacePage`
+  usa `ProjectTabPage` corretamente, mas `TauanGamesPage` e `ArchitecturePage`
+  têm JSX ad-hoc duplicando layout/heading/spacing. Unificar via tipos extras
+  do `ProjectSection` evita drift visual entre páginas e simplifica
+  `T-FE-PROJ-04` (templates per-kind dispatch) — embora T-FE-PROJ-04 vá
+  substituir tudo eventualmente, esta unificação intermediária reduz risco
+  do refator final.
+- **Critério de pronto:**
+  - `ProjectSection` type extendido com `"grid"` e `"table"` (verificável em
+    `frontend/src/types/content.ts` ou onde quer que viva)
+  - `TauanGamesPage` e `ArchitecturePage` compostos via `ProjectTabPage`
+    (sem JSX ad-hoc específico de página); estrutura de dados em JSON
+    content, não hardcoded em JSX
+  - `DadaiaWorkspacePage` continua funcionando sem regressão
+  - `cd frontend && npm run test:run` verde; `npm run build` verde
+  - E2E `project-tabs.spec.ts` continua verde para os 3 slugs
+  - Inspeção visual: layout/heading/spacing das 3 abas idênticos
+  - PR isolado para `develop`; QA pareia em review (3 viewports)
+
+### `[ ]` T-FE-QUAL-06 — i18n debt: externalizar ~28 strings hardcoded
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-QUAL-01 (strict mode facilita detectar strings não tipadas
+  via `noUnusedParameters` e tipo de `useContent()` retorno)
+- **Toca:**
+  - `frontend/src/components/portfolio/ExperienceCard.tsx:87-88` — "Progressão de
+    carreira", "cargo", "cargos" (3 strings)
+  - `frontend/src/components/portfolio/CertificationCard.tsx:83,94` —
+    "Ver mais"/"Ver menos" (2; chaves existem em ContentData), "Emissor:" (1)
+  - `frontend/src/components/portfolio/CertificationCategoryGroup.tsx:60` —
+    "certificado/s" pluralization
+  - `frontend/src/components/header/EmailModal.tsx:42,64` — "Contato por Email"
+    (1), "Enviar Email" (1)
+  - `frontend/src/components/header/HeaderDesktopLayout.tsx:34` — "Ver maior"
+  - `frontend/src/components/header/HeaderMobileLayout.tsx:48` — "Ver maior"
+  - `frontend/src/components/header/AvatarImageModal.tsx:24` — "Foto de ${name}"
+    (sr-only, mas ainda assim wrong locale)
+  - `frontend/src/components/header/HeaderDesktopLayout.tsx:30` e
+    `HeaderMobileLayout.tsx:44` — "Foto de ${name}"
+  - `frontend/src/pages/projects/ArchitecturePage.tsx` — 12 strings: "Infrastructure
+    Diagram" (l.91), "Tech Stack" (l.114), "Layer"/"Technology" (l.121-126),
+    "Monthly Costs" (l.154), "Service"/"USD / month" (l.162-165), "Architectural
+    Decisions" (l.194), "Links" (l.225), "GitHub Repository"/"Terraform"/"Specs"
+    (l.237,245,253)
+  - `frontend/src/pages/projects/TauanGamesPage.tsx:132,134` — "Em construcao",
+    "Os jogos serao listados..."
+  - `frontend/src/pages/projects/ProjectTabPage.tsx:200,206-207` —
+    "Em construcao", "O conteudo..."
+  - `frontend/src/pages/NotFound.tsx` — "Oops! Page not found", "Return to Home"
+  - `frontend/src/data/content/{pt,en,de}.json` — adicionar todas as chaves
+    novas correspondentes
+  - `frontend/src/types/content.ts` — estender tipos para refletir chaves novas
+- **Contexto:** Q3 do consensus report. Architect contou ~20, FE recontou e
+  achou ~28; lista canônica acima é o resultado da reconciliação. MEDIUM
+  systematic gap. Esta task pode ser feita em paralelo com T-FE-QUAL-04/05
+  (toca arquivos diferentes), mas a coordenação de PR fica mais simples se
+  for feita após T-FE-QUAL-05 (que mexe em ArchitecturePage e TauanGamesPage).
+- **Critério de pronto:**
+  - Toda string user-visible da lista acima passa por `useContent()` ou chave de
+    content JSON; `grep -rn '"Em construcao"\|"Os jogos serao\|"Foto de\|"Ver
+    maior"\|"Progressão de carreira"\|"Emissor:"\|"Oops! Page not found"\|"Return
+    to Home"' frontend/src/` retorna apenas matches em `data/content/*.json`
+  - Novo conteúdo adicionado em `pt`, `en` (obrigatório); `de` opcional com
+    fallback `en` (regra existente do `useContent`)
+  - Tipos em `frontend/src/types/content.ts` estendidos
+  - Paridade estrutural i18n: `jq 'paths(scalars)' src/data/content/{en,pt,de}.json
+    | sort -u | uniq -c` — todos os paths novos aparecem 3x (em `pt` obrigatório;
+    `de` opcional com fallback é aceitável)
+  - `cd frontend && npm run build` e `npx tsc --noEmit` passam sem novos erros
+  - `cd frontend && npm run test:run` verde
+  - E2E `language-switch.spec.ts` continua verde após adapt das asserts
+  - PR isolado para `develop`; QA pareia em review
+
+### `[ ]` T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** —
+- **Toca:**
+  - `frontend/src/contexts/LanguageContext.tsx` (ou onde `LanguageProvider`
+    vive) — `setLanguage` escreve em `localStorage["lang"]`; `useState`
+    initializer lê de `localStorage["lang"]` com fallback `"pt"`
+  - `frontend/src/contexts/LanguageContext.test.tsx` (novo ou estendido) —
+    teste de persistência via `localStorage` mockado
+- **Contexto:** atualmente troca de idioma é resetada para default a cada
+  page reload, anulando troca explícita do usuário. Esforço mínimo (~30 min).
+  Mesma família de fix de `useTheme` (T-FE-WAVE1) que já persiste em
+  `localStorage.theme`.
+- **Critério de pronto:**
+  - `setLanguage(lang)` escreve `localStorage.setItem("lang", lang)`
+  - `useState` initializer lê `localStorage.getItem("lang")` com fallback `"pt"`
+  - Page reload preserva idioma selecionado
+  - E2E novo (ou estendido em `language-switch.spec.ts`): trocar idioma →
+    `page.reload()` → idioma persistido (asserção em `<html lang>` ou no
+    seletor de idioma do header)
+  - `cd frontend && npm run test:run` verde
+  - PR isolado para `develop`
+
+### `[ ]` T-FE-QUAL-08 — RoleCollapsible dead props cleanup
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-QUAL-01 (strict mode + `noUnusedParameters` facilitará detectar
+  props não consumidos em refactors futuros)
+- **Toca:**
+  - `frontend/src/components/portfolio/RoleCollapsible.tsx` — remover
+    `responsibilitiesLabel` e `technologiesLabel` do interface
+    `RoleCollapsibleProps` (lines 12-13); função já não destruturava esses props
+  - `frontend/src/components/portfolio/ExperienceCard.tsx:97-98` — parar de passar
+    `responsibilitiesLabel={labels.responsibilities}` e
+    `technologiesLabel={labels.technologies}`
+  - `frontend/src/components/portfolio/RoleCollapsible.test.tsx` (e qualquer
+    outro arquivo de teste que passe esses props) — atualizar
+- **Contexto:** Q7 do consensus report. Architect: MEDIUM. FE inicialmente HIGH,
+  revisou para MEDIUM após confirmar que props são silenciosamente ignorados
+  (componente lê de `labels.responsibilities` e `labels.technologies`
+  corretamente). Sem runtime bug; pure maintainability cleanup.
+- **Critério de pronto:**
+  - `responsibilitiesLabel` e `technologiesLabel` removidos do interface
+    `RoleCollapsibleProps`
+  - `ExperienceCard` para de passar os dead props
+  - Arquivos de teste atualizados (não passam mais os props removidos)
+  - `cd frontend && npx tsc --noEmit` passa (estrita ou não)
+  - `cd frontend && npm run test:run` verde
+  - PR isolado (ou bundled com T-FE-QUAL-06 se feito na mesma janela) para
+    `develop`
+
+### `[ ]` T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** —
+- **Toca:**
+  - `frontend/src/components/header/EmailModal.tsx` — substituir todas as
+    classes de cor brutas por design tokens:
+    - `bg-gray-50` → `bg-background` (ou `bg-muted` conforme contexto)
+    - `bg-blue-100` → `bg-accent` (ou `bg-accent-subtle` para variant amber)
+    - `text-gray-700` → `text-foreground` (ou `text-muted-foreground`)
+    - `bg-blue-600` → `bg-primary`
+    - `hover:bg-blue-700` → `hover:bg-primary/90`
+- **Contexto:** modal foi escrito antes do dark mode toggle (T-FE-WAVE1) e
+  carrega cores hardcoded que quebram em dark mode. Esforço ~30 min; isolado.
+- **Critério de pronto:**
+  - `grep -nE 'bg-(gray|blue|red|green|yellow|slate|zinc|neutral|stone)-[0-9]+|text-(gray|blue|red|green|yellow|slate|zinc|neutral|stone)-[0-9]+'
+    frontend/src/components/header/EmailModal.tsx` retorna vazio
+  - Modal visualmente correto em light mode (sem regressão) e em dark mode
+    (verificável via `<html class="dark">` toggle no DevTools)
+  - Axe DevTools no modal aberto: zero violações de contraste em ambos os modos
+  - `cd frontend && npm run test:run` verde (testes do EmailModal continuam
+    passando)
+  - PR isolado para `develop`; QA pareia em review com Axe + screenshot
+    light/dark
+
+### `[ ]` T-FE-QUAL-10 — CV PDF assets: adicionar currículos EN e DE
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** —
+- **Decisão do operador (2026-05-16):** adicionar os PDFs reais em EN e DE.
+- **Toca:**
+  - `frontend/public/resume-marco-aurelio.pdf` — currículo em inglês (operador fornece)
+  - `frontend/public/lebenslauf-marco-aurelio.pdf` — currículo em alemão (operador fornece)
+  - `frontend/src/data/profile.ts` — mapear `cvDownloadUrl` por idioma
+    (`pt` → `/cv.pdf`, `en` → `/resume-marco-aurelio.pdf`,
+    `de` → `/lebenslauf-marco-aurelio.pdf`)
+  - `frontend/src/components/header/ContactStrip.tsx` (ou `HeaderDesktopLayout`
+    / `HeaderMobileLayout`) — usar `cvDownloadUrl` do profile por idioma ativo
+- **Contexto:** `cv.pdf` em PT existe em `public/`. Os equivalentes EN e DE
+  estão ausentes, causando 404 silencioso no botão "Download CV" para visitantes
+  EN e DE. O operador confirmou que irá fornecer os arquivos PDF.
+- **Critério de pronto:**
+  - Operador adiciona `resume-marco-aurelio.pdf` e `lebenslauf-marco-aurelio.pdf`
+    em `frontend/public/` antes do merge da task
+  - `profile.ts` (ou equivalente) mapeia `cvDownloadUrl` por idioma
+  - Botão "Download CV" faz download do PDF correto para cada idioma (PT/EN/DE)
+  - `curl -sI http://localhost:4173/resume-marco-aurelio.pdf` retorna 200 após
+    `npm run preview`
+  - E2E verifica download link correto nos 3 idiomas
+  - `cd frontend && npm run test:run` verde
+  - PR isolado para `develop`
+
+---
+
 ## Fase 5 — Prod infra + Go-live
 
 ### `[ ]` T-DEVOPS-10 — Importar bucket prod no terraform state — **via CI**
@@ -875,7 +1241,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ### `[-]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
 
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-WAVE3 (`[x]`), T-CONTENT-06 (`[x]`)
 - **Toca:**
   - `frontend/src/types/content.ts` — adicionar `interface HighlightProject` (com
@@ -926,7 +1292,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ### `[ ]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
 
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-WAVE5
 - **Toca:**
   - `frontend/src/components/portfolio/RoleSkillBadges.tsx` (NOVO, ~30 linhas)
@@ -971,14 +1337,15 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 > Specs: F-P0-09 a F-P0-15 (Grupo B do plano `algum-feedback-sobre-o-merry-kay.md`).
 > Sequencial parcial: T-FE-PROJ-01 (modelo) destrava as 6 demais. T-FE-PROJ-04 (templates)
 > é gate para T-FE-PROJ-05 (diagramas) e T-FE-PROJ-06 (link-out). Owner padrão:
-> `software-engineer`; `game-developer` apenas se a task tocar `repos/tauan-games/`
-> (nenhuma desta Fase toca; publicação do GH Pages é PR separado naquele repo).
+> `frontend-engineer`; `devops-engineer` para qualquer bullet em `.github/workflows/`;
+> `game-developer` apenas se a task tocar `repos/tauan-games/` (nenhuma desta Fase
+> toca; publicação do GH Pages é PR separado naquele repo).
 > `qa-engineer` pareia em review (Axe + Lighthouse local + 3 viewports).
 
 ### `[ ]` T-FE-PROJ-01 — Projects Content Model (modelo unificado por `kind`)
 
 - **Spec:** `specs/features/projects-content-model/SPEC.md` (F-P0-09)
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-WAVE5 (PR #25 — coordenação de merge no mesmo arquivo
   `frontend/src/data/content/{pt,en,de}.json`; áreas disjuntas — WAVE5 mexe em
   `heroTagline`/`experiences`, esta task mexe em `projects.*`), T-FE-WAVE6
@@ -1011,8 +1378,9 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-02 — Projects Index Page (`/projetos`)
 
 - **Spec:** `specs/features/projects-index-page/SPEC.md` (F-P0-10)
-- **Agente:** `[software-engineer]`
-- **Dep:** T-FE-PROJ-01
+- **Agente:** `[frontend-engineer]`
+- **Dep:** T-FE-PROJ-01, T-FE-QUAL-03 (bloqueante por decisão D1 do PE em
+  2026-05-16; sidebar deve estar substituída antes de estender nav para `/projetos`)
 - **Toca:**
   - `frontend/src/routes.ts` — adicionar entrada `projects-index`
     (path `/projetos`, `inNav: true`, `inHeaderNav: true` — flag novo definido em
@@ -1042,7 +1410,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-03 — Nav Projects CTA (Header + Hero 3rd CTA)
 
 - **Spec:** `specs/features/nav-projects-cta/SPEC.md` (F-P0-11)
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-PROJ-02
 - **Toca:**
   - `frontend/src/routes.ts` — adicionar campo `inHeaderNav: boolean` ao tipo `Route`;
@@ -1077,7 +1445,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-04 — Projects Page Templates (per-kind dispatch + `useDocumentSeo`)
 
 - **Spec:** `specs/features/projects-page-templates/SPEC.md` (F-P0-12)
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-PROJ-01
 - **Toca:**
   - `frontend/src/hooks/useDocumentSeo.ts` (NOVO, ~25 linhas) — hook que seta
@@ -1123,7 +1491,10 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-05 — Projects Architecture Diagrams (light/dark SVG via `<picture>`)
 
 - **Spec:** `specs/features/projects-architecture-diagrams/SPEC.md` (F-P0-13)
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]` (componente, JSON i18n, Makefile target).
+  O bullet de `.github/workflows/ci.yml` (gate de tamanho de SVG) deve ser coordenado
+  com `[devops-engineer]` — separar em sub-PR ou hotfix-task se o ciclo de PR ficar
+  estendido.
 - **Dep:** T-FE-PROJ-04
 - **Toca:**
   - `frontend/src/types/content.ts` — adicionar `DiagramAsset` (`light`, `dark`, `alt`);
@@ -1164,9 +1535,10 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-06 — Tauan Games Link-Out (GH Pages, sem iframe)
 
 - **Spec:** `specs/features/tauan-games-link-out/SPEC.md` (F-P0-14)
-- **Agente:** `[software-engineer]` (portfólio — esta task). Publicação dos 2 jogos
-  no GH Pages do repo `tauan-games` é PR **separado** contra `repos/tauan-games/`,
-  domínio do `[game-developer]` (pré-condição operacional, não step desta task).
+- **Agente:** `[frontend-engineer]` (portfólio — esta task: JSON i18n, GameCard,
+  atributos de link, E2E). Publicação dos 2 jogos no GH Pages do repo `tauan-games`
+  é PR **separado** contra `repos/tauan-games/`, domínio do `[game-developer]`
+  (pré-condição operacional, não step desta task).
 - **Dep:** T-FE-PROJ-04
 - **Toca:**
   - `frontend/src/data/content/{pt,en,de}.json` — bloco `projects.list` no item
@@ -1213,8 +1585,10 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 ### `[ ]` T-FE-PROJ-07 — Projects Content i18n Parity (CI gate)
 
 - **Spec:** `specs/features/projects-content-i18n-parity/SPEC.md` (F-P0-15)
-- **Agente:** `[software-engineer]` + `[qa-engineer]` (configuração do status check
-  em branch protection)
+- **Agente:** `[frontend-engineer]` (script TypeScript, testes, package.json,
+  README) + `[devops-engineer]` (job `i18n-parity` no `.github/workflows/ci.yml` e
+  branch protection) + `[qa-engineer]` (valida que o gate efetivamente bloqueia
+  merge ao introduzir drift).
 - **Dep:** T-FE-PROJ-01
 - **Toca:**
   - `frontend/scripts/check-projects-i18n-parity.ts` (NOVO, ~120 linhas) — script
@@ -1261,7 +1635,8 @@ Pendências consolidadas para retomada:
 | W7 — identidade visual (sequencial) | T-FE-WAVE1 → T-FE-WAVE2 → T-FE-WAVE3; cada onda é 1 PR; QA pareia em PR review |
 | W8 — E2E pós-deploy | T-QA-15 (stage bloqueante + prod smoke); precisa T-QA-13 verde + T-DEVOPS-14 |
 | W9 — content AI emphasis (sequencial) | T-FE-WAVE5 → T-FE-WAVE6; depende de T-FE-WAVE3 e T-CONTENT-06 (`[x]`); paralelo seguro com W2/W4/W5/W8 |
-| W10 — área de Projetos (Grupo B, parcialmente paralelizável) | T-FE-PROJ-01 destrava todas; T-FE-PROJ-02 e T-FE-PROJ-04 e T-FE-PROJ-07 podem rodar em paralelo após T-FE-PROJ-01; T-FE-PROJ-03 espera T-FE-PROJ-02; T-FE-PROJ-05 e T-FE-PROJ-06 esperam T-FE-PROJ-04; T-FE-PROJ-07 fecha o ciclo com gate CI |
+| W10 — área de Projetos (Grupo B, parcialmente paralelizável) | T-FE-PROJ-01 destrava todas; T-FE-PROJ-02 e T-FE-PROJ-04 e T-FE-PROJ-07 podem rodar em paralelo após T-FE-PROJ-01; T-FE-PROJ-03 espera T-FE-PROJ-02; T-FE-PROJ-05 e T-FE-PROJ-06 esperam T-FE-PROJ-04; T-FE-PROJ-07 fecha o ciclo com gate CI. **NOVA dep (D1, 2026-05-16):** T-FE-PROJ-02 também espera T-FE-QUAL-03 (sidebar replacement) |
+| W11 — Fase 2b qualidade frontend (Q1-Q7 consensus 2026-05-16) | T-FE-QUAL-01 (TS hygiene + strict) é o destravador da maior parte do bloco. T-FE-QUAL-02 (bridges) e T-FE-QUAL-07 (lang persistence) e T-FE-QUAL-09 (EmailModal dark) e T-FE-QUAL-10 (CV PDFs) são INDEPENDENTES e podem rodar em paralelo a qualquer momento. T-FE-QUAL-03 (sidebar) → T-FE-QUAL-04 (shell) → T-FE-QUAL-05 (page unification) é a cadeia sequencial principal. T-FE-QUAL-06 (i18n) e T-FE-QUAL-08 (RoleCollapsible) dependem de T-FE-QUAL-01 e podem rodar em paralelo entre si. T-FE-QUAL-03 também é PRÉ-REQUISITO de T-FE-PROJ-02 (decisão D1) |
 
 ## Próxima tarefa imediata
 
@@ -1296,9 +1671,27 @@ T-FE-PROJ-01 (modelo `Project` discriminated union + Zod) é o destravador únic
 mergeado, T-FE-PROJ-02 (`/projetos` index), T-FE-PROJ-04 (templates per-kind) e
 T-FE-PROJ-07 (CI parity gate) podem ser pegos em paralelo. T-FE-PROJ-03 (nav header +
 3º CTA) segue T-FE-PROJ-02; T-FE-PROJ-05 (diagramas SVG light/dark) e T-FE-PROJ-06
-(link-out de tauan-games para GH Pages) seguem T-FE-PROJ-04. Owner padrão:
-`software-engineer`; publicação dos 2 jogos no GH Pages do repo `tauan-games`
-(pré-condição de T-FE-PROJ-06 para merge `main`) é PR separado, domínio do
-`game-developer`. Especificadas em `specs/features/projects-{content-model,index-page,
-nav-projects-cta,page-templates,architecture-diagrams,tauan-games-link-out,
+(link-out de tauan-games para GH Pages) seguem T-FE-PROJ-04. **Atualização 2026-05-16
+(decisão D1 do PE):** T-FE-PROJ-02 ganhou dep adicional em T-FE-QUAL-03 (sidebar
+replacement) — a nav `/projetos` deve ser adicionada na shape limpa, não na primitiva
+de 761 LOC. Owner padrão: `frontend-engineer`; publicação dos 2 jogos no GH Pages do
+repo `tauan-games` (pré-condição de T-FE-PROJ-06 para merge `main`) é PR separado,
+domínio do `game-developer`. Especificadas em `specs/features/projects-{content-model,
+index-page,nav-projects-cta,page-templates,architecture-diagrams,tauan-games-link-out,
 content-i18n-parity}/SPEC.md` (F-P0-09..15).
+
+**Frente Qualidade Frontend (Fase 2b — Q1–Q7 consensus 2026-05-16):**
+Decorre da rodada de revisão profunda software-architect + frontend-engineer
+(reports em `.dadaia/reports/portifolio/{software-architect,frontend-engineer}/`).
+Tarefas T-FE-QUAL-01 a T-FE-QUAL-10. Caminho crítico:
+T-FE-QUAL-01 (TypeScript hygiene + strict + CI gate, ~2h) é o desbloqueador da
+maior parte do bloco; libera T-FE-QUAL-03, T-FE-QUAL-06, T-FE-QUAL-08. A cadeia
+sequencial principal é T-FE-QUAL-03 (sidebar, ~3h) → T-FE-QUAL-04 (project layout
+shell, ~3h) → T-FE-QUAL-05 (page unification, ~3h) — fundamental para Fase 8 (D1
+do PE marca T-FE-QUAL-03 como bloqueante de T-FE-PROJ-02). Tarefas independentes
+que podem rodar em qualquer momento e ser paralelizadas com qualquer outra frente:
+T-FE-QUAL-02 (bridges, ~30min — bundlable com QUAL-01), T-FE-QUAL-07 (language
+persistence, ~30min), T-FE-QUAL-09 (EmailModal dark mode, ~30min), T-FE-QUAL-10
+(CV PDFs, ~15-30min, **decisão de produto pendente do operador entre Opção A e
+Opção B na própria task**). Owner: `frontend-engineer`; QA pareia em PR review
+(Axe + tipos + smoke).
