@@ -18,6 +18,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
+- [-] T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
 
 ---
 
@@ -681,7 +682,7 @@ funciona.
     caso de erro de tipo
   - PR isolado para `develop`; QA pareia em review (verifica que o gate trava)
 
-### `[ ]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
+### `[-]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** — (pode ser bundled no mesmo PR de T-FE-QUAL-01 por decisão D2; ou rodar
