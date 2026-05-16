@@ -758,7 +758,7 @@ funciona.
     nav continua funcionando)
   - PR isolado para `develop`; QA pareia em review
 
-### `[ ]` T-FE-QUAL-04 — Project layout shell: ProjectLayoutShell para `/projetos/*`
+### `[-]` T-FE-QUAL-04 — Project layout shell: ProjectLayoutShell para `/projetos/*`
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-03 (AppSidebar precisa estar limpo antes de extrair shell;
