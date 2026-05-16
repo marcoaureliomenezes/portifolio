@@ -22,6 +22,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - [-] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [x] T-FE-QUAL-05 — ProjectTabPage unification: migrar TauanGamesPage e ArchitecturePage
 
 ---
 
@@ -793,7 +794,7 @@ funciona.
   - `cd frontend && npm run test:run` verde; `npm run build` verde
   - PR isolado para `develop`; QA pareia em review (3 viewports)
 
-### `[ ]` T-FE-QUAL-05 — ProjectTabPage unification: migrar TauanGamesPage e ArchitecturePage
+### `[x]` T-FE-QUAL-05 — ProjectTabPage unification: migrar TauanGamesPage e ArchitecturePage
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-04
