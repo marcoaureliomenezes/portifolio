@@ -1,8 +1,8 @@
 /**
- * Header.test.tsx — T-QA-03
+ * Header.test.tsx — T-QA-03 (updated T-FE-QUAL-02)
  *
  * Targets:
- *  - Header renders with minimal props (smoke test)
+ *  - HeaderShell renders without crashing (smoke test)
  *  - On desktop (isMobile=false) renders HeaderDesktopLayout (hidden md:block)
  *  - On mobile (isMobile=true) renders HeaderMobileLayout (block md:hidden)
  *  - Mock useIsMobile() for both cases
@@ -68,15 +68,15 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 // --------------------------------------------------------------------------
-// Import Header after polyfills are set up
+// Import HeaderShell after polyfills are set up
 // --------------------------------------------------------------------------
-import { Header } from "../Header";
+import { HeaderShell } from "./HeaderShell";
 
 // --------------------------------------------------------------------------
 // Tests
 // --------------------------------------------------------------------------
 
-describe("Header", () => {
+describe("HeaderShell", () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
@@ -85,22 +85,22 @@ describe("Header", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders without crashing with default props", () => {
+  it("renders without crashing", () => {
     installMatchMediaMock(false);
-    render(<Header />, { wrapper: Wrapper });
+    render(<HeaderShell />, { wrapper: Wrapper });
     // The header element itself should be present
     expect(screen.getByRole("banner")).toBeInTheDocument();
   });
 
-  it("renders the name passed as prop", () => {
+  it("renders the operator name", () => {
     installMatchMediaMock(false);
-    render(<Header name="Test User" />, { wrapper: Wrapper });
-    expect(screen.getByText("Test User")).toBeInTheDocument();
+    render(<HeaderShell />, { wrapper: Wrapper });
+    expect(screen.getByText("Marco Aurelio Menezes")).toBeInTheDocument();
   });
 
   it("on desktop (isMobile=false) desktop layout is rendered (hidden md:block)", () => {
     installMatchMediaMock(false);
-    const { container } = render(<Header />, { wrapper: Wrapper });
+    const { container } = render(<HeaderShell />, { wrapper: Wrapper });
 
     // HeaderDesktopLayout renders a div with class "hidden md:block"
     const desktopLayout = container.querySelector(".hidden.md\\:block");
@@ -109,7 +109,7 @@ describe("Header", () => {
 
   it("on desktop (isMobile=false) mobile layout is NOT rendered", () => {
     installMatchMediaMock(false);
-    const { container } = render(<Header />, { wrapper: Wrapper });
+    const { container } = render(<HeaderShell />, { wrapper: Wrapper });
 
     // HeaderMobileLayout renders a div with class "block md:hidden"
     // When isMobile=false the branch is not rendered at all by HeaderShell
@@ -119,7 +119,7 @@ describe("Header", () => {
 
   it("on mobile (isMobile=true) mobile layout is rendered (block md:hidden)", () => {
     installMatchMediaMock(true);
-    const { container } = render(<Header />, { wrapper: Wrapper });
+    const { container } = render(<HeaderShell />, { wrapper: Wrapper });
 
     // HeaderMobileLayout renders divs with "block md:hidden" class
     const mobileLayout = container.querySelector(".block.md\\:hidden");
@@ -128,29 +128,15 @@ describe("Header", () => {
 
   it("on mobile (isMobile=true) desktop layout is NOT rendered", () => {
     installMatchMediaMock(true);
-    const { container } = render(<Header />, { wrapper: Wrapper });
+    const { container } = render(<HeaderShell />, { wrapper: Wrapper });
 
     const desktopLayout = container.querySelector(".hidden.md\\:block");
     expect(desktopLayout).toBeNull();
   });
 
-  it("accepts a language prop and passes it to HeaderShell", () => {
-    installMatchMediaMock(false);
-    // Just verify the component doesn't crash when language prop is provided
-    render(<Header language="en" />, { wrapper: Wrapper });
-    expect(screen.getByRole("banner")).toBeInTheDocument();
-  });
-
-  it("accepts an onLanguageChange prop and renders without error", () => {
-    installMatchMediaMock(false);
-    const spy = vi.fn();
-    render(<Header language="pt" onLanguageChange={spy} />, { wrapper: Wrapper });
-    expect(screen.getByRole("banner")).toBeInTheDocument();
-  });
-
   it("renders ThemeToggle (T-FE-WAVE1)", () => {
     installMatchMediaMock(false);
-    render(<Header />, { wrapper: Wrapper });
+    render(<HeaderShell />, { wrapper: Wrapper });
     expect(screen.getByRole("switch")).toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
-import { Header } from "@/components/Header";
-import { Portfolio } from "@/components/Portfolio";
+import { HeaderShell } from "@/components/header/HeaderShell";
+import { Portfolio } from "@/components/portfolio/Portfolio";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -7,7 +7,7 @@ const Index = () => {
   return (
     <SidebarProvider>
       <div className="min-h-screen bg-background w-full">
-        <Header />
+        <HeaderShell />
 
         <div className="flex w-full">
           <AppSidebar />
