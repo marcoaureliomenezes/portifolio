@@ -1411,7 +1411,7 @@ funciona.
   - E2E `projects-index.spec.ts` verde
   - PR isolado para `develop`; QA pareia em review (3 viewports + Axe)
 
-### `[-]` T-FE-PROJ-03 — Nav Projects CTA (Header + Hero 3rd CTA)
+### `[x]` T-FE-PROJ-03 — Nav Projects CTA (Header + Hero 3rd CTA)
 
 - **Spec:** `specs/features/nav-projects-cta/SPEC.md` (F-P0-11)
 - **Agente:** `[frontend-engineer]`
