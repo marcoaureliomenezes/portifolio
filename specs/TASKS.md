@@ -21,6 +21,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [x] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [x] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [-] T-FE-QUAL-05 — ProjectTabPage unification: migrar TauanGamesPage e ArchitecturePage
 
 ---
 
