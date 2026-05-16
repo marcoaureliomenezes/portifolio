@@ -18,7 +18,6 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
-- [-] T-FE-WAVE6 — RoleSkillBadges + HighlightProjectBlock
 
 ---
 
@@ -925,7 +924,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
     regressão vs. WAVE3).
   - PR isolado para `develop`; QA pareia em review.
 
-### `[-]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
+### `[x]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE5
