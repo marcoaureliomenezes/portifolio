@@ -4,6 +4,8 @@ export interface Route {
   labelKey: string;
   /** Whether this route appears in the sidebar nav */
   inNav: boolean;
+  /** Whether this route appears in the header nav (T-FE-PROJ-03) */
+  inHeaderNav?: boolean;
 }
 
 export const routes: Route[] = [
@@ -12,6 +14,13 @@ export const routes: Route[] = [
     path: "/",
     labelKey: "nav.home",
     inNav: false,
+  },
+  {
+    slug: "projects-index",
+    path: "/projetos",
+    labelKey: "nav.projects",
+    inNav: true,
+    inHeaderNav: true,
   },
   // Future project tabs (stubs — components come in T-FE-09 / T-CONTENT-*)
   {
@@ -41,3 +50,4 @@ export const routes: Route[] = [
 ];
 
 export const navRoutes = routes.filter((r) => r.inNav);
+export const headerNavRoutes = routes.filter((r) => r.inHeaderNav);

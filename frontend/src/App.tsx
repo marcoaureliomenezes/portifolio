@@ -22,10 +22,16 @@ const ArchitecturePage = lazy(() =>
     default: m.ArchitecturePage,
   })),
 );
+const ProjectsIndexPage = lazy(() =>
+  import("./pages/projects/ProjectsIndexPage").then((m) => ({
+    default: m.ProjectsIndexPage,
+  })),
+);
 
 const componentMap: Record<string, React.ReactElement> = {
   home: <Index />,
   "not-found": <NotFound />,
+  "projects-index": <ProjectsIndexPage />,
   "dadaia-workspace": <DadaiaWorkspacePage />,
   "tauan-games": <TauanGamesPage />,
   portifolio: <ArchitecturePage />,
