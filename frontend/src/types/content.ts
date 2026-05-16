@@ -230,6 +230,11 @@ export interface HeroCTAs {
   seeProjects?: string;   // 3rd CTA added in T-FE-PROJ-03
 }
 
+/** Navigation labels — keyed by route slug (T-FE-PROJ-03). */
+export interface NavLabels {
+  projects: string;
+}
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -243,6 +248,8 @@ export interface ContentData {
   validUntil: string;
   viewCredential: string;
   header: HeaderInfo;
+  /** Navigation labels (T-FE-PROJ-03). */
+  nav?: NavLabels;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
   heroTagline?: string;

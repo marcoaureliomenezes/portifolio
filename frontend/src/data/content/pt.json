@@ -17,7 +17,8 @@
   },
   "heroTagline": "AI-augmented data engineering em escala",
   "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
-  "heroCTAs": { "downloadCv": "Baixar CV", "seeExperience": "Ver experiência" },
+  "nav": { "projects": "Projetos" },
+  "heroCTAs": { "downloadCv": "Baixar CV", "seeExperience": "Ver experiência", "seeProjects": "Ver projetos" },
   "resume": {
     "short": "Engenheiro de Dados com 5 anos de experiência construindo pipelines de dados escaláveis, soluções de analytics e plataformas de big data. Expertise em stacks Cloudera on-premises, migrações para Azure + Databricks (arquitetura medallion) e replicação de streaming de IBM DB2 para Amazon Aurora via Kafka/MSK com CDC.",
     "full": "Engenheiro de Dados com 5 anos de experiência na construção de pipelines de dados escaláveis, soluções de analytics e plataformas de big data. Expertise prática em: projetar e manter pipelines de dados on-premises usando Cloudera (Hadoop, Hive, Spark), servidores Linux (pontos de entrada, file watchers, transferências de arquivos) e BMC Control-M para orquestração. Re-arquitetar pipelines de on-premises (Cloudera / SAS) para nuvem usando Azure Data Factory para ingestão e Databricks para transformação, aplicando a arquitetura medallion. Desenvolver pipelines de streaming para replicar dados transacionais do IBM DB2 para o Amazon Aurora PostgreSQL usando Kafka, Amazon MSK e MSK Connect com CDC. Experiência com CI/CD e ferramentas DevOps: Git, Jenkins, GitHub Actions, Jira, ServiceNow, Docker. Forte domínio de Python (10+ anos), SQL (5+ anos), Shell scripting (5+ anos) e Scala (2+ anos). Bacharel em Engenharia de Controle e Automação / Mecatrônica concluído em agosto de 2018."

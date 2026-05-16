@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import { HeroSection } from "./HeroSection";
 import type { ContentData } from "@/types/content";
 
@@ -48,5 +49,26 @@ describe("HeroSection", () => {
     const { heroTagline: _omit, ...rest } = baseContent;
     render(<HeroSection content={rest as ContentData} />);
     expect(screen.getByText("Resumo")).toBeInTheDocument();
+  });
+
+  // T-FE-PROJ-03 — 3rd CTA
+  it("renders seeProjects CTA as a link to /projetos when present (T-FE-PROJ-03)", () => {
+    const contentWith3Ctas = {
+      ...baseContent,
+      heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Ver projetos" },
+    } as ContentData;
+    render(
+      <MemoryRouter>
+        <HeroSection content={contentWith3Ctas} />
+      </MemoryRouter>
+    );
+    const projectsLink = screen.getByRole("link", { name: /ver projetos/i });
+    expect(projectsLink).toBeInTheDocument();
+    expect(projectsLink).toHaveAttribute("href", "/projetos");
+  });
+
+  it("does NOT render seeProjects CTA when absent from heroCTAs (T-FE-PROJ-03)", () => {
+    render(<HeroSection content={baseContent} />);
+    expect(screen.queryByRole("link", { name: /ver projetos/i })).toBeNull();
   });
 });

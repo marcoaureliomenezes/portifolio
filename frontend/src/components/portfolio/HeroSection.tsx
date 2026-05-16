@@ -1,5 +1,6 @@
-import { Download, ArrowDown } from "lucide-react";
+import { Download, ArrowDown, FolderOpen } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import profileAvatar from "@/assets/profile.webp";
 import { profile } from "@/data/profile";
@@ -89,6 +90,18 @@ export function HeroSection({ content }: HeroSectionProps) {
               <ArrowDown className="w-4 h-4 mr-2" aria-hidden="true" />
               {ctas.seeExperience}
             </Button>
+            {ctas.seeProjects && (
+              <Button
+                variant="outline"
+                asChild
+                className="border-accent/50 hover:border-accent hover:bg-accent-subtle"
+              >
+                <Link to="/projetos">
+                  <FolderOpen className="w-4 h-4 mr-2" aria-hidden="true" />
+                  {ctas.seeProjects}
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
 

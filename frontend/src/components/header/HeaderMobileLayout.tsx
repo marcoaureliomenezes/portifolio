@@ -1,4 +1,5 @@
 import { MapPin, Mail } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
@@ -8,6 +9,11 @@ import { ThemeToggle } from "./ThemeToggle";
 
 type ScrollState = "full" | "intermediate" | "compact";
 
+interface NavItem {
+  path: string;
+  label: string;
+}
+
 interface HeaderMobileLayoutProps {
   name: string;
   email: string;
@@ -16,6 +22,31 @@ interface HeaderMobileLayoutProps {
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
   scrollState: ScrollState;
+  navItems?: NavItem[];
+}
+
+function MobileNavStrip({ navItems }: { navItems: NavItem[] }) {
+  if (navItems.length === 0) return null;
+  return (
+    <nav aria-label="Primary" className="flex items-center justify-center gap-2">
+      {navItems.map((item) => (
+        <NavLink
+          key={item.path}
+          to={item.path}
+          className={({ isActive }) =>
+            [
+              "text-xs font-medium px-2 py-0.5 rounded transition-colors",
+              isActive
+                ? "text-header-text"
+                : "text-header-link hover:text-header-text",
+            ].join(" ")
+          }
+        >
+          {item.label}
+        </NavLink>
+      ))}
+    </nav>
+  );
 }
 
 function EmailTriggerMobile({ label }: { label: string }) {
@@ -35,6 +66,7 @@ export function HeaderMobileLayout({
   onLanguageChange,
   headerInfo,
   scrollState,
+  navItems = [],
 }: HeaderMobileLayoutProps) {
   if (scrollState === "full") {
     const avatarTrigger = (
@@ -78,6 +110,7 @@ export function HeaderMobileLayout({
             <span className="text-header-text-muted">|</span>
             <ContactStrip language={language} />
           </div>
+          <MobileNavStrip navItems={navItems} />
         </div>
       </div>
     );
@@ -107,6 +140,7 @@ export function HeaderMobileLayout({
             <span className="text-header-text-muted">|</span>
             <ContactStrip language={language} />
           </div>
+          <MobileNavStrip navItems={navItems} />
         </div>
       </div>
     );
@@ -138,6 +172,7 @@ export function HeaderMobileLayout({
           <span className="text-header-text-muted">|</span>
           <ContactStrip language={language} />
         </div>
+        <MobileNavStrip navItems={navItems} />
       </div>
     </div>
   );

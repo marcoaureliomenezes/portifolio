@@ -18,6 +18,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // --------------------------------------------------------------------------
@@ -64,7 +65,11 @@ function installMatchMediaMock(isMobile: boolean) {
 // --------------------------------------------------------------------------
 
 function Wrapper({ children }: { children: React.ReactNode }) {
-  return React.createElement(LanguageProvider, { initialLanguage: "pt" }, children);
+  return React.createElement(
+    MemoryRouter,
+    null,
+    React.createElement(LanguageProvider, { initialLanguage: "pt" }, children)
+  );
 }
 
 // --------------------------------------------------------------------------
@@ -152,5 +157,16 @@ describe("Header", () => {
     installMatchMediaMock(false);
     render(<Header />, { wrapper: Wrapper });
     expect(screen.getByRole("switch")).toBeInTheDocument();
+  });
+
+  // T-FE-PROJ-03 — Projects nav in desktop header
+  it("desktop header renders a primary nav with a Projetos link (T-FE-PROJ-03)", () => {
+    installMatchMediaMock(false);
+    render(<Header />, { wrapper: Wrapper });
+    const nav = screen.getByRole("navigation", { name: /primary/i });
+    expect(nav).toBeInTheDocument();
+    // The link text comes from pt.json heroCTAs or nav — look for Projetos
+    const link = screen.getByRole("link", { name: /projetos/i });
+    expect(link).toBeInTheDocument();
   });
 });

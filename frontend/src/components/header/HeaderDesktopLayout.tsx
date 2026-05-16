@@ -1,10 +1,16 @@
 import { MapPin, Mail } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
 import { EmailModal } from "./EmailModal";
 import { ThemeToggle } from "./ThemeToggle";
+
+interface NavItem {
+  path: string;
+  label: string;
+}
 
 interface HeaderDesktopLayoutProps {
   name: string;
@@ -13,6 +19,7 @@ interface HeaderDesktopLayoutProps {
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
+  navItems?: NavItem[];
 }
 
 export function HeaderDesktopLayout({
@@ -22,6 +29,7 @@ export function HeaderDesktopLayout({
   language,
   onLanguageChange,
   headerInfo,
+  navItems = [],
 }: HeaderDesktopLayoutProps) {
   const avatarTrigger = (
     <button className="group relative">
@@ -47,6 +55,26 @@ export function HeaderDesktopLayout({
     <div className="hidden md:block relative">
       <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
         <ThemeToggle />
+        {navItems.length > 0 && (
+          <nav aria-label="Primary">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  [
+                    "text-xs font-medium px-2 py-1 rounded transition-colors",
+                    isActive
+                      ? "text-header-text"
+                      : "text-header-link hover:text-header-text",
+                  ].join(" ")
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
         <LanguageSelector language={language} onLanguageChange={onLanguageChange} />
       </div>
 
