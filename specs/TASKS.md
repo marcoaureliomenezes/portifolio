@@ -22,6 +22,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - [-] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [-] T-FE-PROJ-02 — Projects Index Page (`/projetos`)
 
 ---
 
@@ -1378,7 +1379,7 @@ funciona.
     typecheck durante a janela até T-FE-PROJ-04 — incluir no PR se necessário
   - PR isolado para `develop`; QA pareia em review
 
-### `[ ]` T-FE-PROJ-02 — Projects Index Page (`/projetos`)
+### `[-]` T-FE-PROJ-02 — Projects Index Page (`/projetos`)
 
 - **Spec:** `specs/features/projects-index-page/SPEC.md` (F-P0-10)
 - **Agente:** `[frontend-engineer]`
