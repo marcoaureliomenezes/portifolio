@@ -23,8 +23,7 @@ describe("useInView", () => {
       disconnect,
       takeRecords: () => [],
     }));
-    // @ts-expect-error stubbing global
-    globalThis.IntersectionObserver = ObserverSpy;
+    globalThis.IntersectionObserver = ObserverSpy as unknown as typeof IntersectionObserver;
 
     render(<Probe />);
     expect(ObserverSpy).toHaveBeenCalled();
@@ -32,8 +31,7 @@ describe("useInView", () => {
   });
 
   it("falls through to inView=true when IntersectionObserver is unavailable (graceful fallback)", () => {
-    // @ts-expect-error simulate absence
-    globalThis.IntersectionObserver = undefined;
+    globalThis.IntersectionObserver = undefined as unknown as typeof IntersectionObserver;
     const { getByTestId } = render(<Probe />);
     expect(getByTestId("probe").getAttribute("data-in-view")).toBe("true");
   });

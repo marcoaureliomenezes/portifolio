@@ -20,7 +20,7 @@ import type { ContentData } from "@/types/content";
 // We mock the de.json module to expose a version with `resumeTitle` set to null,
 // so deepMergeWithFallback must fall back to the en value.
 vi.mock("@/data/content/de.json", async (importOriginal) => {
-  const original = await importOriginal<typeof import("@/data/content/de.json")>();
+  const original = (await importOriginal()) as { default: ContentData };
   return {
     default: {
       ...original.default,
