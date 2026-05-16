@@ -431,129 +431,177 @@
     }
   ],
   "projects": {
-    "dadaia-workspace": {
-      "hero": {
-        "title": "dadaia-workspace",
-        "tagline": "Ecossistema agente SDD — spec-driven development com agentes de IA colaborativos.",
-        "logo": "/assets/projects/dadaia-workspace/logo.svg"
-      },
-      "sections": [
-        {
-          "id": "what",
-          "title": "O que é",
-          "body": "dadaia-workspace é um ecossistema de agentes de inteligência artificial orquestrado para spec-driven development (SDD). Cada agente tem papel e escopo bem definido — product-engineer, software-engineer, qa-engineer, devops-engineer — e colaboram por meio de specs e contextos compartilhados."
-        },
-        {
-          "id": "why",
-          "title": "Por que existe",
-          "body": "A maioria das ferramentas de IA para desenvolvimento trata o agente como assistente genérico. dadaia-workspace inverte isso: cada agente conhece suas fronteiras, lê as specs antes de agir, e nunca escreve código fora do seu domínio. O resultado é um workflow reproduzível, auditável e seguro."
-        },
-        {
-          "id": "how",
-          "title": "Como funciona",
-          "body": "O operador ativa um contexto de projeto (`dadaia context activate <nome>`). Cada agente lê as specs correspondentes, executa suas tarefas e reporta de volta. Todos os agentes rodam sobre o mesmo LLM mas com system prompts e permissões distintas. O projeto usa Claude (Anthropic) como modelo base.",
-          "diagram": "/assets/projects/dadaia-workspace/diagram.svg"
-        },
-        {
-          "id": "status",
-          "title": "Status atual",
-          "items": [
-            { "label": "Versão", "value": "v0.12.0" },
-            { "label": "Agentes ativos", "value": "5 (product, software, qa, devops, game-developer)" },
-            { "label": "Contextos suportados", "value": "portifolio, hermes-jobs, tauan-games" },
-            { "label": "Último marco", "value": "Migração de conteúdo para JSON estático (T-CONTENT-01)" }
-          ]
-        }
-      ],
-      "cta": {
-        "github": "https://github.com/marcoaureliomenezes/dadaia-workspace",
-        "docs": ""
-      },
+    "index": {
+      "title": "Projetos",
+      "subtitle": "Sistemas reais que construo — código auditável, decisões registradas.",
       "seo": {
-        "title": "dadaia-workspace — Marco Menezes",
-        "description": "Ecossistema agente SDD para spec-driven development com agentes de IA colaborativos."
+        "title": "Projetos — Marco Menezes",
+        "description": "Estudos de caso, meta-arquitetura do portfólio e jogos desenvolvidos com IA."
       }
     },
-    "tauan-games": {
-      "hero": {
-        "title": "tauan-games",
-        "tagline": "Jogos feitos em casa com meu filho Tauan."
-      },
-      "items": [
-        {
-          "slug": "aero-fighters-babylon",
-          "title": "Aero Fighters (Babylon.js)",
-          "engine": "Babylon.js",
-          "image": "/assets/projects/tauan-games/aero-fighters-babylon.svg",
-          "body": "Protótipo de shooter aéreo desenvolvido com Babylon.js. Projeto que nasceu do desejo de criar algo jogável junto com o Tauan, explorando física básica, sprites e controles de teclado no browser.",
-          "repo": "https://github.com/marcoaureliomenezes/tauan-games"
+    "kindCaseStudy": "Estudo de caso",
+    "kindMeta": "Meta-projeto",
+    "kindGames": "Jogos",
+    "list": [
+      {
+        "slug": "dadaia-workspace",
+        "kind": "case-study",
+        "hero": {
+          "title": "dadaia-workspace",
+          "tagline": "Ecossistema agente SDD — spec-driven development com agentes de IA colaborativos.",
+          "logo": "/assets/projects/dadaia-workspace/logo.svg"
         },
-        {
-          "slug": "tauan-trex",
-          "title": "tauan-trex",
-          "engine": "JavaScript",
-          "image": "/assets/projects/tauan-games/tauan-trex.svg",
-          "body": "Recriação do clássico jogo do dinossauro do Chrome, personalizado com elementos criados pelo Tauan. Um projeto de fim de semana para aprender eventos de teclado e animação no canvas HTML5.",
-          "repo": "https://github.com/marcoaureliomenezes/tauan-games"
+        "card": {
+          "cover": "/assets/projects/dadaia-workspace/cover.webp",
+          "summary": "Ecossistema de agentes de IA para spec-driven development colaborativo.",
+          "tech": ["Claude", "Python", "Docker", "GitHub Actions", "Anthropic SDK"]
+        },
+        "seo": {
+          "title": "dadaia-workspace — Marco Menezes",
+          "description": "Ecossistema agente SDD para spec-driven development com agentes de IA colaborativos."
+        },
+        "sections": [
+          {
+            "id": "what",
+            "title": "O que é",
+            "body": "dadaia-workspace é um ecossistema de agentes de inteligência artificial orquestrado para spec-driven development (SDD). Cada agente tem papel e escopo bem definido — product-engineer, software-engineer, qa-engineer, devops-engineer — e colaboram por meio de specs e contextos compartilhados."
+          },
+          {
+            "id": "why",
+            "title": "Por que existe",
+            "body": "A maioria das ferramentas de IA para desenvolvimento trata o agente como assistente genérico. dadaia-workspace inverte isso: cada agente conhece suas fronteiras, lê as specs antes de agir, e nunca escreve código fora do seu domínio. O resultado é um workflow reproduzível, auditável e seguro."
+          },
+          {
+            "id": "how",
+            "title": "Como funciona",
+            "body": "O operador ativa um contexto de projeto (`dadaia context activate <nome>`). Cada agente lê as specs correspondentes, executa suas tarefas e reporta de volta. Todos os agentes rodam sobre o mesmo LLM mas com system prompts e permissões distintas. O projeto usa Claude (Anthropic) como modelo base.",
+            "diagram": "/assets/projects/dadaia-workspace/diagram.svg"
+          },
+          {
+            "id": "status",
+            "title": "Status atual",
+            "items": [
+              { "label": "Versão", "value": "v0.12.0" },
+              { "label": "Agentes ativos", "value": "5 (product, software, qa, devops, game-developer)" },
+              { "label": "Contextos suportados", "value": "portifolio, hermes-jobs, tauan-games" },
+              { "label": "Último marco", "value": "Migração de conteúdo para JSON estático (T-CONTENT-01)" }
+            ]
+          }
+        ],
+        "cta": {
+          "github": "https://github.com/marcoaureliomenezes/dadaia-workspace",
+          "docs": ""
         }
-      ],
-      "seo": {
-        "title": "tauan-games — Marco Menezes",
-        "description": "Protótipos de jogos desenvolvidos com Tauan em Babylon.js e JavaScript."
-      }
-    },
-    "portifolio": {
-      "hero": {
-        "title": "Arquitetura deste portfólio",
-        "tagline": "Como este site é construído, hospedado e mantido."
       },
-      "diagram": "/assets/projects/portifolio/architecture.svg",
-      "stack": [
-        { "layer": "Frontend", "tech": "React 18 + Vite 7 + TypeScript 5.5" },
-        { "layer": "UI", "tech": "Tailwind CSS 3 + shadcn/ui (podado)" },
-        { "layer": "Testes", "tech": "Vitest + RTL + Playwright + LHCI" },
-        { "layer": "Infra", "tech": "S3 (OAC) + CloudFront + ACM + Route53" },
-        { "layer": "IaC", "tech": "Terraform 1.9, backend S3 remoto" },
-        { "layer": "CI/CD", "tech": "GitHub Actions com OIDC (sem long-lived keys)" }
-      ],
-      "costs": [
-        { "service": "Route53 hosted zone", "monthly_usd": 0.50 },
-        { "service": "S3 storage", "monthly_usd": 0.00 },
-        { "service": "CloudFront", "monthly_usd": 0.00 },
-        { "service": "ACM cert", "monthly_usd": 0.00 },
-        { "service": "Total estimado", "monthly_usd": 0.50 }
-      ],
-      "decisions": [
-        {
-          "title": "React/Vite em vez de Next.js ou Astro",
-          "rationale": "ROI alto para 5 rotas estáticas; sem necessidade de SSR ou edge rendering.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/memory/architecture.md"
+      {
+        "slug": "portifolio",
+        "kind": "meta",
+        "hero": {
+          "title": "Arquitetura deste portfólio",
+          "tagline": "Como este site é construído, hospedado e mantido."
         },
-        {
-          "title": "2 ambientes AWS (stage + prod), dev local",
-          "rationale": "Gate explícito antes de prod sem custo adicional.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/foundation/SPEC.md"
+        "card": {
+          "cover": "/assets/projects/portifolio/cover.webp",
+          "summary": "Meta-projeto: como este portfólio é construído — infra AWS, React/Vite e IaC Terraform.",
+          "tech": ["React", "TypeScript", "AWS", "Terraform", "GitHub Actions"]
         },
-        {
-          "title": "OIDC sem long-lived AWS keys",
-          "rationale": "Sem secrets AWS persistidos; trust restrito ao repo do portfólio.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/security/SPEC.md"
+        "seo": {
+          "title": "Arquitetura deste portfólio — Marco Menezes",
+          "description": "Stack, infra terraform, custos mensais e decisões arquiteturais do site marco-menezes.com."
         },
-        {
-          "title": "CMS-lite no roadmap (não no P0)",
-          "rationale": "Sem redeploy para mudar texto no futuro, sem complexidade extra agora.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/features/cms-lite/SPEC.md"
-        }
-      ],
-      "links": {
-        "repo": "https://github.com/marcoaureliomenezes/portifolio",
-        "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
-        "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
+        "diagram": "/assets/projects/portifolio/architecture.svg",
+        "stack": [
+          { "layer": "Frontend", "tech": "React 18 + Vite 7 + TypeScript 5.5" },
+          { "layer": "UI", "tech": "Tailwind CSS 3 + shadcn/ui (podado)" },
+          { "layer": "Testes", "tech": "Vitest + RTL + Playwright + LHCI" },
+          { "layer": "Infra", "tech": "S3 (OAC) + CloudFront + ACM + Route53" },
+          { "layer": "IaC", "tech": "Terraform 1.9, backend S3 remoto" },
+          { "layer": "CI/CD", "tech": "GitHub Actions com OIDC (sem long-lived keys)" }
+        ],
+        "costs": [
+          { "service": "Route53 hosted zone", "monthly_usd": 0.50 },
+          { "service": "S3 storage", "monthly_usd": 0.00 },
+          { "service": "CloudFront", "monthly_usd": 0.00 },
+          { "service": "ACM cert", "monthly_usd": 0.00 },
+          { "service": "Total estimado", "monthly_usd": 0.50 }
+        ],
+        "decisions": [
+          {
+            "title": "React/Vite em vez de Next.js ou Astro",
+            "rationale": "ROI alto para 5 rotas estáticas; sem necessidade de SSR ou edge rendering.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/memory/architecture.md"
+          },
+          {
+            "title": "2 ambientes AWS (stage + prod), dev local",
+            "rationale": "Gate explícito antes de prod sem custo adicional.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/foundation/SPEC.md"
+          },
+          {
+            "title": "OIDC sem long-lived AWS keys",
+            "rationale": "Sem secrets AWS persistidos; trust restrito ao repo do portfólio.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/security/SPEC.md"
+          },
+          {
+            "title": "CMS-lite no roadmap (não no P0)",
+            "rationale": "Sem redeploy para mudar texto no futuro, sem complexidade extra agora.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/features/cms-lite/SPEC.md"
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/portifolio",
+          "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
+          "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
+        },
+        "sections": [
+          {
+            "id": "ai-stack",
+            "title": "AI & Agentic Stack",
+            "body": "Este portfólio é construído e mantido com auxílio de agentes de IA especializados via dadaia-workspace. O fluxo completo — desde spec até commit — usa Claude Code (Sonnet 4.6 / Opus 4.7) com múltiplos agentes: frontend-engineer, devops-engineer, qa-engineer e software-architect. Cada agente lê as specs antes de agir, nunca escreve fora do seu domínio e commita com histórico auditável."
+          },
+          {
+            "id": "roadmap",
+            "title": "Roadmap",
+            "body": "P1 — CMS-lite: edição de conteúdo sem redeploy via Lambda Go + JSON Schema.\nP1 — Go Lambda backend: validação server-side e endpoint de analytics.\nFuturo — Multi-region CloudFront + WAF/Shield para resiliência global.\nFuturo — Snapshot visual (Percy/Chromatic) como gate de CI.\nFuturo — Schema.org JSON-LD para SEO estruturado nos cards de projetos."
+          }
+        ]
       },
-      "seo": {
-        "title": "Arquitetura deste portfólio — Marco Menezes",
-        "description": "Stack, infra terraform, custos mensais e decisões arquiteturais do site marco-menezes.com."
+      {
+        "slug": "tauan-games",
+        "kind": "games",
+        "hero": {
+          "title": "tauan-games",
+          "tagline": "Jogos feitos em casa com meu filho Tauan."
+        },
+        "card": {
+          "cover": "/assets/projects/tauan-games/cover.webp",
+          "summary": "Jogos feitos em casa com meu filho Tauan — browser games com Babylon.js e JavaScript.",
+          "tech": ["Babylon.js", "JavaScript", "HTML5 Canvas", "Phaser"]
+        },
+        "seo": {
+          "title": "tauan-games — Marco Menezes",
+          "description": "Protótipos de jogos desenvolvidos com Tauan em Babylon.js e JavaScript."
+        },
+        "items": [
+          {
+            "slug": "aero-fighters-babylon",
+            "title": "Aero Fighters (Babylon.js)",
+            "engine": "Babylon.js",
+            "cover": "/assets/projects/tauan-games/aero-fighters-babylon.svg",
+            "body": "Protótipo de shooter aéreo desenvolvido com Babylon.js. Projeto que nasceu do desejo de criar algo jogável junto com o Tauan, explorando física básica, sprites e controles de teclado no browser.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters-babylon/"
+          },
+          {
+            "slug": "tauan-trex",
+            "title": "tauan-trex",
+            "engine": "JavaScript",
+            "cover": "/assets/projects/tauan-games/tauan-trex.svg",
+            "body": "Recriação do clássico jogo do dinossauro do Chrome, personalizado com elementos criados pelo Tauan. Um projeto de fim de semana para aprender eventos de teclado e animação no canvas HTML5.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
+          }
+        ]
       }
-    }
+    ]
   }
 }

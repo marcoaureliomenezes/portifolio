@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useContent } from "@/hooks/useContent";
 import { ProjectTabPage } from "./ProjectTabPage";
 import type { ProjectTabContent, ProjectSection } from "./ProjectTabPage";
-import type { ProjectSectionData } from "@/types/content";
+import type { CaseStudyProject, ProjectSectionData } from "@/types/content";
 
 /**
  * DadaiaWorkspacePage — T-CONTENT-02
@@ -15,7 +15,7 @@ import type { ProjectSectionData } from "@/types/content";
  */
 export function DadaiaWorkspacePage() {
   const { content } = useContent();
-  const project = content.projects?.["dadaia-workspace"];
+  const project = content.projects?.list?.find((p) => p.slug === "dadaia-workspace") as CaseStudyProject | undefined;
 
   // Fallback to sensible defaults if content is not yet populated.
   const hero = project?.hero ?? {

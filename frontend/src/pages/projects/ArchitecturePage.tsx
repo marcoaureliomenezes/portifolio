@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { MetaProject } from "@/types/content";
 
 /**
  * ArchitecturePage — T-CONTENT-04
@@ -13,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
  */
 export function ArchitecturePage() {
   const { content } = useContent();
-  const project = content.projects?.["portifolio"];
+  const project = content.projects?.list?.find((p) => p.slug === "portifolio") as MetaProject | undefined;
 
   const hero = project?.hero ?? {
     title: "Portfolio Architecture",
@@ -213,6 +214,26 @@ export function ArchitecturePage() {
             </CardContent>
           </Card>
         </section>
+      )}
+
+      {/* ── AI stack / Roadmap sections ──────────────────────────── */}
+      {project?.sections && project.sections.length > 0 && (
+        <>
+          {project.sections.map((s) => (
+            <section key={s.id} aria-labelledby={`portifolio-${s.id}-heading`}>
+              <Card>
+                <CardHeader>
+                  <CardTitle id={`portifolio-${s.id}-heading`} className="text-lg font-semibold">
+                    {s.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">{s.body}</p>
+                </CardContent>
+              </Card>
+            </section>
+          ))}
+        </>
       )}
 
       {/* ── Links ────────────────────────────────────────────────── */}

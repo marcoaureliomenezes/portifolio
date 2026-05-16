@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { GameItem } from "@/types/content";
+import type { GamesProject, GameLink } from "@/types/content";
 
 /**
  * TauanGamesPage — T-CONTENT-03
@@ -17,14 +17,14 @@ import type { GameItem } from "@/types/content";
  */
 export function TauanGamesPage() {
   const { content } = useContent();
-  const project = content.projects?.["tauan-games"];
+  const project = content.projects?.list?.find((p) => p.slug === "tauan-games") as GamesProject | undefined;
 
   const hero = project?.hero ?? {
     title: "tauan-games",
     tagline: "Games built at home with my son Tauan.",
   };
 
-  const items: GameItem[] = project?.items ?? [];
+  const items: GameLink[] = project?.items ?? [];
 
   const seo = project?.seo ?? {
     title: "tauan-games — Marco Menezes",
@@ -85,7 +85,7 @@ export function TauanGamesPage() {
               >
                 <div className="overflow-hidden rounded-t-lg">
                   <img
-                    src={item.image}
+                    src={item.cover}
                     alt={`${item.title} screenshot`}
                     className="w-full h-48 object-cover"
                     loading="lazy"

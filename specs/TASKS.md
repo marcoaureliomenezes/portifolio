@@ -1345,7 +1345,7 @@ funciona.
 > toca; publicação do GH Pages é PR separado naquele repo).
 > `qa-engineer` pareia em review (Axe + Lighthouse local + 3 viewports).
 
-### `[-]` T-FE-PROJ-01 — Projects Content Model (modelo unificado por `kind`)
+### `[x]` T-FE-PROJ-01 — Projects Content Model (modelo unificado por `kind`)
 
 - **Spec:** `specs/features/projects-content-model/SPEC.md` (F-P0-09)
 - **Agente:** `[frontend-engineer]`

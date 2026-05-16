@@ -103,6 +103,7 @@ export interface DadaiaWorkspaceProject {
   seo: ProjectSeoData;
 }
 
+/** @deprecated Use GameLink instead. Kept for migration compatibility. */
 export interface GameItem {
   slug: string;
   title: string;
@@ -112,6 +113,7 @@ export interface GameItem {
   repo: string;
 }
 
+/** @deprecated Use GamesProject instead. */
 export interface TauanGamesProject {
   hero: ProjectHeroData;
   items: GameItem[];
@@ -140,6 +142,7 @@ export interface PortifolioProjectLinks {
   specs: string;
 }
 
+/** @deprecated Use MetaProject instead. */
 export interface PortifolioProject {
   hero: ProjectHeroData;
   diagram: string;
@@ -150,10 +153,67 @@ export interface PortifolioProject {
   seo: ProjectSeoData;
 }
 
+// ── Discriminated union model (F-P0-09) ─────────────────────────────────────
+
+export type ProjectKind = "case-study" | "games" | "meta";
+
+export interface ProjectCard {
+  cover: string;    // path: /assets/projects/<slug>/cover.webp
+  summary: string;  // 1-2 sentence description for the index card
+  tech: string[];   // display tags (>= 3)
+}
+
+export interface ProjectBase {
+  slug: string;
+  kind: ProjectKind;
+  hero: ProjectHeroData;
+  card: ProjectCard;
+  seo: ProjectSeoData;
+  diagram?: string;
+}
+
+export interface CaseStudyProject extends ProjectBase {
+  kind: "case-study";
+  sections: ProjectSectionData[];
+  cta: ProjectCtaData;
+}
+
+export interface MetaProject extends ProjectBase {
+  kind: "meta";
+  sections: ProjectSectionData[];
+  stack: StackRow[];
+  costs: CostRow[];
+  decisions: ArchDecision[];
+  links: PortifolioProjectLinks;
+}
+
+export interface GameLink {
+  slug: string;
+  title: string;
+  engine: string;
+  cover: string;    // /assets/projects/tauan-games/<slug>.webp (fallback to .svg)
+  body: string;
+  repo: string;
+  playUrl: string;  // GH Pages URL (F-P0-14)
+}
+
+export interface GamesProject extends ProjectBase {
+  kind: "games";
+  items: GameLink[];
+}
+
+export type Project = CaseStudyProject | MetaProject | GamesProject;
+
 export interface ProjectsContent {
-  "dadaia-workspace": DadaiaWorkspaceProject;
-  "tauan-games": TauanGamesProject;
-  portifolio: PortifolioProject;
+  index: {
+    title: string;
+    subtitle?: string;
+    seo: ProjectSeoData;
+  };
+  kindCaseStudy?: string;
+  kindMeta?: string;
+  kindGames?: string;
+  list: Project[];  // FIXED order: dadaia-workspace -> portifolio -> tauan-games
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -167,6 +227,7 @@ export interface HeroStats {
 export interface HeroCTAs {
   downloadCv: string;
   seeExperience: string;
+  seeProjects?: string;   // 3rd CTA added in T-FE-PROJ-03
 }
 
 export interface ContentData {
