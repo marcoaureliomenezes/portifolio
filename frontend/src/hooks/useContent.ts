@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { LanguageContext } from "@/contexts/LanguageContext";
 import type { SupportedLanguages, ContentData } from "@/types/content";
-import { ProjectsContentSchema } from "@/lib/schemas/projects";
 
 // Static JSON imports — Vite resolves and bundles these at build time.
 // T-CONTENT-01: migrated from TypeScript constant modules to JSON files.
@@ -79,10 +78,12 @@ export function useContent() {
   const content = resolveContent(language);
 
   if (content.projects && import.meta.env.DEV) {
-    const result = ProjectsContentSchema.safeParse(content.projects);
-    if (!result.success) {
-      console.error("[content] invalid projects shape", result.error);
-    }
+    import("@/lib/schemas/projects").then(({ ProjectsContentSchema }) => {
+      const result = ProjectsContentSchema.safeParse(content.projects);
+      if (!result.success) {
+        console.error("[content] invalid projects shape", result.error);
+      }
+    });
   }
 
   function label(key: keyof ContentData): string {

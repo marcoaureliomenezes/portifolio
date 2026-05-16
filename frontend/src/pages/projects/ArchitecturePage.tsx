@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { MetaProject } from "@/types/content";
-
 /**
  * ArchitecturePage — T-CONTENT-04
  *
@@ -14,7 +12,8 @@ import type { MetaProject } from "@/types/content";
  */
 export function ArchitecturePage() {
   const { content } = useContent();
-  const project = content.projects?.list?.find((p) => p.slug === "portifolio") as MetaProject | undefined;
+  const raw = content.projects?.list?.find((p) => p.slug === "portifolio");
+  const project = raw?.kind === "meta" ? raw : undefined;
 
   const hero = project?.hero ?? {
     title: "Portfolio Architecture",

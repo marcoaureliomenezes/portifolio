@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { GamesProject, GameLink } from "@/types/content";
+import type { GameLink } from "@/types/content";
 
 /**
  * TauanGamesPage — T-CONTENT-03
@@ -17,7 +17,8 @@ import type { GamesProject, GameLink } from "@/types/content";
  */
 export function TauanGamesPage() {
   const { content } = useContent();
-  const project = content.projects?.list?.find((p) => p.slug === "tauan-games") as GamesProject | undefined;
+  const raw = content.projects?.list?.find((p) => p.slug === "tauan-games");
+  const project = raw?.kind === "games" ? raw : undefined;
 
   const hero = project?.hero ?? {
     title: "tauan-games",
