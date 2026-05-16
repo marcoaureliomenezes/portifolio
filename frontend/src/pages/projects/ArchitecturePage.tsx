@@ -1,15 +1,18 @@
 import { useEffect } from "react";
-import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ProjectTabPage } from "./ProjectTabPage";
+import type { ProjectTabContent, ProjectSection } from "./ProjectTabPage";
 
 /**
- * ArchitecturePage — T-CONTENT-04
+ * ArchitecturePage — T-CONTENT-04 / T-FE-QUAL-05
  *
  * Meta-page explaining how this portfolio is built: stack, infra, costs,
  * architecture decisions, and links.
  *
  * Route: /projetos/portifolio
+ *
+ * Delegates rendering to the generic `ProjectTabPage` template using
+ * "diagram", "table", and "decisions" section types.
  */
 export function ArchitecturePage() {
   const { content } = useContent();
@@ -58,205 +61,68 @@ export function ArchitecturePage() {
     }
   }, [seo.title, seo.description]);
 
-  return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={seo.title}
-    >
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section aria-labelledby="portifolio-hero-heading">
-        <Card className="w-full shadow-glow border-0 bg-gradient-to-br from-card to-accent/30 hover:shadow-large transition-all duration-300">
-          <CardContent className="pt-8 pb-6 flex flex-col items-center text-center gap-4">
-            <h1
-              id="portifolio-hero-heading"
-              className="text-2xl md:text-4xl font-bold text-primary"
-            >
-              {hero.title}
-            </h1>
-            <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
-              {hero.tagline}
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+  const sections: ProjectSection[] = [
+    {
+      id: "diagram",
+      type: "diagram",
+      title: "Infrastructure Diagram",
+      body: "",
+      diagram,
+    },
+    ...(stack.length > 0
+      ? [
+          {
+            id: "stack",
+            type: "table" as const,
+            title: "Tech Stack",
+            headers: ["Layer", "Technology"] as [string, string],
+            rows: stack.map((row) => ({ col1: row.layer, col2: row.tech })),
+          },
+        ]
+      : []),
+    ...(costs.length > 0
+      ? [
+          {
+            id: "costs",
+            type: "table" as const,
+            title: "Monthly Costs",
+            headers: ["Service", "USD / month"] as [string, string],
+            rows: costs.map((row) => ({
+              col1: row.service,
+              col2: `$${row.monthly_usd.toFixed(2)}`,
+            })),
+          },
+        ]
+      : []),
+    ...(decisions.length > 0
+      ? [
+          {
+            id: "decisions",
+            type: "decisions" as const,
+            title: "Architectural Decisions",
+            items: decisions.map((d) => ({
+              title: d.title,
+              rationale: d.rationale,
+              spec: d.spec,
+            })),
+          },
+        ]
+      : []),
+  ];
 
-      {/* ── Diagram ──────────────────────────────────────────────── */}
-      <section aria-labelledby="portifolio-diagram-heading">
-        <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-          <CardHeader className="pb-2">
-            <CardTitle
-              id="portifolio-diagram-heading"
-              className="text-lg md:text-2xl font-bold text-foreground"
-            >
-              Infrastructure Diagram
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <img
-              src={diagram}
-              alt="Portfolio infrastructure architecture diagram"
-              className="w-full rounded-lg border border-border"
-              loading="lazy"
-            />
-          </CardContent>
-        </Card>
-      </section>
+  const tabContent: ProjectTabContent = {
+    hero,
+    sections,
+    cta: {
+      github: links.repo,
+      githubLabel: "GitHub Repository",
+      extraLinks: [
+        { href: links.terraform, label: "Terraform" },
+        { href: links.specs, label: "Specs" },
+      ],
+    },
+    seo,
+  };
 
-      {/* ── Stack table ──────────────────────────────────────────── */}
-      {stack.length > 0 && (
-        <section aria-labelledby="portifolio-stack-heading">
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id="portifolio-stack-heading"
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                Tech Stack
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-muted-foreground font-medium w-1/3">
-                      Layer
-                    </th>
-                    <th className="text-left py-2 text-foreground font-medium">
-                      Technology
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {stack.map((row) => (
-                    <tr key={row.layer}>
-                      <td className="py-2 pr-4 text-muted-foreground">{row.layer}</td>
-                      <td className="py-2 text-foreground font-mono text-xs">
-                        {row.tech}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
-        </section>
-      )}
-
-      {/* ── Cost table ───────────────────────────────────────────── */}
-      {costs.length > 0 && (
-        <section aria-labelledby="portifolio-costs-heading">
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id="portifolio-costs-heading"
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                Monthly Costs
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-muted-foreground font-medium">
-                      Service
-                    </th>
-                    <th className="text-right py-2 text-muted-foreground font-medium">
-                      USD / month
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {costs.map((row) => (
-                    <tr key={row.service}>
-                      <td className="py-2 pr-4 text-foreground">{row.service}</td>
-                      <td className="py-2 text-right font-mono text-xs text-foreground">
-                        ${row.monthly_usd.toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
-        </section>
-      )}
-
-      {/* ── Architectural decisions ───────────────────────────────── */}
-      {decisions.length > 0 && (
-        <section aria-labelledby="portifolio-decisions-heading">
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id="portifolio-decisions-heading"
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                Architectural Decisions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {decisions.map((d) => (
-                  <li key={d.title} className="border-l-2 border-primary/40 pl-4">
-                    <a
-                      href={d.spec}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-primary hover:underline text-sm"
-                    >
-                      {d.title}
-                    </a>
-                    <p className="text-muted-foreground text-xs mt-1">{d.rationale}</p>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
-      )}
-
-      {/* ── Links ────────────────────────────────────────────────── */}
-      <section aria-labelledby="portifolio-links-heading">
-        <Card className="w-full shadow-medium border-0 bg-card">
-          <CardHeader className="pb-2">
-            <CardTitle
-              id="portifolio-links-heading"
-              className="text-lg font-bold text-foreground"
-            >
-              Links
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-4">
-            <a
-              href={links.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              GitHub Repository
-            </a>
-            <a
-              href={links.terraform}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              Terraform
-            </a>
-            <a
-              href={links.specs}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              Specs
-            </a>
-          </CardContent>
-        </Card>
-      </section>
-    </main>
-  );
+  return <ProjectTabPage content={tabContent} slug="portifolio" />;
 }

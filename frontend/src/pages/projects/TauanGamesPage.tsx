@@ -1,19 +1,17 @@
 import { useEffect } from "react";
-import { ExternalLink } from "lucide-react";
 import { useContent } from "@/hooks/useContent";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { ProjectTabPage } from "./ProjectTabPage";
+import type { ProjectTabContent, ProjectSection } from "./ProjectTabPage";
 import type { GameItem } from "@/types/content";
 
 /**
- * TauanGamesPage — T-CONTENT-03
+ * TauanGamesPage — T-CONTENT-03 / T-FE-QUAL-05
  *
  * Concrete project tab page for `/projetos/tauan-games`.
- * Renders a hero + grid of game cards, each with:
- *   - Placeholder/screenshot image (lazy loaded)
- *   - Engine badge
- *   - Description paragraph
- *   - GitHub link (target=_blank rel="noopener noreferrer")
+ * Delegates rendering to the generic `ProjectTabPage` template using the
+ * "grid" section type for game cards.
+ *
+ * SEO: sets document.title + description meta tag via useEffect.
  */
 export function TauanGamesPage() {
   const { content } = useContent();
@@ -24,12 +22,12 @@ export function TauanGamesPage() {
     tagline: "Games built at home with my son Tauan.",
   };
 
-  const items: GameItem[] = project?.items ?? [];
-
   const seo = project?.seo ?? {
     title: "tauan-games — Marco Menezes",
     description: "Game prototypes developed with Tauan.",
   };
+
+  const items: GameItem[] = project?.items ?? [];
 
   useEffect(() => {
     document.title = seo.title;
@@ -52,100 +50,32 @@ export function TauanGamesPage() {
     }
   }, [seo.title, seo.description]);
 
-  return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={seo.title}
-    >
-      {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section aria-labelledby="tauan-games-hero-heading">
-        <Card className="w-full shadow-glow border-0 bg-gradient-to-br from-card to-accent/30 hover:shadow-large transition-all duration-300">
-          <CardContent className="pt-8 pb-6 flex flex-col items-center text-center gap-4">
-            <h1
-              id="tauan-games-hero-heading"
-              className="text-2xl md:text-4xl font-bold text-primary"
-            >
-              {hero.title}
-            </h1>
-            <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
-              {hero.tagline}
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+  const sections: ProjectSection[] = [
+    {
+      id: "games",
+      type: "grid",
+      title: "Games",
+      items: items.map((item) => ({
+        slug: item.slug,
+        title: item.title,
+        engine: item.engine,
+        image: item.image,
+        body: item.body,
+        repo: item.repo,
+      })),
+      emptyMessage: "Os jogos serao listados aqui em breve.",
+    },
+  ];
 
-      {/* ── Game cards grid ───────────────────────────────────────── */}
-      {items.length > 0 && (
-        <section aria-label="Game list">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {items.map((item) => (
-              <Card
-                key={item.slug}
-                className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300 flex flex-col"
-              >
-                <div className="overflow-hidden rounded-t-lg">
-                  <img
-                    src={item.image}
-                    alt={`${item.title} screenshot`}
-                    className="w-full h-48 object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="text-lg font-bold text-foreground">
-                      {item.title}
-                    </CardTitle>
-                    <Badge variant="secondary" className="shrink-0 text-xs">
-                      {item.engine}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="flex flex-col gap-4 flex-1">
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {item.body}
-                  </p>
-                  <a
-                    href={item.repo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mt-auto"
-                  >
-                    <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                    GitHub
-                  </a>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
+  const tabContent: ProjectTabContent = {
+    hero,
+    sections,
+    cta: {
+      github: "https://github.com/marcoaureliomenezes/tauan-games",
+      githubLabel: "GitHub",
+    },
+    seo,
+  };
 
-      {items.length === 0 && (
-        <section aria-labelledby="tauan-games-placeholder-heading">
-          <Card className="w-full border border-dashed border-border bg-muted/30">
-            <CardContent className="py-12 flex flex-col items-center text-center gap-4">
-              <h2
-                id="tauan-games-placeholder-heading"
-                className="text-lg font-semibold text-muted-foreground"
-              >
-                Em construcao
-              </h2>
-              <p className="text-sm text-muted-foreground max-w-md">
-                Os jogos serao listados aqui em breve.
-              </p>
-              <a
-                href="https://github.com/marcoaureliomenezes/tauan-games"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline text-sm"
-              >
-                github.com/marcoaureliomenezes/tauan-games
-              </a>
-            </CardContent>
-          </Card>
-        </section>
-      )}
-    </main>
-  );
+  return <ProjectTabPage content={tabContent} slug="tauan-games" />;
 }

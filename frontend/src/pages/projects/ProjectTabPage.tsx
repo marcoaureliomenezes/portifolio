@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 /**
@@ -11,15 +12,81 @@ export interface StatusItem {
 }
 
 /**
+ * A row in a generic two-column table section.
+ */
+export interface TableRow {
+  col1: string;
+  col2: string;
+}
+
+/**
+ * A game card item displayed in the "grid" section.
+ */
+export interface GridItem {
+  slug: string;
+  title: string;
+  engine: string;
+  image: string;
+  body: string;
+  repo: string;
+}
+
+/**
+ * An architectural decision item displayed in the "decisions" section.
+ */
+export interface DecisionItem {
+  title: string;
+  rationale: string;
+  spec: string;
+}
+
+/**
+ * An extra link displayed in the CTA section beyond the primary GitHub link.
+ */
+export interface CtaLink {
+  href: string;
+  label: string;
+}
+
+/**
  * A content section rendered inside the page.
- * - type "body": renders a heading + paragraph body.
- * - type "status": renders a heading + a list of key-value items.
- * - type "diagram": renders a heading + body text + an <img>.
+ * - type "body"      : renders a heading + paragraph body.
+ * - type "status"    : renders a heading + a key-value dl list.
+ * - type "diagram"   : renders a heading + body text + an <img>.
+ * - type "grid"      : renders a heading + a 2-col card grid (game cards).
+ * - type "table"     : renders a heading + a 2-col semantic table.
+ * - type "decisions" : renders a heading + a styled ordered list of ADRs.
  */
 export type ProjectSection =
   | { id: string; type?: "body"; title: string; body: string }
   | { id: string; type: "status"; title: string; items: StatusItem[] }
-  | { id: string; type: "diagram"; title: string; body: string; diagram: string };
+  | {
+      id: string;
+      type: "diagram";
+      title: string;
+      body: string;
+      diagram: string;
+    }
+  | {
+      id: string;
+      type: "grid";
+      title: string;
+      items: GridItem[];
+      emptyMessage?: string;
+    }
+  | {
+      id: string;
+      type: "table";
+      title: string;
+      headers: [string, string];
+      rows: TableRow[];
+    }
+  | {
+      id: string;
+      type: "decisions";
+      title: string;
+      items: DecisionItem[];
+    };
 
 /**
  * Hero block displayed at the top of every project tab page.
@@ -42,6 +109,8 @@ export interface ProjectCta {
   /** Label overrides — defaults to "GitHub" / "Docs". */
   githubLabel?: string;
   docsLabel?: string;
+  /** Additional links rendered as outline buttons. */
+  extraLinks?: CtaLink[];
 }
 
 /**
@@ -77,6 +146,7 @@ interface ProjectTabPageProps {
  * this with their own content objects — no markup duplication.
  *
  * T-FE-09 delivers the template; T-CONTENT-02/03/04 wire the three concrete pages.
+ * T-FE-QUAL-05 extends ProjectSection with "grid", "table", and "decisions" types.
  */
 export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
   const { hero, sections, cta, seo } = content;
@@ -170,6 +240,152 @@ export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
           );
         }
 
+        if (section.type === "grid") {
+          const { items, emptyMessage } = section;
+          return (
+            <section key={section.id} aria-labelledby={headingId}>
+              {items.length > 0 ? (
+                <>
+                  <h2 id={headingId} className="sr-only">
+                    {section.title}
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {items.map((item) => (
+                      <Card
+                        key={item.slug}
+                        className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300 flex flex-col"
+                      >
+                        <div className="overflow-hidden rounded-t-lg">
+                          <img
+                            src={item.image}
+                            alt={`${item.title} screenshot`}
+                            className="w-full h-48 object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                        <CardHeader className="pb-2">
+                          <div className="flex items-start justify-between gap-2">
+                            <CardTitle className="text-lg font-bold text-foreground">
+                              {item.title}
+                            </CardTitle>
+                            <Badge variant="secondary" className="shrink-0 text-xs">
+                              {item.engine}
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="flex flex-col gap-4 flex-1">
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {item.body}
+                          </p>
+                          <a
+                            href={item.repo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline mt-auto"
+                          >
+                            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                            GitHub
+                          </a>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <Card className="w-full border border-dashed border-border bg-muted/30">
+                  <CardContent className="py-12 flex flex-col items-center text-center gap-4">
+                    <h2
+                      id={headingId}
+                      className="text-lg font-semibold text-muted-foreground"
+                    >
+                      Em construcao
+                    </h2>
+                    <p className="text-sm text-muted-foreground max-w-md">
+                      {emptyMessage ?? "O conteudo desta secao esta sendo preparado."}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </section>
+          );
+        }
+
+        if (section.type === "table") {
+          const [header1, header2] = section.headers;
+          return (
+            <section key={section.id} aria-labelledby={headingId}>
+              <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
+                <CardHeader className="pb-2">
+                  <CardTitle
+                    id={headingId}
+                    className="text-lg md:text-2xl font-bold text-foreground"
+                  >
+                    {section.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-2 pr-4 text-muted-foreground font-medium w-1/3">
+                          {header1}
+                        </th>
+                        <th className="text-left py-2 text-foreground font-medium">
+                          {header2}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {section.rows.map((row) => (
+                        <tr key={row.col1}>
+                          <td className="py-2 pr-4 text-muted-foreground">{row.col1}</td>
+                          <td className="py-2 text-foreground font-mono text-xs">
+                            {row.col2}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </CardContent>
+              </Card>
+            </section>
+          );
+        }
+
+        if (section.type === "decisions") {
+          return (
+            <section key={section.id} aria-labelledby={headingId}>
+              <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
+                <CardHeader className="pb-2">
+                  <CardTitle
+                    id={headingId}
+                    className="text-lg md:text-2xl font-bold text-foreground"
+                  >
+                    {section.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-4">
+                    {section.items.map((d) => (
+                      <li key={d.title} className="border-l-2 border-primary/40 pl-4">
+                        <a
+                          href={d.spec}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-primary hover:underline text-sm"
+                        >
+                          {d.title}
+                        </a>
+                        <p className="text-muted-foreground text-xs mt-1">{d.rationale}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </section>
+          );
+        }
+
         // Default: type === "body" (or undefined)
         return (
           <section key={section.id} aria-labelledby={headingId}>
@@ -257,6 +473,20 @@ export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
                 </a>
               </Button>
             )}
+
+            {cta.extraLinks?.map((link) => (
+              <Button key={link.href} asChild variant="outline">
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2"
+                >
+                  <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                  {link.label}
+                </a>
+              </Button>
+            ))}
           </CardContent>
         </Card>
       </section>
