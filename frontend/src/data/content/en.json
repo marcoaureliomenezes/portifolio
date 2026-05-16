@@ -479,6 +479,7 @@
         "title": "tauan-games",
         "tagline": "Games built at home with my son Tauan."
       },
+      "emptyMessage": "Games will be listed here soon.",
       "items": [
         {
           "slug": "aero-fighters-babylon",
@@ -550,6 +551,17 @@
         "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
         "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
       },
+      "labels": {
+        "diagram": "Infrastructure Diagram",
+        "stack": "Tech Stack",
+        "stackHeaders": ["Layer", "Technology"],
+        "costs": "Monthly Costs",
+        "costsHeaders": ["Service", "USD / month"],
+        "decisions": "Architectural Decisions",
+        "githubRepository": "GitHub Repository",
+        "terraform": "Terraform",
+        "specs": "Specs"
+      },
       "seo": {
         "title": "Portfolio Architecture — Marco Menezes",
         "description": "Stack, terraform infra, monthly costs, and architectural decisions for marco-menezes.com."
@@ -558,5 +570,20 @@
   },
   "nav": {
     "backToHome": "Back to Home"
+  },
+  "careerProgression": "Career Progression",
+  "roleSingular": "role",
+  "rolePlural": "roles",
+  "issuer": "Issuer",
+  "certificate": "certificate",
+  "certificates": "certificates",
+  "contactByEmail": "Contact by Email",
+  "sendEmail": "Send Email",
+  "viewLarger": "View larger",
+  "photoAlt": "Photo of {name}",
+  "notFoundTitle": "Oops! Page not found",
+  "ui": {
+    "underConstruction": "Under construction",
+    "contentComingSoon": "Content will be available soon."
   }
 }

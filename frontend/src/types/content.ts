@@ -116,6 +116,7 @@ export interface TauanGamesProject {
   hero: ProjectHeroData;
   items: GameItem[];
   seo: ProjectSeoData;
+  emptyMessage?: string;
 }
 
 export interface StackRow {
@@ -140,6 +141,18 @@ export interface PortifolioProjectLinks {
   specs: string;
 }
 
+export interface PortifolioProjectLabels {
+  diagram: string;
+  stack: string;
+  stackHeaders: [string, string];
+  costs: string;
+  costsHeaders: [string, string];
+  decisions: string;
+  githubRepository: string;
+  terraform: string;
+  specs: string;
+}
+
 export interface PortifolioProject {
   hero: ProjectHeroData;
   diagram: string;
@@ -148,6 +161,7 @@ export interface PortifolioProject {
   decisions: ArchDecision[];
   links: PortifolioProjectLinks;
   seo: ProjectSeoData;
+  labels?: PortifolioProjectLabels;
 }
 
 export interface ProjectsContent {
@@ -160,6 +174,11 @@ export interface ProjectsContent {
 
 export interface NavLabels {
   backToHome: string;
+}
+
+export interface UiLabels {
+  underConstruction: string;
+  contentComingSoon: string;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -202,4 +221,16 @@ export interface ContentData {
   projects?: ProjectsContent;
   /** Navigation labels (T-FE-QUAL-04) */
   nav?: NavLabels;
+  careerProgression?: string;
+  roleSingular?: string;
+  rolePlural?: string;
+  issuer?: string;
+  certificate?: string;
+  certificates?: string;
+  contactByEmail?: string;
+  sendEmail?: string;
+  viewLarger?: string;
+  photoAlt?: string;
+  notFoundTitle?: string;
+  ui?: UiLabels;
 }
