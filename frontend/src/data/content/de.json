@@ -555,5 +555,8 @@
         "description": "Stack, Terraform-Infra, monatliche Kosten und Architekturentscheidungen für marco-menezes.com."
       }
     }
+  },
+  "nav": {
+    "backToHome": "Zurück zur Startseite"
   }
 }

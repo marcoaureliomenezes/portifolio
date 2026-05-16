@@ -156,6 +156,12 @@ export interface ProjectsContent {
   portifolio: PortifolioProject;
 }
 
+// ── Navigation labels ─────────────────────────────────────────────────────────
+
+export interface NavLabels {
+  backToHome: string;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface HeroStats {
@@ -194,4 +200,6 @@ export interface ContentData {
   education: Education;
   certifications: Certification[];
   projects?: ProjectsContent;
+  /** Navigation labels (T-FE-QUAL-04) */
+  nav?: NavLabels;
 }

@@ -3,7 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
-import { routes } from "./routes";
+import ProjectLayoutShell from "./components/layout/ProjectLayoutShell";
 
 // Lazy chunks — keep home (LCP route) eager; defer everything else.
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -23,27 +23,44 @@ const ArchitecturePage = lazy(() =>
   })),
 );
 
-const componentMap: Record<string, React.ReactElement> = {
-  home: <Index />,
-  "not-found": <NotFound />,
-  "dadaia-workspace": <DadaiaWorkspacePage />,
-  "tauan-games": <TauanGamesPage />,
-  portifolio: <ArchitecturePage />,
-};
-
+/**
+ * App — T-FE-QUAL-04
+ *
+ * Route structure:
+ *   /                           → Index (home, has its own HeaderShell)
+ *   /projetos/*                 → ProjectLayoutShell (shared header + back-link)
+ *     /projetos/dadaia-workspace → DadaiaWorkspacePage
+ *     /projetos/tauan-games      → TauanGamesPage
+ *     /projetos/portifolio       → ArchitecturePage
+ *   *                           → NotFound
+ */
 const App = () => (
   <LanguageProvider>
     <TooltipProvider>
       <BrowserRouter>
         <Suspense fallback={null}>
           <Routes>
-            {routes.map((route) => (
+            {/* Home — eager, has its own full-page layout */}
+            <Route path="/" element={<Index />} />
+
+            {/* Project pages — share ProjectLayoutShell (header + back-link) */}
+            <Route element={<ProjectLayoutShell />}>
               <Route
-                key={route.slug}
-                path={route.path}
-                element={componentMap[route.slug] ?? <NotFound />}
+                path="/projetos/dadaia-workspace"
+                element={<DadaiaWorkspacePage />}
               />
-            ))}
+              <Route
+                path="/projetos/tauan-games"
+                element={<TauanGamesPage />}
+              />
+              <Route
+                path="/projetos/portifolio"
+                element={<ArchitecturePage />}
+              />
+            </Route>
+
+            {/* Catch-all */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
