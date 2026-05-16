@@ -5,6 +5,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { RoleSkillBadges } from "./RoleSkillBadges";
+import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Position, ContentData } from "@/types/content";
 
 interface RoleCollapsibleProps {
@@ -79,6 +81,17 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
                 </p>
               </div>
             </div>
+          )}
+
+          {role.skills && role.skills.length > 0 && (
+            <div className="pt-4 border-t border-border/30">
+              <h5 className="font-semibold text-foreground text-sm mb-3">Skills</h5>
+              <RoleSkillBadges skills={role.skills} />
+            </div>
+          )}
+
+          {role.highlightProject && (
+            <HighlightProjectBlock highlight={role.highlightProject} />
           )}
         </CollapsibleContent>
       </div>

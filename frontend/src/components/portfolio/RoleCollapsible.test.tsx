@@ -23,6 +23,20 @@ const mockRole: Position = {
   technologies: "Python, Spark, AWS",
 };
 
+const mockRoleWithSkills: Position = {
+  ...mockRole,
+  skills: ["Python", "Claude Code", "Azure"],
+};
+
+const mockRoleWithHighlight: Position = {
+  ...mockRole,
+  highlightProject: {
+    title: "Migração SAS → Azure",
+    body: "Conduzindo solo a migração de pipelines.",
+    impact: ["Redução 12 meses → 2 meses"],
+  },
+};
+
 const mockLabels: Pick<ContentData, "responsibilities" | "technologies"> = {
   responsibilities: "Responsabilidades:",
   technologies: "Tecnologias:",
@@ -140,5 +154,52 @@ describe("RoleCollapsible", () => {
     await user.click(trigger);
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("renders skill badges when position.skills is present", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <RoleCollapsible
+        role={mockRoleWithSkills}
+        labels={mockLabels}
+        responsibilitiesLabel="Responsabilidades:"
+        technologiesLabel="Tecnologias:"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByText("Python")).toBeInTheDocument();
+    expect(screen.getByText("Claude Code")).toBeInTheDocument();
+    expect(screen.getByText("Azure")).toBeInTheDocument();
+  });
+
+  it("renders highlight block when position.highlightProject is present", async () => {
+    render(
+      <RoleCollapsible
+        role={mockRoleWithHighlight}
+        labels={mockLabels}
+        responsibilitiesLabel="Responsabilidades:"
+        technologiesLabel="Tecnologias:"
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByText("Migração SAS → Azure")).toBeInTheDocument();
+    expect(screen.getByText("Redução 12 meses → 2 meses")).toBeInTheDocument();
+  });
+
+  it("does not render skill badges section when skills is absent", () => {
+    render(
+      <RoleCollapsible
+        role={mockRole}
+        labels={mockLabels}
+        responsibilitiesLabel="Responsabilidades:"
+        technologiesLabel="Tecnologias:"
+        defaultOpen
+      />
+    );
+
+    expect(document.querySelector('[aria-label="Skills do cargo"]')).not.toBeInTheDocument();
   });
 });
