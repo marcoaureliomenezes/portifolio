@@ -20,7 +20,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
-- [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [x] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
 ---
 
