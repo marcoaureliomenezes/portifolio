@@ -21,6 +21,11 @@ export function ProjectsIndexPage() {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute("content", seo.description);
+    } else {
+      const tag = document.createElement("meta");
+      tag.setAttribute("name", "description");
+      tag.setAttribute("content", seo.description);
+      document.head.appendChild(tag);
     }
   }, [projects?.index?.seo?.title, projects?.index?.seo?.description]);
 
@@ -49,18 +54,16 @@ export function ProjectsIndexPage() {
 
         {/* Grid */}
         {projects?.list && projects.list.length > 0 ? (
-          <section aria-labelledby="projects-heading">
-            <ul
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0"
-              role="list"
-            >
-              {projects.list.map((project) => (
-                <li key={project.slug}>
-                  <ProjectCard project={project} kindLabels={kindLabels} />
-                </li>
-              ))}
-            </ul>
-          </section>
+          <ul
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0"
+            role="list"
+          >
+            {projects.list.map((project) => (
+              <li key={project.slug}>
+                <ProjectCard project={project} kindLabels={kindLabels} />
+              </li>
+            ))}
+          </ul>
         ) : (
           <p className="text-muted-foreground text-sm">
             {content.projects ? "Nenhum projeto cadastrado." : "Carregando projetos..."}
