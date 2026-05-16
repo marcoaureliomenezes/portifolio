@@ -66,7 +66,6 @@ export function ArchitecturePage() {
       id: "diagram",
       type: "diagram",
       title: "Infrastructure Diagram",
-      body: "",
       diagram,
     },
     ...(stack.length > 0

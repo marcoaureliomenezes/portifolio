@@ -64,7 +64,7 @@ export type ProjectSection =
       id: string;
       type: "diagram";
       title: string;
-      body: string;
+      body?: string;
       diagram: string;
     }
   | {
@@ -225,9 +225,11 @@ export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                    {section.body}
-                  </p>
+                  {section.body && (
+                    <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+                      {section.body}
+                    </p>
+                  )}
                   <img
                     src={section.diagram}
                     alt={`${section.title} diagram`}
