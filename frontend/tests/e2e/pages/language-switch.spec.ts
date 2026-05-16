@@ -8,22 +8,22 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Language switch', () => {
-  // Hero heading now shows `heroTagline` (T-FE-WAVE3). Localized strings:
-  //   pt: "Construo pipelines de dados em escala"
-  //   en: "I build data pipelines at scale"
-  //   de: "Ich baue Datenpipelines im Maßstab"
+  // Hero heading now shows `heroTagline` (T-FE-WAVE5). Localized strings:
+  //   pt: "AI-augmented data engineering em escala"
+  //   en: "AI-augmented data engineering at scale"
+  //   de: "KI-gestütztes Data Engineering im Maßstab"
   test('E2E-02: trocar pt → en muda o texto do hero', async ({ page }) => {
     await page.goto(ROUTES.home);
 
     const heroHeading = page.locator('#hero-heading');
     await expect(heroHeading).toBeVisible();
-    await expect(heroHeading).toContainText('Construo pipelines');
+    await expect(heroHeading).toContainText('AI-augmented data engineering em escala');
 
     const selectTrigger = page.locator('[role="combobox"]').first();
     await selectTrigger.click();
     await page.getByRole('option', { name: 'English' }).click();
 
-    await expect(heroHeading).toContainText('I build data pipelines');
+    await expect(heroHeading).toContainText('AI-augmented data engineering at scale');
   });
 
   test('E2E-03: trocar en → de muda o texto do hero', async ({ page }) => {
@@ -35,11 +35,11 @@ test.describe('Language switch', () => {
     const selectTrigger = page.locator('[role="combobox"]').first();
     await selectTrigger.click();
     await page.getByRole('option', { name: 'English' }).click();
-    await expect(heroHeading).toContainText('I build data pipelines');
+    await expect(heroHeading).toContainText('AI-augmented data engineering at scale');
 
     await selectTrigger.click();
     await page.getByRole('option', { name: 'Deutsch' }).click();
-    await expect(heroHeading).toContainText('Ich baue Datenpipelines');
+    await expect(heroHeading).toContainText('KI-gestütztes Data Engineering im Maßstab');
   });
 
   test('E2E-04: fallback de → en para chave inexistente (não pt)', async ({ page }) => {
@@ -52,8 +52,8 @@ test.describe('Language switch', () => {
     await selectTrigger.click();
     await page.getByRole('option', { name: 'Deutsch' }).click();
 
-    await expect(heroHeading).toContainText('Ich baue Datenpipelines');
-    await expect(heroHeading).not.toContainText('Construo');
-    await expect(heroHeading).not.toContainText('I build');
+    await expect(heroHeading).toContainText('KI-gestütztes Data Engineering im Maßstab');
+    await expect(heroHeading).not.toContainText('AI-augmented data engineering em escala');
+    await expect(heroHeading).not.toContainText('AI-augmented data engineering at scale');
   });
 });

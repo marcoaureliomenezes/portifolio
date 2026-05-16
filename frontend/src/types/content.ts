@@ -7,11 +7,20 @@
 
 export type SupportedLanguages = "pt" | "en" | "de";
 
+export interface HighlightProject {
+  title: string;
+  body: string;
+  impact?: string[];
+  links?: { label: string; url: string }[];
+}
+
 export interface Position {
   title: string;
   period: string;
   responsibilities?: string[];
   technologies?: string;
+  skills?: string[];
+  highlightProject?: HighlightProject;
 }
 
 export interface Experience {

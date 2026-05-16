@@ -15,7 +15,7 @@
     "location": "Belo Horizonte, MG - Brasil",
     "viewEmail": "E-mail"
   },
-  "heroTagline": "Construo pipelines de dados em escala",
+  "heroTagline": "AI-augmented data engineering em escala",
   "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
   "heroCTAs": { "downloadCv": "Baixar CV", "seeExperience": "Ver experiência" },
   "resume": {
@@ -66,12 +66,12 @@
           "title": "Engenheiro de Dados Sênior",
           "period": "02-2024 a Presente",
           "responsibilities": [
-            "Atuação nos domínios de negócio Contas e Tarifas (2024) e Finanças (2025), responsável por projetar, desenvolver e manter pipelines de dados.",
-            "Migração de sistemas on-premises (Cloudera e SAS/Oracle) para nuvem (Azure + Databricks), implementando Data Mesh e arquitetura Medallion.",
-            "Criação e configuração de recursos Azure: ADLS, Key Vault, Azure Data Factory e Service Principals.",
-            "Migração dos pipelines de Contas e Tarifas para atender requisitos do Open Finance.",
-            "Redesenho de solução puramente streaming para modelo de replicação em tempo real com consumo sob demanda.",
-            "Desenvolvimento e implantação de fluxos de replicação das tabelas de Conta Corrente do IBM DB2 para Amazon Aurora: as-is (DB2 → CDC Agent → Kafka → Spark Streaming On-Prem → Scylla / Azure CosmosDB); to-be (DB2 → CDC Agent → Kafka → Amazon MSK → MSK Connect → Aurora → APIs RESTful)."
+            "Liderança técnica em migração large-scale de pipelines SAS/Oracle → Azure + Databricks com AI-augmented engineering, conduzindo a execução de forma autônoma.",
+            "Piloto interno de coding agents (Devin) no Santander — primeiro uso de agente de código autônomo no banco, fundação para escalar a prática.",
+            "Padronização de Spec-Driven Development + TDD aplicado ao desenvolvimento com AI no contexto de engenharia de dados.",
+            "Disseminação de práticas de AI tooling (GitHub Copilot, Claude Code, Codex) entre times técnicos do domínio.",
+            "Arquitetura e implementação de pipelines de streaming de replicação de dados transacionais do IBM DB2 para Amazon Aurora via Kafka/MSK CDC.",
+            "Desenvolvimento de pipelines Databricks (arquitetura medallion) nos domínios Contas & Tarifas e Finanças."
           ],
           "achievements": [
             "AWS Certified Solutions Architect – Associate",
@@ -79,7 +79,34 @@
             "AWS Certified Cloud Practitioner",
             "AWS Certified AI Practitioner",
             "Databricks Apache Spark Developer"
-          ]
+          ],
+          "skills": [
+            "Data Architecture",
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Databricks",
+            "Apache Spark",
+            "Azure Data Factory",
+            "AWS",
+            "Claude Code",
+            "GitHub Copilot",
+            "Devin",
+            "Windsurf",
+            "Spec-Driven Development",
+            "TDD com AI"
+          ],
+          "highlightProject": {
+            "title": "Migração SAS → Azure + Databricks",
+            "body": "Conduzindo solo a re-arquitetura de pipelines de dados críticos rodando em SAS para a stack moderna Azure Data Factory + Databricks com arquitetura medallion. Substitui processos batch caros e lentos por pipelines elásticos. Toolchain de execução: Windsurf + Devin para geração de código, GitHub Copilot para edição interativa, Claude Code para refactors e revisões maiores. Ferramentas auxiliares construídas in-house para acelerar análise de SAS legacy e geração de specs de migração.",
+            "impact": [
+              "Redução do tempo de migração: 12 meses → 2 meses (SLA de execução do projeto)",
+              "Execução solo viabilizada por AI-augmented engineering",
+              "Stack legacy SAS → Azure Data Factory + Databricks (arquitetura medallion)",
+              "Piloto de Devin no banco — fundação para escalar a prática"
+            ]
+          }
         },
         {
           "title": "Engenheiro de Dados Pleno",
@@ -95,6 +122,20 @@
             "Databricks Data Engineer Associate",
             "Microsoft DP-203: Azure Data Engineer Associate",
             "Microsoft AZ-900, DP-900, SC-900, AI-900"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Cloudera",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "Azure Data Factory",
+            "Databricks",
+            "BMC Control-M",
+            "Git"
           ]
         },
         {
@@ -108,6 +149,20 @@
           ],
           "achievements": [
             "Certificação Advanced Data Engineer no programa Santander Data Master (premiação em dinheiro + benefícios adicionais)"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "PySpark",
+            "Shell scripting",
+            "Linux",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "BMC Control-M",
+            "Git",
+            "Jira",
+            "Scrum"
           ]
         }
       ]
@@ -125,6 +180,18 @@
           "responsibilities": [
             "Participação em ferramenta Python para ingestão e processamento de dados usando arquitetura Lambda para a indústria de cimento — dados de plantas industriais e colaboradores alimentando dashboards, relatórios e BI.",
             "Desenvolvimento de extensão JupyterLab em Python (back-end) e React (front-end) integrando com software CFD OpenFOAM para simulação de fornos de cimento."
+          ],
+          "skills": [
+            "Python",
+            "React",
+            "SQL",
+            "Shell scripting",
+            "Linux",
+            "Git",
+            "Docker",
+            "Arquitetura Lambda",
+            "JupyterLab",
+            "ETL"
           ]
         }
       ]
@@ -146,6 +213,18 @@
             "Desenho Técnico II (AutoCAD).",
             "Introdução à Informática (conceitos básicos, sistemas operacionais, MS Office).",
             "Matemática Aplicada à Eletrotécnica."
+          ],
+          "skills": [
+            "Didática",
+            "Programação CNC",
+            "AutoCAD",
+            "FluidSIM",
+            "Eletrotécnica",
+            "Hidráulica",
+            "Pneumática",
+            "Segurança do Trabalho",
+            "MS Office",
+            "Linux"
           ]
         }
       ]
@@ -164,6 +243,18 @@
             "Desenvolvedor de hardware para sistemas de controle e eletrônica de potência.",
             "Desenvolvedor de firmware em C embarcado em microcontrolador para projeto de forno a gás para testes térmicos.",
             "Implementação de sistema de controle de temperatura baseado em tempo para o forno."
+          ],
+          "skills": [
+            "C Embarcado",
+            "Eletrônica de Potência",
+            "Sistemas de Controle",
+            "Microcontroladores",
+            "Hardware Design",
+            "Python",
+            "MATLAB",
+            "Controle PID",
+            "Linux",
+            "Git"
           ]
         }
       ]
@@ -181,6 +272,18 @@
           "responsibilities": [
             "Desenvolvimento de software para aquisição de dados aplicado ao gerenciamento de inventário em postos de combustível.",
             "Implementação da interface entre Raspberry Pi e TLS-300 (dispositivo de medição de parâmetros de tanques) usando Python."
+          ],
+          "skills": [
+            "Python",
+            "Raspberry Pi",
+            "Hardware Interface",
+            "Aquisição de Dados",
+            "Shell scripting",
+            "Linux",
+            "SQL",
+            "Git",
+            "Eletrônica",
+            "Sistemas Embarcados"
           ]
         }
       ]
