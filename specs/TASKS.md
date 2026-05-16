@@ -18,7 +18,10 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
-- [-] T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
+- [-] T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
+- [-] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
+- [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
+- [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
 ---
 
@@ -682,7 +685,7 @@ funciona.
     caso de erro de tipo
   - PR isolado para `develop`; QA pareia em review (verifica que o gate trava)
 
-### `[-]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
+### `[x]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** — (pode ser bundled no mesmo PR de T-FE-QUAL-01 por decisão D2; ou rodar
@@ -713,7 +716,7 @@ funciona.
   - `cd frontend && npm run build` verde; smoke E2E `home.spec.ts` passa
   - PR isolado (ou bundled com T-FE-QUAL-01) para `develop`
 
-### `[ ]` T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
+### `[-]` T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-01 (precisa de typecheck limpo + strict ligado para garantir
@@ -876,7 +879,7 @@ funciona.
   - E2E `language-switch.spec.ts` continua verde após adapt das asserts
   - PR isolado para `develop`; QA pareia em review
 
-### `[ ]` T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
+### `[-]` T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
@@ -900,7 +903,7 @@ funciona.
   - `cd frontend && npm run test:run` verde
   - PR isolado para `develop`
 
-### `[ ]` T-FE-QUAL-08 — RoleCollapsible dead props cleanup
+### `[-]` T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-01 (strict mode + `noUnusedParameters` facilitará detectar
@@ -928,7 +931,7 @@ funciona.
   - PR isolado (ou bundled com T-FE-QUAL-06 se feito na mesma janela) para
     `develop`
 
-### `[ ]` T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+### `[-]` T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
