@@ -18,7 +18,6 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
-- [-] T-FE-QUAL-01 — TypeScript hygiene: fix 13 erros de compilação + enable strict
 
 ---
 
@@ -650,7 +649,7 @@ funciona.
 > Tasks abaixo: T-FE-QUAL-01 a T-FE-QUAL-10. Owner padrão: `frontend-engineer`.
 > `qa-engineer` pareia em PR review (Axe + tipos + smoke).
 
-### `[-]` T-FE-QUAL-01 — TypeScript hygiene: fix 13 erros de compilação + enable strict
+### `[x]` T-FE-QUAL-01 — TypeScript hygiene: fix 13 erros de compilação + enable strict
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
