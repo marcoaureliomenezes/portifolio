@@ -34,8 +34,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
       />
     );
     expect(screen.getByText("Software Engineer")).toBeInTheDocument();
@@ -46,8 +44,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
       />
     );
     expect(screen.getByText("Jan 2022 – Present")).toBeInTheDocument();
@@ -60,8 +56,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
       />
     );
 
@@ -82,8 +76,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
         defaultOpen
       />
     );
@@ -97,8 +89,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
         defaultOpen
       />
     );
@@ -116,8 +106,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
       />
     );
     const trigger = screen.getByRole("button");
@@ -131,8 +119,6 @@ describe("RoleCollapsible", () => {
       <RoleCollapsible
         role={mockRole}
         labels={mockLabels}
-        responsibilitiesLabel="Responsabilidades:"
-        technologiesLabel="Tecnologias:"
       />
     );
 
