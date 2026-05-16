@@ -22,7 +22,7 @@ const NotFound = () => {
           href="/"
           className="inline-block underline font-medium text-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
         >
-          {content.nav?.backToHome ?? "Return to Home"}
+          {content.nav?.backToHome ?? "Back to Home"}
         </a>
       </div>
     </main>

@@ -63,7 +63,7 @@ export function TauanGamesPage() {
         body: item.body,
         repo: item.repo,
       })),
-      emptyMessage: project?.emptyMessage ?? "Os jogos serao listados aqui em breve.",
+      emptyMessage: project?.emptyMessage ?? "Os jogos serão listados aqui em breve.",
     },
   ];
 
