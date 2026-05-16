@@ -966,6 +966,284 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ---
 
+## Fase 8 — Área de Projetos dedicada
+
+> Specs: F-P0-09 a F-P0-15 (Grupo B do plano `algum-feedback-sobre-o-merry-kay.md`).
+> Sequencial parcial: T-FE-PROJ-01 (modelo) destrava as 6 demais. T-FE-PROJ-04 (templates)
+> é gate para T-FE-PROJ-05 (diagramas) e T-FE-PROJ-06 (link-out). Owner padrão:
+> `software-engineer`; `game-developer` apenas se a task tocar `repos/tauan-games/`
+> (nenhuma desta Fase toca; publicação do GH Pages é PR separado naquele repo).
+> `qa-engineer` pareia em review (Axe + Lighthouse local + 3 viewports).
+
+### `[ ]` T-FE-PROJ-01 — Projects Content Model (modelo unificado por `kind`)
+
+- **Spec:** `specs/features/projects-content-model/SPEC.md` (F-P0-09)
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-WAVE5 (PR #25 — coordenação de merge no mesmo arquivo
+  `frontend/src/data/content/{pt,en,de}.json`; áreas disjuntas — WAVE5 mexe em
+  `heroTagline`/`experiences`, esta task mexe em `projects.*`), T-FE-WAVE6
+- **Toca:**
+  - `frontend/src/types/content.ts` — adicionar `ProjectKind`, `ProjectBase`,
+    `ProjectCard`, `CaseStudyProject`, `MetaProject`, `GamesProject`, `GameLink`,
+    `Project`, refator de `ProjectsContent` para `{ index, list }`
+  - `frontend/src/lib/schemas/projects.ts` (NOVO) — `ProjectsContentSchema` Zod conforme
+    F-P0-09 §3.3
+  - `frontend/package.json` — adicionar `"zod": "^3.x"` em `dependencies`
+  - `frontend/src/hooks/useContent.ts` — validação Zod no carregamento de `projects`
+    (silenciosa em prod, `console.error` em dev/stage)
+  - `frontend/src/data/content/{pt,en,de}.json` — reescrever bloco `projects` para
+    `{ index, list: [dadaia-workspace, portifolio, tauan-games] }` na ORDEM FIXA
+  - `frontend/src/types/content.test.ts` (se existir) — atualizar
+- **Critério de pronto:**
+  - `npm run build` verde, `tsc --noEmit` sem erros, `npm run test:run` verde
+  - `jq '.projects.list | length' src/data/content/{pt,en,de}.json` retorna `3` para
+    todos; `jq '[.projects.list[].slug]'` retorna
+    `["dadaia-workspace","portifolio","tauan-games"]` nos 3 JSONs
+  - Cada projeto tem `kind` correto (`case-study | meta | games`) e
+    `card.{cover,summary,tech}` populados; ordem dos itens nos 3 JSONs idêntica
+  - `useContent()` valida com Zod em modo dev — log de erro aparece no console se shape
+    inválido
+  - Consumidores velhos (`TauanGamesPage`, `ArchitecturePage`, `DadaiaWorkspacePage`)
+    podem precisar de helper transitório `getProjectBySlug` para não quebrar
+    typecheck durante a janela até T-FE-PROJ-04 — incluir no PR se necessário
+  - PR isolado para `develop`; QA pareia em review
+
+### `[ ]` T-FE-PROJ-02 — Projects Index Page (`/projetos`)
+
+- **Spec:** `specs/features/projects-index-page/SPEC.md` (F-P0-10)
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-PROJ-01
+- **Toca:**
+  - `frontend/src/routes.ts` — adicionar entrada `projects-index`
+    (path `/projetos`, `inNav: true`, `inHeaderNav: true` — flag novo definido em
+    T-FE-PROJ-03; coordenar PR)
+  - `frontend/src/App.tsx` — registrar rota `/projetos` → `<ProjectsIndexPage />`
+  - `frontend/src/pages/projects/ProjectsIndexPage.tsx` (NOVO, ~80 linhas) —
+    consome `content.projects.list`, renderiza grid de cards
+  - `frontend/src/components/projects/ProjectCard.tsx` (NOVO, ~70 linhas) — props
+    `{ project: Project }`, renderiza `<Link to={/projetos/${slug}}>` envolvendo Card
+    com cover/title/summary/tech badges
+  - `frontend/src/data/content/{pt,en,de}.json` — chaves
+    `projects.index.{title,subtitle,seo}`, `projects.kindCaseStudy`,
+    `projects.kindMeta`, `projects.kindGames`
+  - `frontend/tests/e2e/pages/projects-index.spec.ts` (NOVO) — smoke + asserts ordem
+- **Critério de pronto:**
+  - `/projetos` renderiza grid responsivo (1/2/3 col) com 3 cards na ordem
+    `dadaia-workspace → portifolio → tauan-games`
+  - Cada card linka para `/projetos/<slug>` via SPA navigation; clique não recarrega
+  - Tab order: hero h1 → card 1 → card 2 → card 3; foco visível
+  - Lighthouse `/projetos` desktop+mobile: Performance ≥ 90, Accessibility ≥ 90,
+    Best-Practices ≥ 95, SEO ≥ 90
+  - CLS ≤ 0.1 (imagens com width/height explícitos)
+  - Axe DevTools no painel Issues: zero violações
+  - E2E `projects-index.spec.ts` verde
+  - PR isolado para `develop`; QA pareia em review (3 viewports + Axe)
+
+### `[ ]` T-FE-PROJ-03 — Nav Projects CTA (Header + Hero 3rd CTA)
+
+- **Spec:** `specs/features/nav-projects-cta/SPEC.md` (F-P0-11)
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-PROJ-02
+- **Toca:**
+  - `frontend/src/routes.ts` — adicionar campo `inHeaderNav: boolean` ao tipo `Route`;
+    setar `inHeaderNav: true` apenas em `projects-index`; export `headerNavRoutes`
+  - `frontend/src/components/header/HeaderDesktopLayout.tsx` — `<nav aria-label="Primary">`
+    com `headerNavRoutes.map(...)` (NavLink react-router) antes do `LanguageSelector`
+  - `frontend/src/components/header/HeaderMobileLayout.tsx` — seção "Navegação" no
+    sheet/drawer com mesmos itens; `closeMobileMenu` no `onClick`
+  - `frontend/src/components/portfolio/HeroSection.tsx` — adicionar 3º CTA `seeProjects`
+    como `<Link to="/projetos">` variant=outline
+  - `frontend/src/types/content.ts` — `HeroCTAs.seeProjects: string` (obrigatório)
+  - `frontend/src/data/content/{pt,en,de}.json` — `heroCTAs.seeProjects`,
+    `nav.projects`, `nav.section`
+  - `frontend/tests/e2e/pages/home.spec.ts` — atualizar assertion para 3 CTAs
+  - `frontend/tests/e2e/pages/nav-projects.spec.ts` (NOVO) — smoke do header e Hero CTA
+- **Critério de pronto:**
+  - Header desktop tem item "Projetos" antes do LanguageSelector; `aria-current="page"`
+    quando em `/projetos`
+  - Header mobile mostra "Projetos" no drawer; clique fecha drawer e navega
+  - Hero tem 3 CTAs na ordem [downloadCv, seeExperience, seeProjects]; em 375px CTAs
+    empilham sem quebra
+  - Tab order desktop validado via Playwright: ThemeToggle → LanguageSelector → nav
+    "Projetos" → Hero h1 → CTA Download CV → CTA Ver experiência → CTA Ver projetos
+  - Lighthouse a11y ≥ 90 em `/` mobile+desktop, sem regressão
+  - Axe DevTools: zero violações
+  - E2E `home.spec.ts` e `language-switch.spec.ts` adaptados; `nav-projects.spec.ts`
+    verde
+  - Paridade i18n confirmada: `nav.projects`, `nav.section`, `heroCTAs.seeProjects`
+    nos 3 JSONs
+  - PR isolado para `develop`; QA pareia em review
+
+### `[ ]` T-FE-PROJ-04 — Projects Page Templates (per-kind dispatch + `useDocumentSeo`)
+
+- **Spec:** `specs/features/projects-page-templates/SPEC.md` (F-P0-12)
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-PROJ-01
+- **Toca:**
+  - `frontend/src/hooks/useDocumentSeo.ts` (NOVO, ~25 linhas) — hook que seta
+    `document.title` + `<meta description>` com cleanup
+  - `frontend/src/pages/projects/ProjectDetailPage.tsx` (NOVO, ~30 linhas) — dispatch
+    por `project.kind` (switch exhaustive); `<Navigate to="/404" replace />` em slug
+    inexistente
+  - `frontend/src/pages/projects/ProjectTabPage.tsx` — REFATOR para receber
+    `project: CaseStudyProject` (não props ad-hoc); usar `useDocumentSeo`
+  - `frontend/src/pages/projects/MetaProjectTemplate.tsx` (NOVO, ~80 linhas) —
+    renderiza hero, diagram, sections, costs, decisions, stack, links
+  - `frontend/src/pages/projects/GamesProjectTemplate.tsx` (NOVO, ~50 linhas) —
+    renderiza grid de `<GameCard>` para `project.items`
+  - `frontend/src/components/projects/{ProjectLayout,ProjectHero,ProjectSections,ProjectLinks,CostsTable,DecisionsList,GameCard}.tsx`
+    (NOVOS, ≤ 70 linhas cada) — primitivos extraídos
+  - `frontend/src/pages/projects/{DadaiaWorkspacePage,TauanGamesPage,ArchitecturePage}.tsx`
+    — **DELETAR**
+  - `frontend/src/routes.ts` — substituir 3 rotas estáticas por 1 dinâmica
+    `/projetos/:slug → ProjectDetailPage`; remover entradas
+    `dadaia-workspace`, `tauan-games`, `portifolio` (não confundir com slug do
+    projeto meta, que continua sendo `portifolio` mas via slug param)
+  - `frontend/src/App.tsx` — atualizar registro de rota
+  - Testes obsoletos deletados; novos criados (`ProjectDetailPage.test.tsx`,
+    `MetaProjectTemplate.test.tsx`, `GamesProjectTemplate.test.tsx`,
+    `useDocumentSeo.test.ts`)
+  - E2E adaptados — `tauan-games.spec.ts`/`architecture.spec.ts`/`dadaia-workspace.spec.ts`
+    ou `project-tabs.spec.ts` conforme exista
+- **Critério de pronto:**
+  - `tsc --noEmit` limpo; switch exhaustive em `ProjectDetailPage` cobre os 3 kinds
+  - `/projetos/dadaia-workspace`, `/projetos/portifolio`, `/projetos/tauan-games`
+    renderizam respectivamente `ProjectTabPage`, `MetaProjectTemplate`,
+    `GamesProjectTemplate`
+  - `/projetos/inexistente` redireciona para `/404`
+  - Componentes velhos removidos do repo (`git status` confirma deleção)
+  - `useDocumentSeo` restaura title/description em unmount (testado)
+  - Lighthouse desktop+mobile em cada `/projetos/<slug>`: Performance ≥ 90,
+    Accessibility ≥ 90
+  - Cobertura unit dos templates ≥ 60% branches+statements
+  - E2E verde
+  - PR isolado para `develop`; QA pareia em review (Axe + 3 viewports + cada um dos 3
+    paths)
+
+### `[ ]` T-FE-PROJ-05 — Projects Architecture Diagrams (light/dark SVG via `<picture>`)
+
+- **Spec:** `specs/features/projects-architecture-diagrams/SPEC.md` (F-P0-13)
+- **Agente:** `[software-engineer]`
+- **Dep:** T-FE-PROJ-04
+- **Toca:**
+  - `frontend/src/types/content.ts` — adicionar `DiagramAsset` (`light`, `dark`, `alt`);
+    refatorar `ProjectBase.diagram` para `DiagramAsset | undefined`
+  - `frontend/src/lib/schemas/projects.ts` — atualizar Zod para o novo shape
+  - `frontend/src/components/projects/ArchitectureDiagram.tsx` (NOVO, ~30 linhas) —
+    `<picture>` + `<source media="(prefers-color-scheme: dark)">`, width/height
+    explícitos, `loading="lazy"`, sem hook de tema
+  - `frontend/src/pages/projects/{ProjectTabPage,MetaProjectTemplate}.tsx` — consumir
+    `<ArchitectureDiagram diagram={project.diagram} caption={...} />`
+  - `frontend/src/data/content/{pt,en,de}.json` — campo
+    `diagram.{light,dark,alt}` por projeto (paths convention
+    `/assets/projects/<slug>/architecture-{light,dark}.svg`); `alt` traduzido
+  - `frontend/public/assets/projects/<slug>/architecture-{light,dark}.svg` —
+    PLACEHOLDERS informativos por enquanto (~5KB cada). SVGs definitivos virão em PR
+    posterior do Marco (Excalidraw → svgo)
+  - `frontend/public/assets/projects/_fallback-architecture.svg` (NOVO) — placeholder
+    neutro
+  - `frontend/Makefile` — target novo `assets-optimize-diagrams` rodando svgo
+    multipass
+  - `frontend/package.json` — `"svgo": "^3.x"` em `devDependencies` se ainda não tem
+  - `.github/workflows/ci.yml` — step novo que falha se algum SVG em
+    `public/assets/projects/` for > 50KB (`find ... -size +50k`)
+  - E2E `architecture-diagram.spec.ts` (NOVO) — smoke + assert que em
+    `prefers-color-scheme: dark` o `<picture>` resolve para variant dark
+- **Critério de pronto:**
+  - `<ArchitectureDiagram>` implementado; sem `useTheme`/`useEffect` de tema
+  - 3 projetos têm `diagram.{light,dark,alt}` nos 3 JSONs (paths existem, podem ser
+    placeholders)
+  - CI gate `find public/assets/projects -name '*.svg' -size +50k` retorna lista vazia
+  - Em DevTools simulando `prefers-color-scheme: dark`, diagrama mostra variante dark
+    (verificado em E2E)
+  - Lighthouse `/projetos/<slug>` mantém Performance ≥ 90 com diagrama carregado
+  - CLS ≤ 0.1 em cada `/projetos/<slug>`
+  - Axe: zero violações
+  - PR isolado para `develop`; QA pareia em review (light + dark simulado)
+
+### `[ ]` T-FE-PROJ-06 — Tauan Games Link-Out (GH Pages, sem iframe)
+
+- **Spec:** `specs/features/tauan-games-link-out/SPEC.md` (F-P0-14)
+- **Agente:** `[software-engineer]` (portfólio — esta task). Publicação dos 2 jogos
+  no GH Pages do repo `tauan-games` é PR **separado** contra `repos/tauan-games/`,
+  domínio do `[game-developer]` (pré-condição operacional, não step desta task).
+- **Dep:** T-FE-PROJ-04
+- **Toca:**
+  - `frontend/src/data/content/{pt,en,de}.json` — bloco `projects.list` no item
+    `slug: "tauan-games"`:
+    - Substituir os 4 items atuais por **2 items** apenas: `aero-fighters` (engine
+      `"Three.js"`) + `tauan-trex` (engine `"Phaser"`)
+    - Cada item ganha `playUrl` no formato
+      `https://marcoaureliomenezes.github.io/tauan-games/<slug>/`
+    - Corrigir drift de engine label (era `Babylon.js`, é `Three.js`)
+    - `card.summary`, `card.tech`, `hero`, `seo`, `body` revisados pelo operador
+      (DE pode ser rascunhado por AI/LLM, operador revisa)
+  - `frontend/public/assets/projects/tauan-games/{aero-fighters,tauan-trex,cover}.webp`
+    — screenshots otimizadas ≤ 200KB cada
+  - `frontend/tests/e2e/pages/tauan-games-link-out.spec.ts` (NOVO) — smoke + asserts
+    de atributos (`target="_blank"`, `rel="noopener noreferrer"`, `href` exato)
+  - **NÃO TOCA:** `repos/tauan-games/` (regra `game-developer-scope.md`); Makefile
+    games:sync (deletado do plano); Terraform Cache-Control `/games/*` (deletado);
+    componente iframe (deletado)
+- **Critério de pronto:**
+  - Bloco `projects[?slug==tauan-games]` nos 3 JSONs tem `items.length === 2` com
+    slugs `aero-fighters` e `tauan-trex`; engine labels corretos (`Three.js`,
+    `Phaser`)
+  - Itens `aero-fighters-babylon`, `aero-fighters-godot`, `aero-fighters-unity`
+    **removidos**
+  - `/projetos/tauan-games` renderiza 2 `<GameCard>` (via `GamesProjectTemplate` de
+    T-FE-PROJ-04)
+  - Cada botão "Jogar" é `<a target="_blank" rel="noopener noreferrer"
+    href="https://marcoaureliomenezes.github.io/tauan-games/<slug>/">`; cada botão
+    "Ver repo" idem para o URL do repo
+  - `aria-label` explícito ("Jogar Aero Fighters (abre em nova aba)") em cada
+    botão "Jogar" — verificado em Axe
+  - Imagens ≤ 200KB cada com width/height explícitos; CLS ≤ 0.1
+  - Lighthouse `/projetos/tauan-games` ≥ 90 Performance + a11y
+  - E2E `tauan-games-link-out.spec.ts` verde — checagens só de atributos (sem
+    `expect 200` no `playUrl` externo)
+  - **Pré-condição operacional (verificada antes de merge para `main`, não para
+    `develop`):** Marco confirma que
+    `https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/` e
+    `.../tauan-trex/` respondem 200 (deploy GH Pages no repo `tauan-games`,
+    domínio do `game-developer`)
+  - PR isolado para `develop`; QA pareia em review (Axe + Lighthouse + verificação
+    manual dos atributos)
+
+### `[ ]` T-FE-PROJ-07 — Projects Content i18n Parity (CI gate)
+
+- **Spec:** `specs/features/projects-content-i18n-parity/SPEC.md` (F-P0-15)
+- **Agente:** `[software-engineer]` + `[qa-engineer]` (configuração do status check
+  em branch protection)
+- **Dep:** T-FE-PROJ-01
+- **Toca:**
+  - `frontend/scripts/check-projects-i18n-parity.ts` (NOVO, ~120 linhas) — script
+    de validação (Zod por idioma + paridade de slugs/ordem + paridade de items
+    nos `GamesProject` + paridade de paths escalares)
+  - `frontend/scripts/check-projects-i18n-parity.test.ts` (NOVO) — casos
+    paritários/com drift/com slugs desordenados/com Zod inválido/com `projects`
+    ausente
+  - `frontend/package.json` — script novo `"check:i18n-projects":
+    "tsx scripts/check-projects-i18n-parity.ts"`; `tsx` em `devDependencies` se
+    ainda não está
+  - `frontend/README.md` — seção "Conteúdo i18n" com instruções de uso local
+  - `.github/workflows/ci.yml` — job novo `i18n-parity` (cf. F-P0-15 §3.3)
+  - **Branch protection (`develop` e `main`):** adicionar status check
+    `i18n-parity` à lista de checks bloqueantes — coordenar com T-QA-14 se ainda
+    aberta; senão, hotfix-task para o `[devops-engineer]`/`[qa-engineer]` aplicar
+- **Critério de pronto:**
+  - `npm run check:i18n-projects` retorna exit 0 com os 3 JSONs paritários (estado
+    pós T-FE-PROJ-06); exit 1 com mensagem útil em qualquer drift
+  - Job `i18n-parity` no `ci.yml` executa em PR contra `develop`/`main`; tempo de
+    execução < 30s
+  - Status check `i18n-parity` adicionado à branch protection de `develop` e `main`
+  - Suite de testes do script verde (≥ 6 casos)
+  - Documentação no README do `frontend/` atualizada
+  - PR isolado para `develop`; QA valida que o gate bloqueia merge ao introduzir
+    drift artificial
+
+---
+
 ## Matriz de paralelismo (resumo)
 
 Estado em 2026-05-14: Fases 0 (parcial), 2, 3 (parcial) e 4 (parcial) entregues.
@@ -983,6 +1261,7 @@ Pendências consolidadas para retomada:
 | W7 — identidade visual (sequencial) | T-FE-WAVE1 → T-FE-WAVE2 → T-FE-WAVE3; cada onda é 1 PR; QA pareia em PR review |
 | W8 — E2E pós-deploy | T-QA-15 (stage bloqueante + prod smoke); precisa T-QA-13 verde + T-DEVOPS-14 |
 | W9 — content AI emphasis (sequencial) | T-FE-WAVE5 → T-FE-WAVE6; depende de T-FE-WAVE3 e T-CONTENT-06 (`[x]`); paralelo seguro com W2/W4/W5/W8 |
+| W10 — área de Projetos (Grupo B, parcialmente paralelizável) | T-FE-PROJ-01 destrava todas; T-FE-PROJ-02 e T-FE-PROJ-04 e T-FE-PROJ-07 podem rodar em paralelo após T-FE-PROJ-01; T-FE-PROJ-03 espera T-FE-PROJ-02; T-FE-PROJ-05 e T-FE-PROJ-06 esperam T-FE-PROJ-04; T-FE-PROJ-07 fecha o ciclo com gate CI |
 
 ## Próxima tarefa imediata
 
@@ -1011,3 +1290,15 @@ URL `https://stage.marco-menezes.com` real para calibrar Lighthouse). É o próx
 qa-engineer assim que stage estiver no ar. Em seguida, T-QA-15 (E2E pós-deploy stage
 bloqueante + prod smoke) é o gate crítico classificado pelo operador como CRÍTICO no
 plano `agora-precisamos-que-nossos-twinkling-frost.md`.
+
+**Frente Área de Projetos (Fase 8 — Grupo B do plano `algum-feedback-sobre-o-merry-kay.md`):**
+T-FE-PROJ-01 (modelo `Project` discriminated union + Zod) é o destravador único — após
+mergeado, T-FE-PROJ-02 (`/projetos` index), T-FE-PROJ-04 (templates per-kind) e
+T-FE-PROJ-07 (CI parity gate) podem ser pegos em paralelo. T-FE-PROJ-03 (nav header +
+3º CTA) segue T-FE-PROJ-02; T-FE-PROJ-05 (diagramas SVG light/dark) e T-FE-PROJ-06
+(link-out de tauan-games para GH Pages) seguem T-FE-PROJ-04. Owner padrão:
+`software-engineer`; publicação dos 2 jogos no GH Pages do repo `tauan-games`
+(pré-condição de T-FE-PROJ-06 para merge `main`) é PR separado, domínio do
+`game-developer`. Especificadas em `specs/features/projects-{content-model,index-page,
+nav-projects-cta,page-templates,architecture-diagrams,tauan-games-link-out,
+content-i18n-parity}/SPEC.md` (F-P0-09..15).
