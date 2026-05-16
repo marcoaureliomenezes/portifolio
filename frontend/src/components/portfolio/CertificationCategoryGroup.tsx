@@ -17,7 +17,7 @@ const PROVIDER_ICONS: Record<string, string> = {
 interface CertificationCategoryGroupProps {
   category: string;
   certs: Certification[];
-  labels: Pick<ContentData, "validUntil" | "viewCredential">;
+  labels: Pick<ContentData, "validUntil" | "viewCredential" | "issuer" | "certificate" | "certificates">;
   defaultOpen?: boolean;
 }
 
@@ -57,7 +57,7 @@ export function CertificationCategoryGroup({
               </div>
               <div className="flex items-center gap-2 md:gap-3 text-primary">
                 <span className="text-xs md:text-sm text-muted-foreground">
-                  {certs.length} certificado{certs.length !== 1 ? "s" : ""}
+                  {certs.length} {certs.length === 1 ? labels.certificate : labels.certificates}
                 </span>
                 {open ? (
                   <ChevronUp className="h-4 w-4 md:h-5 md:w-5" />

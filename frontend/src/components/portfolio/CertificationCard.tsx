@@ -11,7 +11,7 @@ import type { Certification, ContentData } from "@/types/content";
 
 interface CertificationCardProps {
   cert: Certification;
-  labels: Pick<ContentData, "validUntil" | "viewCredential">;
+  labels: Pick<ContentData, "validUntil" | "viewCredential" | "issuer">;
   defaultOpen?: boolean;
 }
 
@@ -91,7 +91,7 @@ export function CertificationCard({
                 {cert.validity}
               </p>
               <p>
-                <span className="font-semibold">Emissor:</span> {cert.issuer}
+                <span className="font-semibold">{labels.issuer}:</span> {cert.issuer}
               </p>
             </div>
             {cert.link && cert.link !== "#" && (

@@ -1,5 +1,6 @@
 import { MapPin, Mail } from "lucide-react";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
+import { useContent } from "@/hooks/useContent";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
@@ -23,15 +24,19 @@ export function HeaderDesktopLayout({
   onLanguageChange,
   headerInfo,
 }: HeaderDesktopLayoutProps) {
+  const { content } = useContent();
+  const photoAltText = (content.photoAlt ?? "Foto de {name}").replace("{name}", name);
+  const viewLargerLabel = content.viewLarger ?? "Ver maior";
+
   const avatarTrigger = (
     <button className="group relative">
       <img
         src={avatarUrl}
-        alt={`Foto de ${name}`}
+        alt={photoAltText}
         className="w-20 h-20 lg:w-24 lg:h-24 rounded-full object-cover object-top border-2 border-header-text/20 transition-all duration-300 group-hover:border-header-text/40 cursor-pointer"
       />
       <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-        <span className="text-header-text text-xs">Ver maior</span>
+        <span className="text-header-text text-xs">{viewLargerLabel}</span>
       </div>
     </button>
   );

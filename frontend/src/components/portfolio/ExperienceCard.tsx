@@ -4,7 +4,7 @@ import type { Experience, ContentData } from "@/types/content";
 
 interface ExperienceCardProps {
   experience: Experience;
-  labels: Pick<ContentData, "responsibilities" | "technologies">;
+  labels: Pick<ContentData, "responsibilities" | "technologies" | "careerProgression" | "roleSingular" | "rolePlural">;
 }
 
 export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
@@ -84,8 +84,8 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
               </div>
             </div>
             <div className="text-sm text-muted-foreground font-medium">
-              Progressão de carreira ({experience.roles.length}{" "}
-              {experience.roles.length === 1 ? "cargo" : "cargos"}):
+              {labels.careerProgression} ({experience.roles.length}{" "}
+              {experience.roles.length === 1 ? labels.roleSingular : labels.rolePlural}):
             </div>
           </div>
 

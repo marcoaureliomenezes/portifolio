@@ -25,6 +25,9 @@ export function CertificationsSection({ content }: CertificationsSectionProps) {
   const labels = {
     validUntil: content.validUntil,
     viewCredential: content.viewCredential,
+    issuer: content.issuer ?? "Emissor",
+    certificate: content.certificate ?? "certificado",
+    certificates: content.certificates ?? "certificados",
   };
 
   const groups = Object.entries(byCategory).map(([category, certs]) => (

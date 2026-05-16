@@ -29,6 +29,7 @@ export function ArchitecturePage() {
       "Stack, terraform infra, monthly costs and architectural decisions for marco-menezes.com.",
   };
 
+  const labels = project?.labels;
   const stack = project?.stack ?? [];
   const costs = project?.costs ?? [];
   const decisions = project?.decisions ?? [];
@@ -65,7 +66,7 @@ export function ArchitecturePage() {
     {
       id: "diagram",
       type: "diagram",
-      title: "Infrastructure Diagram",
+      title: labels?.diagram ?? "Infrastructure Diagram",
       diagram,
     },
     ...(stack.length > 0
@@ -73,8 +74,8 @@ export function ArchitecturePage() {
           {
             id: "stack",
             type: "table" as const,
-            title: "Tech Stack",
-            headers: ["Layer", "Technology"] as [string, string],
+            title: labels?.stack ?? "Tech Stack",
+            headers: labels?.stackHeaders ?? (["Layer", "Technology"] as [string, string]),
             rows: stack.map((row) => ({ col1: row.layer, col2: row.tech })),
           },
         ]
@@ -84,8 +85,8 @@ export function ArchitecturePage() {
           {
             id: "costs",
             type: "table" as const,
-            title: "Monthly Costs",
-            headers: ["Service", "USD / month"] as [string, string],
+            title: labels?.costs ?? "Monthly Costs",
+            headers: labels?.costsHeaders ?? (["Service", "USD / month"] as [string, string]),
             rows: costs.map((row) => ({
               col1: row.service,
               col2: `$${row.monthly_usd.toFixed(2)}`,
@@ -98,7 +99,7 @@ export function ArchitecturePage() {
           {
             id: "decisions",
             type: "decisions" as const,
-            title: "Architectural Decisions",
+            title: labels?.decisions ?? "Architectural Decisions",
             items: decisions.map((d) => ({
               title: d.title,
               rationale: d.rationale,
@@ -114,10 +115,10 @@ export function ArchitecturePage() {
     sections,
     cta: {
       github: links.repo,
-      githubLabel: "GitHub Repository",
+      githubLabel: labels?.githubRepository ?? "GitHub Repository",
       extraLinks: [
-        { href: links.terraform, label: "Terraform" },
-        { href: links.specs, label: "Specs" },
+        { href: links.terraform, label: labels?.terraform ?? "Terraform" },
+        { href: links.specs, label: labels?.specs ?? "Specs" },
       ],
     },
     seo,

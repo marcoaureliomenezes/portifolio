@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useContent } from "@/hooks/useContent";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -150,6 +151,9 @@ interface ProjectTabPageProps {
  */
 export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
   const { hero, sections, cta, seo } = content;
+  const { content: i18nContent } = useContent();
+  const underConstruction = i18nContent.ui?.underConstruction ?? "Em construção";
+  const contentComingSoon = i18nContent.ui?.contentComingSoon ?? "O conteúdo estará disponível em breve.";
 
   return (
     <main
@@ -300,10 +304,10 @@ export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
                       id={headingId}
                       className="text-lg font-semibold text-muted-foreground"
                     >
-                      Em construcao
+                      {underConstruction}
                     </h2>
                     <p className="text-sm text-muted-foreground max-w-md">
-                      {emptyMessage ?? "O conteudo desta secao esta sendo preparado."}
+                      {emptyMessage ?? contentComingSoon}
                     </p>
                   </CardContent>
                 </Card>
@@ -419,11 +423,10 @@ export function ProjectTabPage({ content, slug }: ProjectTabPageProps) {
                 id={`${slug}-placeholder-heading`}
                 className="text-lg font-semibold text-muted-foreground"
               >
-                Em construcao
+                {underConstruction}
               </h2>
               <p className="text-sm text-muted-foreground max-w-md">
-                O conteudo desta pagina esta sendo preparado. Enquanto isso, confira o
-                repositorio no GitHub.
+                {contentComingSoon}
               </p>
               <a
                 href={cta.github}

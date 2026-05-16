@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, Copy, Check } from "lucide-react";
+import { useContent } from "@/hooks/useContent";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +17,7 @@ interface EmailModalProps {
 
 export function EmailModal({ email, trigger }: EmailModalProps) {
   const [copied, setCopied] = useState(false);
+  const { content } = useContent();
 
   const handleCopy = async () => {
     try {
@@ -39,7 +41,7 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
           <div className="flex items-center justify-center w-12 h-12 bg-accent rounded-full mx-auto mb-2">
             <Mail className="w-6 h-6 text-primary" />
           </div>
-          <DialogTitle className="text-center">Contato por Email</DialogTitle>
+          <DialogTitle className="text-center">{content.contactByEmail ?? "Contato por Email"}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -64,7 +66,7 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
             onClick={handleSend}
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
           >
-            Enviar Email
+            {content.sendEmail ?? "Enviar Email"}
           </Button>
         </div>
       </DialogContent>

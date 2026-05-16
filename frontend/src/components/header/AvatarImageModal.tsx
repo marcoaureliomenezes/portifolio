@@ -5,6 +5,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useContent } from "@/hooks/useContent";
 
 interface AvatarImageModalProps {
   avatarUrl: string;
@@ -13,6 +14,8 @@ interface AvatarImageModalProps {
 }
 
 export function AvatarImageModal({ avatarUrl, name, trigger }: AvatarImageModalProps) {
+  const { content } = useContent();
+  const photoAltText = (content.photoAlt ?? "Foto de {name}").replace("{name}", name);
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -21,11 +24,11 @@ export function AvatarImageModal({ avatarUrl, name, trigger }: AvatarImageModalP
         aria-modal="true"
       >
         <DialogHeader className="sr-only">
-          <DialogTitle>{`Foto de ${name}`}</DialogTitle>
+          <DialogTitle>{photoAltText}</DialogTitle>
         </DialogHeader>
         <img
           src={avatarUrl}
-          alt={`Foto de ${name}`}
+          alt={photoAltText}
           loading="lazy"
           decoding="async"
           className="w-full h-auto rounded-lg object-cover object-top shadow-2xl"

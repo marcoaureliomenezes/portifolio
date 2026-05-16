@@ -29,7 +29,7 @@ export function HeaderShell() {
   }, []);
 
   const sharedProps = {
-    name: "Marco Aurelio Menezes",
+    name: profile.name,
     email: profile.email,
     avatarUrl: profileAvatar,
     language,
