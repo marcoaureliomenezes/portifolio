@@ -17,6 +17,7 @@ Tracker em formato de lista para compat com `sdd-spec-gate.sh` (que procura `- [
 Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaixo.
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
+- [-] T-FE-WAVE5 — content refresh + AI tooling matchers
 
 ---
 
@@ -872,7 +873,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 > — apenas conteúdo + 2 componentes novos ancorados em tokens já estabelecidos por
 > F-P0-07.
 
-### `[ ]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
+### `[-]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
 
 - **Agente:** `[software-engineer]`
 - **Dep:** T-FE-WAVE3 (`[x]`), T-CONTENT-06 (`[x]`)
