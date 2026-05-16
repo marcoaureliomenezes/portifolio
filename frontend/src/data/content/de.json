@@ -15,7 +15,7 @@
     "location": "Belo Horizonte, MG - Brasilien",
     "viewEmail": "E-Mail anzeigen"
   },
-  "heroTagline": "Ich baue Datenpipelines im Maßstab",
+  "heroTagline": "KI-gestütztes Data Engineering im Maßstab",
   "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
   "heroCTAs": { "downloadCv": "Lebenslauf herunterladen", "seeExperience": "Erfahrung ansehen" },
   "resume": {
@@ -66,12 +66,12 @@
           "title": "Senior Data Engineer",
           "period": "02/2024 bis Heute",
           "responsibilities": [
-            "Tätigkeit in den Geschäftsbereichen Konten & Gebühren (2024) und Finanzen (2025), verantwortlich für Entwurf, Entwicklung und Wartung von Datenpipelines.",
-            "Migration von Systemen von On-Premises (Cloudera und SAS/Oracle) in die Cloud (Azure + Databricks) unter Implementierung von Data Mesh und Medallion-Architektur.",
-            "Erstellung und Konfiguration von Azure-Ressourcen: ADLS, Key Vault, Azure Data Factory und Service Principals.",
-            "Migration der Datenpipelines für Konten & Gebühren zur Erfüllung der Open-Finance-Anforderungen.",
-            "Umgestaltung der reinen Streaming-Lösung zu einem Echtzeit-Replikationsmodell mit bedarfsgesteuertem Konsum.",
-            "Entwicklung und Bereitstellung von Replikationsflüssen für Kernkontotabellen von IBM DB2 zu Amazon Aurora: Ist-Zustand (DB2 → CDC Agent → Kafka → Spark Streaming On-Prem → Scylla / Azure CosmosDB); Soll-Zustand (DB2 → CDC Agent → Kafka → Amazon MSK → MSK Connect → Aurora → RESTful APIs)."
+            "Technische Führung bei der Large-Scale-Migration von SAS/Oracle-Pipelines zu Azure + Databricks mit KI-gestütztem Engineering — eigenständige Durchführung.",
+            "Internes Pilotprojekt für Coding Agents (Devin) bei Santander — erster Einsatz eines autonomen Code-Agenten in der Bank, Grundlage für die Skalierung der Praxis.",
+            "Einführung von Spec-Driven Development + TDD im KI-unterstützten Data-Engineering-Kontext.",
+            "Verbreitung von KI-Tooling-Praktiken (GitHub Copilot, Claude Code, Codex) in technischen Teams des Geschäftsbereichs.",
+            "Architektur und Implementierung von Streaming-Pipelines zur Replikation von Transaktionsdaten von IBM DB2 zu Amazon Aurora über Kafka/MSK CDC.",
+            "Entwicklung von Databricks-Pipelines (Medallion-Architektur) in den Bereichen Konten & Gebühren und Finanzen."
           ],
           "achievements": [
             "AWS Certified Solutions Architect – Associate",
@@ -79,7 +79,34 @@
             "AWS Certified Cloud Practitioner",
             "AWS Certified AI Practitioner",
             "Databricks Apache Spark Developer"
-          ]
+          ],
+          "skills": [
+            "Data Architecture",
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Databricks",
+            "Apache Spark",
+            "Azure Data Factory",
+            "AWS",
+            "Claude Code",
+            "GitHub Copilot",
+            "Devin",
+            "Windsurf",
+            "Spec-Driven Development",
+            "TDD com AI"
+          ],
+          "highlightProject": {
+            "title": "SAS → Azure + Databricks Migration",
+            "body": "Eigenständige Re-Architektur kritischer SAS-Datenpipelines auf den modernen Stack Azure Data Factory + Databricks mit Medallion-Architektur. Ersetzt kostspielige und langsame Batch-Prozesse durch elastische Pipelines. Ausführungs-Toolchain: Windsurf + Devin zur Code-Generierung, GitHub Copilot für interaktives Editieren, Claude Code für Refactorings und größere Reviews. Interne Hilfswerkzeuge zur Beschleunigung der SAS-Legacy-Analyse und Generierung von Migrationsspezifikationen.",
+            "impact": [
+              "Reduzierung der Migrationszeit: 12 Monate → 2 Monate (Projekt-SLA)",
+              "Eigenständige Durchführung durch KI-gestütztes Engineering ermöglicht",
+              "Legacy SAS-Stack → Azure Data Factory + Databricks (Medallion-Architektur)",
+              "Devin-Pilot in der Bank — Grundlage für die Skalierung der Praxis"
+            ]
+          }
         },
         {
           "title": "Data Engineer",
@@ -95,6 +122,20 @@
             "Databricks Data Engineer Associate",
             "Microsoft DP-203: Azure Data Engineer Associate",
             "Microsoft AZ-900, DP-900, SC-900, AI-900"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Cloudera",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "Azure Data Factory",
+            "Databricks",
+            "BMC Control-M",
+            "Git"
           ]
         },
         {
@@ -108,6 +149,20 @@
           ],
           "achievements": [
             "Zertifizierung Advanced Data Engineer im Santander Data Master Programm (Geldprämie + zusätzliche Leistungen)"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "PySpark",
+            "Shell scripting",
+            "Linux",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "BMC Control-M",
+            "Git",
+            "Jira",
+            "Scrum"
           ]
         }
       ]
@@ -125,6 +180,18 @@
           "responsibilities": [
             "Mitarbeit an einem Python-basierten Tool zur Datenaufnahme und -verarbeitung mit Lambda-Architektur für die Zementindustrie — Daten aus Industrieanlagen und von Mitarbeitern für Dashboards, Berichte und BI.",
             "Entwicklung einer JupyterLab-Erweiterung in Python (Back-End) und React (Front-End), integriert mit der CFD-Software OpenFOAM zur Simulation von Zementöfen."
+          ],
+          "skills": [
+            "Python",
+            "React",
+            "SQL",
+            "Shell scripting",
+            "Linux",
+            "Git",
+            "Docker",
+            "Lambda-Architektur",
+            "JupyterLab",
+            "ETL"
           ]
         }
       ]
@@ -146,6 +213,18 @@
             "Technisches Zeichnen II (AutoCAD).",
             "Einführung in die Informatik (Grundlagen, Betriebssysteme, MS Office).",
             "Angewandte Mathematik in der Elektrotechnik."
+          ],
+          "skills": [
+            "Lehre",
+            "CNC-Programmierung",
+            "AutoCAD",
+            "FluidSIM",
+            "Elektrotechnik",
+            "Hydraulik",
+            "Pneumatik",
+            "Arbeitssicherheit",
+            "MS Office",
+            "Linux"
           ]
         }
       ]
@@ -164,6 +243,18 @@
             "Hardware-Entwickler für Steuerungs- und Leistungselektroniksysteme.",
             "Firmware-Entwicklung in eingebettetem C auf Mikrocontroller für ein Gasofen-Wärmetestprojekt.",
             "Implementierung eines zeitbasierten Temperaturregelungssystems für den Ofen."
+          ],
+          "skills": [
+            "Embedded C",
+            "Leistungselektronik",
+            "Regelungstechnik",
+            "Mikrocontroller",
+            "Hardware-Design",
+            "Python",
+            "MATLAB",
+            "PID-Regelung",
+            "Linux",
+            "Git"
           ]
         }
       ]
@@ -181,6 +272,18 @@
           "responsibilities": [
             "Softwareentwicklung für Datenerfassung zur Bestandsverwaltung in Tankstellen.",
             "Implementierung der Schnittstelle zwischen Raspberry Pi und TLS-300 (Gerät zur Messung von Tankparametern) mit Python."
+          ],
+          "skills": [
+            "Python",
+            "Raspberry Pi",
+            "Hardware-Schnittstelle",
+            "Datenerfassung",
+            "Shell scripting",
+            "Linux",
+            "SQL",
+            "Git",
+            "Elektronik",
+            "Eingebettete Systeme"
           ]
         }
       ]
