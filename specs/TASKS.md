@@ -18,7 +18,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 - [-] T-QA-14 — status checks nas branch protections (aplicar pós-merge deste PR)
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
-- [-] T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
+- [x] T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
 - [-] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
@@ -716,7 +716,7 @@ funciona.
   - `cd frontend && npm run build` verde; smoke E2E `home.spec.ts` passa
   - PR isolado (ou bundled com T-FE-QUAL-01) para `develop`
 
-### `[-]` T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
+### `[x]` T-FE-QUAL-03 — sidebar.tsx replacement: substituir AppSidebar por nav Tailwind nativa
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-01 (precisa de typecheck limpo + strict ligado para garantir
