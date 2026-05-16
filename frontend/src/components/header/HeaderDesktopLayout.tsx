@@ -6,11 +6,7 @@ import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
 import { EmailModal } from "./EmailModal";
 import { ThemeToggle } from "./ThemeToggle";
-
-interface NavItem {
-  path: string;
-  label: string;
-}
+import type { NavItem } from "./types";
 
 interface HeaderDesktopLayoutProps {
   name: string;

@@ -6,13 +6,9 @@ import { ContactStrip } from "./ContactStrip";
 import { AvatarImageModal } from "./AvatarImageModal";
 import { EmailModal } from "./EmailModal";
 import { ThemeToggle } from "./ThemeToggle";
+import type { NavItem } from "./types";
 
 type ScrollState = "full" | "intermediate" | "compact";
-
-interface NavItem {
-  path: string;
-  label: string;
-}
 
 interface HeaderMobileLayoutProps {
   name: string;
