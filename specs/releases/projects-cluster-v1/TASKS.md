@@ -190,7 +190,7 @@
   `getProjectBySlug` (consumers do helper já foram deletados em T-PC-B-06). Bundle
   inicial diminui ~28KB (`du -sh dist/assets/*.js` comparativo). Cumpre AC-PC-06.
 
-### `[-]` T-PC-B-09 — Build `ProjectsLayoutShell` (chrome compartilhado /projetos/*)
+### `[x]` T-PC-B-09 — Build `ProjectsLayoutShell` (chrome compartilhado /projetos/*)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-05 (rota dinâmica `/projetos/:slug` precisa existir para wrap)
