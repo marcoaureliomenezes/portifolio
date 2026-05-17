@@ -71,8 +71,6 @@ export interface HeaderInfo {
 }
 
 // ── New discriminated-union project types (projects-cluster-v1 / T-PC-A-01) ──
-// Legacy types below (DadaiaWorkspaceProject, TauanGamesProject, PortifolioProject,
-// GameItem, closed-map ProjectsContent) are retained until Phase B deletes them.
 
 export interface ProjectCardData {
   /** Path to cover image, relative to /assets/. ≤ 60 KB. */
@@ -164,52 +162,12 @@ export interface ProjectsContentV2 {
   list: Project[];
 }
 
-// ── Project tab content types ─────────────────────────────────────────────
-
-export interface ProjectSeoData {
-  title: string;
-  description: string;
-}
-
-export interface ProjectCtaData {
-  github: string;
-  docs?: string;
-}
-
-export interface ProjectHeroData {
-  title: string;
-  tagline: string;
-  logo?: string;
-}
-
 export interface ProjectSectionData {
   id: string;
   title: string;
   body?: string;
   diagram?: string;
   items?: Array<{ label: string; value: string }>;
-}
-
-export interface DadaiaWorkspaceProject {
-  hero: ProjectHeroData;
-  sections: ProjectSectionData[];
-  cta: ProjectCtaData;
-  seo: ProjectSeoData;
-}
-
-export interface GameItem {
-  slug: string;
-  title: string;
-  engine: string;
-  image: string;
-  body: string;
-  repo: string;
-}
-
-export interface TauanGamesProject {
-  hero: ProjectHeroData;
-  items: GameItem[];
-  seo: ProjectSeoData;
 }
 
 export interface StackRow {
@@ -226,28 +184,6 @@ export interface ArchDecision {
   title: string;
   rationale: string;
   spec: string;
-}
-
-export interface PortifolioProjectLinks {
-  repo: string;
-  terraform: string;
-  specs: string;
-}
-
-export interface PortifolioProject {
-  hero: ProjectHeroData;
-  diagram: string;
-  stack: StackRow[];
-  costs: CostRow[];
-  decisions: ArchDecision[];
-  links: PortifolioProjectLinks;
-  seo: ProjectSeoData;
-}
-
-export interface ProjectsContent {
-  "dadaia-workspace": DadaiaWorkspaceProject;
-  "tauan-games": TauanGamesProject;
-  portifolio: PortifolioProject;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -308,7 +244,7 @@ export interface ContentData {
   rolePlural: string;
   /** Avatar hover label in HeaderDesktopLayout / HeaderMobileLayout (T-FE-QUAL-06). */
   viewLarger: string;
-  /** TauanGamesPage empty-state labels (T-FE-QUAL-06). */
+  /** Games empty-state labels (T-FE-QUAL-06). */
   gamesComingSoon: string;
   gamesComingSoonDesc: string;
   /** NotFound page labels (T-FE-QUAL-06). */
@@ -316,7 +252,7 @@ export interface ContentData {
   returnHome: string;
   /** Suffixes for hero stats line (T-FE-QUAL-06). Falls back to en values when absent. */
   heroStatsSuffix?: HeroStatsSuffix;
-  /** ArchitecturePage section labels (T-FE-QUAL-06). */
+  /** Architecture / infra section labels (T-FE-QUAL-06). */
   archPage?: ArchPageLabels;
   header: HeaderInfo;
   resume: Resume;
@@ -330,11 +266,8 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
-  /** Legacy closed-map shape (Phase A transitional). Replaced by projectsV2 in Phase B. */
-  projects?: ProjectsContent;
   /**
-   * New open-list shape for projects-cluster-v1 (T-PC-A-01).
-   * Coexists with legacy `projects` during Phase A; replaces it in Phase B.
+   * Open-list shape for projects-cluster-v1 (T-PC-A-01).
    */
   projectsV2?: ProjectsContentV2;
 }
