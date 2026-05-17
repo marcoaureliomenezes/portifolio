@@ -1,5 +1,7 @@
 import { MapPin, Calendar, Award, ExternalLink } from "lucide-react";
 import { RoleCollapsible } from "./RoleCollapsible";
+import { RoleSkillBadges } from "./RoleSkillBadges";
+import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Experience, ContentData } from "@/types/content";
 
 interface ExperienceCardProps {
@@ -63,6 +65,18 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
                   {experience.roles[0].technologies}
                 </p>
               </div>
+            </div>
+          )}
+
+          {experience.roles[0].skills && experience.roles[0].skills.length > 0 && (
+            <div className="pt-4">
+              <RoleSkillBadges skills={experience.roles[0].skills} />
+            </div>
+          )}
+
+          {experience.roles[0].highlightProject && (
+            <div className="pt-4">
+              <HighlightProjectBlock highlight={experience.roles[0].highlightProject} />
             </div>
           )}
         </div>

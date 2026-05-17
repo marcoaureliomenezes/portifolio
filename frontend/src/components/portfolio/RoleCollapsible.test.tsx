@@ -127,4 +127,51 @@ describe("RoleCollapsible", () => {
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
   });
+
+  it("renders skill badges when position.skills is present and collapsible is open", async () => {
+    const user = userEvent.setup();
+    const roleWithSkills: Position = {
+      ...mockRole,
+      skills: ["Python", "Azure", "Claude Code"],
+    };
+
+    render(
+      <RoleCollapsible
+        role={roleWithSkills}
+        labels={mockLabels}
+        defaultOpen
+      />
+    );
+
+    const badges = screen.getAllByTestId("skill-badge");
+    expect(badges).toHaveLength(3);
+    expect(screen.getByText("Python")).toBeInTheDocument();
+    expect(screen.getByText("Azure")).toBeInTheDocument();
+    expect(screen.getByText("Claude Code")).toBeInTheDocument();
+    // force use of user to satisfy the import
+    expect(user).toBeDefined();
+  });
+
+  it("renders highlight block when position.highlightProject is present and collapsible is open", () => {
+    const roleWithHighlight: Position = {
+      ...mockRole,
+      highlightProject: {
+        title: "Migration Project",
+        body: "Solo AI-augmented migration.",
+        impact: ["SLA: 12 months → 2 months"],
+      },
+    };
+
+    render(
+      <RoleCollapsible
+        role={roleWithHighlight}
+        labels={mockLabels}
+        defaultOpen
+      />
+    );
+
+    expect(screen.getByText("Migration Project")).toBeInTheDocument();
+    expect(screen.getByText("SLA: 12 months → 2 months")).toBeInTheDocument();
+    expect(screen.getByLabelText("Impacto")).toBeInTheDocument();
+  });
 });
