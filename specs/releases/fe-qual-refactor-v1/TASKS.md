@@ -137,7 +137,7 @@
   `TauanGamesPage`, `ArchitecturePage` e `DadaiaWorkspacePage` na rota dinâmica `/projetos/:slug`.
 - **Ação:** nenhuma nesta release.
 
-### `[ ]` T-FE-QUAL-06 — i18n debt: externalizar ~28 strings hardcoded
+### `[-]` T-FE-QUAL-06 — i18n debt: externalizar ~28 strings hardcoded
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
@@ -146,7 +146,7 @@
 - **Critério de pronto:** `npm run lint:strings` (novo gate opcional) ou inspeção manual:
   zero literal "Sobre", "Educação", "Certificações" etc. em componentes.
 
-### `[ ]` T-FE-QUAL-10 — CV PDF assets: adicionar currículos EN e DE
+### `[-]` T-FE-QUAL-10 — CV PDF assets: adicionar currículos EN e DE
 
 - **Agente:** `[frontend-engineer]` (assets do operador)
 - **Dep:** —
