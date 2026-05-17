@@ -1,6 +1,11 @@
 import { useContext } from "react";
 import { LanguageContext } from "@/contexts/LanguageContext";
-import type { SupportedLanguages, ContentData } from "@/types/content";
+import type {
+  SupportedLanguages,
+  ContentData,
+  Project,
+  ProjectsContentV2,
+} from "@/types/content";
 
 // Static JSON imports — Vite resolves and bundles these at build time.
 // T-CONTENT-01: migrated from TypeScript constant modules to JSON files.
@@ -77,6 +82,33 @@ export function useContent() {
   const { language, setLanguage } = useContext(LanguageContext);
   const content = resolveContent(language);
 
+  // T-PC-A-04: Dev-mode Zod guard — validates projectsV2 block on every render
+  // in development. Eliminated by Vite tree-shaking in production (AC-PC-02).
+  if (import.meta.env.DEV) {
+    const projectsV2 = content.projectsV2;
+    if (projectsV2 !== undefined) {
+      // Dynamic import of the Zod schema inside the DEV guard so that Rollup
+      // can tree-shake the entire import path when building for production.
+      // The import() call is async but we intentionally fire-and-forget here:
+      // validation errors will appear as console.error in the browser devtools
+      // without blocking the render. This mirrors the "immediate feedback in dev"
+      // intent from SPEC §6 D1.
+      import("@/lib/schemas/projects")
+        .then(({ ProjectsContentSchema }) => {
+          const result = ProjectsContentSchema.safeParse(projectsV2);
+          if (!result.success) {
+            console.error(
+              "[useContent DEV] projectsV2 Zod validation failed:",
+              result.error.issues,
+            );
+          }
+        })
+        .catch((err: unknown) => {
+          console.error("[useContent DEV] Failed to load Zod schema:", err);
+        });
+    }
+  }
+
   function label(key: keyof ContentData): string {
     const value = content[key];
     if (typeof value === "string") return value;
@@ -86,4 +118,23 @@ export function useContent() {
   }
 
   return { content, label, language, setLanguage };
+}
+
+/**
+ * getProjectBySlug — transitional helper (T-PC-A-04).
+ *
+ * Resolves a project from the new `projectsV2.list` shape by slug.
+ * Used by Phase B until the legacy closed-map shape and the 3 ad-hoc pages
+ * are deleted. At that point this helper will be removed (T-PC-B-08).
+ *
+ * Falls back to undefined when the slug is not found or when projectsV2 is
+ * absent (graceful degradation for Phase A).
+ */
+export function getProjectBySlug(
+  content: ContentData,
+  slug: string,
+): Project | undefined {
+  const projectsV2 = content.projectsV2 as ProjectsContentV2 | undefined;
+  if (!projectsV2?.list) return undefined;
+  return projectsV2.list.find((p) => p.slug === slug);
 }
