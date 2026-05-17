@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-—
+T-PC-B-03, T-PC-B-04, T-PC-B-05 — frontend-engineer (Phase B mid)
 
 ---
 
@@ -122,7 +122,7 @@
   `document.title` + meta tags `description`, `og:title`, `og:description`. SSR-safe.
   Cumpre AC-PC-11 parcial.
 
-### `[ ]` T-PC-B-03 — Criar 3 templates por kind
+### `[-]` T-PC-B-03 — Criar 3 templates por kind
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-01, T-PC-B-02
@@ -133,7 +133,7 @@
   `useDocumentSeo`; reusa primitivos shadcn (`Card`, `Badge`, `Button`); zero
   `useEffect` SEO imperativo; meta tests unitários criados.
 
-### `[ ]` T-PC-B-04 — Criar `ProjectDetailPage.tsx` com dispatch + `assertNever`
+### `[-]` T-PC-B-04 — Criar `ProjectDetailPage.tsx` com dispatch + `assertNever`
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-03
@@ -143,7 +143,7 @@
   return assertNever(project)`; `useParams<{slug:string}>()`; slug desconhecido renderiza
   `<NotFound />` inline (preserva URL). Cumpre AC-PC-04 (parcial).
 
-### `[ ]` T-PC-B-05 — Atualizar `App.tsx` para rota dinâmica + remover `componentMap` legado
+### `[-]` T-PC-B-05 — Atualizar `App.tsx` para rota dinâmica + remover `componentMap` legado
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-01, T-PC-B-04
