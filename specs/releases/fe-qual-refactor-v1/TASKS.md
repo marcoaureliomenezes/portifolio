@@ -137,7 +137,7 @@
   `TauanGamesPage`, `ArchitecturePage` e `DadaiaWorkspacePage` na rota dinâmica `/projetos/:slug`.
 - **Ação:** nenhuma nesta release.
 
-### `[-]` T-FE-QUAL-06 — i18n debt: externalizar ~28 strings hardcoded
+### `[x]` T-FE-QUAL-06 — i18n debt: externalizar ~28 strings hardcoded
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
@@ -145,6 +145,9 @@
   `data/content/{pt,en,de}.json`; consumir via `useContent()`.
 - **Critério de pronto:** `npm run lint:strings` (novo gate opcional) ou inspeção manual:
   zero literal "Sobre", "Educação", "Certificações" etc. em componentes.
+- **Commits:** externalized issuerLabel, certSingular/Plural, careerProgression, roleSingular/Plural,
+  viewLarger, gamesComingSoon/Desc, notFoundMessage, returnHome; NotFound.tsx wired to useContent().
+  Tests: i18n-strings.test.tsx (12 tests). All 160 tests green.
 
 ### `[-]` T-FE-QUAL-10 — CV PDF assets: adicionar currículos EN e DE
 
@@ -154,6 +157,10 @@
   para roteamento condicional.
 - **Critério de pronto:** Download CV em EN abre `cv-en.pdf`; idem DE; PT mantém o
   comportamento atual.
+- **Status 2026-05-17:** Routing + fallback wired (getCvUrl() in profile.ts; HeroSection
+  receives locale prop; Portfolio passes language from useContent()). EN/DE fallback to /cv.pdf.
+  Awaiting operator PDF assets at `frontend/public/cv-en.pdf` and `frontend/public/cv-de.pdf`
+  to enable locale-specific PDFs (uncomment CV_LOCALE_MAP entries in profile.ts). Tests: 5 passing.
 
 ### `[ ]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
 
