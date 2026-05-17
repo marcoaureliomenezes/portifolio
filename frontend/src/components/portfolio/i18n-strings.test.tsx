@@ -10,7 +10,7 @@
  *   - ExperienceCard           (careerProgression, roleSingular / rolePlural)
  *   - HeroSection              (heroStatsSuffix: yearsSuffix, certsSuffix, cloudsSuffix)
  *   - NotFound                 (notFoundMessage, returnHome)
- *   - TauanGamesPage           (gamesComingSoon, gamesComingSoonDesc)
+ *   - ContentData              (gamesComingSoon, gamesComingSoonDesc — retained for future use)
  */
 
 import { render, screen } from "@testing-library/react";
