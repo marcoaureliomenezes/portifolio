@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-T-PC-A-07 [-] devops-engineer
+—
 
 ---
 
@@ -89,7 +89,7 @@ T-PC-A-07 [-] devops-engineer
   ausência ou string vazia. Inclui regex check para bucket names, CloudFront IDs,
   Route53 zone IDs, AWS account ID isolado (AC-PC-15). Cumpre AC-PC-03 + AC-PC-15.
 
-### `[-]` T-PC-A-07 — CI job `i18n-parity` no workflow
+### `[x]` T-PC-A-07 — CI job `i18n-parity` no workflow
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-PC-A-06
