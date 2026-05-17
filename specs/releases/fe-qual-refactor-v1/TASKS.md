@@ -9,7 +9,7 @@
 
 - [-] T-QA-14 — status checks nas branch protections
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
-- [-] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
+- [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [-] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
@@ -79,7 +79,7 @@
 
 ## Tasks IN PROGRESS
 
-### `[-]` T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
+### `[x]` T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
