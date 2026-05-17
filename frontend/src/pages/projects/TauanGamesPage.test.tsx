@@ -9,7 +9,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
  *
  * Verifies:
  * A1: component renders
- * A2: at least 2 game cards rendered (aero-fighters-babylon + tauan-trex minimum)
+ * A2: at least 2 game cards rendered (aero-fighters + tauan-trex minimum)
  * A3: each card has title, paragraph, GitHub link with correct attrs
  */
 
