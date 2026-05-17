@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-T-PC-A-03 [-] frontend-engineer
+T-PC-A-04 [-], T-PC-A-05 [-] frontend-engineer
 
 ---
 
@@ -41,7 +41,7 @@ T-PC-A-03 [-] frontend-engineer
   3 variantes; `sections`/`stack`/`costs`/`decisions` são `z.array(z.object({...})).min(1)`
   (zero `z.any()`); cumpre AC-PC-01.
 
-### `[-]` T-PC-A-03 — Script `validate-content.mjs` + npm script + tree-shake verify
+### `[x]` T-PC-A-03 — Script `validate-content.mjs` + npm script + tree-shake verify
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-02
@@ -51,7 +51,7 @@ T-PC-A-03 [-] frontend-engineer
   exit 1 em erro; `grep -c "zod" dist/assets/index-*.js` retorna 0 após `npm run build`
   (tree-shake remove Zod da prod). Cumpre AC-PC-02.
 
-### `[ ]` T-PC-A-04 — Dev-mode Zod guard em `useContent.ts` + transitional helper
+### `[-]` T-PC-A-04 — Dev-mode Zod guard em `useContent.ts` + transitional helper
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-02
@@ -60,7 +60,7 @@ T-PC-A-03 [-] frontend-engineer
   presente; helper `getProjectBySlug(content, slug)` exportado para Phase B usar; comportamento
   dos 3 pages legados preservado (eles ainda leem `content.projects?.["dadaia-workspace"]`).
 
-### `[ ]` T-PC-A-05 — Migrar JSON pt/en/de para shape `{index, list[]}` + corretivo tauan-games
+### `[-]` T-PC-A-05 — Migrar JSON pt/en/de para shape `{index, list[]}` + corretivo tauan-games
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-01

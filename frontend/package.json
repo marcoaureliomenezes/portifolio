@@ -16,7 +16,9 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install --with-deps chromium firefox webkit",
-    "lighthouse": "lhci autorun"
+    "lighthouse": "lhci autorun",
+    "validate:content": "node scripts/validate-content.mjs",
+    "check:i18n-projects": "node scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
