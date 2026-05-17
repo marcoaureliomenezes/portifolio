@@ -8,7 +8,7 @@
 ## Currently in progress (tracker)
 
 - [-] T-QA-14 — status checks nas branch protections
-- [-] T-FE-WAVE5 — content refresh + AI tooling matchers
+- [x] T-FE-WAVE5 — content refresh + AI tooling matchers
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [x] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [x] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
@@ -107,7 +107,7 @@
 - **Critério de pronto:** Componente respeita design tokens (`bg-card`, `text-foreground`,
   etc.) em vez de cores hardcoded; verificado em ambos os temas.
 
-### `[-]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
+### `[x]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
