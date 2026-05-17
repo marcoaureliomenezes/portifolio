@@ -11,7 +11,7 @@ import type { Certification, ContentData } from "@/types/content";
 
 interface CertificationCardProps {
   cert: Certification;
-  labels: Pick<ContentData, "validUntil" | "viewCredential">;
+  labels: Pick<ContentData, "validUntil" | "viewCredential" | "issuerLabel" | "seeMore" | "seeLess">;
   defaultOpen?: boolean;
 }
 
@@ -80,7 +80,7 @@ export function CertificationCard({
                 onClick={() => setDescExpanded(!descExpanded)}
                 className="text-primary hover:text-primary/80 p-0 h-auto font-medium"
               >
-                {descExpanded ? "Ver menos" : "Ver mais"}
+                {descExpanded ? labels.seeLess : labels.seeMore}
               </Button>
             )}
           </div>
@@ -91,7 +91,7 @@ export function CertificationCard({
                 {cert.validity}
               </p>
               <p>
-                <span className="font-semibold">Emissor:</span> {cert.issuer}
+                <span className="font-semibold">{labels.issuerLabel}:</span> {cert.issuer}
               </p>
             </div>
             {cert.link && cert.link !== "#" && (

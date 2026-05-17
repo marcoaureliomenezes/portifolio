@@ -129,10 +129,10 @@ export function TauanGamesPage() {
                 id="tauan-games-placeholder-heading"
                 className="text-lg font-semibold text-muted-foreground"
               >
-                Em construcao
+                {content.gamesComingSoon}
               </h2>
               <p className="text-sm text-muted-foreground max-w-md">
-                Os jogos serao listados aqui em breve.
+                {content.gamesComingSoonDesc}
               </p>
               <a
                 href="https://github.com/marcoaureliomenezes/tauan-games"

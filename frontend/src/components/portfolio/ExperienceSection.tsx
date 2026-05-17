@@ -16,6 +16,9 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
   const labels = {
     responsibilities: content.responsibilities,
     technologies: content.technologies,
+    careerProgression: content.careerProgression,
+    roleSingular: content.roleSingular,
+    rolePlural: content.rolePlural,
   };
 
   const cards = content.experiences.map((experience, idx) => (

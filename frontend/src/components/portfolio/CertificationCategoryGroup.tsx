@@ -17,7 +17,7 @@ const PROVIDER_ICONS: Record<string, string> = {
 interface CertificationCategoryGroupProps {
   category: string;
   certs: Certification[];
-  labels: Pick<ContentData, "validUntil" | "viewCredential">;
+  labels: Pick<ContentData, "validUntil" | "viewCredential" | "issuerLabel" | "seeMore" | "seeLess" | "certSingular" | "certPlural">;
   defaultOpen?: boolean;
 }
 
@@ -57,7 +57,7 @@ export function CertificationCategoryGroup({
               </div>
               <div className="flex items-center gap-2 md:gap-3 text-primary">
                 <span className="text-xs md:text-sm text-muted-foreground">
-                  {certs.length} certificado{certs.length !== 1 ? "s" : ""}
+                  {certs.length} {certs.length !== 1 ? labels.certPlural : labels.certSingular}
                 </span>
                 {open ? (
                   <ChevronUp className="h-4 w-4 md:h-5 md:w-5" />
@@ -70,7 +70,17 @@ export function CertificationCategoryGroup({
 
           <CollapsibleContent className="mt-3 md:mt-4 space-y-3 md:space-y-4">
             {certs.map((cert) => (
-              <CertificationCard key={cert.name} cert={cert} labels={labels} />
+              <CertificationCard
+                key={cert.name}
+                cert={cert}
+                labels={{
+                  validUntil: labels.validUntil,
+                  viewCredential: labels.viewCredential,
+                  issuerLabel: labels.issuerLabel,
+                  seeMore: labels.seeMore,
+                  seeLess: labels.seeLess,
+                }}
+              />
             ))}
           </CollapsibleContent>
         </Collapsible>

@@ -13,6 +13,7 @@ interface HeaderDesktopLayoutProps {
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
+  viewLarger: string;
 }
 
 export function HeaderDesktopLayout({
@@ -22,6 +23,7 @@ export function HeaderDesktopLayout({
   language,
   onLanguageChange,
   headerInfo,
+  viewLarger,
 }: HeaderDesktopLayoutProps) {
   const avatarTrigger = (
     <button className="group relative">
@@ -31,7 +33,7 @@ export function HeaderDesktopLayout({
         className="w-20 h-20 lg:w-24 lg:h-24 rounded-full object-cover object-top border-2 border-header-text/20 transition-all duration-300 group-hover:border-header-text/40 cursor-pointer"
       />
       <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-        <span className="text-header-text text-xs">Ver maior</span>
+        <span className="text-header-text text-xs">{viewLarger}</span>
       </div>
     </button>
   );

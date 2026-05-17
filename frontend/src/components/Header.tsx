@@ -62,6 +62,7 @@ export const Header = ({
           language={activeLocale}
           onLanguageChange={handleLanguageChange}
           headerInfo={content.header}
+          viewLarger={content.viewLarger}
         />
       </div>
     </header>

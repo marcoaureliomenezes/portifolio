@@ -29,9 +29,12 @@ const mockCert: Certification = {
   priority: 1,
 };
 
-const mockLabels: Pick<ContentData, "validUntil" | "viewCredential"> = {
+const mockLabels: Pick<ContentData, "validUntil" | "viewCredential" | "issuerLabel" | "seeMore" | "seeLess"> = {
   validUntil: "Válido até",
   viewCredential: "Ver credencial",
+  issuerLabel: "Emissor",
+  seeMore: "Ver mais",
+  seeLess: "Ver menos",
 };
 
 describe("CertificationCard", () => {

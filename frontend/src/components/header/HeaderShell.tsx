@@ -13,6 +13,7 @@ interface HeaderShellProps {
   language: SupportedLanguages;
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
+  viewLarger: string;
 }
 
 export function HeaderShell({
@@ -22,6 +23,7 @@ export function HeaderShell({
   language,
   onLanguageChange,
   headerInfo,
+  viewLarger,
 }: HeaderShellProps) {
   const isMobile = useIsMobile();
   const [scrollState, setScrollState] = useState<ScrollState>("full");
@@ -48,6 +50,7 @@ export function HeaderShell({
     language,
     onLanguageChange,
     headerInfo,
+    viewLarger,
   };
 
   const blurClass =

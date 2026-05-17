@@ -16,6 +16,7 @@ interface HeaderMobileLayoutProps {
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
   scrollState: ScrollState;
+  viewLarger: string;
 }
 
 function EmailTriggerMobile({ label }: { label: string }) {
@@ -35,6 +36,7 @@ export function HeaderMobileLayout({
   onLanguageChange,
   headerInfo,
   scrollState,
+  viewLarger,
 }: HeaderMobileLayoutProps) {
   if (scrollState === "full") {
     const avatarTrigger = (
@@ -45,7 +47,7 @@ export function HeaderMobileLayout({
           className="w-20 h-20 rounded-full object-cover object-top border-2 border-header-text/20 transition-all duration-300 group-hover:border-header-text/40 cursor-pointer"
         />
         <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="text-white text-xs">Ver maior</span>
+          <span className="text-white text-xs">{viewLarger}</span>
         </div>
       </button>
     );

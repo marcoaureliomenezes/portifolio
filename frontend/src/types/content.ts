@@ -169,6 +169,27 @@ export interface HeroCTAs {
   seeExperience: string;
 }
 
+export interface HeroStatsSuffix {
+  years: string;
+  certs: string;
+  clouds: string;
+}
+
+export interface ArchPageLabels {
+  infraDiagramTitle: string;
+  techStackTitle: string;
+  monthlyCostsTitle: string;
+  tableHeaderLayer: string;
+  tableHeaderTechnology: string;
+  tableHeaderService: string;
+  tableHeaderCostUsd: string;
+  archDecisionsTitle: string;
+  linksTitle: string;
+  linkGithubRepo: string;
+  linkTerraform: string;
+  linkSpecs: string;
+}
+
 export interface ContentData {
   resumeTitle: string;
   skillsTitle: string;
@@ -181,6 +202,28 @@ export interface ContentData {
   technologies: string;
   validUntil: string;
   viewCredential: string;
+  /** Label for the issuer field in CertificationCard (T-FE-QUAL-06). */
+  issuerLabel: string;
+  /** Singular/plural for certification count in CertificationCategoryGroup (T-FE-QUAL-06). */
+  certSingular: string;
+  certPlural: string;
+  /** Career progression section label in ExperienceCard (T-FE-QUAL-06). */
+  careerProgression: string;
+  /** Singular/plural for role count in ExperienceCard (T-FE-QUAL-06). */
+  roleSingular: string;
+  rolePlural: string;
+  /** Avatar hover label in HeaderDesktopLayout / HeaderMobileLayout (T-FE-QUAL-06). */
+  viewLarger: string;
+  /** TauanGamesPage empty-state labels (T-FE-QUAL-06). */
+  gamesComingSoon: string;
+  gamesComingSoonDesc: string;
+  /** NotFound page labels (T-FE-QUAL-06). */
+  notFoundMessage: string;
+  returnHome: string;
+  /** Suffixes for hero stats line (T-FE-QUAL-06). Falls back to en values when absent. */
+  heroStatsSuffix?: HeroStatsSuffix;
+  /** ArchitecturePage section labels (T-FE-QUAL-06). */
+  archPage?: ArchPageLabels;
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
