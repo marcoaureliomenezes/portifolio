@@ -1,18 +1,24 @@
 import { useParams } from "react-router-dom";
-import { useContent, getProjectBySlug } from "@/hooks/useContent";
+import { useContent } from "@/hooks/useContent";
 import { assertNever } from "@/lib/assertNever";
 import { CaseStudyTemplate } from "./CaseStudyTemplate";
 import { MetaProjectTemplate } from "./MetaProjectTemplate";
 import { GamesProjectTemplate } from "./GamesProjectTemplate";
 import NotFound from "../NotFound";
+import type { ProjectsContentV2 } from "@/types/content";
 
 /**
- * ProjectDetailPage — T-PC-B-04
+ * ProjectDetailPage — T-PC-B-04 / T-PC-B-08
  *
  * Dynamic dispatch page for `/projetos/:slug` routes.
  *
- * Reads the slug from URL params, resolves the project via `getProjectBySlug`,
- * then dispatches to the appropriate kind-specific template via `switch(project.kind)`.
+ * T-PC-B-08 migration: `getProjectBySlug` helper removed. Project is resolved
+ * directly from `content.projectsV2.list.find(p => p.slug === slug)` — a 1-liner
+ * replacement. This is the only consumer that was using the transitional helper;
+ * all other consumers (3 legacy pages) were deleted in T-PC-B-06.
+ *
+ * Reads the slug from URL params, resolves the project from content, then
+ * dispatches to the appropriate kind-specific template via `switch(project.kind)`.
  *
  * Exhaustiveness: the `default` branch calls `assertNever(project)` so that
  * TypeScript guarantees all union members are handled. Adding a new `kind` to
@@ -29,7 +35,9 @@ export function ProjectDetailPage() {
     return <NotFound />;
   }
 
-  const project = getProjectBySlug(content, slug);
+  // T-PC-B-08: direct lookup replacing getProjectBySlug transitional helper.
+  const projectsV2 = content.projectsV2 as ProjectsContentV2 | undefined;
+  const project = projectsV2?.list?.find((p) => p.slug === slug);
 
   if (!project) {
     return <NotFound />;

@@ -1,7 +1,11 @@
 /**
- * LanguageContext.test.tsx — T-FE-QUAL-07
+ * LanguageContext.test.tsx — T-FE-QUAL-07 (updated T-PC-B-08)
  *
  * Tests for localStorage persistence in LanguageProvider.
+ *
+ * T-PC-B-08 update: LanguageProvider now loads content asynchronously.
+ * It renders `null` until the first locale is loaded (option b). Tests
+ * must use `waitFor` to assert after the async load settles.
  *
  * Scenarios:
  *   1. First visit (no localStorage) → falls back to navigator.language detection
@@ -10,7 +14,7 @@
  *   4. SSR-safe: no crash when window is unavailable (tested by mocking)
  */
 
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
 import React, { useContext } from "react";
@@ -44,7 +48,7 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
   // Scenario 1: First visit — no localStorage → falls back to navigator.language
   // -------------------------------------------------------------------------
 
-  it("first visit with navigator.language='pt-BR' → language is 'pt'", () => {
+  it("first visit with navigator.language='pt-BR' → language is 'pt'", async () => {
     localStorage.clear();
     Object.defineProperty(navigator, "language", {
       value: "pt-BR",
@@ -57,10 +61,13 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByTestId("lang").textContent).toBe("pt");
+    // Wait for async content load → children render.
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("pt");
+    });
   });
 
-  it("first visit with navigator.language='en-US' → language is 'en'", () => {
+  it("first visit with navigator.language='en-US' → language is 'en'", async () => {
     localStorage.clear();
     Object.defineProperty(navigator, "language", {
       value: "en-US",
@@ -73,10 +80,12 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByTestId("lang").textContent).toBe("en");
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("en");
+    });
   });
 
-  it("first visit with unknown navigator.language → falls back to 'pt'", () => {
+  it("first visit with unknown navigator.language → falls back to 'pt'", async () => {
     localStorage.clear();
     Object.defineProperty(navigator, "language", {
       value: "ja-JP",
@@ -89,14 +98,16 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByTestId("lang").textContent).toBe("pt");
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("pt");
+    });
   });
 
   // -------------------------------------------------------------------------
   // Scenario 2: Return visit — localStorage value wins over navigator.language
   // -------------------------------------------------------------------------
 
-  it("return visit with localStorage['lang']='de' → language is 'de' regardless of navigator", () => {
+  it("return visit with localStorage['lang']='de' → language is 'de' regardless of navigator", async () => {
     localStorage.setItem("lang", "de");
     Object.defineProperty(navigator, "language", {
       value: "en-US",
@@ -109,10 +120,12 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByTestId("lang").textContent).toBe("de");
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("de");
+    });
   });
 
-  it("return visit with localStorage['lang']='en' → language is 'en'", () => {
+  it("return visit with localStorage['lang']='en' → language is 'en'", async () => {
     localStorage.setItem("lang", "en");
 
     render(
@@ -121,7 +134,9 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
-    expect(screen.getByTestId("lang").textContent).toBe("en");
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("en");
+    });
   });
 
   // -------------------------------------------------------------------------
@@ -138,12 +153,17 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
+    // Wait for initial load before interacting.
+    await waitFor(() => screen.getByRole("button", { name: "Set EN" }));
+
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "Set EN" }));
     });
 
-    expect(localStorage.getItem("lang")).toBe("en");
-    expect(screen.getByTestId("lang").textContent).toBe("en");
+    await waitFor(() => {
+      expect(localStorage.getItem("lang")).toBe("en");
+      expect(screen.getByTestId("lang").textContent).toBe("en");
+    });
   });
 
   it("setLanguage('de') persists 'de' to localStorage", async () => {
@@ -156,11 +176,15 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
+    await waitFor(() => screen.getByRole("button", { name: "Set DE" }));
+
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "Set DE" }));
     });
 
-    expect(localStorage.getItem("lang")).toBe("de");
+    await waitFor(() => {
+      expect(localStorage.getItem("lang")).toBe("de");
+    });
   });
 
   it("switching language updates localStorage (overwrite)", async () => {
@@ -173,18 +197,22 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
       </LanguageProvider>,
     );
 
+    await waitFor(() => screen.getByRole("button", { name: "Set DE" }));
+
     await act(async () => {
       await user.click(screen.getByRole("button", { name: "Set DE" }));
     });
 
-    expect(localStorage.getItem("lang")).toBe("de");
+    await waitFor(() => {
+      expect(localStorage.getItem("lang")).toBe("de");
+    });
   });
 
   // -------------------------------------------------------------------------
   // Scenario 4: initialLanguage prop overrides both localStorage and navigator
   // -------------------------------------------------------------------------
 
-  it("explicit initialLanguage prop overrides localStorage", () => {
+  it("explicit initialLanguage prop overrides localStorage", async () => {
     localStorage.setItem("lang", "de");
 
     render(
@@ -194,7 +222,9 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
     );
 
     // initialLanguage prop is an explicit override — used as-is
-    expect(screen.getByTestId("lang").textContent).toBe("en");
+    await waitFor(() => {
+      expect(screen.getByTestId("lang").textContent).toBe("en");
+    });
   });
 });
 
@@ -204,7 +234,7 @@ describe("LanguageProvider — localStorage persistence (T-FE-QUAL-07)", () => {
 // -------------------------------------------------------------------------
 
 describe("LanguageProvider — SSR window guard (T-FE-QUAL-07)", () => {
-  it("does not throw when localStorage.getItem throws (e.g. SSR/quota)", () => {
+  it("does not throw when localStorage.getItem throws (e.g. SSR/quota)", async () => {
     const spy = vi
       .spyOn(Storage.prototype, "getItem")
       .mockImplementation(() => {
@@ -235,6 +265,9 @@ describe("LanguageProvider — SSR window guard (T-FE-QUAL-07)", () => {
         <LanguageDisplay />
       </LanguageProvider>,
     );
+
+    // Wait for initial load before interacting.
+    await waitFor(() => screen.getByRole("button", { name: "Set EN" }));
 
     await expect(
       act(async () => {

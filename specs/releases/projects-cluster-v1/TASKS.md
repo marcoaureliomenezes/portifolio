@@ -178,7 +178,7 @@
   closed-map `ProjectsContent` (versão antiga), `GameItem` deletados. Cumpre AC-PC-01
   (parcial — LOW-2 Architect).
 
-### `[-]` T-PC-B-08 — Converter `useContent` para dynamic-import por idioma + loading state
+### `[x]` T-PC-B-08 — Converter `useContent` para dynamic-import por idioma + loading state
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-04, T-PC-B-07
