@@ -9,8 +9,6 @@ import type { Position, ContentData } from "@/types/content";
 
 interface RoleCollapsibleProps {
   role: Position;
-  responsibilitiesLabel: string;
-  technologiesLabel: string;
   /** Optional initial open state; defaults to false */
   defaultOpen?: boolean;
   labels: Pick<ContentData, "responsibilities" | "technologies">;

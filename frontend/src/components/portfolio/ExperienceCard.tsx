@@ -94,8 +94,6 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
               key={posIndex}
               role={role}
               labels={labels}
-              responsibilitiesLabel={labels.responsibilities}
-              technologiesLabel={labels.technologies}
             />
           ))}
         </div>
