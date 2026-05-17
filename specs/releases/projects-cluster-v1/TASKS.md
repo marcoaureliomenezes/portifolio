@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-—
+T-PC-B-01, T-PC-B-02
 
 ---
 
@@ -102,7 +102,7 @@
 
 ## Phase B — Dynamic routing + page deletion + navRoutes deletion + dynamic i18n import
 
-### `[ ]` T-PC-B-01 — Refactor `routes.ts`: deletar `navRoutes`, criar `headerNavRoutes`
+### `[-]` T-PC-B-01 — Refactor `routes.ts`: deletar `navRoutes`, criar `headerNavRoutes`
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-04 (helper transitional precisa existir antes)
@@ -113,7 +113,7 @@
   (`/projetos/:slug`). `grep -rn 'navRoutes\b' frontend/` exit 0 com 0 matches.
   Cumpre AC-PC-05.
 
-### `[ ]` T-PC-B-02 — Hook `useDocumentSeo.ts`
+### `[-]` T-PC-B-02 — Hook `useDocumentSeo.ts`
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
