@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-—
+T-PC-A-06 [-] frontend-engineer
 
 ---
 
@@ -78,7 +78,7 @@
   - Helper `getProjectBySlug` em `useContent` retorna os items corretos para os 3 pages
     legados durante a janela transitória.
 
-### `[ ]` T-PC-A-06 — Script `check-i18n-parity.mjs` + redaction lint
+### `[-]` T-PC-A-06 — Script `check-i18n-parity.mjs` + redaction lint
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-05
