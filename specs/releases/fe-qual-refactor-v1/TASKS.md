@@ -11,7 +11,7 @@
 - [-] T-FE-WAVE5 — content refresh + AI tooling matchers
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [x] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
-- [-] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [x] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
 ---
 
@@ -99,7 +99,7 @@
 - **Toca:** `frontend/src/components/portfolio/RoleCollapsible.tsx` (e callers).
 - **Critério de pronto:** Props sem consumidor real removidos; tipos atualizados; build OK.
 
-### `[-]` T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+### `[x]` T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
