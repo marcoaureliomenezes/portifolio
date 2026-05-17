@@ -4,6 +4,11 @@ import React from "react";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import type { ContentData } from "@/types/content";
 
+// NullableContentData widens each field to include null so that the vi.mock
+// factory can inject null sentinel values to exercise deepMergeWithFallback.
+// This is the correct structural supertype bridging cast — not a type suppression.
+type NullableContentData = { [K in keyof ContentData]: ContentData[K] | null };
+
 /**
  * useContent.test.ts — T-QA-02
  *
@@ -24,9 +29,11 @@ vi.mock("@/data/content/de.json", async (importOriginal) => {
   return {
     default: {
       ...original,
-      // Explicitly absent key — triggers en fallback in deepMergeWithFallback
+      // Explicitly absent key — triggers en fallback in deepMergeWithFallback.
+      // NullableContentData is a structural supertype that accepts null fields;
+      // casting through it to ContentData is a proper bridging assertion.
       resumeTitle: null,
-    } as unknown as ContentData,
+    } as NullableContentData as ContentData,
   };
 });
 

@@ -10,7 +10,13 @@ if (typeof globalThis.IntersectionObserver === 'undefined') {
     takeRecords(): IntersectionObserverEntry[] { return []; }
     root = null;
     rootMargin = '';
-    thresholds = [];
+    thresholds: ReadonlyArray<number> = [];
   }
-  globalThis.IntersectionObserver = IntersectionObserverMock as unknown as typeof IntersectionObserver;
+  // Object.defineProperty avoids the need for a type assertion when assigning
+  // a partial mock class to a global that expects a sealed browser interface.
+  Object.defineProperty(globalThis, 'IntersectionObserver', {
+    value: IntersectionObserverMock,
+    writable: true,
+    configurable: true,
+  });
 }

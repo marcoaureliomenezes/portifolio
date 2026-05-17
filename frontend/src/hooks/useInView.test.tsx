@@ -23,7 +23,7 @@ describe("useInView", () => {
       disconnect,
       takeRecords: () => [],
     }));
-    globalThis.IntersectionObserver = ObserverSpy as unknown as typeof IntersectionObserver;
+    Object.defineProperty(globalThis, 'IntersectionObserver', { value: ObserverSpy, writable: true, configurable: true });
 
     render(<Probe />);
     expect(ObserverSpy).toHaveBeenCalled();
@@ -31,7 +31,7 @@ describe("useInView", () => {
   });
 
   it("falls through to inView=true when IntersectionObserver is unavailable (graceful fallback)", () => {
-    globalThis.IntersectionObserver = undefined as unknown as typeof IntersectionObserver;
+    Object.defineProperty(globalThis, 'IntersectionObserver', { value: undefined, writable: true, configurable: true });
     const { getByTestId } = render(<Probe />);
     expect(getByTestId("probe").getAttribute("data-in-view")).toBe("true");
   });
