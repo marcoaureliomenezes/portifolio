@@ -162,7 +162,7 @@
   Awaiting operator PDF assets at `frontend/public/cv-en.pdf` and `frontend/public/cv-de.pdf`
   to enable locale-specific PDFs (uncomment CV_LOCALE_MAP entries in profile.ts). Tests: 5 passing.
 
-### `[ ]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
+### `[-]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-WAVE5 (hard — precisa dos JSONs atualizados)
