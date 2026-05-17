@@ -12,7 +12,7 @@
 
 ## Currently in progress (tracker)
 
-T-PC-B-06, T-PC-B-07 — frontend-engineer
+—
 
 ---
 
@@ -152,7 +152,7 @@ T-PC-B-06, T-PC-B-07 — frontend-engineer
   element={<ProjectDetailPage />} />` registrados; `componentMap` legado removido. SPA
   ainda navega corretamente (smoke via dev server).
 
-### `[-]` T-PC-B-06 — Deletar 3 pages ad-hoc + 3 test files + remover ProjectTabPage residual
+### `[x]` T-PC-B-06 — Deletar 3 pages ad-hoc + 3 test files + remover ProjectTabPage residual
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-05
@@ -169,7 +169,7 @@ T-PC-B-06, T-PC-B-07 — frontend-engineer
   'DadaiaWorkspacePage\|ArchitecturePage' frontend/` retorna 0. Cumpre AC-PC-04 e
   AC-PC-11 parcial.
 
-### `[-]` T-PC-B-07 — Deletar tipos legados em `types/content.ts`
+### `[x]` T-PC-B-07 — Deletar tipos legados em `types/content.ts`
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-06
