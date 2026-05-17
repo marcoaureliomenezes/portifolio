@@ -875,7 +875,7 @@ Manter sincronizado com os markers `### \`[-]\`` espalhados pelas seções abaix
 
 ### `[-]` T-FE-WAVE5 — Content AI emphasis: conteúdo + tipos + skillCategoryColors matchers
 
-- **Agente:** `[software-engineer]`
+- **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-WAVE3 (`[x]`), T-CONTENT-06 (`[x]`)
 - **Toca:**
   - `frontend/src/types/content.ts` — adicionar `interface HighlightProject` (com
