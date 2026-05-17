@@ -2,11 +2,13 @@ import { Download, ArrowDown } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import profileAvatar from "@/assets/profile.webp";
-import { profile } from "@/data/profile";
-import type { ContentData } from "@/types/content";
+import { getCvUrl } from "@/data/profile";
+import type { ContentData, SupportedLanguages } from "@/types/content";
 
 interface HeroSectionProps {
   content: ContentData;
+  /** Active locale — used to resolve locale-keyed CV URL (T-FE-QUAL-10). */
+  locale?: SupportedLanguages;
 }
 
 function scrollToExperience() {
@@ -15,10 +17,12 @@ function scrollToExperience() {
   else window.location.hash = "#experiencia";
 }
 
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const tagline = content.heroTagline ?? content.resumeTitle;
   const stats = content.heroStats ?? { years: 5, certifications: 11, clouds: 4 };
   const ctas = content.heroCTAs ?? { downloadCv: "Download CV", seeExperience: "See experience" };
+  const statsSuffix = content.heroStatsSuffix ?? { years: "years", certs: "certs", clouds: "clouds" };
+  const cvUrl = getCvUrl(locale);
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -51,11 +55,11 @@ export function HeroSection({ content }: HeroSectionProps) {
           </h1>
 
           <p className="font-mono text-sm md:text-base text-foreground/80">
-            <span className="font-bold text-foreground">{stats.years}+ years</span>
+            <span className="font-bold text-foreground">{stats.years}+ {statsSuffix.years}</span>
             <span className="mx-2 text-border" aria-hidden="true">·</span>
-            <span>{stats.certifications} certs</span>
+            <span>{stats.certifications} {statsSuffix.certs}</span>
             <span className="mx-2 text-border" aria-hidden="true">·</span>
-            <span>{stats.clouds} clouds</span>
+            <span>{stats.clouds} {statsSuffix.clouds}</span>
           </p>
 
           <p className={`text-foreground/80 leading-relaxed max-w-prose ${!isExpanded ? "line-clamp-3" : ""}`}>
@@ -75,7 +79,7 @@ export function HeroSection({ content }: HeroSectionProps) {
               asChild
               className="bg-accent text-accent-foreground hover:bg-accent/90 focus-visible:ring-accent"
             >
-              <a href={profile.cvDownloadUrl} download>
+              <a href={cvUrl} download>
                 <Download className="w-4 h-4 mr-2" aria-hidden="true" />
                 {ctas.downloadCv}
               </a>
