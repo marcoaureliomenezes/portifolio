@@ -42,8 +42,8 @@ function deepMergeWithFallback(
     ) {
       // Shallow merge one level of nested objects (e.g. header, resume)
       (result as Record<string, unknown>)[key] = {
-        ...(baseVal as Record<string, unknown>),
-        ...(overrideVal as Record<string, unknown>),
+        ...(baseVal as unknown as Record<string, unknown>),
+        ...(overrideVal as unknown as Record<string, unknown>),
       };
     } else if (overrideVal !== undefined && overrideVal !== null) {
       (result as Record<string, unknown>)[key] = overrideVal;

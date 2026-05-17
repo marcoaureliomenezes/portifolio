@@ -12,7 +12,7 @@ export const LanguageContext = createContext<LanguageContextValue>({
 });
 
 interface LanguageProviderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   initialLanguage?: SupportedLanguages;
 }
 

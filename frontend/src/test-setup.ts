@@ -12,6 +12,5 @@ if (typeof globalThis.IntersectionObserver === 'undefined') {
     rootMargin = '';
     thresholds = [];
   }
-  // @ts-expect-error attach to global for tests
-  globalThis.IntersectionObserver = IntersectionObserverMock;
+  globalThis.IntersectionObserver = IntersectionObserverMock as unknown as typeof IntersectionObserver;
 }

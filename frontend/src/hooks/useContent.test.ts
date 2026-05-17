@@ -23,7 +23,7 @@ vi.mock("@/data/content/de.json", async (importOriginal) => {
   const original = await importOriginal<typeof import("@/data/content/de.json")>();
   return {
     default: {
-      ...original.default,
+      ...original,
       // Explicitly absent key — triggers en fallback in deepMergeWithFallback
       resumeTitle: null,
     } as unknown as ContentData,

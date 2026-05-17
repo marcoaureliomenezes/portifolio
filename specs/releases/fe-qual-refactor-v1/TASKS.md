@@ -33,7 +33,7 @@
   subestimado na estimativa original. `tsconfig.app.json` permanece com
   `strict: false` e `strictNullChecks: false` até T-FE-QUAL-01b.
 
-### `[-]` T-FE-QUAL-01b — Enable strict TypeScript flags (flip strict + cascade fixes)
+### `[x]` T-FE-QUAL-01b — Enable strict TypeScript flags (flip strict + cascade fixes)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-FE-QUAL-01 (que entregou o fix dos 13 erros mas não o flip de strict)
