@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory — Tech Stack — portifolio</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+           max-width: 960px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.55;
+           color: #222; background: #fafafa; }
+    h1, h2 { color: #111; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+    h2 { margin-top: 2.2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    section { margin-bottom: 2rem; }
+    code, pre { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; font-size: .9em; }
+    pre { padding: .8rem 1rem; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { padding: .5rem .7rem; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    .meta { color: #666; font-size: .9em; }
+    .pill { display: inline-block; background: #fff; padding: .1rem .5rem; border: 1px solid #ccc; border-radius: 999px; font-size: .85em; margin-right: .3rem; }
+  </style>
+</head>
+<body>
+
+<h1>Tech-Stack Memory — portifolio</h1>
+<p class="meta">Última atualização: 2026-05-17 · Snapshot do stack aprovado para o ciclo 2.0.</p>
+
+<section id="frontend">
+  <h2>Frontend (P0 — em produção)</h2>
+  <table>
+    <thead><tr><th>Componente</th><th>Tecnologia</th><th>Versão</th><th>Decisão</th></tr></thead>
+    <tbody>
+      <tr><td>Framework</td><td>React</td><td>18.3.x</td><td>Mantido — refactor, não migração.</td></tr>
+      <tr><td>Linguagem</td><td>TypeScript</td><td>5.5.x</td><td>Strict habilitado em T-FE-QUAL-01.</td></tr>
+      <tr><td>Build tool</td><td>Vite</td><td>7.3.x</td><td>Já corrigido em commit <code>c9aa3d4</code> (Vite 5 -> 7).</td></tr>
+      <tr><td>CSS</td><td>Tailwind CSS</td><td>3.4.x</td><td>+ <code>tailwindcss-animate</code>, <code>@tailwindcss/typography</code> (dev).</td></tr>
+      <tr><td>Roteamento</td><td><code>react-router-dom</code></td><td>6.26.x</td><td>Lazy-loading por rota para code-splitting.</td></tr>
+      <tr><td>Package manager</td><td><strong>npm</strong></td><td>—</td><td><code>package-lock.json</code> é a fonte de verdade. Não usar Bun/yarn/pnpm.</td></tr>
+      <tr><td>UI base</td><td>shadcn/ui (podado)</td><td>—</td><td>10 componentes mantidos, 37 marcados REMOVE.</td></tr>
+      <tr><td>Tipografia</td><td>Inter + JetBrains Mono</td><td>via <code>@fontsource/*</code></td><td>Zero request externo (decisão visual-identity-v1).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="shadcn">
+  <h2>shadcn/ui — KEEP vs REMOVE (pós frontend-refactor-v1)</h2>
+  <p><strong>KEEP (10 componentes):</strong></p>
+  <span class="pill">button.tsx</span>
+  <span class="pill">card.tsx</span>
+  <span class="pill">badge.tsx</span>
+  <span class="pill">collapsible.tsx</span>
+  <span class="pill">select.tsx</span>
+  <span class="pill">separator.tsx</span>
+  <span class="pill">sheet.tsx</span>
+  <span class="pill">tooltip.tsx</span>
+  <span class="pill">dialog.tsx</span>
+  <span class="pill">skeleton.tsx</span>
+
+  <p style="margin-top:1rem"><strong>REMOVE (37 componentes — deletados em frontend-refactor-v1):</strong>
+  accordion, alert-dialog, alert, aspect-ratio, avatar, breadcrumb, calendar, carousel, chart,
+  checkbox, command, context-menu, drawer, dropdown-menu, form, hover-card, input-otp, menubar,
+  navigation-menu, pagination, popover, progress, radio-group, resizable, scroll-area, slider,
+  switch, table, tabs, textarea, toggle, toggle-group, sonner, toaster, toast, sidebar (substituído
+  por <code>&lt;nav&gt;</code> Tailwind nativo em T-FE-QUAL-03), input.</p>
+
+  <p><strong>Dependências npm removidas:</strong>
+  <code>@radix-ui/react-{accordion,alert-dialog,aspect-ratio,avatar,checkbox,context-menu,dropdown-menu,hover-card,menubar,navigation-menu,popover,progress,radio-group,scroll-area,slider,switch,tabs,toast,toggle,toggle-group}</code>,
+  <code>cmdk</code>, <code>date-fns</code>, <code>embla-carousel-react</code>, <code>input-otp</code>,
+  <code>react-day-picker</code>, <code>react-hook-form</code>, <code>@hookform/resolvers</code>,
+  <code>react-resizable-panels</code>, <code>recharts</code>, <code>vaul</code>, <code>zod</code>,
+  <code>@tanstack/react-query</code>, <code>next-themes</code>, <code>lovable-tagger</code>.
+  Ganho real: &ge; 180KB minified+gz no bundle inicial.</p>
+
+  <p><strong>KEEP obrigatórias (não remover):</strong> <code>react</code>, <code>react-dom</code>,
+  <code>react-router-dom</code>, <code>class-variance-authority</code>, <code>clsx</code>,
+  <code>lucide-react</code>, <code>tailwind-merge</code>, <code>tailwindcss-animate</code>,
+  <code>@radix-ui/react-collapsible</code>, <code>@radix-ui/react-dialog</code>,
+  <code>@radix-ui/react-label</code>, <code>@radix-ui/react-select</code>,
+  <code>@radix-ui/react-separator</code>, <code>@radix-ui/react-slot</code>,
+  <code>@radix-ui/react-tooltip</code>.</p>
+</section>
+
+<section id="tests">
+  <h2>Testes</h2>
+  <table>
+    <thead><tr><th>Tipo</th><th>Toolchain</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr><td>Unit</td><td><strong>Vitest</strong> + Testing Library + <code>jsdom</code></td><td>Collocated (<code>*.test.tsx</code> ao lado do componente).</td></tr>
+      <tr><td>E2E</td><td><strong>Playwright</strong> (TypeScript)</td><td>5 projects: chromium, firefox, webkit, mobile-chrome (Pixel 5), mobile-safari (iPhone 13).</td></tr>
+      <tr><td>Acessibilidade E2E</td><td><code>@axe-core/playwright</code></td><td>Smoke axe na home + 3 abas (warn em develop, error em main).</td></tr>
+      <tr><td>Lighthouse</td><td><code>@lhci/cli</code> &ge; 0.14</td><td>Servidor local via <code>npm run preview</code> (porta 4173).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="backend">
+  <h2>Backend (P1 — não implementar agora)</h2>
+  <table>
+    <thead><tr><th>Componente</th><th>Tecnologia</th><th>Decisão</th></tr></thead>
+    <tbody>
+      <tr><td>Linguagem</td><td><strong>Go</strong> 1.23+</td><td>—</td></tr>
+      <tr><td>Plataforma</td><td>AWS Lambda</td><td>Runtime <code>provided.al2023</code>, arch <strong>arm64</strong> (~20% mais barato).</td></tr>
+      <tr><td>HTTP</td><td><code>net/http</code> puro + <code>aws-lambda-go/events.APIGatewayV2HTTPRequest</code></td><td><strong>Sem framework</strong> (Chi/Echo/Gin). 1 endpoint apenas.</td></tr>
+      <tr><td>AWS SDK</td><td><code>aws-sdk-go-v2</code></td><td>v2 ergonomia moderna + binário menor.</td></tr>
+      <tr><td>Validação</td><td><code>github.com/santhosh-tekuri/jsonschema/v5</code></td><td>Sem CGO, draft-7, maduro.</td></tr>
+      <tr><td>Logging</td><td><code>log/slog</code> (stdlib desde 1.21)</td><td>Zero dep, JSON estruturado nativo.</td></tr>
+      <tr><td>Auth</td><td>Cognito JWT validator no API Gateway HTTP API</td><td>Lambda só lê claims do contexto.</td></tr>
+      <tr><td>Storage</td><td>S3 (mesmo bucket do site, prefix <code>content/</code>)</td><td>Versionamento via S3 Object Versioning.</td></tr>
+    </tbody>
+  </table>
+  <p>Localização proposta: <code>backend-go/</code>. Pasta <code>backend/</code> (Flask atual) será
+  arquivada após F-P0-01 — é apenas servidor de dev local, não tem código de produção.</p>
+</section>
+
+<section id="aws">
+  <h2>Infraestrutura AWS</h2>
+  <table>
+    <thead><tr><th>Serviço</th><th>Uso</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr><td>S3</td><td>Hosting + (P1) <code>content/*.json</code></td><td>Privado, OAC. Buckets: <code>stage-portifolio-marco-menezes</code> e <code>portifolio-marco-menezes</code>.</td></tr>
+      <tr><td>CloudFront</td><td>CDN + HTTPS + cache</td><td>PriceClass_100. Distribuição por env.</td></tr>
+      <tr><td>ACM</td><td>Cert SSL para CloudFront</td><td><strong>us-east-1</strong> obrigatório. DNS-validated.</td></tr>
+      <tr><td>Route53</td><td>DNS</td><td>Zona existente <code>Z08547081HT88IACPHZET</code>.</td></tr>
+      <tr><td>IAM</td><td>OIDC provider + role(s)</td><td>Trust <code>repo:marcoaureliomenezes/portifolio:*</code>.</td></tr>
+      <tr><td>Lambda (P1)</td><td>CMS-lite writer</td><td>arm64, <code>provided.al2023</code>.</td></tr>
+      <tr><td>API Gateway (P1)</td><td>HTTP API com JWT authorizer</td><td>Cognito User Pool issuer.</td></tr>
+      <tr><td>Cognito (P1)</td><td>User Pool + Hosted UI</td><td>1 usuário, TOTP MFA obrigatório.</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Conta AWS:</strong> <code>016098071081</code>. <strong>Região operacional:</strong>
+  <code>sa-east-1</code>. <strong>us-east-1:</strong> apenas ACM (requisito CloudFront).</p>
+</section>
+
+<section id="cicd">
+  <h2>CI/CD</h2>
+  <ul>
+    <li><strong>GitHub Actions</strong> com <strong>OIDC</strong> (sem long-lived AWS keys).</li>
+    <li>3 workflows: <code>ci.yml</code> (PR gate), <code>deploy.yml</code> (build + S3 sync + CF
+    invalidate), <code>terraform.yml</code> (plan + apply por env).</li>
+    <li>Runners pinados em <code>ubuntu-24.04</code> (não <code>ubuntu-latest</code>).</li>
+    <li>Trust policy: <code>repo:marcoaureliomenezes/portifolio:*</code> na role IAM.</li>
+    <li>Environments GitHub: <code>stage</code> (auto-deploy de develop) e <code>production</code>
+    (manual approval em push para main).</li>
+  </ul>
+</section>
+
+<section id="terraform">
+  <h2>Terraform</h2>
+  <ul>
+    <li><strong>Versão:</strong> &ge; 1.9.0 (pinada para evitar drift).</li>
+    <li><strong>Provider:</strong> <code>hashicorp/aws ~&gt; 5.0</code>.</li>
+    <li><strong>Backend remoto:</strong> <code>dadaia-s3-bucket-terraform-rm-state</code>
+    (sa-east-1), keys: <code>portifolio/stage/terraform.tfstate</code> e
+    <code>portifolio/prod/terraform.tfstate</code>.</li>
+    <li><strong>Layout:</strong> módulo compartilhado em
+    <code>terraform/modules/portfolio-static-site/</code>; chamadores por env em
+    <code>terraform/envs/stage/</code> e <code>terraform/envs/prod/</code>.</li>
+    <li><strong>Rejeitados:</strong> terraform workspaces; prefixos no mesmo state.</li>
+  </ul>
+</section>
+
+<section id="drift">
+  <h2>Drift corrigido vs spec antiga</h2>
+  <table>
+    <thead><tr><th>Item antigo (Draft 1.0)</th><th>Realidade / Decisão 2.0</th></tr></thead>
+    <tbody>
+      <tr><td>"Package Manager: Bun"</td><td><strong>npm</strong> (<code>package-lock.json</code> real).</td></tr>
+      <tr><td>"Backend: Python/Flask em prod"</td><td><strong>Go Lambda</strong> em P1. Flask atual é apenas dev local; será arquivado.</td></tr>
+      <tr><td>"Estado terraform local"</td><td>Backend remoto S3 (<code>dadaia-s3-bucket-terraform-rm-state/portifolio/</code>).</td></tr>
+      <tr><td>"Vite latest"</td><td>Vite 7.3.x pinada.</td></tr>
+      <tr><td>"shadcn latest" (50 componentes)</td><td>shadcn podado: 10 KEEP, 37 REMOVE.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="versions">
+  <h2>Versões e ferramentas externas</h2>
+  <table>
+    <thead><tr><th>Ferramenta</th><th>Versão</th></tr></thead>
+    <tbody>
+      <tr><td>Node.js (CI + local)</td><td><code>20</code> LTS</td></tr>
+      <tr><td>Terraform</td><td>&ge; 1.9.0</td></tr>
+      <tr><td>Go (P1)</td><td>1.23+</td></tr>
+      <tr><td>Playwright</td><td>&ge; 1.44</td></tr>
+      <tr><td>Vitest</td><td>&ge; 1.6</td></tr>
+      <tr><td><code>@lhci/cli</code></td><td>&ge; 0.14</td></tr>
+      <tr><td><code>@testing-library/react</code></td><td>&ge; 16</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

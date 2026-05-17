@@ -70,6 +70,100 @@ export interface HeaderInfo {
   viewEmail: string;
 }
 
+// ── New discriminated-union project types (projects-cluster-v1 / T-PC-A-01) ──
+// Legacy types below (DadaiaWorkspaceProject, TauanGamesProject, PortifolioProject,
+// GameItem, closed-map ProjectsContent) are retained until Phase B deletes them.
+
+export interface ProjectCardData {
+  /** Path to cover image, relative to /assets/. ≤ 60 KB. */
+  cover?: string;
+  /** 1-line summary ≤ 280 chars. i18n. */
+  summary: string;
+  /** Tech badges (≥ 3). Partial i18n (non-translatable tech names pass through). */
+  tech: string[];
+}
+
+export interface ProjectBase {
+  /** URL-safe identifier. Regex: ^[a-z0-9-]+$. Not i18n. */
+  slug: string;
+  /** Discriminator. Not i18n. */
+  kind: "case-study" | "meta" | "games";
+  hero: {
+    /** i18n. */
+    title: string;
+    /** i18n. */
+    tagline: string;
+  };
+  card: ProjectCardData;
+  seo: {
+    /** i18n. */
+    title: string;
+    /** i18n. */
+    description: string;
+  };
+  /** Optional path to diagram asset (light version). Not i18n. */
+  diagram?: string;
+  /** Alt text for diagram. i18n. Required when diagram is present. */
+  diagramAlt?: string;
+}
+
+export interface CaseStudyProject extends ProjectBase {
+  kind: "case-study";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  cta: {
+    github: string;
+    githubLabel?: string;
+  };
+}
+
+export interface MetaProject extends ProjectBase {
+  kind: "meta";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  /** ≥ 1 stack rows. */
+  stack: StackRow[];
+  /** Cost breakdown rows. */
+  costs: CostRow[];
+  /** ≥ 1 architectural decisions. */
+  decisions: ArchDecision[];
+  links: {
+    repo: string;
+    terraform: string;
+    specs: string;
+  };
+}
+
+export interface GameLink {
+  slug: string;
+  title: string;
+  engine: string;
+  cover: string;
+  body: string;
+  repo: string;
+  playUrl: string;
+}
+
+export interface GamesProject extends ProjectBase {
+  kind: "games";
+  /** ≥ 1 game links. */
+  items: GameLink[];
+}
+
+/** Discriminated union of all project kinds. */
+export type Project = CaseStudyProject | MetaProject | GamesProject;
+
+/** New open-list shape for the projects section in content JSON. */
+export interface ProjectsContentV2 {
+  /** i18n metadata for the /projetos index page. */
+  index: {
+    title: string;
+    description: string;
+  };
+  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games. */
+  list: Project[];
+}
+
 // ── Project tab content types ─────────────────────────────────────────────
 
 export interface ProjectSeoData {
@@ -236,5 +330,11 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
+  /** Legacy closed-map shape (Phase A transitional). Replaced by projectsV2 in Phase B. */
   projects?: ProjectsContent;
+  /**
+   * New open-list shape for projects-cluster-v1 (T-PC-A-01).
+   * Coexists with legacy `projects` during Phase A; replaces it in Phase B.
+   */
+  projectsV2?: ProjectsContentV2;
 }

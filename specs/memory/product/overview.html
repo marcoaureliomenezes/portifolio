@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Product — Overview — portifolio</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+           max-width: 880px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.55;
+           color: #222; background: #fafafa; }
+    h1, h2 { color: #111; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+    h2 { margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    section { margin-bottom: 2rem; }
+    code, pre { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; font-size: .9em; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { padding: .5rem .7rem; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    blockquote { border-left: 4px solid #F08A2B; margin: 1rem 0; padding: .4rem 1rem;
+                 background: #fff; font-style: italic; }
+    .meta { color: #666; font-size: .9em; }
+  </style>
+</head>
+<body>
+
+<h1>Product Overview — portifolio</h1>
+<p class="meta">Estado consolidado pós ciclo de Retomada 2.0 (2026-05-14..17).</p>
+
+<section id="what">
+  <h2>O que é</h2>
+  <p><code>marco-menezes.com</code> é o <strong>portfólio técnico vivo</strong> de Marco Aurélio
+  Menezes — Data/AI Engineer.</p>
+  <p>Atualmente: site servindo via stage (<code>stage.marco-menezes.com</code>) com infra OIDC +
+  CloudFront + ACM provisionada via GitHub Actions. Go-live em produção
+  (<code>marco-menezes.com</code>) depende do release <em>prod-go-live-v1</em> (candidato no
+  backlog). Zona Route53 (<code>Z08547081HT88IACPHZET</code>) preservada do estado anterior; bucket
+  S3 com último build de 2025-07-16 foi importado no terraform.</p>
+</section>
+
+<section id="message">
+  <h2>Mensagem central</h2>
+  <blockquote>"Eu construo sistemas — venha ver."</blockquote>
+  <p>Substitui a mensagem anterior ("currículo online espelho do LinkedIn"). O portfólio passa a
+  ser tanto vitrine profissional quanto <strong>demonstração técnica auditável</strong> — qualquer
+  visitante pode clicar para ver o repo, a infra (terraform), os custos reais e as decisões.</p>
+  <p>Tagline visual (pós visual-identity-v1 + content-ai-emphasis):</p>
+  <ul>
+    <li><strong>PT:</strong> "AI-augmented data engineering em escala"</li>
+    <li><strong>EN:</strong> "AI-augmented data engineering at scale"</li>
+    <li><strong>DE:</strong> "KI-gestütztes Data Engineering im Maßstab"</li>
+  </ul>
+</section>
+
+<section id="features-p0">
+  <h2>Features P0 entregues (estado pós-refator)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Feature</th><th>Release entrega</th></tr></thead>
+    <tbody>
+      <tr><td>F-P0-01</td><td>Retomada da infra estática (stage)</td><td><code>infra-bootstrap-v1</code></td></tr>
+      <tr><td>F-P0-02</td><td>Quality gate (Lighthouse + Playwright + Vitest+RTL)</td><td><code>quality-gate-v1</code></td></tr>
+      <tr><td>F-P0-03</td><td>Aba "dadaia-workspace"</td><td><code>content-json-v1</code></td></tr>
+      <tr><td>F-P0-04</td><td>Aba "tauan-games"</td><td><code>content-json-v1</code></td></tr>
+      <tr><td>F-P0-05</td><td>Aba "Arquitetura deste portfólio"</td><td><code>content-json-v1</code></td></tr>
+      <tr><td>F-P0-06</td><td>Migração de conteúdo <code>.ts</code> -> <code>.json</code></td><td><code>content-json-v1</code></td></tr>
+      <tr><td>F-P0-07</td><td>Identidade visual (Amber + Hero memorável)</td><td><code>visual-identity-v1</code></td></tr>
+      <tr><td>F-P0-08</td><td>Content AI emphasis (WAVE5 parcial)</td><td><code>fe-qual-refactor-v1</code> (ativa)</td></tr>
+    </tbody>
+  </table>
+  <p>Páginas obrigatórias no go-live: Home + 3 abas de projeto + 404. Estado atual:
+  Home + 3 abas + 404 rodando em stage; produção aguarda <code>prod-go-live-v1</code>.</p>
+</section>
+
+<section id="features-pending">
+  <h2>Features P0 em refinamento (parked como candidates do backlog)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Feature</th><th>Onde está</th></tr></thead>
+    <tbody>
+      <tr><td>F-P0-09</td><td>Projects Content Model (discriminated union por <code>kind</code>)</td><td><code>backlog/candidates.md</code> — cluster Projects v1</td></tr>
+      <tr><td>F-P0-10</td><td>Projects Index Page (<code>/projetos</code>)</td><td><code>backlog/candidates.md</code></td></tr>
+      <tr><td>F-P0-11</td><td>Nav Projects CTA (Header + Hero 3rd CTA)</td><td><code>backlog/candidates.md</code></td></tr>
+      <tr><td>F-P0-12</td><td>Projects Page Templates (per-kind dispatch)</td><td><code>backlog/candidates.md</code></td></tr>
+      <tr><td>F-P0-13</td><td>Projects Architecture Diagrams (light/dark SVG)</td><td><code>backlog/candidates.md</code></td></tr>
+      <tr><td>F-P0-14</td><td>Tauan Games Link-Out (GH Pages, sem iframe)</td><td><code>backlog/candidates.md</code></td></tr>
+      <tr><td>F-P0-15</td><td>Projects Content i18n Parity (CI gate)</td><td><code>backlog/candidates.md</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="features-p1">
+  <h2>P1 — Apenas especificado (não implementar agora)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Feature</th><th>Spec</th></tr></thead>
+    <tbody>
+      <tr><td>F-P1-01</td><td>CMS-lite headless (Cognito + Lambda Go + S3 JSON + CloudFront)</td><td><code>backlog/backlog-future.md</code> (origem em <code>features/cms-lite/SPEC.md</code>)</td></tr>
+      <tr><td>F-P1-02</td><td>Limpeza de débito técnico residual</td><td><code>backlog/backlog-future.md</code></td></tr>
+      <tr><td>F-P1-03</td><td>Observabilidade básica (CloudWatch dashboard + budget alert)</td><td><code>backlog/backlog-future.md</code></td></tr>
+      <tr><td>F-P1-04</td><td>Decisão final sobre <code>de</code> (manter ou cortar)</td><td><code>backlog/backlog-future.md</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="out-of-scope">
+  <h2>P2 — Fora do escopo (não roadmap próximo)</h2>
+  <p>Multi-region, CDN secundária, WAF, testes de carga/mutação, snapshot/Chromatic, dashboard de
+  custo em tempo real, playground interativo de jogos no portfólio.</p>
+</section>
+
+<section id="state">
+  <h2>Estado real vs spec antiga (drift corrigido)</h2>
+  <p>Spec antiga listava todas as features como "Funcional". Realidade auditada em 2026-05-14:</p>
+  <table>
+    <thead><tr><th>Recurso</th><th>Status real</th><th>Ação tomada</th></tr></thead>
+    <tbody>
+      <tr><td>Zona Route53 <code>marco-menezes.com</code></td><td>EXISTE (NS/SOA apenas)</td><td>Reaproveitada em <code>infra-bootstrap-v1</code>.</td></tr>
+      <tr><td>Bucket S3 <code>portifolio-marco-menezes</code></td><td>EXISTE com build 2025-07-16</td><td>Importado no terraform; aguarda <code>prod-go-live-v1</code> para substituir orphan policy.</td></tr>
+      <tr><td>CloudFront <code>E25KHOW8T4PLO3</code></td><td>DESTRUÍDO</td><td>Recriado em stage; recriação prod fica em <code>prod-go-live-v1</code>.</td></tr>
+      <tr><td>ACM cert</td><td>NÃO EXISTIA</td><td>Criado em us-east-1 (stage) durante <code>infra-bootstrap-v1</code>.</td></tr>
+      <tr><td>IAM OIDC provider + role</td><td>NÃO EXISTIA</td><td>Bootstrap manual + reaplicação em <code>infra-bootstrap-v1</code>.</td></tr>
+      <tr><td>Branch <code>ci/oidc-pipelines-compliance</code></td><td>Não mesclada (2 commits à frente)</td><td>Cherry-pick para <code>develop</code> em T-DEVOPS-01.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="domain">
+  <h2>Domínio e disponibilidade</h2>
+  <ul>
+    <li>Domínio: <code>marco-menezes.com</code> (Route53 zone <code>Z08547081HT88IACPHZET</code>).</li>
+    <li>Sub-domínios: <code>www.marco-menezes.com</code> (prod alias) +
+    <code>stage.marco-menezes.com</code> (ambiente stage para validação pré-prod).</li>
+    <li>HTTPS obrigatório via CloudFront com ACM (us-east-1).</li>
+    <li>Hosting privado S3 (OAC), sem acesso direto público ao bucket.</li>
+  </ul>
+</section>
+
+</body>
+</html>

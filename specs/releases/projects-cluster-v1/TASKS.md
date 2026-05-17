@@ -12,13 +12,13 @@
 
 ## Currently in progress (tracker)
 
-T-PC-A-01 [-] frontend-engineer
+T-PC-A-03 [-] frontend-engineer
 
 ---
 
 ## Phase A — Content model + Zod build-time + i18n parity CI gate
 
-### `[-]` T-PC-A-01 — Discriminated union types + GameLink + ProjectsContent reshape
+### `[x]` T-PC-A-01 — Discriminated union types + GameLink + ProjectsContent reshape
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
@@ -31,7 +31,7 @@ T-PC-A-01 [-] frontend-engineer
     Phase B com a deleção das pages).
   - `npm run typecheck` exit 0.
 
-### `[ ]` T-PC-A-02 — Zod schema `frontend/src/lib/schemas/projects.ts` (sem `z.any()`)
+### `[x]` T-PC-A-02 — Zod schema `frontend/src/lib/schemas/projects.ts` (sem `z.any()`)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-01
@@ -41,7 +41,7 @@ T-PC-A-01 [-] frontend-engineer
   3 variantes; `sections`/`stack`/`costs`/`decisions` são `z.array(z.object({...})).min(1)`
   (zero `z.any()`); cumpre AC-PC-01.
 
-### `[ ]` T-PC-A-03 — Script `validate-content.mjs` + npm script + tree-shake verify
+### `[-]` T-PC-A-03 — Script `validate-content.mjs` + npm script + tree-shake verify
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-02

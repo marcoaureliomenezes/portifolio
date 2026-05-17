@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory — Architecture — portifolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+           max-width: 960px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.55;
+           color: #222; background: #fafafa; }
+    h1, h2, h3 { color: #111; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+    h2 { margin-top: 2.2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    section { margin-bottom: 2rem; }
+    code, pre { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; font-size: .9em; }
+    pre { padding: .8rem 1rem; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { padding: .5rem .7rem; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    .mermaid { background: #fff; padding: 1rem; border: 1px solid #ddd; border-radius: 4px; }
+    .meta { color: #666; font-size: .9em; }
+    .layer { background: #fff; padding: .8rem 1rem; border-left: 3px solid #333; margin: .8rem 0; }
+  </style>
+</head>
+<body>
+
+<h1>Architecture Memory — portifolio</h1>
+<p class="meta">Última atualização: 2026-05-17 · Derivado de: <code>specs/foundation/SPEC.md</code>, reports do ciclo de Retomada 2.0.</p>
+
+<section id="overview">
+  <h2>Visão arquitetural</h2>
+  <p>Portfólio 2.0 é um <strong>SPA estático servido por CloudFront</strong>, com camada futura de
+  escrita serverless (CMS-lite P1). Sem servidor de aplicação em produção. Toda renderização é
+  client-side a partir do <code>index.html</code> + assets hashed; conteúdo (textos/listas) é JSON
+  estático lido em runtime via hook <code>useContent()</code>.</p>
+</section>
+
+<section id="topology">
+  <h2>Topologia AWS (P0 em vigor)</h2>
+  <pre class="mermaid">
+flowchart TB
+    Browser[Browser - React + Router]
+    CF[CloudFront por env]
+    ACM[ACM us-east-1]
+    S3[S3 privado por env]
+    Browser -- HTTPS --> CF
+    CF -.uses.-> ACM
+    CF -- OAC --> S3
+  </pre>
+  <p>Dois ambientes: <code>stage.marco-menezes.com</code> e <code>marco-menezes.com</code>.
+  Hosting privado S3 com Origin Access Control (OAC), sem acesso público ao bucket.</p>
+</section>
+
+<section id="topology-p1">
+  <h2>Topologia P1 (não implementada agora)</h2>
+  <pre>
+[ Browser ] -- /admin (React lazy) --> API Gateway HTTP API
+                                            |  --> Cognito JWT authorizer
+                                            |       +-> Lambda Go (arm64)
+                                            |             +-> AWS SDK v2 -> S3 PutObject
+                                            |                  content/{lang}.json
+                                            v
+                                       (resposta 204)</pre>
+  <p>Captura a visão arquitetural detalhada do CMS-lite (F-P1-01) — apenas spec, sem código.</p>
+</section>
+
+<section id="layers">
+  <h2>Camadas</h2>
+  <table>
+    <thead><tr><th>#</th><th>Camada</th><th>Responsabilidade</th><th>Tecnologia</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Edge / CDN</td><td>TLS, cache, SPA fallback (<code>/*</code> -> <code>/index.html</code>)</td><td>CloudFront + ACM</td></tr>
+      <tr><td>2</td><td>Storage estático</td><td>HTML + assets hashed + JSON</td><td>S3 com OAC</td></tr>
+      <tr><td>3</td><td>Roteamento client</td><td>Path-based SPA routing</td><td><code>react-router-dom</code></td></tr>
+      <tr><td>4</td><td>Apresentação</td><td>Composição React (Hero, Skills, Experience, Projects, etc.)</td><td>React 18 + Tailwind + shadcn (podado)</td></tr>
+      <tr><td>5</td><td>Estado de UI</td><td><code>useState</code> local, <code>useContext</code> para idioma</td><td>Hook <code>useContent()</code> (única dependência de fonte de conteúdo)</td></tr>
+      <tr><td>6</td><td>Conteúdo</td><td>JSON por idioma (<code>pt</code>, <code>en</code>, <code>de</code>)</td><td>F-P0-06 (build-time inline ou runtime fetch)</td></tr>
+      <tr><td>7</td><td>Escrita (P1)</td><td>API Gateway -> Lambda Go -> S3 PutObject</td><td>F-P1-01</td></tr>
+      <tr><td>8</td><td>Auth (P1)</td><td>Cognito Hosted UI + JWT authorizer no API Gateway</td><td>F-P1-01</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="boundary-rules">
+  <h2>Regras de fronteira</h2>
+  <ol>
+    <li><strong>Frontend nunca chama AWS direto.</strong> Toda escrita (P1) passa por API Gateway +
+    Lambda. Leitura pública é via CloudFront sobre S3 (OAC).</li>
+    <li><strong>Lambda nunca lê fora do prefix <code>content/*</code>.</strong> Permissão IAM mínima:
+    <code>s3:PutObject</code> em <code>arn:aws:s3:::&lt;bucket&gt;/content/*</code>. Sem
+    <code>s3:GetObject</code> no Lambda — leitura é responsabilidade do CloudFront.</li>
+    <li><strong>Hook <code>useContent()</code> é o único ponto de carga de conteúdo.</strong>
+    Componentes recebem <code>labels</code> localizados; não importam <code>getContent</code>
+    diretamente. Isso habilita F-P0-06 e F-P1-01 sem refator em cada consumidor.</li>
+    <li><strong>Fallback de idioma:</strong> <code>useContent()</code> resolve para <code>en</code>
+    quando chave faltar em <code>de</code>. Nunca para <code>pt</code>.</li>
+    <li><strong>Roteamento por rotas, não por tabs de UI.</strong> Abas de projeto são rotas
+    (<code>/projetos/&lt;slug&gt;</code>) — deep-linkáveis, SEO-friendly, sem dependência do
+    componente Tabs do shadcn.</li>
+    <li><strong>Estado de UI fica no componente que possui a interação.</strong>
+    <code>RoleCollapsible</code> mantém seu próprio <code>open</code>; orquestrador
+    <code>Portfolio</code> é stateless.</li>
+    <li><strong>Variantes desktop/mobile: 1 componente + Tailwind responsive utilities</strong>
+    (<code>md:*</code>), <strong>não</strong> dois componentes duplicados. <code>useIsMobile()</code>
+    apenas para casos onde DOM precisa ser estruturalmente diferente.</li>
+  </ol>
+</section>
+
+<section id="decomposition">
+  <h2>Decomposição alvo do Portfolio.tsx (estado pós-refactor 2026-05)</h2>
+  <p>Vide architect §3 do ciclo de Retomada. Resumo dos componentes que existem após
+  <code>frontend-refactor-v1</code>:</p>
+  <ul>
+    <li><code>components/portfolio/</code> — <code>HeroSection</code>, <code>ExperienceSection</code>,
+    <code>ExperienceCard</code>, <code>RoleCollapsible</code>, <code>EducationSection</code>,
+    <code>CertificationsSection</code>, <code>CertificationCategoryGroup</code>,
+    <code>CertificationCard</code>, <code>SkillsSection</code>, <code>SkillCategoryCard</code>,
+    <code>MobileCollapsibleSection</code>, <code>Portfolio</code> (orquestrador &le; 80 linhas,
+    sem <code>useState</code>).</li>
+    <li><code>components/header/</code> — <code>HeaderShell</code>,
+    <code>HeaderDesktopLayout</code>, <code>HeaderMobileLayout</code>,
+    <code>LanguageSelector</code>, <code>ContactStrip</code>, <code>EmailModal</code>,
+    <code>AvatarImageModal</code>.</li>
+    <li><code>pages/projects/</code> — <code>ProjectTabPage</code> (layout genérico),
+    <code>ProjectsIndex</code> (lista, opcional).</li>
+  </ul>
+  <p>Métricas alvo já atingidas no refactor frontend-v1:</p>
+  <ul>
+    <li><code>Portfolio.tsx</code> orquestrador: &le; 80 linhas (era 1007).</li>
+    <li><code>Header.tsx</code> orquestrador: &le; 80 linhas (era 540).</li>
+    <li>Componentes filhos: &le; 200 linhas (maioria 50–120).</li>
+  </ul>
+</section>
+
+<section id="solid">
+  <h2>Princípios SOLID aplicáveis</h2>
+  <ul>
+    <li><strong>S (SRP):</strong> corrigido pela decomposição. God-component
+    <code>Portfolio.tsx</code> foi violação CRITICAL do AS-IS — resolvida.</li>
+    <li><strong>O (OCP):</strong> <code>getProviderIcon</code> / <code>getSkillIcon</code>
+    (switches por string) viram mapas declarativos em <code>data/content/&lt;lang&gt;.json</code>
+    ou em constantes nomeadas. Adicionar 5ª seção não exige tocar no orquestrador.</li>
+    <li><strong>D (DIP):</strong> <code>useContent()</code> abstrai a fonte
+    (<code>.ts</code> constants -> JSON -> CMS endpoint). Único ponto de troca.</li>
+  </ul>
+</section>
+
+<section id="anti-patterns">
+  <h2>Anti-patterns proibidos</h2>
+  <ul>
+    <li><strong>God Component</strong> — qualquer componente &gt; 250 linhas deve ser decomposto.</li>
+    <li><strong>Prop Drilling de <code>language</code></strong> — proibido. Usar
+    <code>LanguageContext</code> ou <code>useContent()</code>.</li>
+    <li><strong>Speculative Generality</strong> — não instalar libs "por precaução" (lição
+    <code>@tanstack/react-query</code> montado sem uso).</li>
+    <li><strong>Magic Strings</strong> — <code>language === "Português"</code> proibido. Usar
+    tipo discriminado <code>SupportedLanguages = "pt" | "en" | "de"</code>.</li>
+    <li><strong>Modais sem Radix Dialog</strong> — proibido. Sempre <code>dialog.tsx</code>
+    (focus trap + ARIA + ESC).</li>
+  </ul>
+</section>
+
+<section id="cache-policy">
+  <h2>Cache-Control policy (CloudFront / S3 sync)</h2>
+  <table>
+    <thead><tr><th>Prefix</th><th>Cache-Control</th><th>Justificativa</th></tr></thead>
+    <tbody>
+      <tr><td><code>/index.html</code></td><td><code>no-cache, no-store, must-revalidate</code></td><td>Aponta para assets hashed; nunca pode ficar cached.</td></tr>
+      <tr><td><code>/assets/*</code></td><td><code>public, max-age=31536000, immutable</code></td><td>Vite incorpora hash de conteúdo no filename.</td></tr>
+      <tr><td><code>/content/*.json</code> (P1)</td><td><code>public, max-age=60, s-maxage=300</code></td><td>TTL curto substitui invalidação ativa após edição CMS.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="invariants">
+  <h2>Invariantes arquiteturais</h2>
+  <ol>
+    <li>Sem servidor de aplicação em produção — apenas SPA estático sobre CloudFront/S3.</li>
+    <li>Sem credenciais AWS de longo prazo no DEV local — todo apply/sync via GitHub Actions OIDC
+    (CT-01..CT-04 em <code>specs/SPEC.md §4b</code>).</li>
+    <li>Todo conteúdo localizável vive em JSON, não em <code>.ts</code> constants — única exceção
+    são URLs e enums em <code>data/profile.ts</code>.</li>
+    <li>Hook <code>useContent()</code> é o único ponto de entrada de conteúdo — DIP enforced.</li>
+    <li>Fallback de idioma é determinístico: <code>de</code> faltante -> <code>en</code>, nunca
+    <code>pt</code>.</li>
+    <li>Toda página com lógica condicional real tem unit test colocado (Vitest+RTL); toda página
+    pública tem cenário E2E (Playwright) + smoke axe.</li>
+  </ol>
+</section>
+
+<section id="risks">
+  <h2>Riscos arquiteturais conhecidos</h2>
+  <table>
+    <thead><tr><th>Risco</th><th>Mitigação</th></tr></thead>
+    <tbody>
+      <tr><td>URLs sociais default <code>https://linkedin.com</code> / <code>https://github.com</code> no Header</td><td>Resolvido em <code>frontend-refactor-v1</code> via <code>data/profile.ts</code>; gate E2E-09 bloqueia regressão.</td></tr>
+      <tr><td>Modais inline sem Radix Dialog (a11y)</td><td>Resolvido em <code>frontend-refactor-v1</code>; <code>dialog.tsx</code> obrigatório.</td></tr>
+      <tr><td>Bundle arrastando deps órfãs</td><td>Resolvido na podagem shadcn (37 REMOVE) em <code>frontend-refactor-v1</code>.</td></tr>
+      <tr><td>Conteúdo dos 3 idiomas no bundle inicial</td><td>Dynamic import por idioma em F-P0-06 (<code>content-json-v1</code>).</td></tr>
+      <tr><td><code>de</code> quebra sem aviso</td><td>Cenário E2E-04 (fallback de->en) é gate de merge em <code>quality-gate-v1</code>.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>
