@@ -48,6 +48,7 @@
     (re-tipagem é OK; supressão não é).
 - **Razão:** T-FE-QUAL-01 fechou prematuramente cobrindo apenas a primeira metade do
   título original. Recuperação cirúrgica, escopo cirúrgico.
+- **Commits:** `4f22b8d feat(typescript): enable strict mode + cascade-fix all type errors (T-FE-QUAL-01b)` | `020394e fix(typescript): eliminate as-unknown-as + wire CI typecheck to strict tsconfig`
 
 ### `[x]` T-FE-QUAL-02 — Bridge collapse: Header.tsx e Portfolio.tsx
 
