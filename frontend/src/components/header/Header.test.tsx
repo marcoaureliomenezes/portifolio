@@ -21,6 +21,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // --------------------------------------------------------------------------
@@ -67,7 +68,11 @@ function installMatchMediaMock(isMobile: boolean) {
 // --------------------------------------------------------------------------
 
 function Wrapper({ children }: { children: React.ReactNode }) {
-  return React.createElement(LanguageProvider, { initialLanguage: "pt" }, children);
+  return React.createElement(
+    MemoryRouter,
+    null,
+    React.createElement(LanguageProvider, { initialLanguage: "pt" }, children),
+  );
 }
 
 // --------------------------------------------------------------------------

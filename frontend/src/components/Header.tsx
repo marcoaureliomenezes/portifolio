@@ -63,6 +63,7 @@ export const Header = ({
           onLanguageChange={handleLanguageChange}
           headerInfo={content.header}
           viewLarger={content.viewLarger}
+          navProjects={content.navProjects ?? "Projetos"}
         />
       </div>
     </header>

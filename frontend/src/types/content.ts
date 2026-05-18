@@ -197,6 +197,8 @@ export interface HeroStats {
 export interface HeroCTAs {
   downloadCv: string;
   seeExperience: string;
+  /** 3rd CTA label linking to /projetos — T-PC-C-05. */
+  seeProjects?: string;
 }
 
 export interface HeroStatsSuffix {
@@ -266,6 +268,11 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
+  /**
+   * Navigation label for the "Projetos" header link (T-PC-C-04).
+   * Falls back to "Projetos" when absent.
+   */
+  navProjects?: string;
   /**
    * Open-list shape for projects-cluster-v1 (T-PC-A-01).
    */

@@ -1,4 +1,5 @@
 import { MapPin, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
@@ -14,6 +15,8 @@ interface HeaderDesktopLayoutProps {
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
   viewLarger: string;
+  /** i18n label for the "Projetos" nav link (T-PC-C-04). */
+  navProjects: string;
 }
 
 export function HeaderDesktopLayout({
@@ -24,6 +27,7 @@ export function HeaderDesktopLayout({
   onLanguageChange,
   headerInfo,
   viewLarger,
+  navProjects,
 }: HeaderDesktopLayoutProps) {
   const avatarTrigger = (
     <button className="group relative">
@@ -47,7 +51,15 @@ export function HeaderDesktopLayout({
 
   return (
     <div className="hidden md:block relative">
-      <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+      <div className="absolute top-2 right-0 z-10 flex items-center gap-2">
+        <nav aria-label="Navegação principal">
+          <Link
+            to="/projetos"
+            className="text-sm font-medium text-header-link hover:text-header-text px-2 py-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
+          >
+            {navProjects}
+          </Link>
+        </nav>
         <ThemeToggle />
         <LanguageSelector language={language} onLanguageChange={onLanguageChange} />
       </div>

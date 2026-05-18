@@ -14,6 +14,8 @@ interface HeaderShellProps {
   onLanguageChange: (language: SupportedLanguages) => void;
   headerInfo: HeaderInfo;
   viewLarger: string;
+  /** i18n label for the "Projetos" nav link (T-PC-C-04). */
+  navProjects: string;
 }
 
 export function HeaderShell({
@@ -24,6 +26,7 @@ export function HeaderShell({
   onLanguageChange,
   headerInfo,
   viewLarger,
+  navProjects,
 }: HeaderShellProps) {
   const isMobile = useIsMobile();
   const [scrollState, setScrollState] = useState<ScrollState>("full");
@@ -51,6 +54,7 @@ export function HeaderShell({
     onLanguageChange,
     headerInfo,
     viewLarger,
+    navProjects,
   };
 
   const blurClass =

@@ -1,4 +1,5 @@
 import { MapPin, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
@@ -17,6 +18,21 @@ interface HeaderMobileLayoutProps {
   headerInfo: HeaderInfo;
   scrollState: ScrollState;
   viewLarger: string;
+  /** i18n label for the "Projetos" nav link (T-PC-C-04). */
+  navProjects: string;
+}
+
+function MobileProjectsNav({ label }: { label: string }) {
+  return (
+    <nav aria-label="Navegação principal">
+      <Link
+        to="/projetos"
+        className="text-xs font-medium text-header-link hover:text-header-text px-2 py-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
+      >
+        {label}
+      </Link>
+    </nav>
+  );
 }
 
 function EmailTriggerMobile({ label }: { label: string }) {
@@ -37,6 +53,7 @@ export function HeaderMobileLayout({
   headerInfo,
   scrollState,
   viewLarger,
+  navProjects,
 }: HeaderMobileLayoutProps) {
   if (scrollState === "full") {
     const avatarTrigger = (
@@ -55,6 +72,7 @@ export function HeaderMobileLayout({
     return (
       <div className="block md:hidden relative">
         <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+          <MobileProjectsNav label={navProjects} />
           <ThemeToggle />
           <LanguageSelector
             language={language}
@@ -89,6 +107,7 @@ export function HeaderMobileLayout({
     return (
       <div className="block md:hidden relative">
         <div className="absolute top-2 right-0 z-10 flex items-center gap-1">
+          <MobileProjectsNav label={navProjects} />
           <ThemeToggle />
           <LanguageSelector
             language={language}
@@ -121,6 +140,7 @@ export function HeaderMobileLayout({
         <div className="flex items-center justify-between gap-2">
           <h1 className="text-sm font-bold text-header-text truncate min-w-0">{name}</h1>
           <div className="flex items-center gap-1">
+            <MobileProjectsNav label={navProjects} />
             <ThemeToggle />
             <LanguageSelector
               language={language}

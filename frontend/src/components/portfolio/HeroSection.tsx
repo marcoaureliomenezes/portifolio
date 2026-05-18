@@ -1,5 +1,6 @@
-import { Download, ArrowDown } from "lucide-react";
+import { Download, ArrowDown, FolderKanban } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import profileAvatar from "@/assets/profile.webp";
 import { getCvUrl } from "@/data/profile";
@@ -20,7 +21,12 @@ function scrollToExperience() {
 export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const tagline = content.heroTagline ?? content.resumeTitle;
   const stats = content.heroStats ?? { years: 5, certifications: 11, clouds: 4 };
-  const ctas = content.heroCTAs ?? { downloadCv: "Download CV", seeExperience: "See experience" };
+  const ctas = content.heroCTAs ?? {
+    downloadCv: "Download CV",
+    seeExperience: "See experience",
+    seeProjects: "See projects",
+  };
+  const seeProjectsLabel = ctas.seeProjects ?? "See projects";
   const statsSuffix = content.heroStatsSuffix ?? { years: "years", certs: "certs", clouds: "clouds" };
   const cvUrl = getCvUrl(locale);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -92,6 +98,16 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
             >
               <ArrowDown className="w-4 h-4 mr-2" aria-hidden="true" />
               {ctas.seeExperience}
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-accent/50 hover:border-accent hover:bg-accent-subtle"
+            >
+              <Link to="/projetos">
+                <FolderKanban className="w-4 h-4 mr-2" aria-hidden="true" />
+                {seeProjectsLabel}
+              </Link>
             </Button>
           </div>
         </div>

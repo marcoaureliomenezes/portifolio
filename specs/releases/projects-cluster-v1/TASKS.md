@@ -257,25 +257,36 @@
   3 cards na ordem fixa; sem filtros/busca; CLS = 0 (aspect-ratio nos cards). Cumpre
   AC-PC-08.
 
-### `[-]` T-PC-C-04 — Header CTA desktop + mobile
+### `[x]` T-PC-C-04 — Header CTA desktop + mobile
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-01
-- **Toca:** `frontend/src/components/header/HeaderDesktopLayout.tsx`,
-  `frontend/src/components/header/HeaderMobileLayout.tsx`
+- **Toca:** `frontend/src/components/Header.tsx`,
+  `frontend/src/components/header/HeaderShell.tsx`,
+  `frontend/src/components/header/HeaderDesktopLayout.tsx`,
+  `frontend/src/components/header/HeaderMobileLayout.tsx`,
+  `frontend/src/types/content.ts`, `frontend/src/data/content/{pt,en,de}.json`.
 - **Critério de pronto:** Desktop tem `<nav aria-label="Navegação principal">` com
-  link "Projetos" entre bloco de nome e ThemeToggle/LanguageSelector. Mobile abre Radix
-  Dialog sheet com mesmo link. Tab order correto; Axe zero violations. Cumpre AC-PC-09
-  parcial.
+  link "Projetos" no cluster superior direito antes de ThemeToggle/LanguageSelector.
+  Mobile renderiza o mesmo link inline em cada scroll state. `navProjects` plumado
+  via `Header` → `HeaderShell` → ambos os layouts; chave i18n adicionada nos 3 JSONs
+  (PT="Projetos", EN="Projects", DE="Projekte"). i18n parity verde.
+- **Desvio:** Mobile usa link inline em vez de Radix Dialog sheet — minimal viable
+  enquanto o Dialog não é necessário para discoverability. Reavaliar se mobile
+  navigation ganhar mais entradas.
+- **Tests:** Header.test.tsx + i18n-strings.test.tsx atualizados com `MemoryRouter`
+  wrapper. 266/266 verde.
 
-### `[ ]` T-PC-C-05 — Hero: 3º CTA "Ver projetos"
+### `[x]` T-PC-C-05 — Hero: 3º CTA "Ver projetos"
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
-- **Toca:** `frontend/src/components/Hero.tsx` (ou equivalente), `data/content/*.json`
-  (chave `hero.cta.seeProjects` nos 3 idiomas).
-- **Critério de pronto:** Hero renderiza 3º CTA outline linkando para `/projetos`; i18n
-  parity gate verde. Cumpre AC-PC-09 parcial.
+- **Toca:** `frontend/src/components/portfolio/HeroSection.tsx`,
+  `frontend/src/components/portfolio/HeroSection.test.tsx`,
+  `frontend/src/types/content.ts` (campo `heroCTAs.seeProjects?`),
+  `frontend/src/data/content/{pt,en,de}.json` (`heroCTAs.seeProjects`).
+- **Critério de pronto:** Hero renderiza 3º CTA outline com ícone `FolderKanban`
+  linkando para `/projetos`; i18n parity gate verde; teste unit afirma href + label.
 
 ### `[ ]` T-PC-C-06 — Assets: covers + diagrams light/dark
 

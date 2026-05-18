@@ -251,17 +251,29 @@ describe("HeroSection — heroStatsSuffix i18n", () => {
       ...baseContent,
       heroStatsSuffix: { years: "anos", certs: "certs", clouds: "nuvens" },
     };
-    render(<HeroSection content={content} />);
+    render(
+      <MemoryRouter>
+        <HeroSection content={content} />
+      </MemoryRouter>,
+    );
     expect(screen.getByText(/5\+ anos/)).toBeInTheDocument();
   });
 
   it("renders heroStatsSuffix.certs from content", () => {
-    render(<HeroSection content={baseContent} />);
+    render(
+      <MemoryRouter>
+        <HeroSection content={baseContent} />
+      </MemoryRouter>,
+    );
     expect(screen.getByText(/11 certs/)).toBeInTheDocument();
   });
 
   it("renders heroStatsSuffix.clouds from content", () => {
-    render(<HeroSection content={baseContent} />);
+    render(
+      <MemoryRouter>
+        <HeroSection content={baseContent} />
+      </MemoryRouter>,
+    );
     expect(screen.getByText(/4 nuvens/)).toBeInTheDocument();
   });
 
@@ -270,7 +282,11 @@ describe("HeroSection — heroStatsSuffix i18n", () => {
       heroStatsSuffix?: unknown;
     };
     // Should not throw — fallback suffix from en content
-    const { container } = render(<HeroSection content={rest as ContentData} />);
+    const { container } = render(
+      <MemoryRouter>
+        <HeroSection content={rest as ContentData} />
+      </MemoryRouter>,
+    );
     expect(container).toBeTruthy();
   });
 });
