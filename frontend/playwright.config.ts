@@ -24,9 +24,13 @@ export default defineConfig({
     { name: 'mobile-safari', use: { ...devices['iPhone 12'] } },
   ],
   webServer: {
-    command: 'npm run dev',
+    // CI uses the production build (fast, deterministic). Local dev reuses the
+    // running Vite dev server (or starts one) for HMR convenience.
+    command: process.env.CI
+      ? 'npm run build && npm run preview -- --port 8080 --host'
+      : 'npm run dev',
     url: 'http://localhost:8080',
     reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
+    timeout: 180_000,
   },
 });
