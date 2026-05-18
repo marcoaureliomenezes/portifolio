@@ -313,12 +313,16 @@
   verifica `dist/assets/projects/**/*.svg` ≤ 50KB; falha exit 1 se violado. ~2s
   overhead. Cumpre AC-PC-10.
 
-### `[ ]` T-PC-C-08 — Ativar 6 E2E specs + Lighthouse run
+### `[ ]` T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-PC-C-02, T-PC-C-03, T-PC-C-04, T-PC-C-05
-- **Toca:** os 6 spec files de T-PC-C-01 (remover `test.skip`).
-- **Critério de pronto:** Os 6 E2E specs verdes; LHCI verde em `/`, `/projetos`,
+- **Decision input:** `decisions/dec-e2e-suite-layout.md` (2026-05-17) —
+  canonical suite is `frontend/tests/e2e/projects-cluster/` (9 files, 37 tests
+  `PC-E2E-01..37`). Root-level T-PC-C-01 stubs were deleted as duplicates.
+- **Toca:** 9 spec files em `frontend/tests/e2e/projects-cluster/` (remover `test.skip`
+  em todos os 37 casos).
+- **Critério de pronto:** Os 37 E2E tests verdes; LHCI verde em `/`, `/projetos`,
   `/projetos/dadaia-workspace`, `/projetos/portifolio`, `/projetos/tauan-games`; Axe
   zero violations. Cumpre AC-PC-13 + AC-PC-14.
 
