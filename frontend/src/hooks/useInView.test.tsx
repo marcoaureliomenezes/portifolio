@@ -17,16 +17,20 @@ describe("useInView", () => {
   it("creates an IntersectionObserver and observes the bound element", () => {
     const observe = vi.fn();
     const disconnect = vi.fn();
-    const ObserverSpy = vi.fn().mockImplementation(() => ({
-      observe,
-      unobserve: vi.fn(),
-      disconnect,
-      takeRecords: () => [],
-    }));
+    const ctor = vi.fn();
+    class ObserverSpy {
+      constructor(...args: unknown[]) {
+        ctor(...args);
+      }
+      observe = observe;
+      unobserve = vi.fn();
+      disconnect = disconnect;
+      takeRecords = () => [];
+    }
     Object.defineProperty(globalThis, 'IntersectionObserver', { value: ObserverSpy, writable: true, configurable: true });
 
     render(<Probe />);
-    expect(ObserverSpy).toHaveBeenCalled();
+    expect(ctor).toHaveBeenCalled();
     expect(observe).toHaveBeenCalled();
   });
 
