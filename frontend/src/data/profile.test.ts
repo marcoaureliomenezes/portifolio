@@ -1,15 +1,8 @@
 /**
  * profile.test.ts — T-FE-QUAL-10
  *
- * Tests for locale-keyed CV URL routing via getCvUrl().
- * AC:
- *   - "pt" locale returns /cv.pdf (canonical PT asset)
- *   - "en" locale falls back to /cv.pdf (EN PDF not yet in /public)
- *   - "de" locale falls back to /cv.pdf (DE PDF not yet in /public)
- *   - unknown locale falls back to /cv.pdf
- *
- * When operator supplies cv-en.pdf / cv-de.pdf, uncomment the entries in
- * CV_LOCALE_MAP and update these tests to assert the locale-specific paths.
+ * Operator decision (2026-05-17): single PT PDF serves all locales.
+ * Update these assertions when dedicated EN/DE PDFs are added.
  */
 
 import { describe, it, expect } from "vitest";
@@ -20,16 +13,12 @@ describe("getCvUrl — locale-keyed CV routing (T-FE-QUAL-10)", () => {
     expect(getCvUrl("pt")).toBe("/cv.pdf");
   });
 
-  it("falls back to /cv.pdf for 'en' locale (PDF asset pending from operator)", () => {
-    // When operator supplies frontend/public/cv-en.pdf, this test should be
-    // updated to: expect(getCvUrl("en")).toBe("/cv-en.pdf")
-    expect(getCvUrl("en")).toBe(profile.cvDownloadUrl);
+  it("returns /cv.pdf for 'en' locale (shared PT asset by operator decision)", () => {
+    expect(getCvUrl("en")).toBe("/cv.pdf");
   });
 
-  it("falls back to /cv.pdf for 'de' locale (PDF asset pending from operator)", () => {
-    // When operator supplies frontend/public/cv-de.pdf, this test should be
-    // updated to: expect(getCvUrl("de")).toBe("/cv-de.pdf")
-    expect(getCvUrl("de")).toBe(profile.cvDownloadUrl);
+  it("returns /cv.pdf for 'de' locale (shared PT asset by operator decision)", () => {
+    expect(getCvUrl("de")).toBe("/cv.pdf");
   });
 
   it("falls back to /cv.pdf for an unknown locale string", () => {

@@ -14,21 +14,14 @@ export const profile = {
 /**
  * Locale-keyed CV PDF paths — T-FE-QUAL-10.
  *
- * Returns the locale-specific PDF path when the asset exists in /public,
- * or falls back to the PT original (/cv.pdf) for locales without a dedicated
- * translation yet.
- *
- * When operator supplies EN / DE PDFs, add them to frontend/public/ as
- * `cv-en.pdf` and `cv-de.pdf` — this function resolves them automatically.
- *
- * NOTE: Asset availability is declarative here. The actual 404 behaviour is
- * handled by the browser; the component falls back gracefully via the `onError`
- * pattern (or simply by checking the list below before switching locale).
+ * Operator decision (2026-05-17): a single PT PDF serves all locales.
+ * To introduce dedicated EN/DE translations later, drop `cv-en.pdf` /
+ * `cv-de.pdf` into `frontend/public/` and repoint the matching entry below.
  */
 const CV_LOCALE_MAP: Record<string, string> = {
   pt: "/cv.pdf",
-  // en: "/cv-en.pdf",   // uncomment when operator supplies cv-en.pdf
-  // de: "/cv-de.pdf",   // uncomment when operator supplies cv-de.pdf
+  en: "/cv.pdf",
+  de: "/cv.pdf",
 };
 
 /**

@@ -12,6 +12,7 @@
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [x] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
 - [x] T-FE-QUAL-09 — EmailModal dark mode fix (design tokens)
+- [x] T-FE-QUAL-10 — CV PDF routing (single PT PDF for all locales, per operator decision 2026-05-17)
 
 ---
 
@@ -149,18 +150,19 @@
   viewLarger, gamesComingSoon/Desc, notFoundMessage, returnHome; NotFound.tsx wired to useContent().
   Tests: i18n-strings.test.tsx (12 tests). All 160 tests green.
 
-### `[-]` T-FE-QUAL-10 — CV PDF assets: adicionar currículos EN e DE
+### `[x]` T-FE-QUAL-10 — CV PDF assets: roteamento de CV por locale
 
-- **Agente:** `[frontend-engineer]` (assets do operador)
+- **Agente:** `[frontend-engineer]`
 - **Dep:** —
-- **Toca:** `frontend/public/cv-en.pdf`, `frontend/public/cv-de.pdf`; `data/profile.ts`
-  para roteamento condicional.
-- **Critério de pronto:** Download CV em EN abre `cv-en.pdf`; idem DE; PT mantém o
-  comportamento atual.
-- **Status 2026-05-17:** Routing + fallback wired (getCvUrl() in profile.ts; HeroSection
-  receives locale prop; Portfolio passes language from useContent()). EN/DE fallback to /cv.pdf.
-  Awaiting operator PDF assets at `frontend/public/cv-en.pdf` and `frontend/public/cv-de.pdf`
-  to enable locale-specific PDFs (uncomment CV_LOCALE_MAP entries in profile.ts). Tests: 5 passing.
+- **Toca:** `frontend/src/data/profile.ts`, `frontend/src/data/profile.test.ts`,
+  `frontend/src/components/portfolio/HeroSection.tsx`, `frontend/src/components/Portfolio.tsx`.
+- **Critério de pronto:** Download de CV resolve via `getCvUrl(locale)`; comportamento
+  declarado por locale (não fallback implícito).
+- **Decisão operador (2026-05-17):** um único PDF PT serve todos os locales por enquanto.
+  EN/DE explicitamente mapeados para `/cv.pdf` no `CV_LOCALE_MAP`. Quando assets
+  dedicados forem produzidos, basta dropar `cv-en.pdf` / `cv-de.pdf` em
+  `frontend/public/` e repointar a entrada correspondente.
+- **Tests:** 5 passing.
 
 ### `[x]` T-FE-WAVE6 — Content AI emphasis: RoleSkillBadges + HighlightProjectBlock
 
