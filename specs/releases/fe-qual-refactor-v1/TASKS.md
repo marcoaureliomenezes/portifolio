@@ -124,6 +124,7 @@
 - **Critério de pronto:** Required status checks ativos: `lint`, `build`, `unit-tests`,
   `e2e`, `lighthouse`, `typecheck`. Aplicado pós-merge dos PRs in-flight para não
   bloquear o sprint.
+- **Commit final:** `3deff9d ci: gate direct pushes to develop/main with the full check matrix (T-QA-14)`.
 
 ---
 

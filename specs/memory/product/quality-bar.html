@@ -40,8 +40,12 @@
     (E2E-01..E2E-12) + smoke axe nas 3 abas.</li>
     <li><strong>A5.</strong> Unit tests (Vitest+RTL) cobrindo componentes com lógica condicional
     real (&ge; 60% branches+statements) + 100% nos hooks customizados.</li>
-    <li><strong>A6.</strong> Branch protection ativa em <code>main</code> e <code>develop</code>;
-    environment <code>production</code> exige aprovação manual.</li>
+    <li><strong>A6.</strong> Branch protection ativa em <code>main</code> e <code>develop</code>
+    com matriz completa de required status checks: <code>lint</code>, <code>build</code>,
+    <code>unit-tests</code>, <code>e2e</code>, <code>lighthouse</code>, <code>typecheck</code>.
+    <code>typecheck</code> roda em modo TS strict (<code>strict: true</code> em
+    <code>frontend/tsconfig.app.json</code>); environment <code>production</code> exige
+    aprovação manual.</li>
     <li><strong>A7.</strong> Custo mensal projetado &lt; US$ 5/mês.</li>
     <li><strong>A8.</strong> Deploy via push para <code>main</code> completa em &le; 6 min com
     invalidation CloudFront.</li>
