@@ -7,7 +7,7 @@
 
 ## Currently in progress (tracker)
 
-- [-] T-QA-14 — status checks nas branch protections
+- [x] T-QA-14 — status checks nas branch protections
 - [x] T-FE-WAVE5 — content refresh + AI tooling matchers
 - [x] T-FE-QUAL-07 — Language persistence: localStorage em LanguageProvider
 - [x] T-FE-QUAL-08 — RoleCollapsible dead props cleanup
@@ -116,7 +116,7 @@
 - **Critério de pronto:** JSONs refletem narrativa AI emphasis + tagline + bullets Senior
   reescritos + skill tags por role; mapper de cor por categoria implementado.
 
-### `[-]` T-QA-14 — Adicionar status checks às branch protections
+### `[x]` T-QA-14 — Adicionar status checks às branch protections
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-QA-13 (done historicamente), T-DEVOPS-07 (done historicamente)
