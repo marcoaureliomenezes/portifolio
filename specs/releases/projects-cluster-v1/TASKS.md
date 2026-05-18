@@ -12,7 +12,24 @@
 
 ## Currently in progress (tracker)
 
-—
+T-PC-SEC-01 (dependabot: bump vitest 3.x, @lhci/cli 0.15.1, tmp override)
+
+---
+
+## Security maintenance
+
+### `[-]` T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
+
+- **Agente:** `[frontend-engineer]`
+- **Dep:** —
+- **Toca:** `frontend/package.json`, `frontend/package-lock.json`
+- **Critério de pronto:**
+  - GHSA-67mh-4wv8-2f99 (esbuild <= 0.24.2, moderate): vitest bumped to 3.x which bundles esbuild 0.25+
+  - GHSA-4w7w-66w2-5vf9 (vite <= 6.4.1, moderate): vitest 3.x bundles vite 6.4.2+ internally
+  - GHSA-pxg6-pf52-xh8x (cookie < 0.7.0, low): @lhci/cli bumped to 0.15.1 → lighthouse 12.6.1 → sentry/node 7.x (no cookie dep)
+  - GHSA-52f5-9888-hmc6 (tmp <= 0.2.3, low): npm override pinning tmp to 0.2.5
+  - `npm audit` shows 0 vulnerabilities for the 4 Dependabot advisories
+  - `npm run typecheck` exit 0; `npm test` 297/297+; `npm run build` succeeds
 
 ---
 
