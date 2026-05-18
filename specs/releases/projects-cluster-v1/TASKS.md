@@ -217,7 +217,7 @@
 
 ## Phase C — Index page + Header nav + Hero CTA + Diagrams + visual polish
 
-### `[-]` T-PC-C-01 — QA: definir E2E acceptance criteria + spec stubs
+### `[x]` T-PC-C-01 — QA: definir E2E acceptance criteria + spec stubs
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-PC-A-01 (precisa do contrato de dados); pode rodar em paralelo a Phase B.
