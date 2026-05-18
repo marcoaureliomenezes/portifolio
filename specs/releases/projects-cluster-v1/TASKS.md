@@ -257,7 +257,7 @@
   3 cards na ordem fixa; sem filtros/busca; CLS = 0 (aspect-ratio nos cards). Cumpre
   AC-PC-08.
 
-### `[ ]` T-PC-C-04 — Header CTA desktop + mobile
+### `[-]` T-PC-C-04 — Header CTA desktop + mobile
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-B-01
