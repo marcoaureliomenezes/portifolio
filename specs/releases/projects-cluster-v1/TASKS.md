@@ -248,7 +248,7 @@
   media="(prefers-color-scheme: dark)">`. Templates de Phase B passam a consumir estes
   componentes (refator interno).
 
-### `[ ]` T-PC-C-03 — `ProjectsIndexPage` + rota render
+### `[-]` T-PC-C-03 — `ProjectsIndexPage` + rota render
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-C-02
