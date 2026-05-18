@@ -13,6 +13,7 @@
 ## Currently in progress (tracker)
 
 - [x] T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
+- [-] T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run (E2E drift fix pré-req)
 
 ---
 
