@@ -232,7 +232,7 @@
   enquanto). qa-engineer transforma `test.skip` → `test` à medida que cada componente
   de Phase C fica disponível.
 
-### `[ ]` T-PC-C-02 — Componentes projects/ (Card, Hero, Sections, Diagram, Costs, Decisions, GameCard)
+### `[-]` T-PC-C-02 — Componentes projects/ (Card, Hero, Sections, Diagram, Costs, Decisions, GameCard)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** T-PC-A-01, T-PC-B-03
