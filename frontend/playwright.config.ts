@@ -7,6 +7,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : undefined,
   reporter: [['html'], ['list']],
+  // LanguageProvider returns null until the initial pt.json dynamic import
+  // resolves, so the first paint can lag in CI workers running Vite cold.
+  // 5s default expect timeout was tripping toContainText/getByRole in beforeEach.
+  expect: { timeout: 10_000 },
   use: {
     baseURL: process.env.E2E_BASE_URL || 'http://localhost:8080',
     trace: 'on-first-retry',
