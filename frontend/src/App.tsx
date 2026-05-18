@@ -17,21 +17,13 @@ const ProjectDetailPage = lazy(() =>
   })),
 );
 
-// T-PC-B-05 / T-PC-B-09: /projetos index stub — TODO T-PC-C-03 (ProjectsIndexPage).
-// ProjectsIndexPage does not exist yet (Phase C). The stub lives inside the
-// ProjectsLayoutShell layout route so the breadcrumb chrome is already applied.
-// Will be replaced by the real ProjectsIndexPage in T-PC-C-03.
-function ProjectsIndexPlaceholder() {
-  return (
-    <main className="container mx-auto px-4 pb-12 space-y-6 max-w-4xl">
-      <h1 className="text-3xl font-bold text-primary">Projetos</h1>
-      <p className="text-muted-foreground">
-        {/* TODO T-PC-C-03: replace with ProjectsIndexPage */}
-        Em breve &mdash; galeria de projetos.
-      </p>
-    </main>
-  );
-}
+// T-PC-C-03: ProjectsIndexPage replaces the inline ProjectsIndexPlaceholder.
+// Lazy-loaded as a separate chunk — home (LCP route) stays eager.
+const ProjectsIndexPage = lazy(() =>
+  import("./pages/projects/ProjectsIndexPage").then((m) => ({
+    default: m.ProjectsIndexPage,
+  })),
+);
 
 const App = () => (
   <LanguageProvider>
@@ -45,8 +37,8 @@ const App = () => (
             {/* Projects cluster — T-PC-B-09: nested layout route wraps /projetos/* */}
             {/* ProjectsLayoutShell renders breadcrumb + back-link + <Outlet /> */}
             <Route element={<ProjectsLayoutShell />}>
-              {/* Index stub: will be replaced by ProjectsIndexPage in T-PC-C-03 */}
-              <Route path="/projetos" element={<ProjectsIndexPlaceholder />} />
+              {/* T-PC-C-03: ProjectsIndexPage (lazy chunk) */}
+              <Route path="/projetos" element={<ProjectsIndexPage />} />
               {/* Dynamic detail: dispatches to CaseStudy | Meta | Games template */}
               <Route path="/projetos/:slug" element={<ProjectDetailPage />} />
             </Route>
