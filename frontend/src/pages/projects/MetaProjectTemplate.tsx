@@ -1,16 +1,19 @@
 import { ExternalLink } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDocumentSeo } from "@/hooks/useDocumentSeo";
-import type { MetaProject, ProjectSectionData } from "@/types/content";
+import { ProjectHero } from "@/components/projects/ProjectHero";
+import { ProjectSections } from "@/components/projects/ProjectSections";
+import { CostsTable } from "@/components/projects/CostsTable";
+import { DecisionsList } from "@/components/projects/DecisionsList";
+import type { MetaProject } from "@/types/content";
 
 /**
- * MetaProjectTemplate — T-PC-B-03
+ * MetaProjectTemplate — T-PC-B-03 / T-PC-C-02 (refactor)
  *
  * Renders a meta project page (the portfolio itself).
  * Accepts only `MetaProject` (narrow type); discrimination upstream in `ProjectDetailPage`.
  *
- * Layout: hero → tech badges → sections → stack → costs → decisions → links
+ * Layout: hero → sections → stack → costs → decisions → links
  *
  * SEO: managed via `useDocumentSeo` — no imperative useEffect allowed (AC-PC-11).
  */
@@ -20,7 +23,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
     description: project.seo.description,
   });
 
-  const { slug, hero, card, sections, stack, costs, decisions, links } = project;
+  const { slug, stack, costs, decisions, links } = project;
 
   return (
     <main
@@ -28,85 +31,10 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
       aria-label={project.seo.title}
     >
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <section aria-labelledby={`${slug}-hero-heading`}>
-        <Card className="w-full shadow-glow border-0 bg-gradient-to-br from-card to-accent/30 hover:shadow-large transition-all duration-300">
-          <CardContent className="pt-8 pb-6 flex flex-col items-center text-center gap-4">
-            <h1
-              id={`${slug}-hero-heading`}
-              className="text-2xl md:text-4xl font-bold text-primary"
-            >
-              {hero.title}
-            </h1>
-            <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
-              {hero.tagline}
-            </p>
-            {card.tech.length > 0 && (
-              <div className="flex flex-wrap gap-2 justify-center" aria-label="Technologies">
-                {card.tech.map((t) => (
-                  <Badge key={t} variant="secondary">
-                    {t}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </section>
+      <ProjectHero project={project} />
 
       {/* ── Body sections ────────────────────────────────────────── */}
-      {sections.map((section: ProjectSectionData) => {
-        const headingId = `${slug}-${section.id}-heading`;
-
-        if (section.diagram) {
-          return (
-            <section key={section.id} aria-labelledby={headingId}>
-              <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <CardTitle
-                    id={headingId}
-                    className="text-lg md:text-2xl font-bold text-foreground"
-                  >
-                    {section.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {section.body && (
-                    <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                      {section.body}
-                    </p>
-                  )}
-                  <img
-                    src={section.diagram}
-                    alt={`${section.title} diagram`}
-                    className="w-full rounded-lg border border-border"
-                    loading="lazy"
-                  />
-                </CardContent>
-              </Card>
-            </section>
-          );
-        }
-
-        return (
-          <section key={section.id} aria-labelledby={headingId}>
-            <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-              <CardHeader className="pb-2">
-                <CardTitle
-                  id={headingId}
-                  className="text-lg md:text-2xl font-bold text-foreground"
-                >
-                  {section.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base whitespace-pre-line">
-                  {section.body}
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        );
-      })}
+      <ProjectSections sections={project.sections} slug={slug} />
 
       {/* ── Tech Stack ───────────────────────────────────────────── */}
       {stack.length > 0 && (
@@ -159,28 +87,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-muted-foreground font-medium">
-                      Service
-                    </th>
-                    <th className="text-right py-2 text-muted-foreground font-medium">
-                      USD / month
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {costs.map((row) => (
-                    <tr key={row.service}>
-                      <td className="py-2 pr-4 text-foreground">{row.service}</td>
-                      <td className="py-2 text-right font-mono text-xs text-foreground">
-                        ${row.monthly_usd.toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <CostsTable costs={costs} />
             </CardContent>
           </Card>
         </section>
@@ -199,21 +106,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-4">
-                {decisions.map((d) => (
-                  <li key={d.title} className="border-l-2 border-primary/40 pl-4">
-                    <a
-                      href={d.spec}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-primary hover:underline text-sm"
-                    >
-                      {d.title}
-                    </a>
-                    <p className="text-muted-foreground text-xs mt-1">{d.rationale}</p>
-                  </li>
-                ))}
-              </ul>
+              <DecisionsList decisions={decisions} />
             </CardContent>
           </Card>
         </section>
