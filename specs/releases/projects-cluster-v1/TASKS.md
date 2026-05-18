@@ -330,7 +330,7 @@
   verifica `dist/assets/projects/**/*.svg` ≤ 50KB; falha exit 1 se violado. ~2s
   overhead. Cumpre AC-PC-10.
 
-### `[ ]` T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
+### `[-]` T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-PC-C-02, T-PC-C-03, T-PC-C-04, T-PC-C-05
