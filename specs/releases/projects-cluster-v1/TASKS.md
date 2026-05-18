@@ -12,13 +12,13 @@
 
 ## Currently in progress (tracker)
 
-T-PC-SEC-01 (dependabot: bump vitest 3.x, @lhci/cli 0.15.1, tmp override)
+- [x] T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
 
 ---
 
 ## Security maintenance
 
-### `[-]` T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
+### `[x]` T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
 
 - **Agente:** `[frontend-engineer]`
 - **Dep:** —
