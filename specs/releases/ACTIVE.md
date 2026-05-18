@@ -1,2 +1,2 @@
-release: fe-qual-refactor-v1
+release: projects-cluster-v1
 phase: IMPLEMENTATION
