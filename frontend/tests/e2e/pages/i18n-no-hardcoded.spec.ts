@@ -62,14 +62,22 @@ const LOCALE_OPTION_LABELS: Record<Locale, string> = {
 
 // ---------------------------------------------------------------------------
 // Helper — gather all heading texts in the current page state
+//
+// ExperienceSection / SkillsSection / EducationSection / CertificationsSection
+// each render their CardTitle twice (desktop `hidden md:block` + mobile
+// `MobileCollapsibleSection.md:hidden`), so every `#*-heading` id appears
+// on BOTH variants and strict-mode resolves 2 elements. Filter to the
+// currently-visible copy so the helper works on any viewport.
 // ---------------------------------------------------------------------------
 async function captureHeadings(page: import('@playwright/test').Page) {
+  const visible = (id: string) =>
+    page.locator(`[id="${id}"]`).filter({ visible: true }).first();
   return {
-    heroTagline:         await page.locator('#hero-heading').innerText(),
-    skillsTitle:         await page.locator('#habilidades-heading').innerText(),
-    experienceTitle:     await page.locator('#experiencia-heading').innerText(),
-    educationTitle:      await page.locator('#educacao-heading').innerText(),
-    certificationsTitle: await page.locator('#certificacoes-heading').innerText(),
+    heroTagline:         await visible('hero-heading').innerText(),
+    skillsTitle:         await visible('habilidades-heading').innerText(),
+    experienceTitle:     await visible('experiencia-heading').innerText(),
+    educationTitle:      await visible('educacao-heading').innerText(),
+    certificationsTitle: await visible('certificacoes-heading').innerText(),
   };
 }
 
