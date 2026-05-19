@@ -13,11 +13,12 @@ import { ROUTES } from '../fixtures/routes';
 
 // Helper: open the EmailModal by clicking the email button in the header
 async function openEmailModal(page: import('@playwright/test').Page) {
-  // The ContactStrip renders an email trigger; the EmailModal is opened from it.
-  // The trigger is a Button or anchor with aria-label or text containing "Email"/"E-mail".
+  // Both desktop and mobile header layouts render an EmailModal trigger — pick
+  // the visible one for the current viewport.
   const emailTrigger = page
     .locator('header button, header a')
     .filter({ hasText: /e-?mail/i })
+    .filter({ visible: true })
     .first();
   await expect(emailTrigger).toBeVisible();
   await emailTrigger.click();
@@ -83,22 +84,26 @@ test.describe('EmailModal dark mode — T-FE-QUAL-09', () => {
     expect(hardcodedCount, 'No bg-gray-50 or bg-white literals should exist in the modal after the fix').toBe(0);
   });
 
-  test('DARK-02: dark mode — modal screenshot (evidence artifact)', async ({ page }) => {
+  test('DARK-02: dark mode — modal screenshot (evidence artifact)', async ({ page }, testInfo) => {
+    // Visual baselines only exist for chromium-linux; other engines/viewports
+    // would require independent baselines that don't add evidence value.
+    test.skip(testInfo.project.name !== 'chromium', 'snapshot baseline only kept for chromium');
+
     await page.goto(ROUTES.home);
     await setDarkMode(page);
 
     const dialog = await openEmailModal(page);
     await expect(dialog).toBeVisible();
 
-    // Capture screenshot as evidence — stored in Playwright's snapshot dir
     await expect(dialog).toHaveScreenshot('email-modal-dark.png', {
-      // Allow generous threshold for first-run baseline creation
       threshold: 0.3,
       maxDiffPixelRatio: 0.05,
     });
   });
 
-  test('DARK-03: light mode — modal screenshot (evidence artifact)', async ({ page }) => {
+  test('DARK-03: light mode — modal screenshot (evidence artifact)', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'chromium', 'snapshot baseline only kept for chromium');
+
     await page.goto(ROUTES.home);
     await setLightMode(page);
 

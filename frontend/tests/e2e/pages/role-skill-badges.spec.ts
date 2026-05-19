@@ -21,6 +21,10 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import {
+  expandSeniorRole as sharedExpandSeniorRole,
+  switchLanguage as sharedSwitchLanguage,
+} from '../fixtures/experience-helpers';
 
 // ---------------------------------------------------------------------------
 // Constants derived directly from WAVE5 data (locale-invariant skills)
@@ -59,51 +63,22 @@ const SKILL_CATEGORY_SAMPLES: Record<string, string> = {
 };
 
 // ---------------------------------------------------------------------------
-// Helper: switch language via the combobox selector
+// Helpers (delegated to shared module)
 // ---------------------------------------------------------------------------
-async function switchLanguage(page: Page, optionLabel: string): Promise<void> {
-  const selectTrigger = page.locator('[role="combobox"]').first();
-  await selectTrigger.click();
-  await page.getByRole('option', { name: optionLabel }).click();
-}
-
-// ---------------------------------------------------------------------------
-// Helper: expand the Senior Santander collapsible and return the content area
-// ---------------------------------------------------------------------------
-async function expandSeniorRole(page: Page): Promise<void> {
-  const section = page.locator('#experiencia');
-  await section.scrollIntoViewIfNeeded();
-
-  // The Senior trigger text differs by locale only in PT (Engenheiro de Dados Sênior)
-  // In EN and DE the title is "Senior Data Engineer". We locate by partial text.
-  const seniorTrigger = page
-    .locator('button, [role="button"]')
-    .filter({ hasText: /Senior|Sênior/ })
-    .first();
-  await expect(seniorTrigger).toBeVisible();
-
-  // Only click if not already open
-  const contentArea = page.locator('[data-radix-collapsible-content]').first();
-  const isOpen = await contentArea.isVisible().catch(() => false);
-  if (!isOpen) {
-    await seniorTrigger.click();
-  }
-
-  await expect(contentArea).toBeVisible();
-}
+const switchLanguage = sharedSwitchLanguage;
+const expandSeniorRole = (page: Page) => sharedExpandSeniorRole(page);
 
 // ---------------------------------------------------------------------------
 // BADGE-01: badges render with count >= MIN_BADGE_COUNT (default PT locale)
 // ---------------------------------------------------------------------------
 test('BADGE-01: RoleSkillBadges renders >= 5 badges in Senior Santander card (PT)', async ({ page }) => {
   await page.goto(ROUTES.home);
-  await expandSeniorRole(page);
+  const contentArea = await expandSeniorRole(page);
 
   // Skill badges are expected inside the expanded collapsible content area.
   // The RoleSkillBadges component renders spans/badges with data-skill or
   // inside a flex-wrap container. We locate by the Badge variant classes
   // or by a data-testid if implemented, falling back to text matching known skills.
-  const contentArea = page.locator('[data-radix-collapsible-content]').first();
 
   // Locate all elements that contain known skill text inside the content area.
   // RoleSkillBadges renders each skill as its own element.
@@ -152,9 +127,8 @@ test('BADGE-01: RoleSkillBadges renders >= 5 badges in Senior Santander card (PT
 // ---------------------------------------------------------------------------
 test('BADGE-02: skill badges carry category-color classes per skillCategoryColors', async ({ page }) => {
   await page.goto(ROUTES.home);
-  await expandSeniorRole(page);
+  const contentArea = await expandSeniorRole(page);
 
-  const contentArea = page.locator('[data-radix-collapsible-content]').first();
 
   for (const [category, skillText] of Object.entries(SKILL_CATEGORY_SAMPLES)) {
     const badgeEl = contentArea.getByText(skillText, { exact: true }).first();
@@ -210,9 +184,8 @@ for (const locale of LOCALE_SWITCH_MAP) {
       await expect(page.locator('#hero-heading')).toContainText(locale.heroFragment);
     }
 
-    await expandSeniorRole(page);
+    const contentArea = await expandSeniorRole(page);
 
-    const contentArea = page.locator('[data-radix-collapsible-content]').first();
 
     // Skills are locale-invariant identifiers — all 5 sample skills must appear
     for (const skill of SENIOR_SKILLS_SAMPLE) {
@@ -230,9 +203,8 @@ for (const locale of LOCALE_SWITCH_MAP) {
 // ---------------------------------------------------------------------------
 test('BADGE-04: skill badges are not keyboard-focusable', async ({ page }) => {
   await page.goto(ROUTES.home);
-  await expandSeniorRole(page);
+  const contentArea = await expandSeniorRole(page);
 
-  const contentArea = page.locator('[data-radix-collapsible-content]').first();
   const claudeBadge = contentArea.getByText('Claude Code', { exact: true }).first();
   await expect(claudeBadge).toBeVisible();
 
@@ -267,7 +239,7 @@ test('BADGE-04: skill badges are not keyboard-focusable', async ({ page }) => {
 // ---------------------------------------------------------------------------
 test('BADGE-05: screenshot evidence — Senior card PT default', async ({ page }) => {
   await page.goto(ROUTES.home);
-  await expandSeniorRole(page);
+  const contentArea = await expandSeniorRole(page);
 
   const section = page.locator('#experiencia');
   await section.scrollIntoViewIfNeeded();
@@ -292,7 +264,7 @@ test('BADGE-06: screenshot evidence — Senior card PT dark mode', async ({ page
     });
   }
 
-  await expandSeniorRole(page);
+  const contentArea = await expandSeniorRole(page);
 
   const section = page.locator('#experiencia');
   await section.scrollIntoViewIfNeeded();

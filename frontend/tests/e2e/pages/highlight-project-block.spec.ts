@@ -21,6 +21,7 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { expandSeniorRole as sharedExpandSeniorRole, switchLanguage as sharedSwitchLanguage } from '../fixtures/experience-helpers';
 
 // ---------------------------------------------------------------------------
 // Locale-specific expected text for the highlight block
@@ -56,38 +57,11 @@ const LOCALE_HIGHLIGHT = [
 ] as const;
 
 // ---------------------------------------------------------------------------
-// Helper: switch language via combobox
+// Helpers: thin wrappers over shared helpers (kept for signature compat)
 // ---------------------------------------------------------------------------
-async function switchLanguage(page: Page, optionLabel: string): Promise<void> {
-  const selectTrigger = page.locator('[role="combobox"]').first();
-  await selectTrigger.click();
-  await page.getByRole('option', { name: optionLabel }).click();
-}
-
-// ---------------------------------------------------------------------------
-// Helper: expand the Senior Santander collapsible
-// ---------------------------------------------------------------------------
-async function expandSeniorRole(
-  page: Page,
-  seniorPattern: RegExp
-): Promise<ReturnType<Page['locator']>> {
-  const section = page.locator('#experiencia');
-  await section.scrollIntoViewIfNeeded();
-
-  const seniorTrigger = page
-    .locator('button, [role="button"]')
-    .filter({ hasText: seniorPattern })
-    .first();
-  await expect(seniorTrigger).toBeVisible();
-
-  const contentArea = page.locator('[data-radix-collapsible-content]').first();
-  const isOpen = await contentArea.isVisible().catch(() => false);
-  if (!isOpen) {
-    await seniorTrigger.click();
-  }
-  await expect(contentArea).toBeVisible();
-  return contentArea;
-}
+const switchLanguage = sharedSwitchLanguage;
+const expandSeniorRole = (page: Page, seniorPattern: RegExp) =>
+  sharedExpandSeniorRole(page, seniorPattern);
 
 // ---------------------------------------------------------------------------
 // HP-01..03: per-locale positive tests (title, body, impact stats)
@@ -232,9 +206,10 @@ test('HP-05: HighlightProjectBlock does NOT render for Pleno Santander role', as
 
   // Expand the Pleno role (second role in Santander multi-role card)
   // The trigger contains "Pleno" in PT
-  const plenoTrigger = page
+  const plenoTrigger = section
     .locator('button, [role="button"]')
     .filter({ hasText: /Pleno/ })
+    .filter({ visible: true })
     .first();
 
   // If the Pleno trigger is not found (different locale fallback), skip gracefully
@@ -245,13 +220,14 @@ test('HP-05: HighlightProjectBlock does NOT render for Pleno Santander role', as
 
   await plenoTrigger.click();
 
-  // Get the Pleno content area — it should be the second [data-radix-collapsible-content]
-  const allContent = page.locator('[data-radix-collapsible-content]');
-
-  // Find the Pleno content area by checking which one becomes visible after click
-  // We locate based on proximity to the Pleno trigger
-  const plenoContentArea = plenoTrigger
-    .locator('xpath=following::*[@data-radix-collapsible-content][1]');
+  // Resolve the Pleno content area via the trigger's aria-controls linkage
+  // (Radix Collapsible 1.x does not emit data-radix-collapsible-content;
+  // aria-controls points to the content element id directly).
+  const plenoContentId = await plenoTrigger.getAttribute('aria-controls');
+  if (!plenoContentId) {
+    throw new Error('Pleno trigger missing aria-controls; cannot locate content area');
+  }
+  const plenoContentArea = page.locator(`[id="${plenoContentId}"]`);
 
   // The Pleno content area should be visible
   await expect(plenoContentArea).toBeVisible();
@@ -281,13 +257,13 @@ test('HP-06: no financial value (R$) appears anywhere on the page', async ({ pag
   const section = page.locator('#experiencia');
   await section.scrollIntoViewIfNeeded();
 
-  const triggers = page.locator('button, [role="button"]').filter({ hasText: /Sênior|Senior|Pleno|Júnior|Junior/ });
+  const triggers = section
+    .locator('button, [role="button"]')
+    .filter({ hasText: /Sênior|Senior|Pleno|Júnior|Junior/ })
+    .filter({ visible: true });
   const count = await triggers.count();
   for (let i = 0; i < count; i++) {
-    const trigger = triggers.nth(i);
-    if (await trigger.isVisible().catch(() => false)) {
-      await trigger.click();
-    }
+    await triggers.nth(i).click().catch(() => {});
   }
 
   const pageText = await page.locator('body').textContent() ?? '';

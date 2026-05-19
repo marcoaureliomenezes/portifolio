@@ -86,8 +86,9 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     // The email trigger is a button/link in the header area.
     // Target the Mail icon button via aria-label containing "email" (case-insensitive).
     const emailTrigger = page
-      .locator('button, a')
-      .filter({ hasText: /email|mail|contato/i })
+      .locator('header button, header a')
+      .filter({ hasText: /e-?mail/i })
+      .filter({ visible: true })
       .first();
 
     await expect(emailTrigger).toBeVisible();
@@ -108,17 +109,15 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(dialog).not.toBeVisible();
   });
 
-  test('SMOKE-06: CV download button is present and clickable', async ({ page }) => {
+  test('SMOKE-06: CV download anchor is present and points to /cv.pdf', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    // CV download is triggered by a button with aria-label containing "Download"
-    const cvButton = page.locator('button[aria-label*="Download"]').first();
-    await expect(cvButton).toBeVisible();
+    // CV download is an <a href="/cv.pdf" download> anchor (Button asChild pattern).
+    const cvAnchor = page.locator('a[href="/cv.pdf"][download]').first();
+    await expect(cvAnchor).toBeVisible();
+    await expect(cvAnchor).toHaveAttribute('href', '/cv.pdf');
 
-    // Click initiates a programmatic download; we only assert no crash, not the file itself
-    await cvButton.click();
-
-    // Page must remain stable after click
+    // Page must remain stable
     await expect(page.locator('header')).toBeVisible();
   });
 });

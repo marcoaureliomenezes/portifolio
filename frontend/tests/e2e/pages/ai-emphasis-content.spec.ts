@@ -14,6 +14,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { expandSeniorRole, switchLanguage as sharedSwitchLanguage } from '../fixtures/experience-helpers';
 
 const LANGUAGES = [
   {
@@ -21,7 +22,7 @@ const LANGUAGES = [
     optionLabel: 'Português',
     heroTagline: 'AI-augmented data engineering em escala',
     experienceTitle: 'Experiência Profissional',
-    seniorTitle: 'Senior Data Engineer',
+    seniorTitle: /Engenheiro de Dados Sênior/,
     aiSkillSamples: ['Claude Code', 'Devin'],
   },
   {
@@ -29,7 +30,7 @@ const LANGUAGES = [
     optionLabel: 'English',
     heroTagline: 'AI-augmented data engineering at scale',
     experienceTitle: 'Professional Experience',
-    seniorTitle: 'Senior Data Engineer',
+    seniorTitle: /Senior Data Engineer/,
     aiSkillSamples: ['Claude Code', 'Devin'],
   },
   {
@@ -37,23 +38,12 @@ const LANGUAGES = [
     optionLabel: 'Deutsch',
     heroTagline: 'KI-gestütztes Data Engineering im Maßstab',
     experienceTitle: 'Berufserfahrung',
-    seniorTitle: 'Senior Data Engineer',
+    seniorTitle: /Senior Data Engineer/,
     aiSkillSamples: ['Claude Code', 'Devin'],
   },
 ] as const;
 
-/**
- * Switch the app language using the combobox selector.
- * 'pt' is the default so no click needed; for others we select explicitly.
- */
-async function switchLanguage(
-  page: import('@playwright/test').Page,
-  optionLabel: string
-) {
-  const selectTrigger = page.locator('[role="combobox"]').first();
-  await selectTrigger.click();
-  await page.getByRole('option', { name: optionLabel }).click();
-}
+const switchLanguage = sharedSwitchLanguage;
 
 for (const lang of LANGUAGES) {
   test.describe(`AI-emphasis content — ${lang.key.toUpperCase()} — T-FE-WAVE5`, () => {
@@ -83,23 +73,7 @@ for (const lang of LANGUAGES) {
     });
 
     test(`WAVE5-${lang.key.toUpperCase()}-03: Senior DE role skills are visible after expanding`, async ({ page }) => {
-      // Scroll to experience section
-      const section = page.locator('#experiencia');
-      await section.scrollIntoViewIfNeeded();
-
-      // The Santander card has multiple roles; click the Senior trigger to expand
-      const seniorTrigger = page
-        .locator('button, [role="button"]')
-        .filter({ hasText: lang.seniorTitle })
-        .first();
-      await expect(seniorTrigger).toBeVisible();
-      await seniorTrigger.click();
-
-      // After expanding, skills should be rendered — at least one of the AI samples
-      // NOTE: RoleSkillBadges (T-FE-WAVE6) is not yet shipped; skills may be hidden
-      // in the content area or rendered as text. We check for text presence.
-      const contentArea = page.locator('[data-radix-collapsible-content]').first();
-      await expect(contentArea).toBeVisible();
+      const contentArea = await expandSeniorRole(page, lang.seniorTitle);
 
       // At minimum, responsibilities text should be present
       const content = await contentArea.textContent() ?? '';
@@ -107,22 +81,7 @@ for (const lang of LANGUAGES) {
     });
 
     test(`WAVE5-${lang.key.toUpperCase()}-04: AI-tooling skills data present in at least one role`, async ({ page }) => {
-      // This test verifies AC-FQR-11 at the data level:
-      // The JSONs must contain AI-tooling skill tags for the Senior role.
-      // We verify by querying the page DOM for any visible occurrence of an AI skill
-      // keyword after expanding the experience section.
-      const section = page.locator('#experiencia');
-      await section.scrollIntoViewIfNeeded();
-
-      const seniorTrigger = page
-        .locator('button, [role="button"]')
-        .filter({ hasText: lang.seniorTitle })
-        .first();
-      await expect(seniorTrigger).toBeVisible();
-      await seniorTrigger.click();
-
-      const contentArea = page.locator('[data-radix-collapsible-content]').first();
-      await expect(contentArea).toBeVisible();
+      const contentArea = await expandSeniorRole(page, lang.seniorTitle);
 
       // Check that at least one AI skill sample appears in the expanded content
       // This covers the "skills" array in the JSON (AC-FQR-11) once RoleSkillBadges
