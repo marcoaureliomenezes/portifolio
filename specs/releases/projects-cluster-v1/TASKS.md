@@ -16,6 +16,7 @@
 - [x] T-PC-C-06 — Assets: covers + diagrams light/dark
 - [x] T-PC-C-07 — CI step: SVG size gate em `build` job
 - [x] T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
+- [x] T-PC-C-09 — Smoke operacional em stage
 
 ---
 
@@ -346,7 +347,7 @@
   `/projetos/dadaia-workspace`, `/projetos/portifolio`, `/projetos/tauan-games`; Axe
   zero violations. Cumpre AC-PC-13 + AC-PC-14.
 
-### `[ ]` T-PC-C-09 — Smoke operacional em stage
+### `[x]` T-PC-C-09 — Smoke operacional em stage
 
 - **Agente:** `[qa-engineer]` (coordena com operador)
 - **Dep:** T-PC-C-08
