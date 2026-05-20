@@ -511,7 +511,7 @@
           "slug": "aero-fighters",
           "title": "Aero Fighters",
           "engine": "Three.js",
-          "image": "/assets/projects/tauan-games/aero-fighters-cover.webp",
+          "image": "/assets/projects/tauan-games/aero-fighters-cover.svg",
           "body": "Ein Luftkampf-Shooter, entwickelt mit Three.js. Ein Projekt, das aus dem Wunsch entstand, gemeinsam mit Tauan etwas Spielbares zu erstellen.",
           "repo": "https://github.com/marcoaureliomenezes/tauan-games"
         },
@@ -519,7 +519,7 @@
           "slug": "tauan-trex",
           "title": "tauan-trex",
           "engine": "Phaser",
-          "image": "/assets/projects/tauan-games/tauan-trex-cover.webp",
+          "image": "/assets/projects/tauan-games/tauan-trex-cover.svg",
           "body": "Eine Nachbildung des klassischen Chrome-Dinosaurierspiels, personalisiert mit von Tauan entworfenen Elementen.",
           "repo": "https://github.com/marcoaureliomenezes/tauan-games"
         }
@@ -597,7 +597,7 @@
           "tagline": "Agentengesteuertes SDD-Ökosystem — spec-driven development mit kollaborativen KI-Agenten."
         },
         "card": {
-          "cover": "/assets/projects/dadaia-workspace/cover.webp",
+          "cover": "/assets/projects/dadaia-workspace/cover.svg",
           "summary": "KI-Agenten-Ökosystem für spec-driven development. Jeder Agent hat eine klar definierte Rolle und arbeitet über gemeinsame Specs zusammen.",
           "tech": ["TypeScript", "React", "Claude API", "Python", "Docker"]
         },
@@ -647,7 +647,7 @@
           "tagline": "Wie diese Website aufgebaut, gehostet und gepflegt wird."
         },
         "card": {
-          "cover": "/assets/projects/portifolio/cover.webp",
+          "cover": "/assets/projects/portifolio/cover.svg",
           "summary": "Portfolio-Website mit React + Vite, gehostet auf AWS mit S3 + CloudFront + Route53, mit CI/CD-Pipeline über GitHub Actions + OIDC.",
           "tech": ["React", "TypeScript", "Terraform", "AWS", "GitHub Actions"]
         },
@@ -720,7 +720,7 @@
           "tagline": "Spiele, die zu Hause mit meinem Sohn Tauan entwickelt wurden."
         },
         "card": {
-          "cover": "/assets/projects/tauan-games/cover.webp",
+          "cover": "/assets/projects/tauan-games/cover.svg",
           "summary": "Zwei Browser-Spiele mit Three.js und Phaser gemeinsam mit meinem Sohn Tauan — ein Luftkampf-Shooter und eine Neuauflage des Dinosaurierspiels.",
           "tech": ["Three.js", "Phaser", "JavaScript", "Canvas API", "GitHub Pages"]
         },
@@ -733,7 +733,7 @@
             "slug": "aero-fighters",
             "title": "Aero Fighters",
             "engine": "Three.js",
-            "cover": "/assets/projects/tauan-games/aero-fighters-cover.webp",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
             "body": "Ein Luftkampf-Shooter mit Three.js. Entstanden aus dem Wunsch, gemeinsam mit Tauan etwas Spielbares zu entwickeln — mit einfacher Physik, Sprites und Tastatursteuerung im Browser.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
@@ -742,7 +742,7 @@
             "slug": "tauan-trex",
             "title": "tauan-trex",
             "engine": "Phaser",
-            "cover": "/assets/projects/tauan-games/tauan-trex-cover.webp",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
             "body": "Eine Neuauflage des klassischen Chrome-Dinosaurierspiels mit Phaser, personalisiert mit von Tauan entworfenen Elementen. Ein Wochenendd-Projekt zum Erlernen von Tastaturereignissen und Animation.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"

@@ -27,7 +27,7 @@ async function switchLanguage(page: import('@playwright/test').Page, lang: 'Engl
 }
 
 test.describe('i18n — Projects cluster routes', () => {
-  test.skip('PC-E2E-04: /projetos card titles update when switching to EN', async ({ page }) => {
+  test('PC-E2E-04: /projetos card titles update when switching to EN', async ({ page }) => {
     // Given: /projetos loaded in default PT
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -49,7 +49,7 @@ test.describe('i18n — Projects cluster routes', () => {
     expect(someChanged).toBe(true);
   });
 
-  test.skip('PC-E2E-05: /projetos DE fallback — never PT, never empty', async ({ page }) => {
+  test('PC-E2E-05: /projetos DE fallback — never PT, never empty', async ({ page }) => {
     // Given: /projetos loaded in PT
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -68,7 +68,7 @@ test.describe('i18n — Projects cluster routes', () => {
     expect(isStillPT).toBe(false);
   });
 
-  test.skip('PC-E2E-18: language switch on /projetos does not blank-render cards', async ({ page }) => {
+  test('PC-E2E-18: language switch on /projetos does not blank-render cards', async ({ page }) => {
     // Given: /projetos loaded
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -91,7 +91,7 @@ test.describe('i18n — Projects cluster routes', () => {
     expect(errors.filter((e) => !e.includes('favicon'))).toHaveLength(0);
   });
 
-  test.skip('PC-E2E-14: dadaia-workspace detail — EN title and document.title change', async ({ page }) => {
+  test('PC-E2E-14: dadaia-workspace detail — EN title and document.title change', async ({ page }) => {
     // Given: /projetos/dadaia-workspace in PT
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -115,7 +115,7 @@ test.describe('i18n — Projects cluster routes', () => {
     expect(enH1).not.toBe(ptH1);
   });
 
-  test.skip('PC-E2E-15: portifolio detail — EN costs and decisions sections non-empty', async ({ page }) => {
+  test('PC-E2E-15: portifolio detail — EN costs and decisions sections non-empty', async ({ page }) => {
     // Given: /projetos/portifolio in EN
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
@@ -132,7 +132,7 @@ test.describe('i18n — Projects cluster routes', () => {
     await expect(decisions).toBeVisible();
   });
 
-  test.skip('PC-E2E-16: tauan-games — engine labels are language-independent across PT/EN/DE', async ({ page }) => {
+  test('PC-E2E-16: tauan-games — engine labels are language-independent across PT/EN/DE', async ({ page }) => {
     // Given: /projetos/tauan-games in PT
     await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');

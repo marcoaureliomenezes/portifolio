@@ -21,7 +21,7 @@ import { ROUTES } from '../fixtures/routes';
 
 test.describe('ProjectsLayoutShell — /projetos/*', () => {
 
-  test.skip('PC-E2E-32: index route — breadcrumb shows "Projetos" only, no back-link visible', async ({ page }) => {
+  test('PC-E2E-32: index route — breadcrumb shows "Projetos" only, no back-link visible', async ({ page }) => {
     // Given: user navigates to /projetos
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -45,7 +45,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await expect(backLink).not.toBeVisible();
   });
 
-  test.skip('PC-E2E-33: detail route — breadcrumb has two segments, back-link points /projetos', async ({ page }) => {
+  test('PC-E2E-33: detail route — breadcrumb has two segments, back-link points /projetos', async ({ page }) => {
     // Given: user navigates to /projetos/dadaia-workspace
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -78,7 +78,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     expect(backText.trim().length).toBeGreaterThan(0);
   });
 
-  test.skip('PC-E2E-34: back navigation — click back-link returns URL to /projetos and shows index', async ({ page }) => {
+  test('PC-E2E-34: back navigation — click back-link returns URL to /projetos and shows index', async ({ page }) => {
     // Given: user is on /projetos/dadaia-workspace
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -106,7 +106,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     expect(activeTagName).toBeTruthy();
   });
 
-  test.skip('PC-E2E-35: SEO non-interference — document.title is project-specific, not shell generic', async ({ page }) => {
+  test('PC-E2E-35: SEO non-interference — document.title is project-specific, not shell generic', async ({ page }) => {
     // Given: user navigates to /projetos/dadaia-workspace
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -142,7 +142,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     expect(titleEN).not.toBe(titlePT2);
   });
 
-  test.skip('PC-E2E-36: shell persists across Outlet swap — index card click updates breadcrumb without remount', async ({ page }) => {
+  test('PC-E2E-36: shell persists across Outlet swap — index card click updates breadcrumb without remount', async ({ page }) => {
     // Given: user starts on /projetos (shell mounted, showing index)
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -174,7 +174,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await expect(h1).not.toContainText('404');
   });
 
-  test.skip('PC-E2E-37: shell ARIA structure — breadcrumb nav has aria-label; axe zero violations', async ({ page }) => {
+  test('PC-E2E-37: shell ARIA structure — breadcrumb nav has aria-label; axe zero violations', async ({ page }) => {
     // Given: /projetos visited
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectHero } from "@/components/projects/ProjectHero";
 import { ProjectSections } from "@/components/projects/ProjectSections";
+import { DiagramAsset } from "@/components/projects/DiagramAsset";
 import type { CaseStudyProject } from "@/types/content";
 
 /**
@@ -31,6 +32,29 @@ export function CaseStudyTemplate({ project }: { project: CaseStudyProject }) {
     >
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
+
+      {/* ── Architecture diagram ─────────────────────────────────── */}
+      {project.diagram && (
+        <section aria-labelledby={`${slug}-diagram-heading`}>
+          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
+            <CardHeader className="pb-2">
+              <h2
+                id={`${slug}-diagram-heading`}
+                className="text-lg md:text-2xl font-bold text-foreground"
+              >
+                Arquitetura
+              </h2>
+            </CardHeader>
+            <CardContent>
+              <DiagramAsset
+                light={project.diagram}
+                alt={project.diagramAlt ?? "Architecture diagram"}
+                className="w-full"
+              />
+            </CardContent>
+          </Card>
+        </section>
+      )}
 
       {/* ── Body sections ────────────────────────────────────────── */}
       <ProjectSections sections={project.sections} slug={slug} />

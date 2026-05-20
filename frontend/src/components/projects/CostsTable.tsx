@@ -24,7 +24,7 @@ export function CostsTable({ costs }: CostsTableProps) {
   }
 
   return (
-    <table className="w-full text-sm">
+    <table data-testid="costs-table" className="w-full text-sm">
       <thead>
         <tr className="border-b border-border">
           <th

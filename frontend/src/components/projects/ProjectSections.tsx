@@ -31,7 +31,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
         // Key-value items section
         if (section.items) {
           return (
-            <section key={section.id} aria-labelledby={headingId}>
+            <section key={section.id} aria-labelledby={headingId} data-testid="project-section">
               <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
                 <CardHeader className="pb-2">
                   <h2
@@ -64,7 +64,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
         // Diagram section
         if (section.diagram) {
           return (
-            <section key={section.id} aria-labelledby={headingId}>
+            <section key={section.id} aria-labelledby={headingId} data-testid="project-section">
               <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
                 <CardHeader className="pb-2">
                   <h2
@@ -94,7 +94,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
 
         // Default: body text section
         return (
-          <section key={section.id} aria-labelledby={headingId}>
+          <section key={section.id} aria-labelledby={headingId} data-testid="project-section">
             <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
               <CardHeader className="pb-2">
                 <h2

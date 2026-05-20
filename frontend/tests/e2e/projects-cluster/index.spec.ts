@@ -20,7 +20,7 @@ import { ROUTES } from '../fixtures/routes';
 const EXPECTED_SLUGS = ['dadaia-workspace', 'portifolio', 'tauan-games'] as const;
 
 test.describe('Projects Index Page — /projetos', () => {
-  test.skip('PC-E2E-01: renders exactly 3 project card links', async ({ page }) => {
+  test('PC-E2E-01: renders exactly 3 project card links', async ({ page }) => {
     // Given: /projetos is visited
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -37,7 +37,7 @@ test.describe('Projects Index Page — /projetos', () => {
     }
   });
 
-  test.skip('PC-E2E-02: cards appear in fixed DOM order with correct hrefs', async ({ page }) => {
+  test('PC-E2E-02: cards appear in fixed DOM order with correct hrefs', async ({ page }) => {
     // Given: /projetos is visited
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -52,7 +52,7 @@ test.describe('Projects Index Page — /projetos', () => {
     }
   });
 
-  test.skip('PC-E2E-03: no filter input; keyboard Tab navigates through cards', async ({ page }) => {
+  test('PC-E2E-03: no filter input; keyboard Tab navigates through cards', async ({ page }) => {
     // Given: /projetos is visited
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');

@@ -28,6 +28,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <Link
       to={`/projetos/${slug}`}
       aria-label={hero.title}
+      data-testid="project-card"
       className={[
         "group block rounded-xl border border-border/40 bg-card shadow-sm",
         "overflow-hidden transition-shadow duration-200",
@@ -59,7 +60,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Card body */}
       <div className="p-4 space-y-2">
-        <h3 className="text-base font-semibold text-foreground leading-snug group-hover:text-accent transition-colors">
+        <h3 data-testid="project-card-title" className="text-base font-semibold text-foreground leading-snug group-hover:text-accent transition-colors">
           {hero.title}
         </h3>
         <p className="text-sm text-muted-foreground line-clamp-2">

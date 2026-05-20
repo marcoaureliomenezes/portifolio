@@ -1,5 +1,5 @@
 /**
- * DiagramAsset.test.tsx — T-PC-C-02
+ * DiagramAsset.test.tsx — T-PC-C-02 / T-PC-C-06
  *
  * TDD: written before the component exists.
  * Tests:
@@ -8,6 +8,8 @@
  *  3. Renders aria-hidden placeholder div when light/dark are empty strings
  *  4. Renders figcaption with alt text in placeholder mode
  *  5. source element has correct media attribute
+ *  6. When dark is omitted, source srcSet falls back to light
+ *  7. When dark is omitted, img src is still light
  */
 
 import { describe, it, expect } from "vitest";
@@ -66,5 +68,27 @@ describe("DiagramAsset — rendering", () => {
   it("renders figcaption with alt text in placeholder mode", () => {
     render(<DiagramAsset light="" dark="" alt="Architecture diagram" />);
     expect(screen.getByText("Architecture diagram")).toBeTruthy();
+  });
+
+  it("when dark is omitted, source srcSet falls back to light", () => {
+    const { container } = render(
+      <DiagramAsset
+        light="/diagrams/arch-light.svg"
+        alt="Architecture diagram"
+      />
+    );
+    const source = container.querySelector("source");
+    expect(source?.getAttribute("srcset")).toBe("/diagrams/arch-light.svg");
+  });
+
+  it("when dark is omitted, img src is still light", () => {
+    const { container } = render(
+      <DiagramAsset
+        light="/diagrams/arch-light.svg"
+        alt="Architecture diagram"
+      />
+    );
+    const img = container.querySelector("img");
+    expect(img?.getAttribute("src")).toBe("/diagrams/arch-light.svg");
   });
 });

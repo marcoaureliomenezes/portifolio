@@ -50,6 +50,7 @@ export function ProjectsLayoutShell() {
       {/* ── Breadcrumb chrome ────────────────────────────────────── */}
       <nav
         aria-label="Breadcrumb"
+        data-testid="breadcrumb"
         className="container mx-auto px-4 pt-24 md:pt-20 pb-2 max-w-4xl"
       >
         <ol className="flex items-center gap-1 text-sm text-muted-foreground flex-wrap">
@@ -83,6 +84,8 @@ export function ProjectsLayoutShell() {
         <div className="container mx-auto px-4 pb-4 max-w-4xl">
           <Link
             to="/projetos"
+            data-testid="back-link"
+            data-role="back"
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
             aria-label="Voltar para projetos"
           >

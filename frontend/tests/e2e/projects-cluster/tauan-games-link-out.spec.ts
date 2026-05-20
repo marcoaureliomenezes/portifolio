@@ -18,7 +18,7 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('tauan-games link-out safety', () => {
-  test.skip('PC-E2E-25: game play links have target=_blank and rel=noopener noreferrer', async ({ page }) => {
+  test('PC-E2E-25: game play links have target=_blank and rel=noopener noreferrer', async ({ page }) => {
     // Given: /projetos/tauan-games loaded
     await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');
@@ -40,7 +40,7 @@ test.describe('tauan-games link-out safety', () => {
     }
   });
 
-  test.skip('PC-E2E-26: no iframe element present on tauan-games detail page', async ({ page }) => {
+  test('PC-E2E-26: no iframe element present on tauan-games detail page', async ({ page }) => {
     // Given: /projetos/tauan-games loaded
     await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');

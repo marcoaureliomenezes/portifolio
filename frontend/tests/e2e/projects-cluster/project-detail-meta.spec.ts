@@ -17,7 +17,7 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Detail page — portifolio (kind: meta)', () => {
-  test.skip('PC-E2E-07: renders Meta template with h1, costs table, and decisions list', async ({ page }) => {
+  test('PC-E2E-07: renders Meta template with h1, costs table, and decisions list', async ({ page }) => {
     // Given: user navigates to portifolio detail
     const response = await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
@@ -43,7 +43,7 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
     await expect(stack).toBeVisible();
   });
 
-  test.skip('PC-E2E-23: document.title is project-specific SEO title for portifolio', async ({ page }) => {
+  test('PC-E2E-23: document.title is project-specific SEO title for portifolio', async ({ page }) => {
     // Given: user navigates to /projetos/portifolio
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
@@ -55,7 +55,7 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
     expect(title.toLowerCase()).not.toBe('projetos');
   });
 
-  test.skip('PC-E2E-13: diagram picture element present for portifolio', async ({ page }) => {
+  test('PC-E2E-13: diagram picture element present for portifolio', async ({ page }) => {
     // Given: /projetos/portifolio (has diagram field per content contract)
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
@@ -72,7 +72,7 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
     expect((alt ?? '').trim().length).toBeGreaterThan(0);
   });
 
-  test.skip('PC-E2E-12: costs table has proper table header elements', async ({ page }) => {
+  test('PC-E2E-12: costs table has proper table header elements', async ({ page }) => {
     // Given: /projetos/portifolio
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');

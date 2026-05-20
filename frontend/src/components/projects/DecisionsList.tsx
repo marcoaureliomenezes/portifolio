@@ -18,9 +18,9 @@ export function DecisionsList({ decisions }: DecisionsListProps) {
   if (decisions.length === 0) return null;
 
   return (
-    <ul className="space-y-4">
+    <ul data-testid="decisions-list" className="space-y-4">
       {decisions.map((d) => (
-        <li key={d.title} className="border-l-2 border-primary/40 pl-4">
+        <li key={d.title} data-testid="arch-decision" className="border-l-2 border-primary/40 pl-4">
           <h3 className="font-semibold text-sm text-foreground">
             <a
               href={d.spec}

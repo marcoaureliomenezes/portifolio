@@ -15,7 +15,7 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Detail page — tauan-games (kind: games)', () => {
-  test.skip('PC-E2E-08: renders 2 game cards with correct engine labels', async ({ page }) => {
+  test('PC-E2E-08: renders 2 game cards with correct engine labels', async ({ page }) => {
     // Given: user navigates to tauan-games detail
     const response = await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');
@@ -38,7 +38,7 @@ test.describe('Detail page — tauan-games (kind: games)', () => {
     expect(pageText).toContain('Phaser');
   });
 
-  test.skip('PC-E2E-09: "Babylon" engine text and aero-fighters-babylon slug absent from page', async ({ page }) => {
+  test('PC-E2E-09: "Babylon" engine text and aero-fighters-babylon slug absent from page', async ({ page }) => {
     // Given: /projetos/tauan-games
     await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');

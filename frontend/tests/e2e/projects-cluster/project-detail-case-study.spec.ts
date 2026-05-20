@@ -17,7 +17,7 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Detail page — dadaia-workspace (kind: case-study)', () => {
-  test.skip('PC-E2E-06: renders CaseStudy template with visible h1 and no 404', async ({ page }) => {
+  test('PC-E2E-06: renders CaseStudy template with visible h1 and no 404', async ({ page }) => {
     // Given: user navigates to dadaia-workspace detail
     const response = await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -39,7 +39,7 @@ test.describe('Detail page — dadaia-workspace (kind: case-study)', () => {
     await expect(githubLink).toBeVisible();
   });
 
-  test.skip('PC-E2E-22: document.title is project-specific SEO title', async ({ page }) => {
+  test('PC-E2E-22: document.title is project-specific SEO title', async ({ page }) => {
     // Given: user navigates to dadaia-workspace
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -51,7 +51,7 @@ test.describe('Detail page — dadaia-workspace (kind: case-study)', () => {
     expect(title.toLowerCase()).not.toBe('projetos');
   });
 
-  test.skip('PC-E2E-10: diagram picture element with dark source and non-empty alt (dadaia-workspace)', async ({ page }) => {
+  test('PC-E2E-10: diagram picture element with dark source and non-empty alt (dadaia-workspace)', async ({ page }) => {
     // Given: /projetos/dadaia-workspace (has diagram field)
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -71,7 +71,7 @@ test.describe('Detail page — dadaia-workspace (kind: case-study)', () => {
     expect((alt ?? '').trim().length).toBeGreaterThan(0);
   });
 
-  test.skip('PC-E2E-09: unknown slug renders NotFound without URL change', async ({ page }) => {
+  test('PC-E2E-09: unknown slug renders NotFound without URL change', async ({ page }) => {
     // Given: user navigates to an invalid slug
     await page.goto('/projetos/slug-inexistente');
     await page.waitForLoadState('networkidle');

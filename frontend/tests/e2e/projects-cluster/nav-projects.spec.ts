@@ -16,7 +16,7 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Navigation to /projetos from header and hero', () => {
-  test.skip('PC-E2E-17: desktop header nav link "Projetos" navigates to /projetos', async ({ page }) => {
+  test('PC-E2E-17: desktop header nav link "Projetos" navigates to /projetos', async ({ page }) => {
     // Given: home page at desktop viewport
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ROUTES.home);
@@ -41,33 +41,28 @@ test.describe('Navigation to /projetos from header and hero', () => {
     await expect(cards).toHaveCount(3);
   });
 
-  test.skip('PC-E2E-19: mobile header sheet contains "Projetos" link', async ({ page }) => {
+  test('PC-E2E-19: mobile header contains "Projetos" nav link and it navigates', async ({ page }) => {
     // Given: home page at mobile viewport
+    // Note: mobile header uses inline nav links (no dialog/sheet — T-PC-C-04 deviation note).
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
-    // When: user opens the mobile menu (Radix Dialog sheet trigger)
-    // The trigger is typically a hamburger button — identify by role or test-id
-    const menuTrigger = page.locator('[aria-label*="menu"], [aria-label*="Menu"], [data-testid="mobile-menu-trigger"]').first();
-    await expect(menuTrigger).toBeVisible();
-    await menuTrigger.click();
+    // Then: mobile header nav exposes an inline "Projetos" link (aria-label="Navegação principal")
+    const mobileHeaderNav = page.locator('.block.md\\:hidden nav[aria-label*="avega"]');
+    await expect(mobileHeaderNav).toBeVisible();
 
-    // Then: sheet opens and contains a link to /projetos
-    const sheetContent = page.locator('[role="dialog"], [data-radix-dialog-content]');
-    await expect(sheetContent).toBeVisible();
+    const projLink = mobileHeaderNav.locator('a[href="/projetos"]');
+    await expect(projLink).toBeVisible();
 
-    const projLinkInSheet = sheetContent.locator('a[href="/projetos"]');
-    await expect(projLinkInSheet).toBeVisible();
-
-    // When: user clicks the Projetos link in the sheet
-    await projLinkInSheet.click();
+    // When: user clicks the Projetos link
+    await projLink.click();
 
     // Then: URL becomes /projetos
     await expect(page).toHaveURL('/projetos');
   });
 
-  test.skip('PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos', async ({ page }) => {
+  test('PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos', async ({ page }) => {
     // Given: home page
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');

@@ -1,13 +1,13 @@
 /**
- * DiagramAsset.tsx — T-PC-C-02
+ * DiagramAsset.tsx — T-PC-C-02 / T-PC-C-06
  *
  * <picture> element with dark-mode source. When light/dark props are empty
- * strings (assets not yet available — T-PC-C-06), renders an aria-hidden
- * placeholder div + figcaption with the alt text. No broken-image squares.
+ * strings (assets not yet available), renders an aria-hidden placeholder div
+ * + figcaption with the alt text. No broken-image squares.
  *
  * Props:
  *  - light: path to light-mode image (relative to /assets/ or absolute URL)
- *  - dark: path to dark-mode image
+ *  - dark?: path to dark-mode image (optional — falls back to light when absent)
  *  - alt: accessible description (used as img alt; repeated in figcaption for placeholder mode)
  *
  * Accessibility:
@@ -17,13 +17,13 @@
 
 interface DiagramAssetProps {
   light: string;
-  dark: string;
+  dark?: string;
   alt: string;
   className?: string;
 }
 
 export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps) {
-  // Placeholder mode: no assets yet (T-PC-C-06 delivers real diagrams)
+  // Placeholder mode: no assets yet
   if (!light) {
     return (
       <figure className={className}>
@@ -38,12 +38,15 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
     );
   }
 
+  // When dark is absent, use light for both modes
+  const darkSrc = dark ?? light;
+
   return (
     <figure className={className}>
       <picture>
         <source
           media="(prefers-color-scheme: dark)"
-          srcSet={dark}
+          srcSet={darkSrc}
         />
         <img
           src={light}

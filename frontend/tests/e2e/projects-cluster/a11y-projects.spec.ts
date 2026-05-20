@@ -27,7 +27,7 @@ const FORBIDDEN_STRINGS = [
 ] as const;
 
 test.describe('Accessibility — Projects cluster routes', () => {
-  test.skip('PC-E2E-27: /projetos — axe zero violations and keyboard tab navigation', async ({ page }) => {
+  test('PC-E2E-27: /projetos — axe zero violations and keyboard tab navigation', async ({ page }) => {
     // Given: /projetos loaded
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
@@ -58,7 +58,7 @@ test.describe('Accessibility — Projects cluster routes', () => {
     expect(cardFocused).toBe(true);
   });
 
-  test.skip('PC-E2E-28: /projetos/dadaia-workspace — axe zero violations', async ({ page }) => {
+  test('PC-E2E-28: /projetos/dadaia-workspace — axe zero violations', async ({ page }) => {
     // Given: case-study detail loaded
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
@@ -82,7 +82,7 @@ test.describe('Accessibility — Projects cluster routes', () => {
     expect((alt ?? '').trim().length).toBeGreaterThan(0);
   });
 
-  test.skip('PC-E2E-29: /projetos/portifolio — axe zero violations; costs table has th', async ({ page }) => {
+  test('PC-E2E-29: /projetos/portifolio — axe zero violations; costs table has th', async ({ page }) => {
     // Given: meta detail loaded
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
@@ -105,7 +105,7 @@ test.describe('Accessibility — Projects cluster routes', () => {
     expect(thCount).toBeGreaterThan(0);
   });
 
-  test.skip('PC-E2E-30: /projetos/tauan-games — axe zero violations; game links discernible text', async ({ page }) => {
+  test('PC-E2E-30: /projetos/tauan-games — axe zero violations; game links discernible text', async ({ page }) => {
     // Given: games detail loaded
     await page.goto(ROUTES.tauanGames);
     await page.waitForLoadState('networkidle');
@@ -137,7 +137,7 @@ test.describe('Accessibility — Projects cluster routes', () => {
     }
   });
 
-  test.skip('PC-E2E-31: no AWS-sensitive strings in page text on /projetos/* routes', async ({ page }) => {
+  test('PC-E2E-31: no AWS-sensitive strings in page text on /projetos/* routes', async ({ page }) => {
     // AC-PC-15: redaction policy verification in the browser layer
     const routesToCheck = [
       ROUTES.projectsIndex,

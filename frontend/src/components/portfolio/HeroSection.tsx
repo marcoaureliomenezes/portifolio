@@ -104,7 +104,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
               variant="outline"
               className="border-accent/50 hover:border-accent hover:bg-accent-subtle"
             >
-              <Link to="/projetos">
+              <Link to="/projetos" data-testid="hero-cta-projects">
                 <FolderKanban className="w-4 h-4 mr-2" aria-hidden="true" />
                 {seeProjectsLabel}
               </Link>

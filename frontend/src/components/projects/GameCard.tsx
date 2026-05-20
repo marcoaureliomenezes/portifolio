@@ -24,7 +24,7 @@ interface GameCardProps {
 
 export function GameCard({ game }: GameCardProps) {
   return (
-    <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300 flex flex-col">
+    <Card data-testid="game-card" className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300 flex flex-col">
       {/* Cover area */}
       {game.cover ? (
         <div className="overflow-hidden rounded-t-lg aspect-video">

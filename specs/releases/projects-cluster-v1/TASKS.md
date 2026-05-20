@@ -13,7 +13,9 @@
 ## Currently in progress (tracker)
 
 - [x] T-PC-SEC-01 — Dependabot: fix 4 npm vulnerabilities (esbuild, vite, cookie, tmp)
-- [-] T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run (E2E drift fix pré-req)
+- [x] T-PC-C-06 — Assets: covers + diagrams light/dark
+- [x] T-PC-C-07 — CI step: SVG size gate em `build` job
+- [x] T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
 
 ---
 
@@ -306,7 +308,7 @@
 - **Critério de pronto:** Hero renderiza 3º CTA outline com ícone `FolderKanban`
   linkando para `/projetos`; i18n parity gate verde; teste unit afirma href + label.
 
-### `[-]` T-PC-C-06 — Assets: covers + diagrams light/dark
+### `[x]` T-PC-C-06 — Assets: covers + diagrams light/dark
 
 - **Agente:** `[frontend-engineer]` (assets produzidos pelo operador)
 - **Dep:** T-PC-C-02
@@ -322,7 +324,7 @@
 - **Critério de pronto:** Cada cover ≤ 60KB (AC-PC-08); cada SVG ≤ 50KB pós-svgo
   (AC-PC-10). `diagramAlt` preenchido nos 3 idiomas.
 
-### `[ ]` T-PC-C-07 — CI step: SVG size gate em `build` job
+### `[x]` T-PC-C-07 — CI step: SVG size gate em `build` job
 
 - **Agente:** `[devops-engineer]`
 - **Dep:** T-PC-C-06
@@ -331,7 +333,7 @@
   verifica `dist/assets/projects/**/*.svg` ≤ 50KB; falha exit 1 se violado. ~2s
   overhead. Cumpre AC-PC-10.
 
-### `[-]` T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
+### `[x]` T-PC-C-08 — Ativar E2E suite `projects-cluster/` + Lighthouse run
 
 - **Agente:** `[qa-engineer]`
 - **Dep:** T-PC-C-02, T-PC-C-03, T-PC-C-04, T-PC-C-05
