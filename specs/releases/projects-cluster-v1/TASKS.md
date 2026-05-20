@@ -306,7 +306,7 @@
 - **Critério de pronto:** Hero renderiza 3º CTA outline com ícone `FolderKanban`
   linkando para `/projetos`; i18n parity gate verde; teste unit afirma href + label.
 
-### `[ ]` T-PC-C-06 — Assets: covers + diagrams light/dark
+### `[-]` T-PC-C-06 — Assets: covers + diagrams light/dark
 
 - **Agente:** `[frontend-engineer]` (assets produzidos pelo operador)
 - **Dep:** T-PC-C-02
