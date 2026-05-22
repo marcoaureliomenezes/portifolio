@@ -47,6 +47,13 @@ describe("CertificationCard", () => {
     expect(screen.getByText("AWS Solutions Architect")).toBeInTheDocument();
   });
 
+  it("starts compact and closed by default", () => {
+    render(<CertificationCard cert={mockCert} labels={mockLabels} />);
+    expect(screen.getByText("AWS Solutions Architect")).toBeInTheDocument();
+    expect(screen.queryByText("Short cert description")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ver credencial")).not.toBeInTheDocument();
+  });
+
   it("renders the issuer (provider)", () => {
     render(<CertificationCard cert={mockCert} labels={mockLabels} defaultOpen />);
     expect(screen.getByText(/Amazon Web Services/)).toBeInTheDocument();

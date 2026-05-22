@@ -238,8 +238,7 @@ describe("ExperienceCard — i18n", () => {
         }}
       />,
     );
-    // Single-role layout: no progression header rendered
-    expect(screen.queryByText(/Career progression/)).not.toBeInTheDocument();
+    expect(screen.getByText(/1 position/)).toBeInTheDocument();
   });
 });
 

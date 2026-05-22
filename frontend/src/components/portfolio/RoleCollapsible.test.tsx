@@ -19,7 +19,7 @@ import type { Position, ContentData } from "@/types/content";
 const mockRole: Position = {
   title: "Software Engineer",
   period: "Jan 2022 – Present",
-  responsibilities: ["Built pipelines", "Optimized queries"],
+  responsibilities: ["Built pipelines", "Optimized queries", "Reduced batch failures", "Led migrations"],
   technologies: "Python, Spark, AWS",
 };
 
@@ -59,8 +59,9 @@ describe("RoleCollapsible", () => {
       />
     );
 
-    // Responsibilities should not be visible before toggle
-    expect(screen.queryByText("Built pipelines")).not.toBeInTheDocument();
+    // Three-line teaser should be visible before toggle, but full details remain hidden.
+    expect(screen.getByText(/Built pipelines Optimized queries Reduced batch failures/)).toBeInTheDocument();
+    expect(screen.queryByText("Led migrations")).not.toBeInTheDocument();
 
     // Click the trigger button to open
     const trigger = screen.getByRole("button");

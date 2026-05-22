@@ -18,7 +18,7 @@
     - responsividade validada em mobile/tablet/desktop.
   - Parallelism: bloqueia T-PHP-02
 
-- [-] T-PHP-02 — Reordenação e compactação de Education/Experience/Certifications
+- [x] T-PHP-02 — Reordenação e compactação de Education/Experience/Certifications
   - Owner: `frontend-engineer`
   - Target: seções de conteúdo da home
   - Preconditions: T-PHP-01 `[x]`

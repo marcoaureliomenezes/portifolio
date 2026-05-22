@@ -8,6 +8,7 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect } from "vitest";
 import { ExperienceCard } from "./ExperienceCard";
 import type { Experience, ContentData } from "@/types/content";
@@ -75,8 +76,19 @@ const singleRoleNoExtras: Experience = {
 };
 
 describe("ExperienceCard", () => {
-  it("renders skill badges when skills are present on single-role experience", () => {
+  it("renders a single-role experience in the same collapsed model with a teaser", () => {
     render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} />);
+    expect(screen.getByText("Acme Corp")).toBeInTheDocument();
+    expect(screen.getAllByText("Jan 2021 – Present").length).toBeGreaterThan(0);
+    expect(screen.getByText("São Paulo, BR")).toBeInTheDocument();
+    expect(screen.getByText("Built pipelines")).toBeInTheDocument();
+    expect(screen.queryByTestId("skill-badge")).not.toBeInTheDocument();
+  });
+
+  it("renders skill badges after expanding a role", async () => {
+    const user = userEvent.setup();
+    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} />);
+    await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
     const badges = screen.getAllByTestId("skill-badge");
     expect(badges).toHaveLength(4);
     expect(screen.getByText("Python")).toBeInTheDocument();
@@ -90,8 +102,10 @@ describe("ExperienceCard", () => {
     expect(screen.queryByTestId("skill-badge")).not.toBeInTheDocument();
   });
 
-  it("renders highlight block when highlightProject is set", () => {
+  it("renders highlight block after expanding when highlightProject is set", async () => {
+    const user = userEvent.setup();
     render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} />);
+    await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
     expect(screen.getByText("Migração SAS → Azure")).toBeInTheDocument();
     expect(screen.getByText("Redução SLA: 12 meses → 2 meses")).toBeInTheDocument();
     expect(screen.getByLabelText("Impacto")).toBeInTheDocument();

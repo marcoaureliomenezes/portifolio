@@ -23,7 +23,7 @@ function truncateText(text: string, maxLength = 100): string {
 export function CertificationCard({
   cert,
   labels,
-  defaultOpen = true,
+  defaultOpen = false,
 }: CertificationCardProps) {
   const [open, setOpen] = useState(defaultOpen);
   const [descExpanded, setDescExpanded] = useState(false);

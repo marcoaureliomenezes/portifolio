@@ -1,8 +1,14 @@
-import { GraduationCap } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, ChevronUp, GraduationCap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import type { ContentData } from "@/types/content";
 
 interface EducationSectionProps {
@@ -44,6 +50,8 @@ function EducationBody({ content, mobile = false }: { content: ContentData; mobi
 
 export function EducationSection({ content }: EducationSectionProps) {
   const { ref, inView } = useInView<HTMLElement>();
+  const [desktopOpen, setDesktopOpen] = useState(false);
+
   return (
     <section
       id="educacao"
@@ -53,19 +61,41 @@ export function EducationSection({ content }: EducationSectionProps) {
     >
       {/* Desktop */}
       <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-        <CardHeader className="pb-4">
-          <CardTitle
-            id="educacao-heading"
-            className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3"
-          >
-            <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-green-600 flex-shrink-0" aria-hidden="true" />
-            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" aria-hidden="true" />
-            {content.educationTitle}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <EducationBody content={content} />
-        </CardContent>
+        <Collapsible open={desktopOpen} onOpenChange={setDesktopOpen}>
+          <CollapsibleTrigger className="w-full text-left">
+            <CardHeader className="pb-4">
+              <CardTitle
+                id="educacao-heading"
+                className="text-lg md:text-2xl font-bold text-foreground flex items-center justify-between gap-3"
+              >
+                <span className="flex items-center gap-3">
+                  <GraduationCap className="w-6 h-6 md:w-8 md:h-8 text-green-600 flex-shrink-0" aria-hidden="true" />
+                  <span className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" aria-hidden="true" />
+                  {content.educationTitle}
+                </span>
+                {desktopOpen ? (
+                  <ChevronUp className="h-5 w-5 text-primary" aria-hidden="true" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 text-primary" aria-hidden="true" />
+                )}
+              </CardTitle>
+              <div className="mt-4 rounded-lg border border-border/50 bg-gradient-to-r from-accent/10 to-secondary/10 p-4">
+                <h3 className="text-base font-bold text-foreground">
+                  {content.education.degree}
+                </h3>
+                <p className="text-sm font-semibold text-primary">
+                  {content.education.institution}
+                </p>
+                <p className="text-xs text-muted-foreground">{content.education.period}</p>
+              </div>
+            </CardHeader>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <CardContent className="space-y-6">
+              <EducationBody content={content} />
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
       </Card>
 
       {/* Mobile */}
@@ -74,6 +104,7 @@ export function EducationSection({ content }: EducationSectionProps) {
         icon={GraduationCap}
         iconColor="text-green-600"
         headingId="educacao-heading"
+        defaultOpen={false}
       >
         <div className="space-y-6">
           <EducationBody content={content} mobile />
