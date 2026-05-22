@@ -42,7 +42,7 @@
     - conteúdo interno de `/projetos/*` inalterado.
   - Parallelism: bloqueia T-PHP-04
 
-- [ ] T-PHP-04 — QA regressão visual/responsiva e critérios finais
+- [-] T-PHP-04 — QA regressão visual/responsiva e critérios finais
   - Owner: `qa-engineer`
   - Target: testes e evidências de aceite
   - Preconditions: T-PHP-03 `[x]`
