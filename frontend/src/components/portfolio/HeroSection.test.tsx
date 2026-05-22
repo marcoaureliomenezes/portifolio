@@ -35,7 +35,7 @@ const baseContent: ContentData = {
   resume: { short: "Resumo curto.", full: "Resumo completo expandido." },
   heroTagline: "Data Engineering at Scale with AI Augmented Capabilities",
   heroStats: { years: 5, certifications: 11, clouds: 4 },
-  heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Ver projetos" },
+  heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Personal Projects" },
   skills: [],
   experiences: [],
   education: { degree: "", institution: "", period: "", coursework: "", thesis: "" },
@@ -77,7 +77,7 @@ describe("HeroSection", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     expect(screen.getByRole("link", { name: /Baixar CV/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Ver experiência/i })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Ver projetos/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Personal Projects/i })).toBeInTheDocument();
   });
 
   it("falls back to resumeTitle when heroTagline is absent", () => {
@@ -86,9 +86,9 @@ describe("HeroSection", () => {
     expect(screen.getByText("Resumo")).toBeInTheDocument();
   });
 
-  it("'Ver projetos' CTA links to /projetos (T-PC-C-05)", () => {
+  it("'Personal Projects' CTA links to /projetos (T-PHP-03)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
-    const link = screen.getByRole("link", { name: /Ver projetos/i });
+    const link = screen.getByRole("link", { name: /Personal Projects/i });
     expect(link).toHaveAttribute("href", "/projetos");
   });
 

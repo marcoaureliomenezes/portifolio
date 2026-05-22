@@ -1,5 +1,5 @@
 import { MapPin, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
@@ -25,12 +25,20 @@ interface HeaderMobileLayoutProps {
 function MobileProjectsNav({ label }: { label: string }) {
   return (
     <nav aria-label="Navegação principal">
-      <Link
+      <NavLink
         to="/projetos"
-        className="text-xs font-medium text-header-link hover:text-header-text px-2 py-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
+        className={({ isActive }) =>
+          [
+            "inline-flex min-h-8 items-center rounded-md px-2.5 py-1 text-xs font-semibold transition-colors",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            isActive
+              ? "bg-accent text-accent-foreground shadow-soft"
+              : "border border-header-link/40 text-header-link hover:border-accent hover:bg-white/10 hover:text-header-text",
+          ].join(" ")
+        }
       >
         {label}
-      </Link>
+      </NavLink>
     </nav>
   );
 }

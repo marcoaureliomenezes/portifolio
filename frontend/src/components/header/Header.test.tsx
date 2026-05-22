@@ -75,6 +75,16 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+function wrapperAt(path: string, language: "pt" | "en" | "de" = "en") {
+  return function RouteWrapper({ children }: { children: React.ReactNode }) {
+    return React.createElement(
+      MemoryRouter,
+      { initialEntries: [path] },
+      React.createElement(LanguageProvider, { initialLanguage: language }, children),
+    );
+  };
+}
+
 // --------------------------------------------------------------------------
 // Import Header after polyfills are set up
 // --------------------------------------------------------------------------
@@ -179,5 +189,13 @@ describe("Header", () => {
     await waitFor(() => {
       expect(screen.getByRole("switch")).toBeInTheDocument();
     });
+  });
+
+  it("renders Personal Projects as active header nav on project routes", async () => {
+    installMatchMediaMock(false);
+    render(<Header language="en" />, { wrapper: wrapperAt("/projetos", "en") });
+    const link = await screen.findByRole("link", { name: /Personal Projects/i });
+    expect(link).toHaveAttribute("href", "/projetos");
+    expect(link).toHaveAttribute("aria-current", "page");
   });
 });

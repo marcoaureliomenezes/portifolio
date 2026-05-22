@@ -1,5 +1,5 @@
 import { MapPin, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import type { SupportedLanguages, HeaderInfo } from "@/types/content";
 import { LanguageSelector } from "./LanguageSelector";
 import { ContactStrip } from "./ContactStrip";
@@ -53,12 +53,20 @@ export function HeaderDesktopLayout({
     <div className="hidden md:block relative">
       <div className="absolute top-2 right-0 z-10 flex items-center gap-2">
         <nav aria-label="Navegação principal">
-          <Link
+          <NavLink
             to="/projetos"
-            className="text-sm font-medium text-header-link hover:text-header-text px-2 py-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors"
+            className={({ isActive }) =>
+              [
+                "inline-flex min-h-9 items-center rounded-md px-3 py-1.5 text-sm font-semibold transition-colors",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                isActive
+                  ? "bg-accent text-accent-foreground shadow-soft"
+                  : "border border-header-link/40 text-header-link hover:border-accent hover:bg-white/10 hover:text-header-text",
+              ].join(" ")
+            }
           >
             {navProjects}
-          </Link>
+          </NavLink>
         </nav>
         <ThemeToggle />
         <LanguageSelector language={language} onLanguageChange={onLanguageChange} />

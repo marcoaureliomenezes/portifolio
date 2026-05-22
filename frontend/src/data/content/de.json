@@ -21,7 +21,11 @@
   "gamesComingSoonDesc": "Die Spiele werden bald hier aufgelistet.",
   "notFoundMessage": "Oops! Seite nicht gefunden",
   "returnHome": "Zur Startseite",
-  "heroStatsSuffix": { "years": "Jahre", "certs": "Zertifikate", "clouds": "Clouds" },
+  "heroStatsSuffix": {
+    "years": "Jahre",
+    "certs": "Zertifikate",
+    "clouds": "Clouds"
+  },
   "archPage": {
     "infraDiagramTitle": "Infrastrukturdiagramm",
     "techStackTitle": "Tech Stack",
@@ -42,9 +46,17 @@
     "viewEmail": "E-Mail anzeigen"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
-  "navProjects": "Projekte",
-  "heroCTAs": { "downloadCv": "Lebenslauf herunterladen", "seeExperience": "Erfahrung ansehen", "seeProjects": "Projekte ansehen" },
+  "heroStats": {
+    "years": 5,
+    "certifications": 11,
+    "clouds": 4
+  },
+  "navProjects": "Personal Projects",
+  "heroCTAs": {
+    "downloadCv": "Lebenslauf herunterladen",
+    "seeExperience": "Erfahrung ansehen",
+    "seeProjects": "Personal Projects"
+  },
   "resume": {
     "short": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praxiserfahrung mit Cloudera On-Premises-Stacks, Cloud-Migrationen zu Azure + Databricks (Medallion-Architektur) und Streaming-Replikation von IBM DB2 zu Amazon Aurora über Kafka/MSK mit CDC.",
     "full": "Data Engineer mit 5 Jahren Erfahrung im Aufbau skalierbarer Datenpipelines, Analyselösungen und Big-Data-Plattformen. Praktische Expertise in: Entwurf und Wartung von On-Premises-Datenpipelines mit Cloudera (Hadoop, Hive, Spark), Linux-Servern (Einstiegspunkte, File Watcher, Dateiübertragungen) und BMC Control-M für die Orchestrierung. Re-Architekturierung von Pipelines von On-Premises (Cloudera / SAS) in die Cloud mit Azure Data Factory für die Aufnahme und Databricks für die Transformation unter Anwendung der Medallion-Architektur. Entwicklung von Streaming-Pipelines zur Replikation von Transaktionsdaten von IBM DB2 zu Amazon Aurora PostgreSQL mit Kafka, Amazon MSK und MSK Connect über CDC. Erfahrung mit CI/CD und DevOps-Tools: Git, Jenkins, GitHub Actions, Jira, ServiceNow, Docker. Fundierte Kenntnisse in Python (10+ Jahre), SQL (5+ Jahre), Shell-Scripting (5+ Jahre) und Scala (2+ Jahre). Bachelorabschluss in Steuerungs- und Automatisierungstechnik / Mechatronik im August 2018."
@@ -53,32 +65,72 @@
     {
       "title": "Sprachen",
       "icon": "🌍",
-      "skills": ["Portugiesisch (Muttersprache)", "Englisch (Muttersprache oder zweisprachig)", "Deutsch (Vollständige berufliche Kompetenz)"]
+      "skills": [
+        "Portugiesisch (Muttersprache)",
+        "Englisch (Muttersprache oder zweisprachig)",
+        "Deutsch (Vollständige berufliche Kompetenz)"
+      ]
     },
     {
       "title": "Programmiersprachen",
       "icon": "💻",
-      "skills": ["Python (10+ J.)", "SQL (5+ J.)", "Shell (5+ J.)", "Scala (2+ J.)", "Java"]
+      "skills": [
+        "Python (10+ J.)",
+        "SQL (5+ J.)",
+        "Shell (5+ J.)",
+        "Scala (2+ J.)",
+        "Java"
+      ]
     },
     {
       "title": "Cloud-Anbieter",
       "icon": "☁️",
-      "skills": ["AWS", "Azure", "Databricks"]
+      "skills": [
+        "AWS",
+        "Azure",
+        "Databricks"
+      ]
     },
     {
       "title": "KI / Moderne Tools",
       "icon": "🤖",
-      "skills": ["AI", "LLM", "Devin"]
+      "skills": [
+        "AI",
+        "LLM",
+        "Devin",
+        "OpenAI Codex",
+        "Claude Code",
+        "Opencode",
+        "Hermes agent",
+        "Openclaw",
+        "Spec Driven Development",
+        "Harness",
+        "Context engineering"
+      ]
     },
     {
       "title": "On-Premises Datentechnologien",
       "icon": "🏗️",
-      "skills": ["Hadoop", "Hive", "Spark", "Kafka", "Control-M"]
+      "skills": [
+        "Hadoop",
+        "Hive",
+        "Spark",
+        "Kafka",
+        "Control-M"
+      ]
     },
     {
       "title": "DevOps-Technologien",
       "icon": "🔧",
-      "skills": ["Git", "GitHub", "GitHub Actions", "Jenkins", "Docker", "Jira", "ServiceNow"]
+      "skills": [
+        "Git",
+        "GitHub",
+        "GitHub Actions",
+        "Jenkins",
+        "Docker",
+        "Jira",
+        "ServiceNow"
+      ]
     }
   ],
   "experiences": [
@@ -485,10 +537,22 @@
           "id": "status",
           "title": "Aktueller Status",
           "items": [
-            { "label": "Version", "value": "v0.12.0" },
-            { "label": "Aktive Agenten", "value": "5 (product, software, qa, devops, game-developer)" },
-            { "label": "Unterstützte Kontexte", "value": "portifolio, hermes-jobs, tauan-games" },
-            { "label": "Letzter Meilenstein", "value": "Content-Migration zu statischem JSON (T-CONTENT-01)" }
+            {
+              "label": "Version",
+              "value": "v0.12.0"
+            },
+            {
+              "label": "Aktive Agenten",
+              "value": "5 (product, software, qa, devops, game-developer)"
+            },
+            {
+              "label": "Unterstützte Kontexte",
+              "value": "portifolio, hermes-jobs, tauan-games"
+            },
+            {
+              "label": "Letzter Meilenstein",
+              "value": "Content-Migration zu statischem JSON (T-CONTENT-01)"
+            }
           ]
         }
       ],
@@ -536,19 +600,52 @@
       },
       "diagram": "/assets/projects/portifolio/architecture.svg",
       "stack": [
-        { "layer": "Frontend", "tech": "React 18 + Vite 7 + TypeScript 5.5" },
-        { "layer": "UI", "tech": "Tailwind CSS 3 + shadcn/ui (bereinigt)" },
-        { "layer": "Tests", "tech": "Vitest + RTL + Playwright + LHCI" },
-        { "layer": "Infra", "tech": "S3 (OAC) + CloudFront + ACM + Route53" },
-        { "layer": "IaC", "tech": "Terraform 1.9, Remote S3-Backend" },
-        { "layer": "CI/CD", "tech": "GitHub Actions mit OIDC (keine langlebigen Keys)" }
+        {
+          "layer": "Frontend",
+          "tech": "React 18 + Vite 7 + TypeScript 5.5"
+        },
+        {
+          "layer": "UI",
+          "tech": "Tailwind CSS 3 + shadcn/ui (bereinigt)"
+        },
+        {
+          "layer": "Tests",
+          "tech": "Vitest + RTL + Playwright + LHCI"
+        },
+        {
+          "layer": "Infra",
+          "tech": "S3 (OAC) + CloudFront + ACM + Route53"
+        },
+        {
+          "layer": "IaC",
+          "tech": "Terraform 1.9, Remote S3-Backend"
+        },
+        {
+          "layer": "CI/CD",
+          "tech": "GitHub Actions mit OIDC (keine langlebigen Keys)"
+        }
       ],
       "costs": [
-        { "service": "Route53 Hosted Zone", "monthly_usd": 0.50 },
-        { "service": "S3 Speicher", "monthly_usd": 0.00 },
-        { "service": "CloudFront", "monthly_usd": 0.00 },
-        { "service": "ACM Zertifikat", "monthly_usd": 0.00 },
-        { "service": "Geschätztes Gesamt", "monthly_usd": 0.50 }
+        {
+          "service": "Route53 Hosted Zone",
+          "monthly_usd": 0.5
+        },
+        {
+          "service": "S3 Speicher",
+          "monthly_usd": 0
+        },
+        {
+          "service": "CloudFront",
+          "monthly_usd": 0
+        },
+        {
+          "service": "ACM Zertifikat",
+          "monthly_usd": 0
+        },
+        {
+          "service": "Geschätztes Gesamt",
+          "monthly_usd": 0.5
+        }
       ],
       "decisions": [
         {
@@ -599,7 +696,13 @@
         "card": {
           "cover": "/assets/projects/dadaia-workspace/cover.svg",
           "summary": "KI-Agenten-Ökosystem für spec-driven development. Jeder Agent hat eine klar definierte Rolle und arbeitet über gemeinsame Specs zusammen.",
-          "tech": ["TypeScript", "React", "Claude API", "Python", "Docker"]
+          "tech": [
+            "TypeScript",
+            "React",
+            "Claude API",
+            "Python",
+            "Docker"
+          ]
         },
         "seo": {
           "title": "dadaia-workspace — Marco Menezes",
@@ -627,10 +730,22 @@
             "id": "status",
             "title": "Aktueller Status",
             "items": [
-              { "label": "Version", "value": "v0.12.0" },
-              { "label": "Aktive Agenten", "value": "5 (product, software, qa, devops, game-developer)" },
-              { "label": "Unterstützte Kontexte", "value": "portifolio, hermes-jobs, tauan-games" },
-              { "label": "Letzter Meilenstein", "value": "Content-Migration zu statischem JSON (T-CONTENT-01)" }
+              {
+                "label": "Version",
+                "value": "v0.12.0"
+              },
+              {
+                "label": "Aktive Agenten",
+                "value": "5 (product, software, qa, devops, game-developer)"
+              },
+              {
+                "label": "Unterstützte Kontexte",
+                "value": "portifolio, hermes-jobs, tauan-games"
+              },
+              {
+                "label": "Letzter Meilenstein",
+                "value": "Content-Migration zu statischem JSON (T-CONTENT-01)"
+              }
             ]
           }
         ],
@@ -649,7 +764,13 @@
         "card": {
           "cover": "/assets/projects/portifolio/cover.svg",
           "summary": "Portfolio-Website mit React + Vite, gehostet auf AWS mit S3 + CloudFront + Route53, mit CI/CD-Pipeline über GitHub Actions + OIDC.",
-          "tech": ["React", "TypeScript", "Terraform", "AWS", "GitHub Actions"]
+          "tech": [
+            "React",
+            "TypeScript",
+            "Terraform",
+            "AWS",
+            "GitHub Actions"
+          ]
         },
         "seo": {
           "title": "Portfolio-Architektur — Marco Menezes",
@@ -670,19 +791,52 @@
           }
         ],
         "stack": [
-          { "layer": "Frontend", "tech": "React 18 + Vite 7 + TypeScript 5.5" },
-          { "layer": "UI", "tech": "Tailwind CSS 3 + shadcn/ui (bereinigt)" },
-          { "layer": "Tests", "tech": "Vitest + RTL + Playwright + LHCI" },
-          { "layer": "Infra", "tech": "S3 (OAC) + CloudFront + ACM + Route53" },
-          { "layer": "IaC", "tech": "Terraform 1.9, Remote S3-Backend" },
-          { "layer": "CI/CD", "tech": "GitHub Actions mit OIDC (keine langlebigen Keys)" }
+          {
+            "layer": "Frontend",
+            "tech": "React 18 + Vite 7 + TypeScript 5.5"
+          },
+          {
+            "layer": "UI",
+            "tech": "Tailwind CSS 3 + shadcn/ui (bereinigt)"
+          },
+          {
+            "layer": "Tests",
+            "tech": "Vitest + RTL + Playwright + LHCI"
+          },
+          {
+            "layer": "Infra",
+            "tech": "S3 (OAC) + CloudFront + ACM + Route53"
+          },
+          {
+            "layer": "IaC",
+            "tech": "Terraform 1.9, Remote S3-Backend"
+          },
+          {
+            "layer": "CI/CD",
+            "tech": "GitHub Actions mit OIDC (keine langlebigen Keys)"
+          }
         ],
         "costs": [
-          { "service": "Route53 Hosted Zone", "monthly_usd": 0.50 },
-          { "service": "S3 Speicher", "monthly_usd": 0.00 },
-          { "service": "CloudFront", "monthly_usd": 0.00 },
-          { "service": "ACM Zertifikat", "monthly_usd": 0.00 },
-          { "service": "Geschätztes Gesamt", "monthly_usd": 0.50 }
+          {
+            "service": "Route53 Hosted Zone",
+            "monthly_usd": 0.5
+          },
+          {
+            "service": "S3 Speicher",
+            "monthly_usd": 0
+          },
+          {
+            "service": "CloudFront",
+            "monthly_usd": 0
+          },
+          {
+            "service": "ACM Zertifikat",
+            "monthly_usd": 0
+          },
+          {
+            "service": "Geschätztes Gesamt",
+            "monthly_usd": 0.5
+          }
         ],
         "decisions": [
           {
@@ -722,7 +876,13 @@
         "card": {
           "cover": "/assets/projects/tauan-games/cover.svg",
           "summary": "Zwei Browser-Spiele mit Three.js und Phaser gemeinsam mit meinem Sohn Tauan — ein Luftkampf-Shooter und eine Neuauflage des Dinosaurierspiels.",
-          "tech": ["Three.js", "Phaser", "JavaScript", "Canvas API", "GitHub Pages"]
+          "tech": [
+            "Three.js",
+            "Phaser",
+            "JavaScript",
+            "Canvas API",
+            "GitHub Pages"
+          ]
         },
         "seo": {
           "title": "tauan-games — Marco Menezes",
