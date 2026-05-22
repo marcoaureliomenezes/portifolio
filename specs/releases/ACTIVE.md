@@ -1,2 +1,2 @@
-release: projects-cluster-v1
+release: portfolio-home-polish-v1
 phase: IMPLEMENTATION
