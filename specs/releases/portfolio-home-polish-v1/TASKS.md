@@ -7,7 +7,7 @@
 
 ## Task list
 
-- [-] T-PHP-01 — Home first fold polish (Header/Hero)
+- [x] T-PHP-01 — Home first fold polish (Header/Hero)
   - Owner: `frontend-engineer`
   - Target: first fold components/layout da home
   - Preconditions: SPEC/PLAN aprovados

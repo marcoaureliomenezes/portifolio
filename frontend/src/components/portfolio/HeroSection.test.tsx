@@ -33,7 +33,7 @@ const baseContent: ContentData = {
   returnHome: "Voltar ao início",
   header: { title: "Data Engineer", location: "BH", viewEmail: "Email" },
   resume: { short: "Resumo curto.", full: "Resumo completo expandido." },
-  heroTagline: "Construo pipelines de dados em escala",
+  heroTagline: "Data Engineering at Scale with AI Augmented Capabilities",
   heroStats: { years: 5, certifications: 11, clouds: 4 },
   heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Ver projetos" },
   skills: [],
@@ -49,9 +49,28 @@ describe("HeroSection", () => {
     expect(heading.id).toBe("hero-heading");
   });
 
-  it("renders the tagline from heroTagline", () => {
+  it("renders the approved first-fold headline from heroTagline", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
-    expect(screen.getByText(/Construo pipelines de dados em escala/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: "Data Engineering at Scale with AI Augmented Capabilities",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("uses the reduced headline scale for portfolio-home-polish-v1", () => {
+    renderWithRouter(<HeroSection content={baseContent} />);
+    const heading = screen.getByRole("heading", { level: 1 });
+    expect(heading).toHaveClass("text-2xl");
+    expect(heading).toHaveClass("md:text-4xl");
+    expect(heading).not.toHaveClass("xl:text-6xl");
+  });
+
+  it("does not render a duplicate profile photo inside the hero", () => {
+    renderWithRouter(<HeroSection content={baseContent} />);
+    expect(
+      screen.queryByRole("img", { name: /Marco Aurelio Menezes/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("renders all three CTAs (Download CV + See experience + See projects)", () => {
