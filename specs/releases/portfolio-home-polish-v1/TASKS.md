@@ -30,7 +30,7 @@
     - Certifications compacta.
   - Parallelism: bloqueia T-PHP-03
 
-- [ ] T-PHP-03 — Skills + Projects nav/CTA polish
+- [-] T-PHP-03 — Skills + Projects nav/CTA polish
   - Owner: `frontend-engineer`
   - Target: Skills section e navegação/CTA de projetos
   - Preconditions: T-PHP-02 `[x]`
