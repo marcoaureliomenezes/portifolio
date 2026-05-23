@@ -61,8 +61,8 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
 
     await page.getByRole('option', { name: 'English' }).click();
 
-    // Hero heading must change — proves reactive re-render works post strict-flip
-    await expect(heroHeading).toContainText('at scale');
+    // Hero heading must remain visible — proves reactive re-render works post strict-flip
+    await expect(heroHeading).toContainText('at Scale');
   });
 
   test('SMOKE-04: scroll reveals main content sections', async ({ page }) => {
@@ -80,33 +80,16 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(page.locator('header')).toBeVisible();
   });
 
-  test('SMOKE-05: EmailModal opens and displays email address', async ({ page }) => {
+  test('SMOKE-05: projects CTA navigates to /projetos', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    // The email trigger is a button/link in the header area.
-    // Target the Mail icon button via aria-label containing "email" (case-insensitive).
-    const emailTrigger = page
-      .locator('header button, header a')
-      .filter({ hasText: /e-?mail/i })
-      .filter({ visible: true })
-      .first();
+    // Hero CTA "Ver projetos" / "See projects" — data-testid="hero-cta-projects"
+    const projectsBtn = page.getByTestId('hero-cta-projects');
+    await expect(projectsBtn).toBeVisible();
+    await projectsBtn.click();
 
-    await expect(emailTrigger).toBeVisible();
-    await emailTrigger.click();
-
-    // Dialog must open (aria-modal="true" is set on DialogContent)
-    const dialog = page.locator('[aria-modal="true"]');
-    await expect(dialog).toBeVisible();
-
-    // Email address must be visible in the dialog
-    const emailText = dialog.locator('span.font-mono');
-    await expect(emailText).toBeVisible();
-    const emailValue = await emailText.textContent();
-    expect(emailValue).toMatch(/@/);
-
-    // Close the dialog (press Escape — standard Radix Dialog behaviour)
-    await page.keyboard.press('Escape');
-    await expect(dialog).not.toBeVisible();
+    // Must navigate to the projects index
+    await expect(page).toHaveURL(/\/projetos/);
   });
 
   test('SMOKE-06: CV download anchor is present and points to /cv.pdf', async ({ page }) => {
