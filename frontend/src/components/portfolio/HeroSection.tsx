@@ -1,8 +1,9 @@
 import { Download, FolderKanban, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import { getCvUrl } from "@/data/profile";
+import { getCvUrl, profile } from "@/data/profile";
 import profileAvatar from "@/assets/profile.webp";
 import type { ContentData, SupportedLanguages } from "@/types/content";
 
@@ -20,10 +21,10 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section aria-labelledby="hero-heading" className="py-12 md:py-20">
+    <section aria-labelledby="hero-heading" className="pt-6 md:pt-10 pb-0">
 
       {/* Avatar + availability badge */}
-      <div className="flex items-center gap-3 mb-8">
+      <div className="flex items-center gap-3 mb-6">
         <img
           src={profileAvatar}
           alt="Marco Aurelio Menezes"
@@ -35,31 +36,16 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
         </span>
       </div>
 
-      {/* H1 — huge, bold, amber gradient on key phrase */}
+      {/* H1 — single line on desktop, wraps on mobile */}
       <h1
         id="hero-heading"
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-foreground mb-6"
+        className="text-xl sm:text-2xl font-extrabold leading-tight tracking-tight mb-4 bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis"
       >
-        {tagline.split("AI").length > 1 ? (
-          <>
-            {tagline.split("AI")[0]}
-            <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-              AI
-            </span>
-            {tagline.split("AI")[1]}
-          </>
-        ) : (
-          <>
-            {tagline}
-            <span className="block bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-              at scale.
-            </span>
-          </>
-        )}
+        {tagline}
       </h1>
 
       {/* Stats */}
-      <p className="font-mono text-sm text-muted-foreground mb-6 flex flex-wrap gap-x-4 gap-y-1">
+      <p className="font-mono text-sm text-muted-foreground mb-4 flex flex-wrap gap-x-4 gap-y-1">
         <span><strong className="text-foreground">{stats.years}+</strong> {statsSuffix.years}</span>
         <span aria-hidden="true" className="text-border">·</span>
         <span><strong className="text-foreground">{stats.certifications}</strong> {statsSuffix.certs}</span>
@@ -68,13 +54,13 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
       </p>
 
       {/* Bio */}
-      <p className={`text-muted-foreground leading-relaxed max-w-2xl text-base md:text-lg mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}>
+      <p className={`text-muted-foreground leading-relaxed max-w-2xl text-base md:text-lg mb-2 whitespace-pre-line ${!isExpanded ? "line-clamp-3" : ""}`}>
         {isExpanded ? content.resume.full : content.resume.short}
       </p>
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-sm text-muted-foreground hover:text-foreground font-medium mb-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+        className="text-sm text-muted-foreground hover:text-foreground font-medium mb-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
       >
         {isExpanded ? content.seeLess : content.seeMore}
       </button>
@@ -103,8 +89,39 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
         </Button>
       </div>
 
+      {/* Social links — brand colors always on, centered on mobile */}
+      <div className="flex items-center justify-start gap-6 mt-5">
+        <a
+          href={profile.linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          className="text-[#0A66C2] hover:opacity-80 transition-opacity"
+        >
+          <FaLinkedin className="w-6 h-6" />
+        </a>
+        <a
+          href={profile.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          className="text-foreground hover:opacity-80 transition-opacity"
+        >
+          <FaGithub className="w-6 h-6" />
+        </a>
+        <a
+          href={profile.instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          className="text-[#E1306C] hover:opacity-80 transition-opacity"
+        >
+          <FaInstagram className="w-6 h-6" />
+        </a>
+      </div>
+
       {/* Separator */}
-      <div className="mt-16 h-px bg-border" aria-hidden="true" />
+      <div className="mt-8 h-px bg-border" aria-hidden="true" />
     </section>
   );
 }

@@ -13,7 +13,8 @@ describe("ThemeToggle", () => {
     render(<ThemeToggle />);
     const toggle = screen.getByRole("switch");
     expect(toggle).toBeInTheDocument();
-    expect(toggle).toHaveAttribute("aria-checked", "false");
+    // Default theme is dark — aria-checked must be true
+    expect(toggle).toHaveAttribute("aria-checked", "true");
   });
 
   it("clicking toggles html.dark and persists to localStorage", async () => {
@@ -21,10 +22,11 @@ describe("ThemeToggle", () => {
     render(<ThemeToggle />);
 
     const toggle = screen.getByRole("switch");
+    // Initial state is dark; clicking once switches to light
     await user.click(toggle);
 
-    expect(document.documentElement.classList.contains("dark")).toBe(true);
-    expect(toggle).toHaveAttribute("aria-checked", "true");
-    expect(window.localStorage.getItem("theme")).toBe("dark");
+    expect(document.documentElement.classList.contains("dark")).toBe(false);
+    expect(toggle).toHaveAttribute("aria-checked", "false");
+    expect(window.localStorage.getItem("theme")).toBe("light");
   });
 });

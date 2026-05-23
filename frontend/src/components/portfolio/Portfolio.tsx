@@ -22,7 +22,7 @@ export function Portfolio(_props: PortfolioProps = {}) {
   const { content, language } = useContent();
 
   return (
-    <div className="container mx-auto px-4 pt-16 md:pt-24 pb-12 space-y-12 max-w-4xl">
+    <div className="container mx-auto px-4 pt-16 md:pt-[72px] pb-8 space-y-6 max-w-4xl">
       <HeroSection content={content} locale={language} />
       <ExperienceSection content={content} />
       <EducationSection content={content} />

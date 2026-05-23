@@ -10,6 +10,11 @@ export default defineConfig({
     setupFiles: ['./src/test-setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
     passWithNoTests: true,
+    server: {
+      deps: {
+        inline: ['react-icons'],
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
