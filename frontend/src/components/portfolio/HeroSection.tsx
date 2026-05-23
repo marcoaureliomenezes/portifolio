@@ -74,7 +74,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
       <button
         type="button"
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-sm text-accent hover:text-accent/80 font-medium mb-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+        className="text-sm text-muted-foreground hover:text-foreground font-medium mb-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
       >
         {isExpanded ? content.seeLess : content.seeMore}
       </button>

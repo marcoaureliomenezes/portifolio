@@ -39,7 +39,7 @@ export function EducationSection({ content }: EducationSectionProps) {
                 </span>
               </div>
 
-              <p className="text-sm text-accent font-semibold mt-1">{edu.degreeField}</p>
+              <p className="text-sm text-primary font-semibold mt-1">{edu.degreeField}</p>
 
               <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
@@ -64,7 +64,7 @@ export function EducationSection({ content }: EducationSectionProps) {
                     href={edu.thesisLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent hover:underline"
+                    className="text-foreground underline underline-offset-2 hover:text-muted-foreground"
                   >
                     {edu.thesis}
                   </a>

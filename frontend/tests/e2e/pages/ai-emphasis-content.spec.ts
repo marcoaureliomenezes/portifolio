@@ -20,7 +20,7 @@ const LANGUAGES = [
   {
     key: 'pt',
     optionLabel: 'Português',
-    heroTagline: 'AI-augmented data engineering em escala',
+    heroTagline: 'Data Engineering at Scale with AI Augmented Capabilities',
     experienceTitle: 'Experiência Profissional',
     seniorTitle: /Engenheiro de Dados Sênior/,
     aiSkillSamples: ['Claude Code', 'Devin'],
@@ -28,7 +28,7 @@ const LANGUAGES = [
   {
     key: 'en',
     optionLabel: 'English',
-    heroTagline: 'AI-augmented data engineering at scale',
+    heroTagline: 'Data Engineering at Scale with AI Augmented Capabilities',
     experienceTitle: 'Professional Experience',
     seniorTitle: /Senior Data Engineer/,
     aiSkillSamples: ['Claude Code', 'Devin'],
@@ -36,7 +36,7 @@ const LANGUAGES = [
   {
     key: 'de',
     optionLabel: 'Deutsch',
-    heroTagline: 'KI-gestütztes Data Engineering im Maßstab',
+    heroTagline: 'Data Engineering at Scale with AI Augmented Capabilities',
     experienceTitle: 'Berufserfahrung',
     seniorTitle: /Senior Data Engineer/,
     aiSkillSamples: ['Claude Code', 'Devin'],
