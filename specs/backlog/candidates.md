@@ -11,6 +11,8 @@ revived via `git mv` into a new `releases/<id>/`.
 | projects-cluster-v2 | TBD (no source SPEC yet) | Projects | **Deferred** — expansion of projects showcase to 3 additional projects: `dadaia-bots`, `dd-chain-explorer`, `burrinhos-barbe`. Architectural ceiling for hand-authored JSON sits around 6 projects (per software-architect §Q3 review 2026-05-17T062729Z); requires dynamic-i18n-import (delivered in `projects-cluster-v1` AC-PC-06) plus editorial curation. To be planned after `projects-cluster-v1` closes and real discovery-funnel evidence is collected. |
 | portfolio-external-link-monitor-v1 | TBD (no source SPEC yet) | Operations | **Deferred** — weekly scheduled GitHub Action (`cron: '0 6 * * 1'`) that `curl -I`'s each `playUrl` in `tauan-games.items` and posts to GH Issues on 4xx/5xx; ~20 LOC. Addresses Architect MEDIUM-3 finding from 2026-05-17 review (`tauan-games` GH Pages link-out unmonitored). |
 
+| platform-observability-admin-v1 | `backlog/platform-observability-admin-v1.md` | Platform / Cross-site | **Parked** — 3 sub-releases: `security-audit-v1`, `analytics-platform-v1`, `admin-console-v1`. Decisions made: custom tracking→S3, Postgres/DynamoDB, central multi-tenant service, Google OAuth + 2FA. Open decisions require `dadaia-grill-me` before SPEC. |
+
 ## Selection rule
 
 When `fe-qual-refactor-v1` reaches `phase: closure`, pick the next bundle from this
