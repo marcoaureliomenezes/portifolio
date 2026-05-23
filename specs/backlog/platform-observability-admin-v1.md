@@ -8,10 +8,22 @@
 
 ## Scope
 
-Two platform-level features, designed to be **reusable across all future sites**
-(portifolio, burrinho's barbe, gisele psicóloga, and beyond).
+Two platform-level features, designed to be **reusable across all future sites**.
 Both features must be built as a **central shared service** (multi-tenant),
 not per-site copies.
+
+### Known tenant sites (as of 2026-05-22)
+
+| Repo | Description | Status |
+|---|---|---|
+| `marcoaureliomenezes/portifolio` | Marco's portfolio — pilot tenant | Live (develop) |
+| `marcoaureliomenezes/burrinhos-barbe` | Burrinho's barber shop | Exists, not started |
+| `marcoaureliomenezes/jhony-trainer` | Jhony personal trainer — will evolve to student platform | Created (private) |
+| `marcoaureliomenezes/lindas-portifolio` | Linda (psychologist) portfolio | Created (private) |
+
+**Recommendation:** Create a dedicated `dm-platform` or `web-platform` repository for the
+shared analytics + admin service. Keeps portifolio isolated and gives the platform a clean
+home before onboarding tenant #2. This is an open decision for `software-architect`.
 
 ---
 
