@@ -112,21 +112,22 @@ describe("Header", () => {
     });
   });
 
-  it("renders the name passed as prop", async () => {
+  it("renders the brand name link regardless of name prop", async () => {
     installMatchMediaMock(false);
     render(<Header name="Test User" />, { wrapper: Wrapper });
     await waitFor(() => {
-      expect(screen.getByText("Test User")).toBeInTheDocument();
+      // Slim header renders 'Marco Menezes' as the brand anchor, not the prop value
+      expect(screen.getByText("Marco Menezes")).toBeInTheDocument();
     });
   });
 
-  it("on desktop (isMobile=false) desktop layout is rendered (hidden md:block)", async () => {
+  it("on desktop (isMobile=false) desktop layout is rendered (hidden md:flex)", async () => {
     installMatchMediaMock(false);
     const { container } = render(<Header />, { wrapper: Wrapper });
 
-    // HeaderDesktopLayout renders a div with class "hidden md:block"
+    // HeaderDesktopLayout renders a div with class "hidden md:flex"
     await waitFor(() => {
-      const desktopLayout = container.querySelector(".hidden.md\\:block");
+      const desktopLayout = container.querySelector(".hidden.md\\:flex");
       expect(desktopLayout).not.toBeNull();
     });
   });
@@ -135,22 +136,21 @@ describe("Header", () => {
     installMatchMediaMock(false);
     const { container } = render(<Header />, { wrapper: Wrapper });
 
-    // HeaderMobileLayout renders a div with class "block md:hidden"
-    // When isMobile=false the branch is not rendered at all by HeaderShell
+    // When isMobile=false the mobile branch is not rendered at all by HeaderShell
     await waitFor(() => {
-      expect(container.querySelector(".hidden.md\\:block")).not.toBeNull();
+      expect(container.querySelector(".hidden.md\\:flex")).not.toBeNull();
     });
-    const mobileLayout = container.querySelector(".block.md\\:hidden");
+    const mobileLayout = container.querySelector(".flex.md\\:hidden");
     expect(mobileLayout).toBeNull();
   });
 
-  it("on mobile (isMobile=true) mobile layout is rendered (block md:hidden)", async () => {
+  it("on mobile (isMobile=true) mobile layout is rendered (flex md:hidden)", async () => {
     installMatchMediaMock(true);
     const { container } = render(<Header />, { wrapper: Wrapper });
 
-    // HeaderMobileLayout renders divs with "block md:hidden" class
+    // HeaderMobileLayout renders divs with "flex md:hidden" class
     await waitFor(() => {
-      const mobileLayout = container.querySelector(".block.md\\:hidden");
+      const mobileLayout = container.querySelector(".flex.md\\:hidden");
       expect(mobileLayout).not.toBeNull();
     });
   });
@@ -160,9 +160,9 @@ describe("Header", () => {
     const { container } = render(<Header />, { wrapper: Wrapper });
 
     await waitFor(() => {
-      expect(container.querySelector(".block.md\\:hidden")).not.toBeNull();
+      expect(container.querySelector(".flex.md\\:hidden")).not.toBeNull();
     });
-    const desktopLayout = container.querySelector(".hidden.md\\:block");
+    const desktopLayout = container.querySelector(".hidden.md\\:flex");
     expect(desktopLayout).toBeNull();
   });
 

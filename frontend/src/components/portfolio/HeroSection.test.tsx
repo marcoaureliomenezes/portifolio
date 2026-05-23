@@ -58,19 +58,18 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("uses the reduced headline scale for portfolio-home-polish-v1", () => {
+  it("uses the large headline scale for the redesigned hero", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveClass("text-2xl");
-    expect(heading).toHaveClass("md:text-4xl");
-    expect(heading).not.toHaveClass("xl:text-6xl");
+    expect(heading).toHaveClass("text-4xl");
+    expect(heading).toHaveClass("md:text-6xl");
   });
 
-  it("does not render a duplicate profile photo inside the hero", () => {
+  it("renders the profile avatar inside the hero (identity anchor above the headline)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     expect(
-      screen.queryByRole("img", { name: /Marco Aurelio Menezes/i }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("img", { name: /Marco Aurelio Menezes/i }),
+    ).toBeInTheDocument();
   });
 
   it("renders exactly 2 CTAs: primary 'See projects' link + secondary 'Download CV' link", () => {

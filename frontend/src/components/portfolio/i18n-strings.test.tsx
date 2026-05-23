@@ -97,27 +97,27 @@ const mockLabels = {
 // ── CertificationCard ─────────────────────────────────────────────────────
 
 describe("CertificationCard — i18n", () => {
-  it("renders issuerLabel from content instead of hardcoded 'Emissor:'", () => {
+  it("renders viewCredential label from labels prop (not hardcoded)", () => {
     render(
       <CertificationCard
         cert={mockCert}
-        labels={{ ...mockLabels, issuerLabel: "Emissor" }}
+        labels={{ ...mockLabels, viewCredential: "Ver certificado" }}
         defaultOpen
       />,
     );
-    expect(screen.getByText(/Emissor/)).toBeInTheDocument();
+    expect(screen.getByText("Ver certificado")).toBeInTheDocument();
   });
 
-  it("renders seeMore/seeLess from labels prop (not hardcoded)", async () => {
+  it("renders cert name and level from cert prop", () => {
     render(
       <CertificationCard
-        cert={mockCert}
-        labels={{ ...mockLabels, seeMore: "Mostrar mais", seeLess: "Mostrar menos" }}
+        cert={{ ...mockCert, name: "GCP Associate", level: "Associate" }}
+        labels={mockLabels}
         defaultOpen
       />,
     );
-    // Truncated description — toggle button should show the custom label
-    expect(screen.getByText("Mostrar mais")).toBeInTheDocument();
+    expect(screen.getByText("GCP Associate")).toBeInTheDocument();
+    expect(screen.getByText("Associate")).toBeInTheDocument();
   });
 });
 
@@ -244,6 +244,15 @@ describe("ExperienceCard — i18n", () => {
 
 // ── HeroSection ───────────────────────────────────────────────────────────
 
+// Stats are rendered as <span><strong>5+</strong> anos</span>.
+// Testing Library's getNodeText only reads direct text nodes, so the full
+// "5+ anos" string is split across a <strong> child and a text node.
+// We use a custom matcher on the element's full textContent instead.
+function byFullText(expected: string) {
+  return (_: string, element: Element | null) =>
+    element !== null && (element.textContent ?? "").trim() === expected;
+}
+
 describe("HeroSection — heroStatsSuffix i18n", () => {
   it("renders heroStatsSuffix.years from content instead of hardcoded '+ years'", () => {
     const content = {
@@ -255,7 +264,7 @@ describe("HeroSection — heroStatsSuffix i18n", () => {
         <HeroSection content={content} />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/5\+ anos/)).toBeInTheDocument();
+    expect(screen.getByText(byFullText("5+ anos"))).toBeInTheDocument();
   });
 
   it("renders heroStatsSuffix.certs from content", () => {
@@ -264,7 +273,7 @@ describe("HeroSection — heroStatsSuffix i18n", () => {
         <HeroSection content={baseContent} />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/11 certs/)).toBeInTheDocument();
+    expect(screen.getByText(byFullText("11 certs"))).toBeInTheDocument();
   });
 
   it("renders heroStatsSuffix.clouds from content", () => {
@@ -273,7 +282,7 @@ describe("HeroSection — heroStatsSuffix i18n", () => {
         <HeroSection content={baseContent} />
       </MemoryRouter>,
     );
-    expect(screen.getByText(/4 nuvens/)).toBeInTheDocument();
+    expect(screen.getByText(byFullText("4 nuvens"))).toBeInTheDocument();
   });
 
   it("falls back gracefully when heroStatsSuffix is absent", () => {
