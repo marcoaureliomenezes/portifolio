@@ -369,11 +369,16 @@
     }
   ],
   "education": {
-    "degree": "Bachelor in Steuerungs- und Automatisierungstechnik / Mechatronik",
-    "institution": "Bundesuniversität Ouro Preto, Minas Gerais, Brasilien",
+    "degreeLevel": "Bachelor",
+    "degreeField": "Steuerungs- und Automatisierungstechnik / Mechatronik",
+    "institution": "Bundesuniversität Ouro Preto",
+    "location": "MG - Brasilien",
     "period": "08/2018",
-    "coursework": "Relevante Kurse: Elektronik, eingebettete Systeme, Steuerungssystemdesign, C und Python.",
-    "thesis": "Bachelorarbeit: Analyse der Dynamik und Design von Temperaturreglern für elektrische Duschen."
+    "courseworkLabel": "Relevante Kurse",
+    "coursework": "Python, C/C++, eingebettete Systeme, Steuerungssystemdesign, Robotik und KI",
+    "thesisLabel": "Bachelorarbeit",
+    "thesis": "Analyse der Dynamik und Design von Temperaturreglern für elektrische Duschen.",
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342"
   },
   "certifications": [
     {
@@ -503,7 +508,7 @@
       "date": "2024",
       "validity": "Läuft nicht ab",
       "level": "B1",
-      "icon": "images/badges/santander-dea.svg",
+      "icon": "",
       "link": "#",
       "description": "Deutschsprachzertifikat auf B1-Niveau (Mittelstufe), das vollständige berufliche Kommunikationsfähigkeiten auf Deutsch belegt.",
       "priority": 11

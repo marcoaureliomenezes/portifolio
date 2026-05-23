@@ -369,11 +369,16 @@
     }
   ],
   "education": {
-    "degree": "Bachelor of Control and Automation / Mechatronics Engineering",
-    "institution": "Federal University of Ouro Preto, Minas Gerais, Brazil",
+    "degreeLevel": "Bachelor",
+    "degreeField": "Control and Automation / Mechatronics Engineering",
+    "institution": "Federal University of Ouro Preto",
+    "location": "MG - Brazil",
     "period": "08/2018",
-    "coursework": "Relevant coursework: Electronics, embedded systems, control systems design, C and Python.",
-    "thesis": "Bachelor Thesis: Analysis of the Dynamics and Design of Temperature Controllers for Electric Showers."
+    "courseworkLabel": "Relevant coursework",
+    "coursework": "Python, C/C++, embedded systems, control systems design, robotics and AI",
+    "thesisLabel": "Bachelor Thesis",
+    "thesis": "Analysis of the Dynamics and Design of Temperature Controllers for Electric Showers.",
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342"
   },
   "certifications": [
     {
@@ -503,7 +508,7 @@
       "date": "2024",
       "validity": "Does not expire",
       "level": "B1",
-      "icon": "images/badges/santander-dea.svg",
+      "icon": "",
       "link": "#",
       "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 11

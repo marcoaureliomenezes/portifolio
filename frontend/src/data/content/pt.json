@@ -369,11 +369,16 @@
     }
   ],
   "education": {
-    "degree": "Bacharelado em Engenharia de Controle e Automação / Mecatrônica",
-    "institution": "Universidade Federal de Ouro Preto, Minas Gerais, Brasil",
+    "degreeLevel": "Bacharelado",
+    "degreeField": "Engenharia de Controle e Automação / Mecatrônica",
+    "institution": "Universidade Federal de Ouro Preto",
+    "location": "MG - Brasil",
     "period": "08/2018",
-    "coursework": "Disciplinas relevantes: Eletrônica, sistemas embarcados, projeto de sistemas de controle, C e Python.",
-    "thesis": "Trabalho de Conclusão de Curso: Análise da Dinâmica e Projeto de Controladores de Temperatura para Chuveiros Elétricos."
+    "courseworkLabel": "Disciplinas relevantes",
+    "coursework": "Python, C/C++, sistemas embarcados, projeto de sistemas de controle, robótica e IA",
+    "thesisLabel": "Trabalho de Conclusão de Curso",
+    "thesis": "Análise da Dinâmica e Projeto de Controladores de Temperatura para Chuveiros Elétricos.",
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342"
   },
   "certifications": [
     {
@@ -503,7 +508,7 @@
       "date": "2024",
       "validity": "Não expira",
       "level": "B1",
-      "icon": "images/badges/santander-dea.svg",
+      "icon": "",
       "link": "#",
       "description": "Certificação de idioma alemão no nível B1 (Intermediário), demonstrando habilidade de comunicação profissional completa em alemão.",
       "priority": 11

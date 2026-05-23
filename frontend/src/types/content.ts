@@ -33,11 +33,16 @@ export interface Experience {
 }
 
 export interface Education {
-  degree: string;
+  degreeLevel: string;
+  degreeField: string;
   institution: string;
+  location: string;
   period: string;
+  courseworkLabel: string;
   coursework: string;
+  thesisLabel: string;
   thesis: string;
+  thesisLink?: string;
 }
 
 export interface Resume {
