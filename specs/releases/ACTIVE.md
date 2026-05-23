@@ -1,2 +1,2 @@
-release: mobile-redesign-v1
-phase: IMPLEMENTATION
+release: projects-cluster-v2
+phase: SPEC
