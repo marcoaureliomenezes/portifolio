@@ -1,2 +1,2 @@
-release: none
-phase: ARCHIVED
+release: mobile-redesign-v1
+phase: IMPLEMENTATION
