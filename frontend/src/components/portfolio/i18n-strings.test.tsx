@@ -69,7 +69,7 @@ const baseContent: ContentData = {
   heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência" },
   skills: [],
   experiences: [],
-  education: { degree: "", institution: "", period: "", coursework: "", thesis: "" },
+  education: { degreeLevel: "", degreeField: "", institution: "", location: "", period: "", courseworkLabel: "", coursework: "", thesisLabel: "", thesis: "" },
   certifications: [],
 };
 

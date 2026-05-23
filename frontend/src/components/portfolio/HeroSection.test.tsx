@@ -38,7 +38,7 @@ const baseContent: ContentData = {
   heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Personal Projects" },
   skills: [],
   experiences: [],
-  education: { degree: "", institution: "", period: "", coursework: "", thesis: "" },
+  education: { degreeLevel: "", degreeField: "", institution: "", location: "", period: "", courseworkLabel: "", coursework: "", thesisLabel: "", thesis: "" },
   certifications: [],
 };
 
@@ -73,11 +73,12 @@ describe("HeroSection", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("renders all three CTAs (Download CV + See experience + See projects)", () => {
+  it("renders exactly 2 CTAs: primary 'See projects' link + secondary 'Download CV' link", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
-    expect(screen.getByRole("link", { name: /Baixar CV/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Ver experiência/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Personal Projects/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Baixar CV/i })).toBeInTheDocument();
+    // 'See experience' button must be gone
+    expect(screen.queryByRole("button", { name: /Ver experiência/i })).not.toBeInTheDocument();
   });
 
   it("falls back to resumeTitle when heroTagline is absent", () => {

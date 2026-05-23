@@ -39,11 +39,16 @@ const content: ContentData = {
   skills: [],
   experiences: [],
   education: {
-    degree: "Bachelor of Control and Automation / Mechatronics Engineering",
+    degreeLevel: "Bachelor",
+    degreeField: "Control and Automation / Mechatronics Engineering",
     institution: "Federal University of Ouro Preto",
+    location: "MG - Brazil",
     period: "08/2018",
-    coursework: "Relevant coursework.",
+    courseworkLabel: "Relevant coursework",
+    coursework: "Python, C/C++, embedded systems.",
+    thesisLabel: "Bachelor Thesis",
     thesis: "Bachelor Thesis.",
+    thesisLink: "https://www.monografias.ufop.br/handle/35400000/1342",
   },
   certifications: [],
 };
@@ -53,7 +58,7 @@ vi.mock("@/hooks/useContent", () => ({
 }));
 
 describe("Portfolio", () => {
-  it("renders Education before Professional Experience", () => {
+  it("renders Professional Experience before Education (mobile-redesign-v1 section order)", () => {
     render(
       <MemoryRouter>
         <Portfolio />
@@ -65,8 +70,9 @@ describe("Portfolio", () => {
     const experience = document.getElementById("experiencia");
     expect(education).not.toBeNull();
     expect(experience).not.toBeNull();
+    // Experience must appear BEFORE Education in DOM order
     expect(
-      education!.compareDocumentPosition(experience!) & Node.DOCUMENT_POSITION_FOLLOWING,
+      experience!.compareDocumentPosition(education!) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 });
