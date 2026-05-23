@@ -12,7 +12,7 @@ function readInitialTheme(): Theme {
   } catch {
     // localStorage unavailable (SSR/private mode) — fall through to system pref
   }
-  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return "dark";
 }
 
 function applyTheme(theme: Theme) {

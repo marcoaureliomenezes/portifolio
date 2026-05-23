@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Calendar, Award, ExternalLink } from "lucide-react";
+import { formatPeriod } from "@/lib/formatPeriod";
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,24 +28,24 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
         <div className="absolute -left-7 top-1/2 w-2 h-2 bg-primary rounded-full transform -translate-y-1/2" />
         <CollapsibleTrigger className="w-full p-4 md:p-5 text-left hover:bg-accent/5 transition-colors duration-200">
           <div className="space-y-3">
-            <div className="flex items-start justify-between gap-3 w-full">
-              <h4 className="font-bold text-foreground text-sm md:text-lg">
-                {role.title}
-              </h4>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="flex items-center gap-1">
-                <Calendar className="w-3 h-3 md:w-4 md:h-4 text-green-600" />
-                <p className="text-primary font-semibold text-xs md:text-sm">
-                  {role.period}
-                </p>
+            <div className="flex items-start justify-between gap-2 w-full">
+              <div className="min-w-0 flex-1">
+                <h4 className="font-bold text-foreground text-sm md:text-lg truncate">
+                  {role.title}
+                </h4>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <Calendar className="w-3 h-3 text-green-600 flex-shrink-0" />
+                  <p className="text-primary font-semibold text-xs md:text-sm">
+                    {formatPeriod(role.period)}
+                  </p>
                 </div>
-                <div className="flex items-center text-primary">
-                  {open ? (
-                    <ChevronUp className="h-5 w-5" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5" />
-                  )}
-                </div>
+              </div>
+              <div className="flex items-center text-primary flex-shrink-0">
+                {open ? (
+                  <ChevronUp className="h-5 w-5" />
+                ) : (
+                  <ChevronDown className="h-5 w-5" />
+                )}
               </div>
             </div>
             {teaser && (

@@ -6,6 +6,7 @@
 export const profile = {
   linkedinUrl: "https://www.linkedin.com/in/marco-menezes-731542b9",
   githubUrl: "https://github.com/marcoaureliomenezes",
+  instagramUrl: "https://www.instagram.com/marcoaurelioreislima/",
   email: "marcoaurelioreislima@gmail.com",
   /** Canonical PT CV — always present in /public. Used as fallback for all locales. */
   cvDownloadUrl: "/cv.pdf",

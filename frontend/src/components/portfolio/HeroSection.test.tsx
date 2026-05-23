@@ -58,11 +58,12 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("uses the large headline scale for the redesigned hero", () => {
+  it("uses the reduced headline scale and wraps on mobile (T-MR-02/T-MR-04)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveClass("text-4xl");
-    expect(heading).toHaveClass("md:text-6xl");
+    expect(heading).toHaveClass("text-xl");
+    expect(heading).toHaveClass("sm:text-2xl");
+    expect(heading).toHaveClass("sm:whitespace-nowrap");
   });
 
   it("renders the profile avatar inside the hero (identity anchor above the headline)", () => {
@@ -110,5 +111,18 @@ describe("HeroSection", () => {
     renderWithRouter(<HeroSection content={baseContent} locale="de" />);
     const link = screen.getByRole("link", { name: /Baixar CV/i });
     expect(link).toHaveAttribute("href", "/cv.pdf");
+  });
+
+  it("renders LinkedIn, GitHub and Instagram social links (T-MR-03)", () => {
+    renderWithRouter(<HeroSection content={baseContent} />);
+    const linkedin = screen.getByRole("link", { name: /LinkedIn/i });
+    const github = screen.getByRole("link", { name: /GitHub/i });
+    const instagram = screen.getByRole("link", { name: /Instagram/i });
+    expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/in/marco-menezes-731542b9");
+    expect(github).toHaveAttribute("href", "https://github.com/marcoaureliomenezes");
+    expect(instagram).toHaveAttribute("href", "https://www.instagram.com/marcoaurelioreislima/");
+    expect(linkedin).toHaveAttribute("target", "_blank");
+    expect(github).toHaveAttribute("target", "_blank");
+    expect(instagram).toHaveAttribute("target", "_blank");
   });
 });
