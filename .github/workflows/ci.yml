@@ -116,7 +116,7 @@ jobs:
   # E2E and Lighthouse run only on PRs to main — they are the quality gate
   # before production. Direct pushes to develop get the fast path above.
   e2e:
-    name: CI / E2E smoke (Chromium)
+    name: CI / E2E
     runs-on: ubuntu-24.04
     needs: build
     if: github.event_name == 'pull_request'
