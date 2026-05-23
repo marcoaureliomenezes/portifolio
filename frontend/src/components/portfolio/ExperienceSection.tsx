@@ -1,5 +1,4 @@
 import { Briefcase } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { ExperienceCard } from "./ExperienceCard";
 import { useInView } from "@/hooks/useInView";
@@ -16,6 +15,9 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
   const labels = {
     responsibilities: content.responsibilities,
     technologies: content.technologies,
+    careerProgression: content.careerProgression,
+    roleSingular: content.roleSingular,
+    rolePlural: content.rolePlural,
   };
 
   const cards = content.experiences.map((experience, idx) => (
@@ -29,26 +31,10 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
       ref={ref}
       className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
     >
-      {/* Desktop — always visible */}
-      <Card className="hidden md:block w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-        <CardHeader className="pb-4">
-          <CardTitle
-            id="experiencia-heading"
-            className="text-lg md:text-2xl font-bold text-foreground flex items-center gap-3"
-          >
-            <Briefcase className="w-6 h-6 md:w-8 md:h-8 text-blue-600 flex-shrink-0" aria-hidden="true" />
-            <div className="w-1 h-8 bg-gradient-to-b from-primary to-accent rounded-full" aria-hidden="true" />
-            {content.experienceTitle}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-8">{cards}</CardContent>
-      </Card>
-
-      {/* Mobile — collapsible */}
       <MobileCollapsibleSection
         title={content.experienceTitle}
         icon={Briefcase}
-        iconColor="text-blue-600"
+        iconColor="text-blue-500"
         headingId="experiencia-heading"
       >
         <div className="space-y-8">{cards}</div>

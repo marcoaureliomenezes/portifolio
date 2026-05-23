@@ -13,14 +13,15 @@ interface MobileCollapsibleSectionProps {
   icon?: LucideIcon;
   iconColor?: string;
   defaultOpen?: boolean;
-  /** id to assign to the heading — used by parent <section aria-labelledby>. */
   headingId?: string;
   children: React.ReactNode;
 }
 
 /**
- * Generic collapsible wrapper used on mobile (md:hidden) to wrap a section.
- * On desktop, the parent `*Section` component renders a plain card directly.
+ * Single-render collapsible section that works on ALL viewport sizes.
+ * Replaces the previous desktop-card + mobile-collapsible double-render pattern
+ * which caused GPU compositing glitches on Android Chrome (hidden elements
+ * with images were still rasterized and bled through visible layers).
  */
 export function MobileCollapsibleSection({
   title,
@@ -33,8 +34,8 @@ export function MobileCollapsibleSection({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <Collapsible className="md:hidden" open={open} onOpenChange={setOpen}>
-      <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <Card className="w-full shadow-medium border-0 bg-card transition-shadow duration-300">
         <CollapsibleTrigger className="w-full">
           <CardHeader className="pb-4">
             <CardTitle

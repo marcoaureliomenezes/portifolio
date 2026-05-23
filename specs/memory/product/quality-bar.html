@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Product — Quality Bar — portifolio</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+           max-width: 880px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.55;
+           color: #222; background: #fafafa; }
+    h1, h2 { color: #111; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+    h2 { margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    section { margin-bottom: 2rem; }
+    code, pre { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; font-size: .9em; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { padding: .5rem .7rem; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    ul.ac li { background: #fff; padding: .5rem .8rem; border-left: 3px solid #F08A2B;
+               margin: .4rem 0; list-style: none; }
+    ul.ac { padding-left: 0; }
+    .meta { color: #666; font-size: .9em; }
+  </style>
+</head>
+<body>
+
+<h1>Quality Bar — portifolio</h1>
+<p class="meta">Critérios de "pronto" do P0 + invariantes operacionais.</p>
+
+<section id="acceptance">
+  <h2>Critérios globais de "pronto" (A1..A11)</h2>
+  <ul class="ac">
+    <li><strong>A1.</strong> Site servindo <code>https://marco-menezes.com</code> e
+    <code>https://www.marco-menezes.com</code> com cert ACM válido (F-P0-01).</li>
+    <li><strong>A2.</strong> Site servindo <code>https://stage.marco-menezes.com</code> com cert
+    ACM válido.</li>
+    <li><strong>A3.</strong> Lighthouse Performance &ge; 90, Accessibility &ge; 90,
+    Best-Practices &ge; 95, SEO &ge; 90 (mobile e desktop) em home + 3 abas + 404 (com budget
+    relaxado em 404).</li>
+    <li><strong>A4.</strong> Suite Playwright completa passando: 12 cenários E2E mínimos
+    (E2E-01..E2E-12) + smoke axe nas 3 abas.</li>
+    <li><strong>A5.</strong> Unit tests (Vitest+RTL) cobrindo componentes com lógica condicional
+    real (&ge; 60% branches+statements) + 100% nos hooks customizados.</li>
+    <li><strong>A6.</strong> Branch protection ativa em <code>main</code> e <code>develop</code>
+    com matriz completa de required status checks: <code>lint</code>, <code>build</code>,
+    <code>unit-tests</code>, <code>e2e</code>, <code>lighthouse</code>, <code>typecheck</code>.
+    <code>typecheck</code> roda em modo TS strict (<code>strict: true</code> em
+    <code>frontend/tsconfig.app.json</code>); environment <code>production</code> exige
+    aprovação manual.</li>
+    <li><strong>A7.</strong> Custo mensal projetado &lt; US$ 5/mês.</li>
+    <li><strong>A8.</strong> Deploy via push para <code>main</code> completa em &le; 6 min com
+    invalidation CloudFront.</li>
+    <li><strong>A9.</strong> Conteúdo todo em JSON (não mais em <code>.ts</code> constants).</li>
+    <li><strong>A10.</strong> Os 3 defeitos CRITICAL do architect são resolvidos: URLs sociais
+    reais (não defaults fake), modais com Radix Dialog, bundle sem deps órfãs.</li>
+    <li><strong>A11.</strong> Nenhuma operação AWS (apply, import, IAM de aplicação, S3) foi
+    executada localmente fora da janela autorizada de bootstrap (CT-01..CT-04). CloudTrail mostra
+    99%+ das ações com principal
+    <code>arn:aws:sts::016098071081:assumed-role/github-actions-portfolio-*/&lt;workflow-run-id&gt;</code>.</li>
+  </ul>
+</section>
+
+<section id="lighthouse">
+  <h2>Lighthouse — alvos e budgets</h2>
+  <table>
+    <thead><tr><th>Página</th><th>Performance</th><th>A11y</th><th>BP</th><th>SEO</th></tr></thead>
+    <tbody>
+      <tr><td>Home (<code>/</code>)</td><td>&ge; 90</td><td>&ge; 90</td><td>&ge; 95</td><td>&ge; 90</td></tr>
+      <tr><td>Abas <code>/projetos/*</code></td><td>&ge; 90</td><td>&ge; 90</td><td>&ge; 95</td><td>&ge; 90</td></tr>
+      <tr><td>404</td><td>&ge; 80 (budget relaxado)</td><td>&ge; 90</td><td>&ge; 95</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p>Medido em mobile (default Lighthouse CI) e desktop. Mobile é gate de merge; desktop é
+  observado mas não bloqueia.</p>
+</section>
+
+<section id="i18n">
+  <h2>i18n — política de idiomas</h2>
+  <ul>
+    <li><strong>pt</strong> e <strong>en</strong>: first-class. Paridade obrigatória nas 3 abas
+    novas e em toda Home.</li>
+    <li><strong>de</strong>: modo manutenção — conteúdo antigo preservado; abas novas podem ficar
+    somente em pt/en, com <strong>fallback automático para <code>en</code></strong> (não
+    <code>pt</code>) quando chave faltar em <code>de</code>.</li>
+    <li>Decisão arquitetural: <code>useContent()</code> hook implementa fallback determinístico.</li>
+    <li>Decisão final sobre manter ou cortar <code>de</code> é P1 (F-P1-04), após observar tráfego
+    real.</li>
+  </ul>
+</section>
+
+<section id="cost">
+  <h2>Custo</h2>
+  <p>Alvo: <strong>&lt; US$ 5/mês</strong> em estado estacionário.</p>
+  <ul>
+    <li>CloudFront PriceClass_100 (sufficient — devops §8 do ciclo de Retomada).</li>
+    <li>S3: buckets pequenos (~50MB), classe Standard.</li>
+    <li>ACM: gratuito.</li>
+    <li>Route53: $0.50/hosted zone/mês.</li>
+    <li>Lambda + API Gateway (P1): &lt; $1/mês com tráfego de portfólio.</li>
+  </ul>
+</section>
+
+<section id="security-bar">
+  <h2>Segurança operacional</h2>
+  <ul>
+    <li><strong>CT-01:</strong> nenhuma credencial AWS de longo prazo no DEV local — toda escrita
+    via OIDC.</li>
+    <li><strong>CT-02:</strong> <code>terraform apply</code>, <code>terraform destroy</code>,
+    <code>aws iam create-*</code>/<code>delete-*</code> de recursos de aplicação, <code>aws s3
+    cp</code>/<code>sync</code> — exclusivamente em workflow GitHub Actions.</li>
+    <li><strong>CT-03:</strong> <code>gh</code> CLI permitido local — não é credencial AWS.</li>
+    <li><strong>CT-04:</strong> diagnóstico read-only AWS — CloudShell ou job CI dedicado para
+    Developer; para Infra Specialist em break-glass, autorizado localmente com justificativa.</li>
+  </ul>
+</section>
+
+<section id="status">
+  <h2>Status de aprovação (snapshot)</h2>
+  <table>
+    <thead><tr><th>Spec</th><th>Status atual</th></tr></thead>
+    <tbody>
+      <tr><td><code>specs/constitution.md</code></td><td>Aprovado</td></tr>
+      <tr><td><code>specs/foundation/SPEC.md</code></td><td>Aprovado</td></tr>
+      <tr><td><code>specs/security/SPEC.md</code></td><td>Aprovado</td></tr>
+      <tr><td><code>specs/memory/architecture.html</code></td><td>Aprovado (atomic snapshot)</td></tr>
+      <tr><td><code>specs/memory/tech-stack.html</code></td><td>Aprovado (atomic snapshot)</td></tr>
+      <tr><td><code>specs/memory/product/*.html</code></td><td>Aprovado (atomic snapshot)</td></tr>
+      <tr><td><code>specs/releases/fe-qual-refactor-v1/SPEC.md</code></td><td>Draft (active release)</td></tr>
+      <tr><td><code>specs/_archive/releases/infra-bootstrap-v1/</code></td><td>Closed (todas tasks <code>[x]</code>)</td></tr>
+      <tr><td><code>specs/_archive/releases/frontend-refactor-v1/</code></td><td>Closed</td></tr>
+      <tr><td><code>specs/_archive/releases/content-json-v1/</code></td><td>Closed</td></tr>
+      <tr><td><code>specs/_archive/releases/quality-gate-v1/</code></td><td>Closed</td></tr>
+      <tr><td><code>specs/_archive/releases/visual-identity-v1/</code></td><td>Closed</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
@@ -15,7 +16,9 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install --with-deps chromium firefox webkit",
-    "lighthouse": "lhci autorun"
+    "lighthouse": "lhci autorun",
+    "validate:content": "node scripts/validate-content.mjs",
+    "check:i18n-projects": "node scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
@@ -39,7 +42,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
     "@eslint/js": "^9.9.0",
-    "@lhci/cli": "^0.14.0",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.44.0",
     "@tailwindcss/typography": "^0.5.15",
     "@testing-library/jest-dom": "^6.5.0",
@@ -49,7 +52,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^4.3.0",
-    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/coverage-v8": "^4.1.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
@@ -61,6 +64,13 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^7.3.3",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.6",
+    "zod": "^4.4.3",
+    "zod-to-json-schema": "^3.25.2"
+  },
+  "overrides": {
+    "cookie": "^0.7.0",
+    "tmp": "^0.2.5",
+    "uuid": ">=11.1.1"
   }
 }

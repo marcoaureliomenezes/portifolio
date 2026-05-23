@@ -5,12 +5,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { RoleSkillBadges } from "./RoleSkillBadges";
+import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Position, ContentData } from "@/types/content";
 
 interface RoleCollapsibleProps {
   role: Position;
-  responsibilitiesLabel: string;
-  technologiesLabel: string;
   /** Optional initial open state; defaults to false */
   defaultOpen?: boolean;
   labels: Pick<ContentData, "responsibilities" | "technologies">;
@@ -18,32 +18,40 @@ interface RoleCollapsibleProps {
 
 export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleCollapsibleProps) {
   const [open, setOpen] = useState(defaultOpen);
+  const teaser = role.responsibilities?.slice(0, 3).join(" ");
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
       <div className="bg-gradient-to-br from-card to-accent/5 rounded-xl border border-border/30 overflow-hidden hover:border-primary/30 transition-all duration-200 shadow-soft hover:shadow-medium ml-6 relative">
         <div className="absolute -left-6 top-1/2 w-6 h-0.5 border-t-2 border-dotted border-primary/40" />
         <div className="absolute -left-7 top-1/2 w-2 h-2 bg-primary rounded-full transform -translate-y-1/2" />
-        <CollapsibleTrigger className="w-full p-4 md:p-6 text-left hover:bg-accent/5 transition-colors duration-200">
-          <div className="flex items-center justify-between w-full">
-            <h4 className="font-bold text-foreground text-sm md:text-lg">
-              {role.title}
-            </h4>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
+        <CollapsibleTrigger className="w-full p-4 md:p-5 text-left hover:bg-accent/5 transition-colors duration-200">
+          <div className="space-y-3">
+            <div className="flex items-start justify-between gap-3 w-full">
+              <h4 className="font-bold text-foreground text-sm md:text-lg">
+                {role.title}
+              </h4>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3 md:w-4 md:h-4 text-green-600" />
                 <p className="text-primary font-semibold text-xs md:text-sm">
                   {role.period}
                 </p>
-              </div>
-              <div className="flex items-center text-primary">
-                {open ? (
-                  <ChevronUp className="h-5 w-5" />
-                ) : (
-                  <ChevronDown className="h-5 w-5" />
-                )}
+                </div>
+                <div className="flex items-center text-primary">
+                  {open ? (
+                    <ChevronUp className="h-5 w-5" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5" />
+                  )}
+                </div>
               </div>
             </div>
+            {teaser && (
+              <p className="text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                {teaser}
+              </p>
+            )}
           </div>
         </CollapsibleTrigger>
 
@@ -78,6 +86,18 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
                   {role.technologies}
                 </p>
               </div>
+            </div>
+          )}
+
+          {role.skills && role.skills.length > 0 && (
+            <div className="pt-4">
+              <RoleSkillBadges skills={role.skills} />
+            </div>
+          )}
+
+          {role.highlightProject && (
+            <div className="pt-4">
+              <HighlightProjectBlock highlight={role.highlightProject} />
             </div>
           )}
         </CollapsibleContent>

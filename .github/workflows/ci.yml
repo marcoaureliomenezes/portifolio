@@ -1,65 +1,111 @@
 name: CI
 
+# Fast gate on every push to develop/main (lint + unit + build ~3 min).
+# Full gate on PRs to main (+ E2E smoke + Lighthouse).
 on:
+  push:
+    branches: [develop, main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/ci.yml"
   pull_request:
-    branches: [main, develop]
+    branches: [main]
     types: [opened, synchronize, reopened]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   lint:
     name: CI / Lint and type-check
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
-
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
-
       - name: Lint
         working-directory: frontend
         run: npm run lint
-
       - name: Type-check
         working-directory: frontend
-        run: npx tsc --noEmit
+        run: npm run typecheck
+
+  unit-tests:
+    name: CI / Unit tests
+    runs-on: ubuntu-24.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Run unit tests
+        working-directory: frontend
+        run: npm run test:run
+
+  i18n-parity:
+    name: CI / i18n parity
+    runs-on: ubuntu-24.04
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Check i18n parity
+        working-directory: frontend
+        run: npm run check:i18n-projects
 
   build:
     name: CI / Build
     runs-on: ubuntu-24.04
     needs: lint
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
-
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
-
       - name: Build
         working-directory: frontend
         run: npm run build
-
       - name: Verify build output
         working-directory: frontend
         run: |
           test -f dist/index.html || { echo "dist/index.html not found"; exit 1; }
           test -d dist/assets     || { echo "dist/assets not found"; exit 1; }
           test -s dist/index.html || { echo "dist/index.html is empty"; exit 1; }
-
+      - name: SVG size gate — project diagrams ≤ 50 KB (AC-PC-10)
+        working-directory: frontend
+        run: |
+          find dist/assets/projects -name "*.svg" 2>/dev/null | while IFS= read -r f; do
+            size=$(wc -c < "$f")
+            if [ "$size" -gt 51200 ]; then
+              echo "FAIL: $f is ${size} bytes (limit 50 KB)"
+              exit 1
+            fi
+          done
+          echo "SVG size gate passed"
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -67,76 +113,64 @@ jobs:
           path: frontend/dist/
           retention-days: 3
 
-  unit-tests:
-    name: CI / Unit tests
-    runs-on: ubuntu-24.04
-    needs: lint
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Run unit tests
-        working-directory: frontend
-        run: npm run test:run
-
+  # E2E and Lighthouse run only on PRs to main — they are the quality gate
+  # before production. Direct pushes to develop get the fast path above.
   e2e:
     name: CI / E2E
     runs-on: ubuntu-24.04
     needs: build
-
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
-
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
-
-      - name: Install Playwright browsers
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: frontend/dist/
+      - name: Install Playwright (Chromium only)
         working-directory: frontend
-        run: npx playwright install --with-deps
-
-      - name: Run E2E tests
+        run: npx playwright install --with-deps chromium
+      - name: Run E2E smoke tests
         working-directory: frontend
+        env:
+          E2E_SMOKE: "true"
         run: npm run test:e2e
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.sha }}
+          path: frontend/playwright-report/
+          retention-days: 3
 
   lighthouse:
     name: CI / Lighthouse
     runs-on: ubuntu-24.04
     needs: build
-
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
           cache-dependency-path: frontend/package-lock.json
-
       - name: Install dependencies
         working-directory: frontend
         run: npm ci
-
-      - name: Build
-        working-directory: frontend
-        run: npm run build
-
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: frontend/dist/
       - name: Run Lighthouse CI
         working-directory: frontend
         run: npm run lighthouse

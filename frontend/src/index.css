@@ -46,6 +46,10 @@ All colors MUST be HSL.
     --header-text: 0 0% 95%;
     --header-text-muted: 0 0% 75%;
     --header-link: 28 90% 65%;
+
+    /* Mobile-first responsive header heights (mobile-redesign-v1) */
+    --header-height-mobile: 64px;
+    --header-height-desktop: 72px;
     
     /* Modern design tokens with dark elegance */
     --gradient-primary: linear-gradient(135deg, hsl(220 13% 25%) 0%, hsl(217 19% 35%) 100%);

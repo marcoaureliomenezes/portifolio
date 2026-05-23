@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" aria-label="dadaia-workspace — AI agent ecosystem cover">
+  <defs>
+    <radialGradient id="bg-glow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#1a1040"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg-glow)"/>
+  <rect width="800" height="450" fill="none" stroke="#2d2d4e" stroke-width="1.5" rx="0"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="150" x2="800" y2="150" stroke="#2d2d4e" stroke-width="0.5" opacity="0.4"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#2d2d4e" stroke-width="0.5" opacity="0.4"/>
+  <line x1="200" y1="0" x2="200" y2="450" stroke="#2d2d4e" stroke-width="0.5" opacity="0.4"/>
+  <line x1="400" y1="0" x2="400" y2="450" stroke="#2d2d4e" stroke-width="0.5" opacity="0.4"/>
+  <line x1="600" y1="0" x2="600" y2="450" stroke="#2d2d4e" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Central LLM node -->
+  <circle cx="400" cy="210" r="60" fill="#1e1e3f" stroke="#7c3aed" stroke-width="2.5"/>
+  <circle cx="400" cy="210" r="55" fill="none" stroke="#a78bfa" stroke-width="0.8" opacity="0.5"/>
+  <text x="400" y="204" fill="#e2e8f0" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">LLM</text>
+  <text x="400" y="222" fill="#a78bfa" font-family="monospace" font-size="10" text-anchor="middle">Claude</text>
+  <text x="400" y="236" fill="#6b7280" font-family="monospace" font-size="9" text-anchor="middle">Anthropic</text>
+
+  <!-- Connection lines (dashed) from LLM to agents -->
+  <line x1="348" y1="165" x2="260" y2="110" stroke="#4a4a7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="452" y1="165" x2="540" y2="110" stroke="#4a4a7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="345" y1="250" x2="240" y2="320" stroke="#4a4a7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="455" y1="250" x2="560" y2="320" stroke="#4a4a7a" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Agent node: product-engineer (top-left) -->
+  <rect x="165" y="65" width="150" height="50" fill="#1e1e3f" stroke="#10b981" stroke-width="1.8" rx="8"/>
+  <text x="240" y="87" fill="#10b981" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">product-engineer</text>
+  <text x="240" y="103" fill="#6b7280" font-family="monospace" font-size="8" text-anchor="middle">specs + tasks</text>
+
+  <!-- Agent node: software-engineer (top-right) -->
+  <rect x="485" y="65" width="155" height="50" fill="#1e1e3f" stroke="#f59e0b" stroke-width="1.8" rx="8"/>
+  <text x="562" y="87" fill="#f59e0b" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">software-engineer</text>
+  <text x="562" y="103" fill="#6b7280" font-family="monospace" font-size="8" text-anchor="middle">code + tests</text>
+
+  <!-- Agent node: qa-engineer (bottom-left) -->
+  <rect x="155" y="298" width="140" height="50" fill="#1e1e3f" stroke="#ef4444" stroke-width="1.8" rx="8"/>
+  <text x="225" y="320" fill="#ef4444" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">qa-engineer</text>
+  <text x="225" y="336" fill="#6b7280" font-family="monospace" font-size="8" text-anchor="middle">e2e + validate</text>
+
+  <!-- Agent node: devops-engineer (bottom-right) -->
+  <rect x="490" y="298" width="155" height="50" fill="#1e1e3f" stroke="#8b5cf6" stroke-width="1.8" rx="8"/>
+  <text x="567" y="320" fill="#8b5cf6" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">devops-engineer</text>
+  <text x="567" y="336" fill="#6b7280" font-family="monospace" font-size="8" text-anchor="middle">infra + deploy</text>
+
+  <!-- Specs shared context indicator -->
+  <rect x="310" y="380" width="180" height="30" fill="#0f0f1a" stroke="#2d2d4e" stroke-width="1" rx="4"/>
+  <text x="400" y="400" fill="#4a4a7a" font-family="monospace" font-size="9" text-anchor="middle">shared: specs/ + context/</text>
+
+  <!-- Title label at bottom -->
+  <text x="400" y="440" fill="#a78bfa" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">dadaia-workspace</text>
+</svg>

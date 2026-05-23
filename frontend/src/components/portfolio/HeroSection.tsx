@@ -1,117 +1,110 @@
-import { Download, ArrowDown } from "lucide-react";
+import { Download, FolderKanban, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { getCvUrl } from "@/data/profile";
 import profileAvatar from "@/assets/profile.webp";
-import { profile } from "@/data/profile";
-import type { ContentData } from "@/types/content";
+import type { ContentData, SupportedLanguages } from "@/types/content";
 
 interface HeroSectionProps {
   content: ContentData;
+  locale?: SupportedLanguages;
 }
 
-function scrollToExperience() {
-  const target = document.getElementById("experiencia");
-  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-  else window.location.hash = "#experiencia";
-}
-
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const tagline = content.heroTagline ?? content.resumeTitle;
   const stats = content.heroStats ?? { years: 5, certifications: 11, clouds: 4 };
-  const ctas = content.heroCTAs ?? { downloadCv: "Download CV", seeExperience: "See experience" };
+  const ctas = content.heroCTAs ?? { downloadCv: "Download CV", seeProjects: "See projects" };
+  const statsSuffix = content.heroStatsSuffix ?? { years: "years", certs: "certs", clouds: "clouds" };
+  const cvUrl = getCvUrl(locale);
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section
-      aria-labelledby="hero-heading"
-      className="relative overflow-hidden rounded-xl bg-card border border-border/40 shadow-medium p-6 md:p-10"
-    >
-      {/* Decorative dot-grid backdrop — width/height explicit to avoid CLS */}
-      <img
-        src="/decorators/dot-grid.svg"
-        alt=""
-        aria-hidden="true"
-        width={400}
-        height={400}
-        className="pointer-events-none absolute -right-16 -bottom-16 w-[280px] md:w-[360px] opacity-30 select-none"
-      />
+    <section aria-labelledby="hero-heading" className="py-12 md:py-20">
 
-      <div className="relative grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
-        {/* Left — 60% on desktop */}
-        <div className="md:col-span-3 space-y-6">
-          <h1
-            id="hero-heading"
-            className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold leading-tight text-foreground"
-          >
-            <span className="block">{tagline}</span>
-            <span
-              aria-hidden="true"
-              className="inline-block mt-2 h-1 w-16 rounded-full bg-accent"
-            />
-          </h1>
-
-          <p className="font-mono text-sm md:text-base text-foreground/80">
-            <span className="font-bold text-foreground">{stats.years}+ years</span>
-            <span className="mx-2 text-border" aria-hidden="true">·</span>
-            <span>{stats.certifications} certs</span>
-            <span className="mx-2 text-border" aria-hidden="true">·</span>
-            <span>{stats.clouds} clouds</span>
-          </p>
-
-          <p className={`text-foreground/80 leading-relaxed max-w-prose ${!isExpanded ? "line-clamp-3" : ""}`}>
-            {isExpanded ? content.resume.full : content.resume.short}
-          </p>
-
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-sm font-semibold text-foreground underline hover:text-foreground/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
-          >
-            {isExpanded ? content.seeLess : content.seeMore}
-          </button>
-
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
-            <Button
-              asChild
-              className="bg-accent text-accent-foreground hover:bg-accent/90 focus-visible:ring-accent"
-            >
-              <a href={profile.cvDownloadUrl} download>
-                <Download className="w-4 h-4 mr-2" aria-hidden="true" />
-                {ctas.downloadCv}
-              </a>
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={scrollToExperience}
-              className="border-accent/50 hover:border-accent hover:bg-accent-subtle"
-            >
-              <ArrowDown className="w-4 h-4 mr-2" aria-hidden="true" />
-              {ctas.seeExperience}
-            </Button>
-          </div>
-        </div>
-
-        {/* Right — 40% on desktop, avatar + halo */}
-        <div className="md:col-span-2 flex justify-center md:justify-end">
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 rounded-full"
-              style={{ boxShadow: "0 0 80px hsl(var(--accent) / 0.3)" }}
-            />
-            <img
-              src={profileAvatar}
-              alt="Marco Aurelio Menezes"
-              width={192}
-              height={192}
-              loading="eager"
-              fetchPriority="high"
-              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover object-top border-2 border-accent/40"
-            />
-          </div>
-        </div>
+      {/* Avatar + availability badge */}
+      <div className="flex items-center gap-3 mb-8">
+        <img
+          src={profileAvatar}
+          alt="Marco Aurelio Menezes"
+          className="w-12 h-12 rounded-full object-cover object-top ring-2 ring-accent/40"
+        />
+        <span className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          Marco Aurelio Menezes · Belo Horizonte, Brasil
+        </span>
       </div>
+
+      {/* H1 — huge, bold, amber gradient on key phrase */}
+      <h1
+        id="hero-heading"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-foreground mb-6"
+      >
+        {tagline.split("AI").length > 1 ? (
+          <>
+            {tagline.split("AI")[0]}
+            <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+              AI
+            </span>
+            {tagline.split("AI")[1]}
+          </>
+        ) : (
+          <>
+            {tagline}
+            <span className="block bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+              at scale.
+            </span>
+          </>
+        )}
+      </h1>
+
+      {/* Stats */}
+      <p className="font-mono text-sm text-muted-foreground mb-6 flex flex-wrap gap-x-4 gap-y-1">
+        <span><strong className="text-foreground">{stats.years}+</strong> {statsSuffix.years}</span>
+        <span aria-hidden="true" className="text-border">·</span>
+        <span><strong className="text-foreground">{stats.certifications}</strong> {statsSuffix.certs}</span>
+        <span aria-hidden="true" className="text-border">·</span>
+        <span><strong className="text-foreground">{stats.clouds}</strong> {statsSuffix.clouds}</span>
+      </p>
+
+      {/* Bio */}
+      <p className={`text-muted-foreground leading-relaxed max-w-2xl text-base md:text-lg mb-2 ${!isExpanded ? "line-clamp-3" : ""}`}>
+        {isExpanded ? content.resume.full : content.resume.short}
+      </p>
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="text-sm text-muted-foreground hover:text-foreground font-medium mb-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+      >
+        {isExpanded ? content.seeLess : content.seeMore}
+      </button>
+
+      {/* CTAs */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <Button
+          asChild
+          className="bg-accent text-accent-foreground hover:bg-accent/90 focus-visible:ring-accent gap-2"
+        >
+          <Link to="/projetos" data-testid="hero-cta-projects">
+            <FolderKanban className="w-4 h-4" aria-hidden="true" />
+            {ctas.seeProjects ?? "Ver projetos"}
+            <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+          </Link>
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          className="border-border hover:border-accent/60 hover:bg-accent/5 gap-2"
+        >
+          <a href={cvUrl} download>
+            <Download className="w-4 h-4" aria-hidden="true" />
+            {ctas.downloadCv}
+          </a>
+        </Button>
+      </div>
+
+      {/* Separator */}
+      <div className="mt-16 h-px bg-border" aria-hidden="true" />
     </section>
   );
 }

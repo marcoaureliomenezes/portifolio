@@ -54,7 +54,27 @@ const KEYWORDS: Array<{ category: SkillCategoryKey; matchers: RegExp[] }> = [
   },
   {
     category: "ai-tooling",
-    matchers: [/\bai\b/i, /machine learning/i, /llm/i, /agent/i, /ai-tooling/i, /tooling/i, /ferramenta/i, /werkzeug/i],
+    matchers: [
+      /claude/i,
+      /devin/i,
+      /windsurf/i,
+      /copilot/i,
+      /codex/i,
+      /opencode/i,
+      /openclaw/i,
+      /hermes/i,
+      /spec[\s-]?driven/i,
+      /tdd com ai/i,
+      /ai[\s-]augmented/i,
+      /\bai\b/i,
+      /machine learning/i,
+      /\bllm\b/i,
+      /agent/i,
+      /ai-tooling/i,
+      /tooling/i,
+      /ferramenta/i,
+      /werkzeug/i,
+    ],
   },
 ];
 

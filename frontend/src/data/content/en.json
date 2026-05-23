@@ -10,14 +10,53 @@
   "technologies": "Technologies:",
   "validUntil": "Valid until",
   "viewCredential": "View credential",
+  "issuerLabel": "Issuer",
+  "certSingular": "certification",
+  "certPlural": "certifications",
+  "careerProgression": "Career progression",
+  "roleSingular": "role",
+  "rolePlural": "roles",
+  "viewLarger": "View larger",
+  "gamesComingSoon": "Coming soon",
+  "gamesComingSoonDesc": "Games will be listed here soon.",
+  "notFoundMessage": "Oops! Page not found",
+  "returnHome": "Return to Home",
+  "heroStatsSuffix": {
+    "years": "years",
+    "certs": "certs",
+    "clouds": "clouds"
+  },
+  "archPage": {
+    "infraDiagramTitle": "Infrastructure Diagram",
+    "techStackTitle": "Tech Stack",
+    "monthlyCostsTitle": "Monthly Costs",
+    "tableHeaderLayer": "Layer",
+    "tableHeaderTechnology": "Technology",
+    "tableHeaderService": "Service",
+    "tableHeaderCostUsd": "USD / month",
+    "archDecisionsTitle": "Architectural Decisions",
+    "linksTitle": "Links",
+    "linkGithubRepo": "GitHub Repository",
+    "linkTerraform": "Terraform",
+    "linkSpecs": "Specs"
+  },
   "header": {
     "title": "Data Engineer | Big Data | Azure | AWS | Databricks",
     "location": "Belo Horizonte, MG - Brazil",
     "viewEmail": "Email"
   },
-  "heroTagline": "I build data pipelines at scale",
-  "heroStats": { "years": 5, "certifications": 11, "clouds": 4 },
-  "heroCTAs": { "downloadCv": "Download CV", "seeExperience": "See experience" },
+  "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
+  "heroStats": {
+    "years": 5,
+    "certifications": 11,
+    "clouds": 4
+  },
+  "navProjects": "Personal Projects",
+  "heroCTAs": {
+    "downloadCv": "Download CV",
+    "seeExperience": "See experience",
+    "seeProjects": "Personal Projects"
+  },
   "resume": {
     "short": "Data Engineer with 5 years of experience building scalable data pipelines, analytics solutions, and big data platforms. Hands-on with Cloudera on-premises stacks, Azure + Databricks cloud migrations (medallion architecture), and streaming replication from IBM DB2 to Amazon Aurora via Kafka/MSK CDC.",
     "full": "Data Engineer with 5 years of experience in building scalable data pipelines, analytics solutions, and big data platforms. Hands-on expertise in designing and maintaining on-premises data pipelines using Cloudera (Hadoop, Hive, Spark), Linux servers (entry points, file watchers, file transfers), and BMC Control-M for orchestration. Re-architecting pipelines from on-premises (Cloudera / SAS) to the cloud using Azure Data Factory for ingestion and Databricks for transformation, applying the medallion architecture. Developing streaming pipelines to replicate transactional data from IBM DB2 to Amazon Aurora PostgreSQL using Kafka, Amazon MSK, and MSK Connect with CDC. Experienced with CI/CD and DevOps tooling: Git, Jenkins, GitHub Actions, Jira, ServiceNow, Docker. Strong skills with Python (10+ years), SQL (5+ years), Shell scripting (5+ years), and Scala (2+ years). Bachelor's degree in Control and Automation / Mechatronics Engineering obtained in August 2018."
@@ -26,38 +65,78 @@
     {
       "title": "Languages",
       "icon": "🌍",
-      "skills": ["Portuguese (Native)", "English (Native or Bilingual)", "German (Full Professional)"]
+      "skills": [
+        "Portuguese (Native)",
+        "English (Native or Bilingual)",
+        "German (Full Professional)"
+      ]
     },
     {
       "title": "Programming Languages",
       "icon": "💻",
-      "skills": ["Python (10+ yrs)", "SQL (5+ yrs)", "Shell (5+ yrs)", "Scala (2+ yrs)", "Java"]
+      "skills": [
+        "Python (10+ yrs)",
+        "SQL (5+ yrs)",
+        "Shell (5+ yrs)",
+        "Scala (2+ yrs)",
+        "Java"
+      ]
     },
     {
       "title": "Cloud Providers",
       "icon": "☁️",
-      "skills": ["AWS", "Azure", "Databricks"]
+      "skills": [
+        "AWS",
+        "Azure",
+        "Databricks"
+      ]
     },
     {
       "title": "AI / Modern Tooling",
       "icon": "🤖",
-      "skills": ["AI", "LLM", "Devin"]
+      "skills": [
+        "AI",
+        "LLM",
+        "Devin",
+        "OpenAI Codex",
+        "Claude Code",
+        "Opencode",
+        "Hermes agent",
+        "Openclaw",
+        "Spec Driven Development",
+        "Harness",
+        "Context engineering"
+      ]
     },
     {
       "title": "On-premises Data Technologies",
       "icon": "🏗️",
-      "skills": ["Hadoop", "Hive", "Spark", "Kafka", "Control-M"]
+      "skills": [
+        "Hadoop",
+        "Hive",
+        "Spark",
+        "Kafka",
+        "Control-M"
+      ]
     },
     {
       "title": "DevOps Technologies",
       "icon": "🔧",
-      "skills": ["Git", "GitHub", "GitHub Actions", "Jenkins", "Docker", "Jira", "ServiceNow"]
+      "skills": [
+        "Git",
+        "GitHub",
+        "GitHub Actions",
+        "Jenkins",
+        "Docker",
+        "Jira",
+        "ServiceNow"
+      ]
     }
   ],
   "experiences": [
     {
-      "company": "Santander Brasil — F1rst",
-      "fullName": "Santander Brasil — F1rst",
+      "company": "Santander Brazil - F1rst Digital Services",
+      "fullName": "Santander Brazil - F1rst Digital Services",
       "location": "Belo Horizonte, MG - Brazil",
       "totalPeriod": "05-2021 to Present (5y 1m)",
       "type": "main",
@@ -66,12 +145,12 @@
           "title": "Senior Data Engineer",
           "period": "02-2024 to Present",
           "responsibilities": [
-            "Working across Accounts & Fees (2024) and Finance (2025) business domains, responsible for designing, developing, and maintaining data pipelines.",
-            "Migrated systems from on-premises (Cloudera and SAS/Oracle) to cloud (Azure + Databricks), implementing the Data Mesh and Medallion architecture.",
-            "Created and configured Azure resources including ADLS, Key Vault, Azure Data Factory, and Service Principals.",
-            "Led migration of Accounts & Fees data pipelines to serve Open Finance requirements.",
-            "Redesigned streaming-only solution into a real-time replication with on-demand consumption model.",
-            "Developed and deployed replication flows for core Current Account tables from IBM DB2 to Amazon Aurora: as-is (DB2 → CDC Agent → Kafka → Spark Streaming On-Prem → Scylla / Azure CosmosDB); to-be (DB2 → CDC Agent → Kafka → Amazon MSK → MSK Connect → Aurora → RESTful APIs)."
+            "Technical leadership in large-scale pipeline migration from SAS/Oracle → Azure + Databricks using AI-augmented engineering, driving execution autonomously.",
+            "Internal pilot of coding agents (Devin) at Santander — first use of an autonomous code agent at the bank, laying the foundation for scaling the practice.",
+            "Established Spec-Driven Development + TDD standards applied to AI-assisted data engineering development.",
+            "Dissemination of AI tooling practices (GitHub Copilot, Claude Code, Codex) across technical teams in the domain.",
+            "Architecture and implementation of streaming pipelines for transactional data replication from IBM DB2 to Amazon Aurora via Kafka/MSK CDC.",
+            "Developed Databricks pipelines (medallion architecture) in the Accounts & Fees and Finance business domains."
           ],
           "achievements": [
             "AWS Certified Solutions Architect – Associate",
@@ -79,7 +158,34 @@
             "AWS Certified Cloud Practitioner",
             "AWS Certified AI Practitioner",
             "Databricks Apache Spark Developer"
-          ]
+          ],
+          "skills": [
+            "Data Architecture",
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Databricks",
+            "Apache Spark",
+            "Azure Data Factory",
+            "AWS",
+            "Claude Code",
+            "GitHub Copilot",
+            "Devin",
+            "Windsurf",
+            "Spec-Driven Development",
+            "TDD com AI"
+          ],
+          "highlightProject": {
+            "title": "SAS → Azure + Databricks Migration",
+            "body": "Driving solo the re-architecture of critical SAS data pipelines to the modern Azure Data Factory + Databricks stack with medallion architecture. Replaces costly and slow batch processes with elastic pipelines. Execution toolchain: Windsurf + Devin for code generation, GitHub Copilot for interactive editing, Claude Code for refactors and larger reviews. In-house auxiliary tooling built to accelerate SAS legacy analysis and migration spec generation.",
+            "impact": [
+              "Migration time reduction: 12 months → 2 months (project execution SLA)",
+              "Solo execution made viable by AI-augmented engineering",
+              "Legacy SAS stack → Azure Data Factory + Databricks (medallion architecture)",
+              "Devin pilot at the bank — foundation for scaling the practice"
+            ]
+          }
         },
         {
           "title": "Mid-level Data Engineer",
@@ -95,6 +201,20 @@
             "Databricks Data Engineer Associate",
             "Microsoft DP-203: Azure Data Engineer Associate",
             "Microsoft AZ-900, DP-900, SC-900, AI-900"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Cloudera",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "Azure Data Factory",
+            "Databricks",
+            "BMC Control-M",
+            "Git"
           ]
         },
         {
@@ -108,6 +228,20 @@
           ],
           "achievements": [
             "Advanced Data Engineer certification in the Santander Data Master program (cash award + additional benefits)"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "PySpark",
+            "Shell scripting",
+            "Linux",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "BMC Control-M",
+            "Git",
+            "Jira",
+            "Scrum"
           ]
         }
       ]
@@ -125,6 +259,18 @@
           "responsibilities": [
             "Brief involvement in a Python-based tool for data ingestion and processing using the Lambda architecture, serving the cement industry — data from industrial plants and collaborators fed into dashboards, reports, and BI.",
             "Developed a JupyterLab extension in Python (back-end) and React (front-end) integrating with OpenFOAM CFD software for simulating cement furnaces."
+          ],
+          "skills": [
+            "Python",
+            "React",
+            "SQL",
+            "Shell scripting",
+            "Linux",
+            "Git",
+            "Docker",
+            "Lambda Architecture",
+            "JupyterLab",
+            "ETL"
           ]
         }
       ]
@@ -146,6 +292,18 @@
             "Technical Drawing II (AutoCAD).",
             "Introduction to Computer Science (basics, operating systems, MS Office).",
             "Applied Mathematics in Electrotechnics."
+          ],
+          "skills": [
+            "Teaching",
+            "CNC Programming",
+            "AutoCAD",
+            "FluidSIM",
+            "Electrotechnics",
+            "Hydraulics",
+            "Pneumatics",
+            "Occupational Safety",
+            "MS Office",
+            "Linux"
           ]
         }
       ]
@@ -164,6 +322,18 @@
             "Hardware developer for control and power electronics systems.",
             "Firmware developer in embedded C on microcontroller for a gas furnace thermal testing project.",
             "Implemented a time-based temperature control system for the furnace."
+          ],
+          "skills": [
+            "Embedded C",
+            "Power Electronics",
+            "Control Systems",
+            "Microcontrollers",
+            "Hardware Design",
+            "Python",
+            "MATLAB",
+            "PID Control",
+            "Linux",
+            "Git"
           ]
         }
       ]
@@ -181,17 +351,34 @@
           "responsibilities": [
             "Software development for data acquisition applied to inventory management in fuel stations.",
             "Built the interface between a Raspberry Pi and TLS-300 (device for measuring fuel tank parameters) using Python."
+          ],
+          "skills": [
+            "Python",
+            "Raspberry Pi",
+            "Hardware Interface",
+            "Data Acquisition",
+            "Shell scripting",
+            "Linux",
+            "SQL",
+            "Git",
+            "Electronics",
+            "Embedded Systems"
           ]
         }
       ]
     }
   ],
   "education": {
-    "degree": "Bachelor of Control and Automation / Mechatronics Engineering",
-    "institution": "Federal University of Ouro Preto, Minas Gerais, Brazil",
+    "degreeLevel": "Bachelor",
+    "degreeField": "Control and Automation / Mechatronics Engineering",
+    "institution": "Federal University of Ouro Preto",
+    "location": "MG - Brazil",
     "period": "08/2018",
-    "coursework": "Relevant coursework: Electronics, embedded systems, control systems design, C and Python.",
-    "thesis": "Bachelor Thesis: Analysis of the Dynamics and Design of Temperature Controllers for Electric Showers."
+    "courseworkLabel": "Relevant coursework",
+    "coursework": "Python, C/C++, embedded systems, control systems design, robotics and AI",
+    "thesisLabel": "Bachelor Thesis",
+    "thesis": "Analysis of the Dynamics and Design of Temperature Controllers for Electric Showers.",
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342"
   },
   "certifications": [
     {
@@ -321,7 +508,7 @@
       "date": "2024",
       "validity": "Does not expire",
       "level": "B1",
-      "icon": "images/badges/santander-dea.svg",
+      "icon": "",
       "link": "#",
       "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 11
@@ -355,10 +542,22 @@
           "id": "status",
           "title": "Current status",
           "items": [
-            { "label": "Version", "value": "v0.12.0" },
-            { "label": "Active agents", "value": "5 (product, software, qa, devops, game-developer)" },
-            { "label": "Supported contexts", "value": "portifolio, hermes-jobs, tauan-games" },
-            { "label": "Last milestone", "value": "Content migration to static JSON (T-CONTENT-01)" }
+            {
+              "label": "Version",
+              "value": "v0.12.0"
+            },
+            {
+              "label": "Active agents",
+              "value": "5 (product, software, qa, devops, game-developer)"
+            },
+            {
+              "label": "Supported contexts",
+              "value": "portifolio, hermes-jobs, tauan-games"
+            },
+            {
+              "label": "Last milestone",
+              "value": "Content migration to static JSON (T-CONTENT-01)"
+            }
           ]
         }
       ],
@@ -378,25 +577,25 @@
       },
       "items": [
         {
-          "slug": "aero-fighters-babylon",
-          "title": "Aero Fighters (Babylon.js)",
-          "engine": "Babylon.js",
-          "image": "/assets/projects/tauan-games/aero-fighters-babylon.svg",
-          "body": "An aerial shooter prototype built with Babylon.js. A project born from the desire to create something playable together with Tauan, exploring basic physics, sprites, and keyboard controls in the browser.",
+          "slug": "aero-fighters",
+          "title": "Aero Fighters",
+          "engine": "Three.js",
+          "image": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+          "body": "An aerial shooter built with Three.js. A project born from the desire to create something playable together with Tauan, exploring basic physics, sprites, and keyboard controls in the browser.",
           "repo": "https://github.com/marcoaureliomenezes/tauan-games"
         },
         {
           "slug": "tauan-trex",
           "title": "tauan-trex",
-          "engine": "JavaScript",
-          "image": "/assets/projects/tauan-games/tauan-trex.svg",
+          "engine": "Phaser",
+          "image": "/assets/projects/tauan-games/tauan-trex-cover.svg",
           "body": "A recreation of the classic Chrome dinosaur game, personalised with elements designed by Tauan. A weekend project to learn keyboard events and HTML5 canvas animation.",
           "repo": "https://github.com/marcoaureliomenezes/tauan-games"
         }
       ],
       "seo": {
         "title": "tauan-games — Marco Menezes",
-        "description": "Game prototypes developed with Tauan in Babylon.js and JavaScript."
+        "description": "Game prototypes developed with Tauan using Three.js and Phaser."
       }
     },
     "portifolio": {
@@ -406,19 +605,52 @@
       },
       "diagram": "/assets/projects/portifolio/architecture.svg",
       "stack": [
-        { "layer": "Frontend", "tech": "React 18 + Vite 7 + TypeScript 5.5" },
-        { "layer": "UI", "tech": "Tailwind CSS 3 + shadcn/ui (pruned)" },
-        { "layer": "Testing", "tech": "Vitest + RTL + Playwright + LHCI" },
-        { "layer": "Infra", "tech": "S3 (OAC) + CloudFront + ACM + Route53" },
-        { "layer": "IaC", "tech": "Terraform 1.9, remote S3 backend" },
-        { "layer": "CI/CD", "tech": "GitHub Actions with OIDC (no long-lived keys)" }
+        {
+          "layer": "Frontend",
+          "tech": "React 18 + Vite 7 + TypeScript 5.5"
+        },
+        {
+          "layer": "UI",
+          "tech": "Tailwind CSS 3 + shadcn/ui (pruned)"
+        },
+        {
+          "layer": "Testing",
+          "tech": "Vitest + RTL + Playwright + LHCI"
+        },
+        {
+          "layer": "Infra",
+          "tech": "S3 (OAC) + CloudFront + ACM + Route53"
+        },
+        {
+          "layer": "IaC",
+          "tech": "Terraform 1.9, remote S3 backend"
+        },
+        {
+          "layer": "CI/CD",
+          "tech": "GitHub Actions with OIDC (no long-lived keys)"
+        }
       ],
       "costs": [
-        { "service": "Route53 hosted zone", "monthly_usd": 0.50 },
-        { "service": "S3 storage", "monthly_usd": 0.00 },
-        { "service": "CloudFront", "monthly_usd": 0.00 },
-        { "service": "ACM cert", "monthly_usd": 0.00 },
-        { "service": "Total estimated", "monthly_usd": 0.50 }
+        {
+          "service": "Route53 hosted zone",
+          "monthly_usd": 0.5
+        },
+        {
+          "service": "S3 storage",
+          "monthly_usd": 0
+        },
+        {
+          "service": "CloudFront",
+          "monthly_usd": 0
+        },
+        {
+          "service": "ACM cert",
+          "monthly_usd": 0
+        },
+        {
+          "service": "Total estimated",
+          "monthly_usd": 0.5
+        }
       ],
       "decisions": [
         {
@@ -452,5 +684,236 @@
         "description": "Stack, terraform infra, monthly costs, and architectural decisions for marco-menezes.com."
       }
     }
+  },
+  "projectsV2": {
+    "index": {
+      "title": "Projects",
+      "description": "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son."
+    },
+    "list": [
+      {
+        "slug": "dadaia-workspace",
+        "kind": "case-study",
+        "hero": {
+          "title": "dadaia-workspace",
+          "tagline": "Agent-driven SDD ecosystem — spec-driven development with collaborative AI agents."
+        },
+        "card": {
+          "cover": "/assets/projects/dadaia-workspace/cover.svg",
+          "summary": "AI agent ecosystem for spec-driven development. Each agent has a well-defined role and scope, collaborating through shared specs.",
+          "tech": [
+            "TypeScript",
+            "React",
+            "Claude API",
+            "Python",
+            "Docker"
+          ]
+        },
+        "seo": {
+          "title": "dadaia-workspace — Marco Menezes",
+          "description": "Agent-driven SDD ecosystem for spec-driven development with collaborative AI agents."
+        },
+        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
+        "diagramAlt": "dadaia-workspace architecture diagram: AI agents, project contexts and SDD flow.",
+        "sections": [
+          {
+            "id": "what",
+            "title": "What is it",
+            "body": "dadaia-workspace is an AI agent ecosystem orchestrated for spec-driven development (SDD). Each agent has a well-defined role and scope — product-engineer, software-engineer, qa-engineer, devops-engineer — and they collaborate through shared specs and contexts."
+          },
+          {
+            "id": "why",
+            "title": "Why it exists",
+            "body": "Most AI development tools treat agents as generic assistants. dadaia-workspace inverts this: each agent knows its boundaries, reads the specs before acting, and never writes code outside its domain. The result is a reproducible, auditable, and secure workflow."
+          },
+          {
+            "id": "how",
+            "title": "How it works",
+            "body": "The operator activates a project context (`dadaia context activate <name>`). Each agent reads the corresponding specs, executes its tasks, and reports back. All agents run on the same LLM but with distinct system prompts and permissions. The project uses Claude (Anthropic) as the base model."
+          },
+          {
+            "id": "status",
+            "title": "Current status",
+            "items": [
+              {
+                "label": "Version",
+                "value": "v0.12.0"
+              },
+              {
+                "label": "Active agents",
+                "value": "5 (product, software, qa, devops, game-developer)"
+              },
+              {
+                "label": "Supported contexts",
+                "value": "portifolio, hermes-jobs, tauan-games"
+              },
+              {
+                "label": "Last milestone",
+                "value": "Content migration to static JSON (T-CONTENT-01)"
+              }
+            ]
+          }
+        ],
+        "cta": {
+          "github": "https://github.com/marcoaureliomenezes/dadaia-workspace",
+          "githubLabel": "View on GitHub"
+        }
+      },
+      {
+        "slug": "portifolio",
+        "kind": "meta",
+        "hero": {
+          "title": "Portfolio Architecture",
+          "tagline": "How this site is built, hosted, and maintained."
+        },
+        "card": {
+          "cover": "/assets/projects/portifolio/cover.svg",
+          "summary": "Portfolio site built with React + Vite, hosted on AWS with S3 + CloudFront + Route53, with CI/CD pipeline via GitHub Actions + OIDC.",
+          "tech": [
+            "React",
+            "TypeScript",
+            "Terraform",
+            "AWS",
+            "GitHub Actions"
+          ]
+        },
+        "seo": {
+          "title": "Portfolio Architecture — Marco Menezes",
+          "description": "Stack, terraform infra, monthly costs, and architectural decisions for marco-menezes.com."
+        },
+        "diagram": "/assets/projects/portifolio/architecture-light.svg",
+        "diagramAlt": "Portfolio infrastructure diagram: S3, CloudFront, Route53, GitHub Actions CI/CD.",
+        "sections": [
+          {
+            "id": "overview",
+            "title": "Overview",
+            "body": "This portfolio is a React SPA hosted on AWS. The frontend is built with Vite and served via CloudFront with OAC over S3. Infrastructure is managed with Terraform and deployment automated via GitHub Actions with OIDC."
+          },
+          {
+            "id": "engineering",
+            "title": "Engineering",
+            "body": "Zero long-lived AWS keys: authentication via OIDC directly from GitHub Actions. Two environments (stage + prod) with identical pipelines. Automated tests with Vitest + RTL + Playwright + LHCI before any deployment."
+          }
+        ],
+        "stack": [
+          {
+            "layer": "Frontend",
+            "tech": "React 18 + Vite 7 + TypeScript 5.5"
+          },
+          {
+            "layer": "UI",
+            "tech": "Tailwind CSS 3 + shadcn/ui (pruned)"
+          },
+          {
+            "layer": "Testing",
+            "tech": "Vitest + RTL + Playwright + LHCI"
+          },
+          {
+            "layer": "Infra",
+            "tech": "S3 (OAC) + CloudFront + ACM + Route53"
+          },
+          {
+            "layer": "IaC",
+            "tech": "Terraform 1.9, remote S3 backend"
+          },
+          {
+            "layer": "CI/CD",
+            "tech": "GitHub Actions with OIDC (no long-lived keys)"
+          }
+        ],
+        "costs": [
+          {
+            "service": "Route53 hosted zone",
+            "monthly_usd": 0.5
+          },
+          {
+            "service": "S3 storage",
+            "monthly_usd": 0
+          },
+          {
+            "service": "CloudFront",
+            "monthly_usd": 0
+          },
+          {
+            "service": "ACM cert",
+            "monthly_usd": 0
+          },
+          {
+            "service": "Total estimated",
+            "monthly_usd": 0.5
+          }
+        ],
+        "decisions": [
+          {
+            "title": "React/Vite instead of Next.js or Astro",
+            "rationale": "High ROI for 5 static routes; no need for SSR or edge rendering.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/memory/architecture.html"
+          },
+          {
+            "title": "2 AWS environments (stage + prod), local dev",
+            "rationale": "Explicit gate before prod with no additional cost.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          },
+          {
+            "title": "OIDC without long-lived AWS keys",
+            "rationale": "No persisted AWS secrets; trust restricted to the portfolio repo.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          },
+          {
+            "title": "CMS-lite on the roadmap (not in P0)",
+            "rationale": "Future content updates without redeploy, without extra complexity now.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/portifolio",
+          "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
+          "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
+        }
+      },
+      {
+        "slug": "tauan-games",
+        "kind": "games",
+        "hero": {
+          "title": "tauan-games",
+          "tagline": "Games built at home with my son Tauan."
+        },
+        "card": {
+          "cover": "/assets/projects/tauan-games/cover.svg",
+          "summary": "Two browser games built with Three.js and Phaser together with my son Tauan — an aerial shooter and a recreation of the dinosaur game.",
+          "tech": [
+            "Three.js",
+            "Phaser",
+            "JavaScript",
+            "Canvas API",
+            "GitHub Pages"
+          ]
+        },
+        "seo": {
+          "title": "tauan-games — Marco Menezes",
+          "description": "Browser games developed with Tauan: Aero Fighters (Three.js) and tauan-trex (Phaser)."
+        },
+        "items": [
+          {
+            "slug": "aero-fighters",
+            "title": "Aero Fighters",
+            "engine": "Three.js",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+            "body": "An aerial shooter built with Three.js. Born from the desire to create something playable together with Tauan, exploring basic physics, sprites, and keyboard controls in the browser.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
+          },
+          {
+            "slug": "tauan-trex",
+            "title": "tauan-trex",
+            "engine": "Phaser",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
+            "body": "A recreation of the classic Chrome dinosaur game with Phaser, personalised with elements designed by Tauan. A weekend project to learn keyboard events and animation.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -36,19 +36,21 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-md" aria-modal="true">
         <DialogHeader>
-          <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mx-auto mb-2">
-            <Mail className="w-6 h-6 text-blue-600" />
+          <div className="flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full mx-auto mb-2">
+            <Mail className="w-6 h-6 text-accent-foreground" />
           </div>
-          <DialogTitle className="text-center">Contato por Email</DialogTitle>
+          <DialogTitle className="text-center text-foreground">
+            Contato por Email
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-3 border">
+          <div className="bg-muted rounded-lg p-3 border border-border">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 font-mono">{email}</span>
+              <span className="text-sm text-foreground font-mono">{email}</span>
               <button
                 onClick={handleCopy}
-                className="ml-2 p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                className="ml-2 p-1 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Copiar email"
               >
                 {copied ? (
@@ -60,10 +62,7 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
             </div>
           </div>
 
-          <Button
-            onClick={handleSend}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-          >
+          <Button onClick={handleSend} className="w-full">
             Enviar Email
           </Button>
         </div>

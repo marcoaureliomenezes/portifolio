@@ -75,16 +75,15 @@ describe("MobileCollapsibleSection", () => {
     expect(screen.queryByText("Experience list")).not.toBeInTheDocument();
   });
 
-  it("applies md:hidden class to the root element", () => {
+  it("renders a Card as the root wrapper", () => {
     const { container } = render(
       <MobileCollapsibleSection title="Skills">
         <p>content</p>
       </MobileCollapsibleSection>
     );
-
-    // The Collapsible root gets className="md:hidden" via the component
-    const root = container.querySelector(".md\\:hidden");
-    expect(root).not.toBeNull();
+    // Collapsible wraps a Card — verifiable by the w-full class applied to the Card
+    const card = container.querySelector(".w-full.shadow-medium");
+    expect(card).not.toBeNull();
   });
 
   it("renders optional icon when provided", () => {

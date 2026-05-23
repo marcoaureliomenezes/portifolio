@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="360" aria-label="Portfolio infrastructure architecture diagram — light" viewBox="0 0 680 360">
+  <rect width="680" height="360" fill="#f8fafc"/>
+  <rect width="660" height="340" x="10" y="10" fill="none" stroke="#cbd5e1" rx="8"/>
+  <text x="340" y="36" fill="#7c3aed" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">Portfolio Infrastructure — AWS</text>
+
+  <!-- GitHub Actions -->
+  <rect width="100" height="52" x="40" y="60" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="6"/>
+  <text x="90" y="83" fill="#0284c7" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">GitHub</text>
+  <text x="90" y="98" fill="#475569" font-family="monospace" font-size="9" text-anchor="middle">Actions</text>
+  <text x="90" y="111" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">OIDC</text>
+
+  <defs>
+    <marker id="a" markerHeight="8" markerWidth="8" orient="auto" refX="6" refY="3">
+      <path fill="#94a3b8" d="M0 0v6l8-3z"/>
+    </marker>
+  </defs>
+  <path stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)" d="M140 86h60"/>
+
+  <!-- S3 Bucket -->
+  <rect width="100" height="52" x="200" y="60" fill="#fef9c3" stroke="#d97706" stroke-width="2" rx="6"/>
+  <text x="250" y="83" fill="#92400e" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">S3 Bucket</text>
+  <text x="250" y="98" fill="#475569" font-family="monospace" font-size="9" text-anchor="middle">Static Assets</text>
+  <text x="250" y="111" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">Private + OAC</text>
+
+  <path stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)" d="M300 86h60"/>
+
+  <!-- CloudFront -->
+  <rect width="100" height="52" x="360" y="60" fill="#dcfce7" stroke="#16a34a" stroke-width="2" rx="6"/>
+  <text x="410" y="80" fill="#14532d" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">CloudFront</text>
+  <text x="410" y="95" fill="#475569" font-family="monospace" font-size="9" text-anchor="middle">CDN + HTTPS</text>
+  <text x="410" y="108" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">ACM cert</text>
+
+  <path stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)" d="M460 86h60"/>
+
+  <!-- Route53 -->
+  <rect width="100" height="52" x="520" y="60" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" rx="6"/>
+  <text x="570" y="80" fill="#4c1d95" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">Route53</text>
+  <text x="570" y="95" fill="#475569" font-family="monospace" font-size="9" text-anchor="middle">DNS</text>
+  <text x="570" y="108" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">marco-menezes.com</text>
+
+  <path stroke="#94a3b8" stroke-dasharray="4,2" stroke-width="1.5" d="M570 112v43"/>
+
+  <!-- Users -->
+  <rect width="120" height="44" x="510" y="155" fill="#fce7f3" stroke="#db2777" stroke-width="2" rx="6"/>
+  <text x="570" y="174" fill="#9d174d" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">Users</text>
+  <text x="570" y="190" fill="#475569" font-family="monospace" font-size="9" text-anchor="middle">Browser</text>
+
+  <!-- Divider -->
+  <path fill="#e2e8f0" d="M40 155h580v1H40z"/>
+  <text x="60" y="180" fill="#64748b" font-family="monospace" font-size="10">CI/CD Flow:</text>
+  <text x="60" y="200" fill="#475569" font-family="monospace" font-size="9">push → ci.yml (lint+build+test+e2e+lighthouse) → deploy.yml (stage → prod)</text>
+  <text x="60" y="218" fill="#475569" font-family="monospace" font-size="9">terraform.yml: plan (PR) → apply (merge) per env [stage | prod]</text>
+
+  <path fill="#e2e8f0" d="M40 240h580v1H40z"/>
+  <text x="60" y="262" fill="#64748b" font-family="monospace" font-size="10">IaC:</text>
+  <text x="60" y="280" fill="#475569" font-family="monospace" font-size="9">terraform/modules/portfolio-static-site + terraform/envs/{stage,prod}/</text>
+  <text x="60" y="298" fill="#475569" font-family="monospace" font-size="9">Remote backend: S3 | Runner: ubuntu-24.04 | Auth: IAM OIDC (no long-lived keys)</text>
+
+  <text x="340" y="338" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">Target cost: Route53 $0.50 + S3 ~$0.00 + CloudFront ~$0.00 = &lt; $1/month</text>
+</svg>

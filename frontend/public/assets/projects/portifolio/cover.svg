@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" aria-label="portifolio — AWS infrastructure cover">
+  <defs>
+    <radialGradient id="bg-grad" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </radialGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg-grad)"/>
+  <rect width="800" height="450" fill="none" stroke="#2d2d4e" stroke-width="1.5"/>
+
+  <!-- Subtle grid -->
+  <line x1="0" y1="150" x2="800" y2="150" stroke="#1e293b" stroke-width="0.5" opacity="0.5"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="#1e293b" stroke-width="0.5" opacity="0.5"/>
+  <line x1="200" y1="0" x2="200" y2="450" stroke="#1e293b" stroke-width="0.5" opacity="0.5"/>
+  <line x1="400" y1="0" x2="400" y2="450" stroke="#1e293b" stroke-width="0.5" opacity="0.5"/>
+  <line x1="600" y1="0" x2="600" y2="450" stroke="#1e293b" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Title -->
+  <text x="400" y="52" fill="#a78bfa" font-family="monospace" font-size="16" font-weight="bold" text-anchor="middle">Portfolio Infrastructure</text>
+
+  <!-- Route53 (top center) -->
+  <rect x="310" y="75" width="180" height="52" fill="#1e1e3f" stroke="#8b5cf6" stroke-width="2" rx="8"/>
+  <text x="400" y="97" fill="#8b5cf6" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Route53</text>
+  <text x="400" y="113" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">marco-menezes.com</text>
+  <text x="400" y="127" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">DNS</text>
+
+  <!-- Arrow down from Route53 to CloudFront -->
+  <path stroke="#4a4a7a" stroke-dasharray="5,3" stroke-width="1.5" d="M400 127v33" marker-end="url(#arrowhead)"/>
+
+  <!-- CloudFront (middle) -->
+  <rect x="290" y="165" width="220" height="52" fill="#1e1e3f" stroke="#10b981" stroke-width="2" rx="8"/>
+  <text x="400" y="187" fill="#10b981" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">CloudFront CDN</text>
+  <text x="400" y="203" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">HTTPS + ACM cert + OAC</text>
+  <text x="400" y="217" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">edge cache, global</text>
+
+  <!-- Arrow from CloudFront to S3 -->
+  <path stroke="#4a4a7a" stroke-dasharray="5,3" stroke-width="1.5" d="M400 217v33" marker-end="url(#arrowhead)"/>
+
+  <!-- S3 Bucket (lower middle) -->
+  <rect x="305" y="255" width="190" height="52" fill="#1e1e3f" stroke="#f59e0b" stroke-width="2" rx="8"/>
+  <text x="400" y="277" fill="#f59e0b" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">S3 Bucket</text>
+  <text x="400" y="293" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Static assets — private</text>
+  <text x="400" y="307" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">React SPA dist/</text>
+
+  <!-- Browser (top left) connecting to CloudFront -->
+  <rect x="60" y="165" width="150" height="52" fill="#1e1e3f" stroke="#06b6d4" stroke-width="2" rx="8"/>
+  <text x="135" y="187" fill="#06b6d4" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">Browser</text>
+  <text x="135" y="203" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">User visits site</text>
+  <text x="135" y="217" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">HTTPS request</text>
+  <!-- Arrow from Browser to CloudFront -->
+  <path stroke="#4a4a7a" stroke-width="1.5" d="M210 191h80" marker-end="url(#arrowhead)"/>
+
+  <!-- GitHub Actions (bottom left) -->
+  <rect x="60" y="255" width="150" height="52" fill="#1e1e3f" stroke="#06b6d4" stroke-width="1.8" rx="8"/>
+  <text x="135" y="274" fill="#06b6d4" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">GitHub Actions</text>
+  <text x="135" y="290" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">CI/CD pipeline</text>
+  <text x="135" y="306" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">OIDC — no long-lived keys</text>
+  <!-- Arrow from GitHub Actions to S3 -->
+  <path stroke="#4a4a7a" stroke-dasharray="4,3" stroke-width="1.5" d="M210 281h95" marker-end="url(#arrowhead)"/>
+
+  <!-- Terraform (right side) -->
+  <rect x="590" y="210" width="140" height="52" fill="#1e1e3f" stroke="#a78bfa" stroke-width="1.8" rx="8"/>
+  <text x="660" y="229" fill="#a78bfa" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">Terraform IaC</text>
+  <text x="660" y="245" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">S3 backend, OIDC</text>
+  <text x="660" y="261" fill="#4a4a7a" font-family="monospace" font-size="8" text-anchor="middle">stage + prod envs</text>
+
+  <!-- Defs for arrowhead -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0v6l8-3z" fill="#4a4a7a"/>
+    </marker>
+  </defs>
+
+  <!-- Footer label -->
+  <text x="400" y="430" fill="#a78bfa" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">portifolio</text>
+  <text x="400" y="447" fill="#4a4a7a" font-family="monospace" font-size="9" text-anchor="middle">React + Vite · AWS · Terraform · GitHub Actions</text>
+</svg>

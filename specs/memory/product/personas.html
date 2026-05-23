@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Product — Personas — portifolio</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+           max-width: 880px; margin: 2rem auto; padding: 0 1.5rem; line-height: 1.55;
+           color: #222; background: #fafafa; }
+    h1, h2 { color: #111; }
+    h1 { border-bottom: 2px solid #333; padding-bottom: .3rem; }
+    h2 { margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+    section { margin-bottom: 2rem; }
+    .persona { background: #fff; padding: 1rem 1.2rem; border-left: 3px solid #F08A2B;
+               margin: 1rem 0; }
+    code { background: #f0f0f0; padding: .1rem .3rem; border-radius: 3px; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { padding: .5rem .7rem; border: 1px solid #ddd; text-align: left; vertical-align: top; }
+    th { background: #eee; }
+    .meta { color: #666; font-size: .9em; }
+  </style>
+</head>
+<body>
+
+<h1>Personas — portifolio</h1>
+<p class="meta">Os dois públicos-alvo do site e como o produto atende cada um.</p>
+
+<section id="dual-audience">
+  <h2>Audiência dupla, sem conflito</h2>
+  <p>O portfólio atende dois públicos distintos com um único site. A Home serve o primeiro; a
+  navegação interna (rotas <code>/projetos/*</code>) serve o segundo. Esses dois caminhos não
+  competem por atenção — recrutadores raramente clicam nas abas de projeto técnico, e a
+  comunidade técnica passa rapidamente pela Home para chegar nos projetos. Decisão de produto:
+  <strong>não fragmentar em dois sites</strong>.</p>
+</section>
+
+<section id="recruiters">
+  <h2>Persona 1 — Recrutadores</h2>
+  <div class="persona">
+    <p><strong>Quem:</strong> recrutadores corporativos, recrutadores tech, hiring managers
+    em primeiro contato.</p>
+    <p><strong>O que procuram:</strong> validação rápida (10–30s) de senioridade, experiência,
+    certificações, contato. Padrão LinkedIn esperado.</p>
+    <p><strong>Como o site atende:</strong></p>
+    <ul>
+      <li>Hero memorável com tagline (decisão visual-identity-v1) + avatar + 2 CTAs
+      (<code>Download CV</code> + <code>Ver experiência</code>).</li>
+      <li>Seções Skills, Experience, Education, Certifications acessíveis pelo scroll inicial.</li>
+      <li>Currículo digital exportável: link para <code>cv.pdf</code> nos 3 idiomas (PT já
+      versionado em T-CONTENT-06; EN e DE são T-FE-QUAL-10).</li>
+      <li>Email modal acessível (Radix Dialog) + LinkedIn/GitHub URLs reais (validadas em
+      E2E-09).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="tech-community">
+  <h2>Persona 2 — Comunidade técnica</h2>
+  <div class="persona">
+    <p><strong>Quem:</strong> peers de engenharia, recrutadores técnicos avançados, contribuidores
+    open source futuros, alunos curiosos.</p>
+    <p><strong>O que procuram:</strong> evidência verificável de "como esse engenheiro pensa e
+    constrói". Links para repos, decisões arquiteturais, infra real, custos reais.</p>
+    <p><strong>Como o site atende:</strong></p>
+    <ul>
+      <li><strong>Aba <code>dadaia-workspace</code></strong>: estrutura "O que é -> Por que existe
+      -> Como funciona (diagrama) -> Status atual (versão, agentes ativos) -> CTA GitHub +
+      docs". Captura o workspace agentic do operador.</li>
+      <li><strong>Aba <code>tauan-games</code></strong>: card por jogo (Aero Strike Three.js +
+      tauan-trex Phaser). Cada card: screenshot/gif, 1 parágrafo, link para repo, tag de
+      engine.</li>
+      <li><strong>Aba "Arquitetura deste portfólio"</strong>: meta-página com diagrama
+      (S3 -> CloudFront -> ACM -> Route53), tabela de custos reais, ADRs/specs públicos, link
+      para o repo do próprio site. <em>O portfólio explica o próprio portfólio.</em></li>
+    </ul>
+  </div>
+</section>
+
+<section id="content-ownership">
+  <h2>Divisão de trabalho — conteúdo das abas</h2>
+  <p>O <strong>product-engineer</strong> entrega a <em>estrutura/template</em> com placeholders
+  honestos (Step 3 do ciclo de Retomada — implementado em <code>content-json-v1</code> tasks
+  T-CONTENT-02..04). O <strong>operador</strong> preenche texto final e imagens (screenshots,
+  gifs, diagramas) conforme cada aba amadurece.</p>
+  <table>
+    <thead><tr><th>Aba</th><th>Estrutura padrão</th></tr></thead>
+    <tbody>
+      <tr><td><strong>dadaia-workspace</strong></td><td>Hero -> "O que é" -> "Por que existe" -> "Como funciona" (diagrama) -> "Status atual" -> CTA (GitHub + docs).</td></tr>
+      <tr><td><strong>tauan-games</strong></td><td>Hero -> Card por jogo. Cada card: screenshot/gif, 1 parágrafo, link para repo, tag de engine.</td></tr>
+      <tr><td><strong>Arquitetura deste portfólio</strong></td><td>Hero -> Diagrama -> Tabela de custos -> Decisões arquiteturais -> Link para repo.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ai-augmented-narrative">
+  <h2>Narrativa pós content-ai-emphasis (parcial — WAVE5)</h2>
+  <p>A revisão pós visual-identity-v1 identificou 4 gaps de conteúdo críticos para o posicionamento
+  técnico do operador:</p>
+  <ol>
+    <li><strong>AI tooling experience invisível</strong> — Copilot, Devin, Windsurf, Claude Code,
+    Codex, Opencode, Openclaw, Hermes. Migração SAS -> Azure + Databricks conduzida solo via AI
+    tooling com SLA reduzido de 12 para 2 meses.</li>
+    <li><strong>Roles sem skills tags</strong> — cards de experiência precisam de cluster de
+    badges colorizados por categoria.</li>
+    <li><strong>Senior bullets específicos demais</strong> — comunicar liderança técnica e impacto,
+    não responsabilidades operacionais.</li>
+    <li><strong>Projeto de impacto sem destaque</strong> — SAS -> Cloud precisa de espaço visual
+    próprio.</li>
+  </ol>
+  <p>WAVE5 está in-progress na release ativa <code>fe-qual-refactor-v1</code>; WAVE6 (RoleSkillBadges
+  + HighlightProjectBlock) é candidato imediato no backlog.</p>
+</section>
+
+</body>
+</html>

@@ -17,23 +17,25 @@ describe("useInView", () => {
   it("creates an IntersectionObserver and observes the bound element", () => {
     const observe = vi.fn();
     const disconnect = vi.fn();
-    const ObserverSpy = vi.fn().mockImplementation(() => ({
-      observe,
-      unobserve: vi.fn(),
-      disconnect,
-      takeRecords: () => [],
-    }));
-    // @ts-expect-error stubbing global
-    globalThis.IntersectionObserver = ObserverSpy;
+    const ctor = vi.fn();
+    class ObserverSpy {
+      constructor(...args: unknown[]) {
+        ctor(...args);
+      }
+      observe = observe;
+      unobserve = vi.fn();
+      disconnect = disconnect;
+      takeRecords = () => [];
+    }
+    Object.defineProperty(globalThis, 'IntersectionObserver', { value: ObserverSpy, writable: true, configurable: true });
 
     render(<Probe />);
-    expect(ObserverSpy).toHaveBeenCalled();
+    expect(ctor).toHaveBeenCalled();
     expect(observe).toHaveBeenCalled();
   });
 
   it("falls through to inView=true when IntersectionObserver is unavailable (graceful fallback)", () => {
-    // @ts-expect-error simulate absence
-    globalThis.IntersectionObserver = undefined;
+    Object.defineProperty(globalThis, 'IntersectionObserver', { value: undefined, writable: true, configurable: true });
     const { getByTestId } = render(<Probe />);
     expect(getByTestId("probe").getAttribute("data-in-view")).toBe("true");
   });

@@ -19,11 +19,11 @@ interface PortfolioProps {
  * Each child component owns its own interactive state (collapsibles, etc.).
  */
 export function Portfolio(_props: PortfolioProps = {}) {
-  const { content } = useContent();
+  const { content, language } = useContent();
 
   return (
-    <div className="container mx-auto px-4 pt-64 md:pt-32 pb-12 space-y-12 max-w-4xl md:ml-0">
-      <HeroSection content={content} />
+    <div className="container mx-auto px-4 pt-16 md:pt-24 pb-12 space-y-12 max-w-4xl">
+      <HeroSection content={content} locale={language} />
       <ExperienceSection content={content} />
       <EducationSection content={content} />
       <CertificationsSection content={content} />

@@ -7,11 +7,20 @@
 
 export type SupportedLanguages = "pt" | "en" | "de";
 
+export interface HighlightProject {
+  title: string;
+  body: string;
+  impact?: string[];
+  links?: { label: string; url: string }[];
+}
+
 export interface Position {
   title: string;
   period: string;
   responsibilities?: string[];
   technologies?: string;
+  skills?: string[];
+  highlightProject?: HighlightProject;
 }
 
 export interface Experience {
@@ -24,11 +33,16 @@ export interface Experience {
 }
 
 export interface Education {
-  degree: string;
+  degreeLevel: string;
+  degreeField: string;
   institution: string;
+  location: string;
   period: string;
+  courseworkLabel: string;
   coursework: string;
+  thesisLabel: string;
   thesis: string;
+  thesisLink?: string;
 }
 
 export interface Resume {
@@ -61,22 +75,96 @@ export interface HeaderInfo {
   viewEmail: string;
 }
 
-// ── Project tab content types ─────────────────────────────────────────────
+// ── New discriminated-union project types (projects-cluster-v1 / T-PC-A-01) ──
 
-export interface ProjectSeoData {
-  title: string;
-  description: string;
+export interface ProjectCardData {
+  /** Path to cover image, relative to /assets/. ≤ 60 KB. */
+  cover?: string;
+  /** 1-line summary ≤ 280 chars. i18n. */
+  summary: string;
+  /** Tech badges (≥ 3). Partial i18n (non-translatable tech names pass through). */
+  tech: string[];
 }
 
-export interface ProjectCtaData {
-  github: string;
-  docs?: string;
+export interface ProjectBase {
+  /** URL-safe identifier. Regex: ^[a-z0-9-]+$. Not i18n. */
+  slug: string;
+  /** Discriminator. Not i18n. */
+  kind: "case-study" | "meta" | "games";
+  hero: {
+    /** i18n. */
+    title: string;
+    /** i18n. */
+    tagline: string;
+  };
+  card: ProjectCardData;
+  seo: {
+    /** i18n. */
+    title: string;
+    /** i18n. */
+    description: string;
+  };
+  /** Optional path to diagram asset (light version). Not i18n. */
+  diagram?: string;
+  /** Alt text for diagram. i18n. Required when diagram is present. */
+  diagramAlt?: string;
 }
 
-export interface ProjectHeroData {
+export interface CaseStudyProject extends ProjectBase {
+  kind: "case-study";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  cta: {
+    github: string;
+    githubLabel?: string;
+  };
+}
+
+export interface MetaProject extends ProjectBase {
+  kind: "meta";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  /** ≥ 1 stack rows. */
+  stack: StackRow[];
+  /** Cost breakdown rows. */
+  costs: CostRow[];
+  /** ≥ 1 architectural decisions. */
+  decisions: ArchDecision[];
+  links: {
+    repo: string;
+    terraform: string;
+    specs: string;
+  };
+}
+
+export interface GameLink {
+  slug: string;
   title: string;
-  tagline: string;
-  logo?: string;
+  engine: string;
+  cover: string;
+  body: string;
+  repo: string;
+  playUrl: string;
+}
+
+export interface GamesProject extends ProjectBase {
+  kind: "games";
+  /** ≥ 1 game links. */
+  items: GameLink[];
+}
+
+/** Discriminated union of all project kinds. */
+export type Project = CaseStudyProject | MetaProject | GamesProject;
+
+/** New open-list shape for the projects section in content JSON. */
+export interface ProjectsContentV2 {
+  /** i18n metadata for the /projetos index page. */
+  index: {
+    title: string;
+    description: string;
+  };
+  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games. */
+  list: Project[];
 }
 
 export interface ProjectSectionData {
@@ -85,28 +173,6 @@ export interface ProjectSectionData {
   body?: string;
   diagram?: string;
   items?: Array<{ label: string; value: string }>;
-}
-
-export interface DadaiaWorkspaceProject {
-  hero: ProjectHeroData;
-  sections: ProjectSectionData[];
-  cta: ProjectCtaData;
-  seo: ProjectSeoData;
-}
-
-export interface GameItem {
-  slug: string;
-  title: string;
-  engine: string;
-  image: string;
-  body: string;
-  repo: string;
-}
-
-export interface TauanGamesProject {
-  hero: ProjectHeroData;
-  items: GameItem[];
-  seo: ProjectSeoData;
 }
 
 export interface StackRow {
@@ -125,28 +191,6 @@ export interface ArchDecision {
   spec: string;
 }
 
-export interface PortifolioProjectLinks {
-  repo: string;
-  terraform: string;
-  specs: string;
-}
-
-export interface PortifolioProject {
-  hero: ProjectHeroData;
-  diagram: string;
-  stack: StackRow[];
-  costs: CostRow[];
-  decisions: ArchDecision[];
-  links: PortifolioProjectLinks;
-  seo: ProjectSeoData;
-}
-
-export interface ProjectsContent {
-  "dadaia-workspace": DadaiaWorkspaceProject;
-  "tauan-games": TauanGamesProject;
-  portifolio: PortifolioProject;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface HeroStats {
@@ -158,6 +202,29 @@ export interface HeroStats {
 export interface HeroCTAs {
   downloadCv: string;
   seeExperience: string;
+  /** 3rd CTA label linking to /projetos — T-PC-C-05. */
+  seeProjects?: string;
+}
+
+export interface HeroStatsSuffix {
+  years: string;
+  certs: string;
+  clouds: string;
+}
+
+export interface ArchPageLabels {
+  infraDiagramTitle: string;
+  techStackTitle: string;
+  monthlyCostsTitle: string;
+  tableHeaderLayer: string;
+  tableHeaderTechnology: string;
+  tableHeaderService: string;
+  tableHeaderCostUsd: string;
+  archDecisionsTitle: string;
+  linksTitle: string;
+  linkGithubRepo: string;
+  linkTerraform: string;
+  linkSpecs: string;
 }
 
 export interface ContentData {
@@ -172,6 +239,28 @@ export interface ContentData {
   technologies: string;
   validUntil: string;
   viewCredential: string;
+  /** Label for the issuer field in CertificationCard (T-FE-QUAL-06). */
+  issuerLabel: string;
+  /** Singular/plural for certification count in CertificationCategoryGroup (T-FE-QUAL-06). */
+  certSingular: string;
+  certPlural: string;
+  /** Career progression section label in ExperienceCard (T-FE-QUAL-06). */
+  careerProgression: string;
+  /** Singular/plural for role count in ExperienceCard (T-FE-QUAL-06). */
+  roleSingular: string;
+  rolePlural: string;
+  /** Avatar hover label in HeaderDesktopLayout / HeaderMobileLayout (T-FE-QUAL-06). */
+  viewLarger: string;
+  /** Games empty-state labels (T-FE-QUAL-06). */
+  gamesComingSoon: string;
+  gamesComingSoonDesc: string;
+  /** NotFound page labels (T-FE-QUAL-06). */
+  notFoundMessage: string;
+  returnHome: string;
+  /** Suffixes for hero stats line (T-FE-QUAL-06). Falls back to en values when absent. */
+  heroStatsSuffix?: HeroStatsSuffix;
+  /** Architecture / infra section labels (T-FE-QUAL-06). */
+  archPage?: ArchPageLabels;
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
@@ -184,5 +273,13 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
-  projects?: ProjectsContent;
+  /**
+   * Navigation label for the "Projetos" header link (T-PC-C-04).
+   * Falls back to "Projetos" when absent.
+   */
+  navProjects?: string;
+  /**
+   * Open-list shape for projects-cluster-v1 (T-PC-A-01).
+   */
+  projectsV2?: ProjectsContentV2;
 }

@@ -13,23 +13,27 @@ describe("useTheme", () => {
   });
 
   it("falls back to system preference when nothing is stored", () => {
-    vi.spyOn(window, "matchMedia").mockImplementation(
-      (q) =>
-        ({
-          matches: q === "(prefers-color-scheme: dark)",
-          media: q,
-          onchange: null,
-          addListener: vi.fn(),
-          removeListener: vi.fn(),
-          addEventListener: vi.fn(),
-          removeEventListener: vi.fn(),
-          dispatchEvent: vi.fn(),
-        }) as MediaQueryList,
+    vi.stubGlobal(
+      "matchMedia",
+      vi.fn(
+        (q: string) =>
+          ({
+            matches: q === "(prefers-color-scheme: dark)",
+            media: q,
+            onchange: null,
+            addListener: vi.fn(),
+            removeListener: vi.fn(),
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn(),
+            dispatchEvent: vi.fn(),
+          }) as MediaQueryList,
+      ),
     );
 
     const { result } = renderHook(() => useTheme());
     expect(result.current.theme).toBe("dark");
     expect(document.documentElement.classList.contains("dark")).toBe(true);
+    vi.unstubAllGlobals();
   });
 
   it("uses stored theme when available", () => {

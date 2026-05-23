@@ -29,9 +29,12 @@ const mockCert: Certification = {
   priority: 1,
 };
 
-const mockLabels: Pick<ContentData, "validUntil" | "viewCredential"> = {
+const mockLabels: Pick<ContentData, "validUntil" | "viewCredential" | "issuerLabel" | "seeMore" | "seeLess"> = {
   validUntil: "Válido até",
   viewCredential: "Ver credencial",
+  issuerLabel: "Emissor",
+  seeMore: "Ver mais",
+  seeLess: "Ver menos",
 };
 
 describe("CertificationCard", () => {
@@ -44,9 +47,19 @@ describe("CertificationCard", () => {
     expect(screen.getByText("AWS Solutions Architect")).toBeInTheDocument();
   });
 
-  it("renders the issuer (provider)", () => {
+  it("flat card always shows credential link when cert.link is valid", () => {
+    render(<CertificationCard cert={mockCert} labels={mockLabels} />);
+    expect(screen.getByText("AWS Solutions Architect")).toBeInTheDocument();
+    expect(screen.queryByText("Short cert description")).not.toBeInTheDocument();
+    expect(screen.getByText("Ver credencial")).toBeInTheDocument();
+  });
+
+  it("credential link has correct href and security attributes", () => {
     render(<CertificationCard cert={mockCert} labels={mockLabels} defaultOpen />);
-    expect(screen.getByText(/Amazon Web Services/)).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: /ver credencial/i });
+    expect(link).toHaveAttribute("href", "https://aws.amazon.com/verify/cert-123");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("renders the certification date", () => {
@@ -70,18 +83,11 @@ describe("CertificationCard", () => {
     expect(screen.queryByText("Ver credencial")).not.toBeInTheDocument();
   });
 
-  it("clicking credential button opens link with window.open (noopener)", async () => {
-    const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
-    const user = userEvent.setup();
-
+  it("credential link uses anchor (not window.open) with noopener noreferrer", () => {
     render(<CertificationCard cert={mockCert} labels={mockLabels} defaultOpen />);
-    await user.click(screen.getByText("Ver credencial"));
-
-    expect(openSpy).toHaveBeenCalledWith(
-      "https://aws.amazon.com/verify/cert-123",
-      "_blank",
-      "noopener,noreferrer"
-    );
+    const link = screen.getByRole("link", { name: /ver credencial/i });
+    expect(link.tagName).toBe("A");
+    expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
 
   it("starts closed when defaultOpen=false and content is hidden", () => {
@@ -89,15 +95,10 @@ describe("CertificationCard", () => {
     expect(screen.queryByText("Short cert description")).not.toBeInTheDocument();
   });
 
-  it("toggle opens the card from closed state", async () => {
-    const user = userEvent.setup();
-
+  it("flat card renders cert name and level without any toggle trigger", () => {
     render(<CertificationCard cert={mockCert} labels={mockLabels} defaultOpen={false} />);
-    expect(screen.queryByText("Short cert description")).not.toBeInTheDocument();
-
-    const trigger = screen.getByRole("button", { name: /AWS Solutions Architect/i });
-    await user.click(trigger);
-
-    expect(screen.getByText("Short cert description")).toBeInTheDocument();
+    expect(screen.getByText("AWS Solutions Architect")).toBeInTheDocument();
+    expect(screen.getByText("Associate")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /AWS Solutions Architect/i })).not.toBeInTheDocument();
   });
 });
