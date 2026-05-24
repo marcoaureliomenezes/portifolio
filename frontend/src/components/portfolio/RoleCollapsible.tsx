@@ -9,6 +9,7 @@ import {
 import { RoleSkillBadges } from "./RoleSkillBadges";
 import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Position, ContentData } from "@/types/content";
+import { track } from "@dadaia/analytics-sdk";
 
 interface RoleCollapsibleProps {
   role: Position;
@@ -21,8 +22,18 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
   const [open, setOpen] = useState(defaultOpen);
   const teaser = role.responsibilities?.slice(0, 3).join(" ");
 
+  // T-AN-D-02: Track section expand/collapse analytics events.
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (next) {
+      track('section_expand', { section: role.title });
+    } else {
+      track('section_collapse', { section: role.title });
+    }
+  }
+
   return (
-    <Collapsible open={open} onOpenChange={setOpen}>
+    <Collapsible open={open} onOpenChange={handleOpenChange}>
       <div className="bg-gradient-to-br from-card to-accent/5 rounded-xl border border-border/30 overflow-hidden hover:border-primary/30 transition-all duration-200 shadow-soft hover:shadow-medium ml-6 relative">
         <div className="absolute -left-6 top-1/2 w-6 h-0.5 border-t-2 border-dotted border-primary/40" />
         <div className="absolute -left-7 top-1/2 w-2 h-2 bg-primary rounded-full transform -translate-y-1/2" />

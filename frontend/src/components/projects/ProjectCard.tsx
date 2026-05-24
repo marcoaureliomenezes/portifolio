@@ -16,6 +16,7 @@
 
 import { Link } from "react-router-dom";
 import type { Project } from "@/types/content";
+import { track } from "@dadaia/analytics-sdk";
 
 interface ProjectCardProps {
   project: Project;
@@ -29,6 +30,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       to={`/projetos/${slug}`}
       aria-label={hero.title}
       data-testid="project-card"
+      onClick={() => track('project_cta', { project: hero.title })}
       className={[
         "group block rounded-xl border border-border/40 bg-card shadow-sm",
         "overflow-hidden transition-shadow duration-200",

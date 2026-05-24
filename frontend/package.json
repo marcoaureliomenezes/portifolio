@@ -21,6 +21,7 @@
     "check:i18n-projects": "node scripts/check-i18n-parity.mjs"
   },
   "dependencies": {
+    "@dadaia/analytics-sdk": "file:../../dadaia-web/frontend/sdk",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@radix-ui/react-collapsible": "^1.1.0",
