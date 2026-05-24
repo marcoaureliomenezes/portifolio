@@ -37,11 +37,12 @@ resource "aws_cloudfront_distribution" "website" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-    compress               = true
+    viewer_protocol_policy         = "redirect-to-https"
+    min_ttl                        = 0
+    default_ttl                    = 3600
+    max_ttl                        = 86400
+    compress                       = true
+    response_headers_policy_id     = aws_cloudfront_response_headers_policy.security_headers.id
   }
 
   # SPA fallback: 404/403 do S3 retorna index.html com 200
@@ -55,6 +56,14 @@ resource "aws_cloudfront_distribution" "website" {
     error_code         = 403
     response_code      = 200
     response_page_path = "/index.html"
+  }
+
+  # Access logging — 30-day retention bucket, IP anonymization at Athena query time
+  # LGPD: raw logs auto-deleted after 30 days; logs not linked to user identity
+  logging_config {
+    include_cookies = false
+    bucket          = aws_s3_bucket.cloudfront_logs.bucket_domain_name
+    prefix          = "cloudfront/${var.environment}/"
   }
 
   price_class = var.cloudfront_price_class
