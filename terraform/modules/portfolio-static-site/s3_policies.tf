@@ -30,6 +30,8 @@ resource "aws_s3_bucket_policy" "website" {
         }
       },
       {
+        # s3:PutObjectAcl removed (F-01-01): bucket public access is blocked and
+        # served exclusively via CloudFront OAC. Object ACLs are never applied.
         Sid    = "AllowGitHubActionsOIDCRoleDeploy"
         Effect = "Allow"
         Principal = {
@@ -37,7 +39,6 @@ resource "aws_s3_bucket_policy" "website" {
         }
         Action = [
           "s3:PutObject",
-          "s3:PutObjectAcl",
           "s3:DeleteObject",
           "s3:GetObject",
           "s3:ListBucket",

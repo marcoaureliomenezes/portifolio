@@ -1,10 +1,17 @@
 # ==============================================================================
 # IAM — role OIDC para GitHub Actions (deploy final)
 #
-# Esta role e criada pelo terraform no primeiro apply.
-# A trust policy permite qualquer ref do repo (PRs + pushes).
-# A seguranca de prod e dada pelo environment GitHub exigir aprovacao manual.
-# Ref: specs/foundation/SPEC.md §5 (DEV-03).
+# Security hardening (security-audit-v1 Phase B):
+#
+# OIDC sub claim narrowing:
+#   - prod role: locked to ref:refs/heads/main — only main branch can deploy to prod.
+#     This prevents feature branches, PRs, and forks from assuming the prod role.
+#     Trade-off: Terraform plan/apply from non-main branches (e.g., for infra PRs)
+#     requires either a separate review role or temporary sub widening. Accepted
+#     trade-off for production security. Stage role retains wildcard for flexibility.
+#   - stage role: retains repo:...:* to allow PR preview deploys.
+#
+# Ref: specs/foundation/SPEC.md §5 (DEV-03), security-audit-v1 F-05-01.
 # ==============================================================================
 
 data "aws_caller_identity" "current" {}
@@ -14,6 +21,16 @@ data "aws_caller_identity" "current" {}
 # Referenciado aqui via data source para não conflitar entre envs.
 data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
+}
+
+# prod: locked to main branch only (F-05-01 fix)
+# stage: allows any ref in the repo (PR deploys to staging remain possible)
+locals {
+  oidc_sub_condition = var.environment == "prod" ? (
+    "repo:marcoaureliomenezes/portifolio:ref:refs/heads/main"
+  ) : (
+    "repo:marcoaureliomenezes/portifolio:*"
+  )
 }
 
 resource "aws_iam_role" "github_actions_deploy" {
@@ -31,9 +48,9 @@ resource "aws_iam_role" "github_actions_deploy" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          }
-          StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:marcoaureliomenezes/portifolio:*"
+            # prod: only main branch can assume this role
+            # stage: any ref in the repo is allowed (PR preview deploys)
+            "token.actions.githubusercontent.com:sub" = local.oidc_sub_condition
           }
         }
       }
@@ -60,11 +77,12 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Resource = aws_s3_bucket.website.arn
       },
       {
+        # s3:PutObjectAcl removed (F-01-01): bucket has public access blocked and
+        # serves exclusively via CloudFront OAC. Object ACLs are never needed.
         Sid    = "ManagePortfolioObjects"
         Effect = "Allow"
         Action = [
           "s3:PutObject",
-          "s3:PutObjectAcl",
           "s3:DeleteObject",
           "s3:GetObject",
         ]
