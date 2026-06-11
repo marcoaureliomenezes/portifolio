@@ -1,6 +1,6 @@
 ---
 name: portfolio-redesign-v1
-status: Candidate
+status: Picked (release portfolio-redesign-v1, 2026-06-11, operator /goal directive)
 created: 2026-06-11
 origin: operator directive + Fable design review (specs/audits/2026-06-11T034500Z/)
 priority: HIGH
