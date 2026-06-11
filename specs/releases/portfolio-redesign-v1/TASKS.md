@@ -51,6 +51,6 @@
 
 ## W5 — R5 verificação
 
-- [ ] **T-RD-12** — Gates completos + e2e/axe + medições + preview + evidência
+- [x] **T-RD-12** ✅ unit 299/299 ×2 · e2e pages 80/80 + projects-cluster 30 pass (9 = débito pré-existente quarentenado, zero regressões novas) · tsc/eslint/validators/schema-check verdes · AC-RD-05 865px · AC-RD-06 4613px (com nova seção +389px) · AC-RD-07/10 provados live (edit JSON sem rebuild) · dead trio ContactStrip/EmailModal/AvatarImageModal removido (não montados) — Gates completos + e2e/axe + medições + preview + evidência
   - Write set: testes/e2e specs afetados, sem produção nova
   - AC-RD-04/05/06/07/10/11; preview 3968 atualizado para inspeção do operador

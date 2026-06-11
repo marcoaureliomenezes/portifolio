@@ -166,9 +166,9 @@ test('BADGE-02: skill badges carry category-color classes per skillCategoryColor
 // BADGE-03: badge count is consistent across pt / en / de
 // ---------------------------------------------------------------------------
 const LOCALE_SWITCH_MAP = [
-  { key: 'pt', optionLabel: 'Português', heroFragment: 'AI-augmented data engineering em escala' },
-  { key: 'en', optionLabel: 'English', heroFragment: 'AI-augmented data engineering at scale' },
-  { key: 'de', optionLabel: 'Deutsch', heroFragment: 'KI-gestütztes Data Engineering im Maßstab' },
+  { key: 'pt', optionLabel: 'Português', heroFragment: 'Data Engineering at Scale' },
+  { key: 'en', optionLabel: 'English', heroFragment: 'Data Engineering at Scale' },
+  { key: 'de', optionLabel: 'Deutsch', heroFragment: 'Data Engineering at Scale' },
 ] as const;
 
 const SENIOR_SKILLS_SAMPLE = [

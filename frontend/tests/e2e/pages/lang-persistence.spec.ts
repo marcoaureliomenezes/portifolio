@@ -11,16 +11,18 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 // Hero tagline strings (heroTagline field) used as per language-switch.spec.ts convention
+// portfolio-redesign-v1: the hero tagline is locale-INVARIANT (single approved
+// English headline). The locale signal is the experience section heading.
 const TAGLINES = {
-  pt: 'AI-augmented data engineering em escala',
-  en: 'AI-augmented data engineering at scale',
-  de: 'KI-gestütztes Data Engineering im Maßstab',
+  pt: 'Experiência Profissional',
+  en: 'Professional Experience',
+  de: 'Berufserfahrung',
 } as const;
 
 test.describe('Language persistence — T-FE-QUAL-07', () => {
   test('PERS-01: switch pt → en persists after reload', async ({ page }) => {
     await page.goto(ROUTES.home);
-    const heroHeading = page.locator('#hero-heading');
+    const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
     // Switch to English
@@ -37,7 +39,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
 
   test('PERS-02: switch pt → en → de persists after reload', async ({ page }) => {
     await page.goto(ROUTES.home);
-    const heroHeading = page.locator('#hero-heading');
+    const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
     const selectTrigger = page.locator('[role="combobox"]').first();
@@ -61,7 +63,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
   test('PERS-03: clear localStorage → fallback renders a valid language (no crash)', async ({ page }) => {
     // First establish a persisted language
     await page.goto(ROUTES.home);
-    const heroHeading = page.locator('#hero-heading');
+    const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
     const selectTrigger = page.locator('[role="combobox"]').first();
@@ -82,7 +84,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
 
   test('PERS-04: localStorage key "lang" is written on language switch', async ({ page }) => {
     await page.goto(ROUTES.home);
-    const heroHeading = page.locator('#hero-heading');
+    const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
     const selectTrigger = page.locator('[role="combobox"]').first();

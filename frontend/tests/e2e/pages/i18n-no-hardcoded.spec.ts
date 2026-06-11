@@ -6,7 +6,6 @@
  * is "stuck" in a single locale regardless of the selected language.
  *
  * Sections covered (via their aria-labelledby heading IDs):
- *   #hero-heading          — heroTagline
  *   #habilidades-heading   — skillsTitle
  *   #experiencia-heading   — experienceTitle
  *   #educacao-heading      — educationTitle
@@ -23,21 +22,18 @@ import { ROUTES } from '../fixtures/routes';
 // ---------------------------------------------------------------------------
 const LOCALE_STRINGS = {
   pt: {
-    heroTagline:           'AI-augmented data engineering em escala',
     skillsTitle:           'Habilidades',
     experienceTitle:       'Experiência Profissional',
     educationTitle:        'Educação',
     certificationsTitle:   'Certificações',
   },
   en: {
-    heroTagline:           'AI-augmented data engineering at scale',
     skillsTitle:           'Skills',
     experienceTitle:       'Professional Experience',
     educationTitle:        'Education',
     certificationsTitle:   'Certifications',
   },
   de: {
-    heroTagline:           'KI-gestütztes Data Engineering im Maßstab',
     skillsTitle:           'Fähigkeiten',
     experienceTitle:       'Berufserfahrung',
     educationTitle:        'Ausbildung',
@@ -52,6 +48,17 @@ async function switchLocale(page: import('@playwright/test').Page, label: string
   const combobox = page.locator('[role="combobox"]').first();
   await combobox.click();
   await page.getByRole('option', { name: label }).click();
+  // T-RD-10: locales load via fetch and the PREVIOUS content stays visible
+  // while the switch is in flight (by design — no blank flash). Wait until the
+  // skills heading shows the target locale before snapshotting.
+  const expected: Record<string, string> = {
+    Português: LOCALE_STRINGS.pt.skillsTitle,
+    English: LOCALE_STRINGS.en.skillsTitle,
+    Deutsch: LOCALE_STRINGS.de.skillsTitle,
+  };
+  await expect(
+    page.locator('[id="habilidades-heading"]').filter({ visible: true }).first(),
+  ).toContainText(expected[label]);
 }
 
 const LOCALE_OPTION_LABELS: Record<Locale, string> = {
@@ -73,7 +80,6 @@ async function captureHeadings(page: import('@playwright/test').Page) {
   const visible = (id: string) =>
     page.locator(`[id="${id}"]`).filter({ visible: true }).first();
   return {
-    heroTagline:         await visible('hero-heading').innerText(),
     skillsTitle:         await visible('habilidades-heading').innerText(),
     experienceTitle:     await visible('experiencia-heading').innerText(),
     educationTitle:      await visible('educacao-heading').innerText(),
@@ -87,18 +93,23 @@ async function captureHeadings(page: import('@playwright/test').Page) {
 
 test.describe('i18n — section headings change with locale (T-FE-QUAL-06)', () => {
 
+  // chromium's navigator.language is en-US, so the unseeded default resolves to
+  // EN (T-FE-QUAL-07 order). Every scenario in this suite reasons from a PT
+  // baseline — seed the persisted choice before each page load.
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => window.localStorage.setItem('lang', 'pt'));
+  });
+
   /**
-   * Scenario 1 — Default locale (pt) renders Portuguese headings.
+   * Scenario 1 — PT locale renders Portuguese headings.
    * This verifies the baseline before any switch.
    */
-  test('S1: default locale (pt) shows Portuguese section headings', async ({ page }) => {
+  test('S1: pt locale shows Portuguese section headings', async ({ page }) => {
     await page.goto(ROUTES.home);
 
     await expect(page.locator('#hero-heading')).toBeVisible();
 
     const texts = await captureHeadings(page);
-
-    expect(texts.heroTagline).toContain(LOCALE_STRINGS.pt.heroTagline);
     expect(texts.skillsTitle).toContain(LOCALE_STRINGS.pt.skillsTitle);
     expect(texts.experienceTitle).toContain(LOCALE_STRINGS.pt.experienceTitle);
     expect(texts.educationTitle).toContain(LOCALE_STRINGS.pt.educationTitle);
@@ -116,15 +127,12 @@ test.describe('i18n — section headings change with locale (T-FE-QUAL-06)', () 
     await switchLocale(page, LOCALE_OPTION_LABELS.en);
 
     const texts = await captureHeadings(page);
-
-    expect(texts.heroTagline).toContain(LOCALE_STRINGS.en.heroTagline);
     expect(texts.skillsTitle).toContain(LOCALE_STRINGS.en.skillsTitle);
     expect(texts.experienceTitle).toContain(LOCALE_STRINGS.en.experienceTitle);
     expect(texts.educationTitle).toContain(LOCALE_STRINGS.en.educationTitle);
     expect(texts.certificationsTitle).toContain(LOCALE_STRINGS.en.certificationsTitle);
 
     // No heading is stuck in PT
-    expect(texts.heroTagline).not.toContain(LOCALE_STRINGS.pt.heroTagline);
     expect(texts.skillsTitle).not.toContain(LOCALE_STRINGS.pt.skillsTitle);
     expect(texts.educationTitle).not.toContain(LOCALE_STRINGS.pt.educationTitle);
   });
@@ -140,15 +148,12 @@ test.describe('i18n — section headings change with locale (T-FE-QUAL-06)', () 
     await switchLocale(page, LOCALE_OPTION_LABELS.de);
 
     const texts = await captureHeadings(page);
-
-    expect(texts.heroTagline).toContain(LOCALE_STRINGS.de.heroTagline);
     expect(texts.skillsTitle).toContain(LOCALE_STRINGS.de.skillsTitle);
     expect(texts.experienceTitle).toContain(LOCALE_STRINGS.de.experienceTitle);
     expect(texts.educationTitle).toContain(LOCALE_STRINGS.de.educationTitle);
     expect(texts.certificationsTitle).toContain(LOCALE_STRINGS.de.certificationsTitle);
 
     // No heading is stuck in PT
-    expect(texts.heroTagline).not.toContain(LOCALE_STRINGS.pt.heroTagline);
     expect(texts.educationTitle).not.toContain(LOCALE_STRINGS.pt.educationTitle);
     expect(texts.certificationsTitle).not.toContain(LOCALE_STRINGS.pt.certificationsTitle);
   });
@@ -173,7 +178,8 @@ test.describe('i18n — section headings change with locale (T-FE-QUAL-06)', () 
     await switchLocale(page, LOCALE_OPTION_LABELS.de);
     const deTexts = await captureHeadings(page);
 
-    const fields = ['heroTagline', 'skillsTitle', 'experienceTitle', 'educationTitle', 'certificationsTitle'] as const;
+    // heroTagline removed: locale-invariant since mobile-redesign-v1
+    const fields = ['skillsTitle', 'experienceTitle', 'educationTitle', 'certificationsTitle'] as const;
 
     for (const field of fields) {
       // Each locale differs from the other two
@@ -196,8 +202,6 @@ test.describe('i18n — section headings change with locale (T-FE-QUAL-06)', () 
     await switchLocale(page, LOCALE_OPTION_LABELS.pt);
 
     const texts = await captureHeadings(page);
-
-    expect(texts.heroTagline).toContain(LOCALE_STRINGS.pt.heroTagline);
     expect(texts.educationTitle).toContain(LOCALE_STRINGS.pt.educationTitle);
     expect(texts.certificationsTitle).toContain(LOCALE_STRINGS.pt.certificationsTitle);
   });

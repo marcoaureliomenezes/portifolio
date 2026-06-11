@@ -30,7 +30,7 @@ const LOCALE_HIGHLIGHT = [
   {
     key: 'pt',
     optionLabel: 'Português',
-    heroFragment: 'AI-augmented data engineering em escala',
+    heroFragment: 'Data Engineering at Scale',
     highlightTitle: 'Migração SAS → Azure + Databricks',
     impactFragment: '12 meses → 2 meses',
     seniorTriggerText: /Sênior|Senior/,
@@ -39,7 +39,7 @@ const LOCALE_HIGHLIGHT = [
   {
     key: 'en',
     optionLabel: 'English',
-    heroFragment: 'AI-augmented data engineering at scale',
+    heroFragment: 'Data Engineering at Scale',
     highlightTitle: 'SAS → Azure + Databricks Migration',
     impactFragment: '12 months → 2 months',
     seniorTriggerText: /Senior Data Engineer/,
@@ -48,7 +48,7 @@ const LOCALE_HIGHLIGHT = [
   {
     key: 'de',
     optionLabel: 'Deutsch',
-    heroFragment: 'KI-gestütztes Data Engineering im Maßstab',
+    heroFragment: 'Data Engineering at Scale',
     highlightTitle: 'SAS → Azure + Databricks Migration',
     impactFragment: /12 Monate → 2 Monate|12 months → 2 months|12 monate|monate/i,
     seniorTriggerText: /Senior Data Engineer/,
