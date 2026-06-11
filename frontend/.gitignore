@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Vendored packages: dist IS committed (build-free install)
+!vendor/analytics-sdk/dist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
