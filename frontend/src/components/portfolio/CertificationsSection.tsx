@@ -45,11 +45,11 @@ export function CertificationsSection({ content }: CertificationsSectionProps) {
         icon={Award}
         headingId="certificacoes-heading"
       >
-        <div className="space-y-6">
+        <div className="space-y-4">
           {Object.entries(byCategory).map(([category, certs]) => (
             <div key={category}>
               {/* Slim provider caption — replaces the old collapsible pill */}
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-2">
                 {PROVIDER_ICONS[category] ? (
                   <img
                     src={PROVIDER_ICONS[category]}
@@ -71,7 +71,7 @@ export function CertificationsSection({ content }: CertificationsSectionProps) {
 
               <div
                 data-testid={`cert-grid-${category}`}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"
               >
                 {certs.map((cert) => (
                   <CertificationCard key={cert.name} cert={cert} />

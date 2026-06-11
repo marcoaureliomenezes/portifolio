@@ -44,10 +44,11 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
       </div>
 
       {/* H1 — single line on desktop, wraps on mobile */}
-      {/* T-RD-02: display scale, solid foreground, wraps — never truncates */}
+      {/* T-RD-02 + operator feedback 2026-06-11: compact headline (~70% smaller
+          than the display scale), solid foreground, wraps — never truncates */}
       <h1
         id="hero-heading"
-        className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight mb-4 text-foreground text-balance"
+        className="text-lg md:text-xl font-bold leading-snug tracking-tight mb-4 text-foreground text-balance"
       >
         {tagline}
       </h1>

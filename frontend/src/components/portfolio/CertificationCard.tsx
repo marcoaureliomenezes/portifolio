@@ -19,20 +19,24 @@ export function CertificationCard({ cert }: CertificationCardProps) {
 
   const body = (
     <>
-      {cert.icon ? (
-        <img
-          src={cert.icon}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="w-10 h-10 flex-shrink-0 object-contain"
-        />
-      ) : (
-        <Medal
-          className="w-10 h-10 text-muted-foreground flex-shrink-0"
-          aria-hidden="true"
-        />
-      )}
+      {/* Fixed icon box: badges come in many shapes (hexagon/rect/circle) —
+          a uniform 48px anchor keeps every tile's text column aligned. */}
+      <span
+        className="w-12 h-12 flex-shrink-0 rounded-lg bg-muted/40 flex items-center justify-center p-1.5"
+        aria-hidden="true"
+      >
+        {cert.icon ? (
+          <img
+            src={cert.icon}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="max-w-full max-h-full object-contain"
+          />
+        ) : (
+          <Medal className="w-7 h-7 text-muted-foreground" />
+        )}
+      </span>
       <div className="min-w-0 flex-1 space-y-1">
         <h4 className="font-semibold text-foreground text-sm leading-snug line-clamp-2">
           {cert.name}
@@ -56,7 +60,7 @@ export function CertificationCard({ cert }: CertificationCardProps) {
   );
 
   const tileClasses =
-    "group/cert flex items-center gap-3 p-3 bg-card rounded-xl border border-border/40 h-full";
+    "group/cert flex items-center gap-3 p-2.5 bg-card rounded-xl border border-border/40 h-full min-h-[68px]";
 
   if (!hasLink) {
     return (

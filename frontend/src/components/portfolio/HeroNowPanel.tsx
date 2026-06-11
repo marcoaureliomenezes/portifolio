@@ -34,36 +34,42 @@ export function HeroNowPanel({ content }: HeroNowPanelProps) {
     <aside
       aria-label={labels?.title ?? "now"}
       data-testid="hero-now-panel"
-      className="hidden lg:block rounded-xl border border-border/60 bg-card p-5 font-mono text-sm self-center w-full max-w-sm"
+      className="hidden lg:block rounded-xl border border-border/50 bg-card/60 px-6 py-5 self-center w-full max-w-sm"
     >
-      <p className="text-muted-foreground mb-4 select-none" aria-hidden="true">
+      {/* The single mono moment: a quiet prompt line */}
+      <p
+        className="font-mono text-xs text-muted-foreground mb-4 select-none"
+        aria-hidden="true"
+      >
         <span className="text-accent">$</span> {labels?.title ?? "now"}
       </p>
-      <dl className="space-y-3">
+      <dl className="space-y-4">
         {currentRole && currentExp && (
           <div>
-            <dt className="text-xs uppercase tracking-wide text-muted-foreground">
+            <dt className="text-xs text-muted-foreground mb-0.5">
               {labels?.currentRole ?? "papel atual"}
             </dt>
-            <dd className="text-foreground mt-0.5">
+            <dd className="text-sm font-medium text-foreground leading-snug">
               {currentRole.title} · {currentExp.company}
             </dd>
           </div>
         )}
         {latestCert && (
           <div>
-            <dt className="text-xs uppercase tracking-wide text-muted-foreground">
+            <dt className="text-xs text-muted-foreground mb-0.5">
               {labels?.latestCert ?? "última certificação"}
             </dt>
-            <dd className="text-foreground mt-0.5">{latestCert.name}</dd>
+            <dd className="text-sm font-medium text-foreground leading-snug">
+              {latestCert.name}
+            </dd>
           </div>
         )}
         {latestProject && (
           <div>
-            <dt className="text-xs uppercase tracking-wide text-muted-foreground">
+            <dt className="text-xs text-muted-foreground mb-0.5">
               {labels?.latestProject ?? "último projeto"}
             </dt>
-            <dd className="mt-0.5">
+            <dd className="text-sm font-medium leading-snug">
               <Link
                 to={`/projetos/${latestProject.slug}`}
                 className="text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
