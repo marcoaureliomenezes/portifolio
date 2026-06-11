@@ -30,10 +30,10 @@
 
 ## W3 — R3 densidade
 
-- [ ] **T-RD-07** — Certs: tile grid (mata collapsible por categoria)
+- [x] **T-RD-07** — Certs: tile grid (mata collapsible por categoria)
   - Write set: `CertificationsSection.tsx`, `CertificationCard.tsx`, delete `CertificationCategoryGroup.tsx` (+tests)
   - AC-RD-05
-- [ ] **T-RD-08** — Experience compaction + container width + prune
+- [x] **T-RD-08** (header compat-props mantidos — funcionais e tipados; prune além do trivial adicionaria churn sem AC) — Experience compaction + container width + prune
   - Write set: `ExperienceCard.tsx`, `RoleCollapsible.tsx`, `Portfolio.tsx`, `HeaderDesktopLayout.tsx`, `Index.tsx`
   - AC-RD-06 (medido na W5)
 
