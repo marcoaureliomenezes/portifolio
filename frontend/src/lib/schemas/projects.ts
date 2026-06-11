@@ -161,6 +161,15 @@ export const ProjectSchema = z.discriminatedUnion("kind", [
 export const ProjectsIndexSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
+  /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
+  kindLabels: z
+    .object({
+      "case-study": z.string().min(1),
+      meta: z.string().min(1),
+      games: z.string().min(1),
+      library: z.string().min(1),
+    })
+    .optional(),
 });
 
 export const ProjectsContentSchema = z.object({

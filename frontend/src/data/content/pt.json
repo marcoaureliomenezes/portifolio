@@ -514,222 +514,68 @@
       "priority": 11
     }
   ],
-  "projects": {
-    "dadaia-workspace": {
-      "hero": {
-        "title": "dadaia-workspace",
-        "tagline": "Ecossistema agente SDD — spec-driven development com agentes de IA colaborativos.",
-        "logo": "/assets/projects/dadaia-workspace/logo.svg"
-      },
-      "sections": [
-        {
-          "id": "what",
-          "title": "O que é",
-          "body": "dadaia-workspace é um ecossistema de agentes de inteligência artificial orquestrado para spec-driven development (SDD). Cada agente tem papel e escopo bem definido — product-engineer, software-engineer, qa-engineer, devops-engineer — e colaboram por meio de specs e contextos compartilhados."
-        },
-        {
-          "id": "why",
-          "title": "Por que existe",
-          "body": "A maioria das ferramentas de IA para desenvolvimento trata o agente como assistente genérico. dadaia-workspace inverte isso: cada agente conhece suas fronteiras, lê as specs antes de agir, e nunca escreve código fora do seu domínio. O resultado é um workflow reproduzível, auditável e seguro."
-        },
-        {
-          "id": "how",
-          "title": "Como funciona",
-          "body": "O operador ativa um contexto de projeto (`dadaia context activate <nome>`). Cada agente lê as specs correspondentes, executa suas tarefas e reporta de volta. Todos os agentes rodam sobre o mesmo LLM mas com system prompts e permissões distintas. O projeto usa Claude (Anthropic) como modelo base.",
-          "diagram": "/assets/projects/dadaia-workspace/diagram.svg"
-        },
-        {
-          "id": "status",
-          "title": "Status atual",
-          "items": [
-            {
-              "label": "Versão",
-              "value": "v0.12.0"
-            },
-            {
-              "label": "Agentes ativos",
-              "value": "5 (product, software, qa, devops, game-developer)"
-            },
-            {
-              "label": "Contextos suportados",
-              "value": "portifolio, hermes-jobs, tauan-games"
-            },
-            {
-              "label": "Último marco",
-              "value": "Migração de conteúdo para JSON estático (T-CONTENT-01)"
-            }
-          ]
-        }
-      ],
-      "cta": {
-        "github": "https://github.com/marcoaureliomenezes/dadaia-workspace",
-        "docs": ""
-      },
-      "seo": {
-        "title": "dadaia-workspace — Marco Menezes",
-        "description": "Ecossistema agente SDD para spec-driven development com agentes de IA colaborativos."
-      }
-    },
-    "tauan-games": {
-      "hero": {
-        "title": "tauan-games",
-        "tagline": "Jogos feitos em casa com meu filho Tauan."
-      },
-      "items": [
-        {
-          "slug": "aero-fighters",
-          "title": "Aero Fighters",
-          "engine": "Three.js",
-          "image": "/assets/projects/tauan-games/aero-fighters-cover.svg",
-          "body": "Shooter aéreo desenvolvido com Three.js. Nasceu do desejo de criar algo jogável junto com o Tauan, explorando física básica, sprites e controles de teclado no browser.",
-          "repo": "https://github.com/marcoaureliomenezes/tauan-games"
-        },
-        {
-          "slug": "tauan-trex",
-          "title": "tauan-trex",
-          "engine": "Phaser",
-          "image": "/assets/projects/tauan-games/tauan-trex-cover.svg",
-          "body": "Recriação do clássico jogo do dinossauro do Chrome, personalizado com elementos criados pelo Tauan. Um projeto de fim de semana para aprender eventos de teclado e animação no canvas HTML5.",
-          "repo": "https://github.com/marcoaureliomenezes/tauan-games"
-        }
-      ],
-      "seo": {
-        "title": "tauan-games — Marco Menezes",
-        "description": "Protótipos de jogos desenvolvidos com Tauan em Three.js e Phaser."
-      }
-    },
-    "portifolio": {
-      "hero": {
-        "title": "Arquitetura deste portfólio",
-        "tagline": "Como este site é construído, hospedado e mantido."
-      },
-      "diagram": "/assets/projects/portifolio/architecture.svg",
-      "stack": [
-        {
-          "layer": "Frontend",
-          "tech": "React 18 + Vite 7 + TypeScript 5.5"
-        },
-        {
-          "layer": "UI",
-          "tech": "Tailwind CSS 3 + shadcn/ui (podado)"
-        },
-        {
-          "layer": "Testes",
-          "tech": "Vitest + RTL + Playwright + LHCI"
-        },
-        {
-          "layer": "Infra",
-          "tech": "S3 (OAC) + CloudFront + ACM + Route53"
-        },
-        {
-          "layer": "IaC",
-          "tech": "Terraform 1.9, backend S3 remoto"
-        },
-        {
-          "layer": "CI/CD",
-          "tech": "GitHub Actions com OIDC (sem long-lived keys)"
-        }
-      ],
-      "costs": [
-        {
-          "service": "Route53 hosted zone",
-          "monthly_usd": 0.5
-        },
-        {
-          "service": "S3 storage",
-          "monthly_usd": 0
-        },
-        {
-          "service": "CloudFront",
-          "monthly_usd": 0
-        },
-        {
-          "service": "ACM cert",
-          "monthly_usd": 0
-        },
-        {
-          "service": "Total estimado",
-          "monthly_usd": 0.5
-        }
-      ],
-      "decisions": [
-        {
-          "title": "React/Vite em vez de Next.js ou Astro",
-          "rationale": "ROI alto para 5 rotas estáticas; sem necessidade de SSR ou edge rendering.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/memory/architecture.md"
-        },
-        {
-          "title": "2 ambientes AWS (stage + prod), dev local",
-          "rationale": "Gate explícito antes de prod sem custo adicional.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/foundation/SPEC.md"
-        },
-        {
-          "title": "OIDC sem long-lived AWS keys",
-          "rationale": "Sem secrets AWS persistidos; trust restrito ao repo do portfólio.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/security/SPEC.md"
-        },
-        {
-          "title": "CMS-lite no roadmap (não no P0)",
-          "rationale": "Sem redeploy para mudar texto no futuro, sem complexidade extra agora.",
-          "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/features/cms-lite/SPEC.md"
-        }
-      ],
-      "links": {
-        "repo": "https://github.com/marcoaureliomenezes/portifolio",
-        "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
-        "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
-      },
-      "seo": {
-        "title": "Arquitetura deste portfólio — Marco Menezes",
-        "description": "Stack, infra terraform, custos mensais e decisões arquiteturais do site marco-menezes.com."
-      }
-    }
-  },
   "projectsV2": {
     "index": {
       "title": "Projetos",
-      "description": "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho."
+      "description": "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho.",
+      "kindLabels": {
+        "case-study": "Estudo de caso",
+        "meta": "Infraestrutura",
+        "games": "Games",
+        "library": "Python · PyPI"
+      }
     },
     "list": [
       {
         "slug": "dadaia-workspace",
-        "kind": "case-study",
+        "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Ecossistema agente SDD — spec-driven development com agentes de IA colaborativos."
+          "tagline": "Ecossistema SDD orientado a agentes — biblioteca Python publicada no PyPI que orquestra agentes de IA por especificação."
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Ecossistema de agentes de IA para spec-driven development. Cada agente tem papel e escopo bem definido, colaborando via specs compartilhadas.",
+          "summary": "CLI Python (PyPI) que transforma um diretório em workspace multi-agente: 9 agentes core com papéis e limites definidos, colaborando via specs compartilhadas em 3 runtimes.",
           "tech": [
-            "TypeScript",
-            "React",
-            "Claude API",
             "Python",
-            "Docker"
+            "Claude Code",
+            "Codex",
+            "SDD",
+            "Multi-agent"
           ]
         },
         "seo": {
           "title": "dadaia-workspace — Marco Menezes",
-          "description": "Ecossistema agente SDD para spec-driven development com agentes de IA colaborativos."
+          "description": "dadaia-workspace — biblioteca Python no PyPI para desenvolvimento spec-driven com agentes de IA colaborativos."
         },
         "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
+        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
         "diagramAlt": "Diagrama de arquitetura do dadaia-workspace: agentes de IA, contextos de projeto e fluxo SDD.",
+        "pypi": {
+          "package": "dadaia-workspace",
+          "version": "0.1.5",
+          "installCommand": "pip install dadaia-workspace"
+        },
+        "stat": {
+          "label": "agentes core",
+          "value": "9"
+        },
         "sections": [
           {
             "id": "what",
             "title": "O que é",
-            "body": "dadaia-workspace é um ecossistema de agentes de inteligência artificial orquestrado para spec-driven development (SDD). Cada agente tem papel e escopo bem definido — product-engineer, software-engineer, qa-engineer, devops-engineer — e colaboram por meio de specs e contextos compartilhados."
+            "body": "dadaia-workspace é uma biblioteca Python open-source (PyPI) que orquestra um ecossistema de agentes de IA para desenvolvimento spec-driven (SDD). Cada agente tem papel e escopo bem definidos — product-engineer, software-engineer, qa-engineer, security-reviewer e mais — e todos colaboram através de specs e contextos compartilhados."
           },
           {
             "id": "why",
             "title": "Por que existe",
-            "body": "A maioria das ferramentas de IA para desenvolvimento trata o agente como assistente genérico. dadaia-workspace inverte isso: cada agente conhece suas fronteiras, lê as specs antes de agir, e nunca escreve código fora do seu domínio. O resultado é um workflow reproduzível, auditável e seguro."
+            "body": "A maioria das ferramentas de IA trata agentes como assistentes genéricos. dadaia-workspace inverte isso: cada agente conhece seus limites, lê as specs antes de agir e nunca escreve código fora do seu domínio. O resultado é um fluxo reproduzível, auditável e seguro."
           },
           {
             "id": "how",
             "title": "Como funciona",
-            "body": "O operador ativa um contexto de projeto (`dadaia context activate <nome>`). Cada agente lê as specs correspondentes, executa suas tarefas e reporta de volta. Todos os agentes rodam sobre o mesmo LLM mas com system prompts e permissões distintas. O projeto usa Claude (Anthropic) como modelo base."
+            "body": "`pip install dadaia-workspace`, depois `dadaia context bind <nome>` vincula a sessão a um contexto de projeto. Cada agente lê as specs correspondentes, executa suas tarefas sob um gate SDD determinístico (hooks) e reporta de volta. Os mesmos agentes são projetados para 3 runtimes — Claude Code, Codex e OpenCode.",
+            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
           },
           {
             "id": "status",
@@ -737,26 +583,26 @@
             "items": [
               {
                 "label": "Versão",
-                "value": "v0.12.0"
+                "value": "v0.1.5 (PyPI)"
               },
               {
-                "label": "Agentes ativos",
-                "value": "5 (product, software, qa, devops, game-developer)"
+                "label": "Agentes core",
+                "value": "9 (roster fixo + plugins)"
               },
               {
-                "label": "Contextos suportados",
-                "value": "portifolio, hermes-jobs, tauan-games"
+                "label": "Runtimes",
+                "value": "Claude Code, Codex, OpenCode"
               },
               {
                 "label": "Último marco",
-                "value": "Migração de conteúdo para JSON estático (T-CONTENT-01)"
+                "value": "Compatibilidade cross-platform Linux/macOS/Windows"
               }
             ]
           }
         ],
-        "cta": {
-          "github": "https://github.com/marcoaureliomenezes/dadaia-workspace",
-          "githubLabel": "Ver no GitHub"
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/dadaia-workspace",
+          "pypi": "https://pypi.org/project/dadaia-workspace/"
         }
       },
       {
@@ -869,7 +715,8 @@
           "repo": "https://github.com/marcoaureliomenezes/portifolio",
           "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
           "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
-        }
+        },
+        "diagramDark": "/assets/projects/portifolio/architecture-dark.svg"
       },
       {
         "slug": "tauan-games",
@@ -913,7 +760,96 @@
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
           }
         ]
+      },
+      {
+        "slug": "rand-engine",
+        "kind": "library",
+        "hero": {
+          "title": "rand-engine",
+          "tagline": "Biblioteca Python de alta performance para geração de dados sintéticos em escala — Pandas, Spark e DuckDB."
+        },
+        "card": {
+          "cover": "/assets/projects/rand-engine/cover.webp",
+          "summary": "Gera dados sintéticos realistas em segundos. Suporte nativo a Pandas e Spark, 17+ especificações prontas, sistema de constraints FK/PK e seed reproduzível.",
+          "tech": [
+            "Python",
+            "Pandas",
+            "PySpark",
+            "DuckDB",
+            "NumPy"
+          ]
+        },
+        "seo": {
+          "title": "rand-engine — Marco Menezes",
+          "description": "rand-engine — biblioteca Python open-source no PyPI para geração de dados sintéticos em escala com Pandas e Spark."
+        },
+        "diagram": "/assets/projects/rand-engine/architecture-light.svg",
+        "diagramDark": "/assets/projects/rand-engine/architecture-dark.svg",
+        "diagramAlt": "Diagrama de arquitetura do rand-engine: specs declarativas, geradores NumPy e saída Pandas/Spark.",
+        "pypi": {
+          "package": "rand-engine",
+          "version": "0.6.4",
+          "installCommand": "pip install rand-engine"
+        },
+        "stat": {
+          "label": "rows/s (Spark)",
+          "value": "5.1M"
+        },
+        "sections": [
+          {
+            "id": "what",
+            "title": "O que é",
+            "body": "rand-engine é uma biblioteca Python open-source para geração de dados sintéticos em escala. Suporta Pandas (local) e Spark (distribuído), com 17+ especificações prontas — clientes, pedidos, produtos, funcionários e mais. Publicada no PyPI com 494 testes automatizados e licença MIT."
+          },
+          {
+            "id": "why",
+            "title": "Por que existe",
+            "body": "Testar pipelines ETL/ELT exige dados realistas sem expor informações sensíveis. Ferramentas genéricas como Faker não têm suporte nativo a DataFrames nem constraints de chave. rand-engine resolve o problema com uma API declarativa que gera volumes de produção em segundos."
+          },
+          {
+            "id": "how",
+            "title": "Como funciona",
+            "body": "`pip install rand-engine`. Defina uma especificação (schema + constraints), chame `.generate(n_rows)` e receba um DataFrame Pandas ou Spark. O parâmetro `seed` garante reprodutibilidade. Exportação nativa para CSV, Parquet e JSON com compressão. Performance: ~12K rows/s local; 5,1M rows/s no Databricks Spark."
+          },
+          {
+            "id": "status",
+            "title": "Status atual",
+            "items": [
+              {
+                "label": "Versão",
+                "value": "v0.6.4 (PyPI)"
+              },
+              {
+                "label": "Testes",
+                "value": "494 passando"
+              },
+              {
+                "label": "Performance local",
+                "value": "~12K rows/s"
+              },
+              {
+                "label": "Performance Spark",
+                "value": "5,1M rows/s (Databricks)"
+              },
+              {
+                "label": "Licença",
+                "value": "MIT"
+              }
+            ]
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/rand_engine",
+          "pypi": "https://pypi.org/project/rand-engine/"
+        }
       }
     ]
+  },
+  "libraryPage": {
+    "installTitle": "Instalação",
+    "versionLabel": "versão",
+    "copyLabel": "Copiar comando",
+    "copiedLabel": "Copiado",
+    "linkPypi": "PyPI"
   }
 }

@@ -71,13 +71,13 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase R2-W4 — Conteúdo + cards (substitui C-01/C-02 onde conflitar)
 
-- [ ] **T-PC2-R2-06** — Conteúdo: rand-engine novo + dadaia-workspace retipado + remoção da chave legacy `projects`
+- [x] **T-PC2-R2-06** — Conteúdo: rand-engine novo + dadaia-workspace retipado + remoção da chave legacy `projects` ✅ (validate+parity exit 0, 4 projetos/locale)
   - Write set: `frontend/src/data/content/{pt,en,de}.json`, `frontend/scripts/validate-content.mjs` (se precisar do novo kind)
   - AC: AC-PC2-01..05 (revisados), AC-PC2-R2-03
-- [ ] **T-PC2-R2-07** — `ProjectCard` redesign
+- [x] **T-PC2-R2-07** — `ProjectCard` redesign ✅ (chip i18n kindLabels, badges ≤4, stat, install hint, hover lift)
   - Write set: `frontend/src/components/projects/ProjectCard.tsx` (+test)
   - Chip de kind, badges tech (≤4), stat de destaque, ícones GitHub/PyPI; AC-PC2-R2-06
-- [ ] **T-PC2-R2-08** — Dead code removal
+- [x] **T-PC2-R2-08** — Dead code removal ✅ (AppSidebar, ui/sidebar 761ln, Portfolio shell, architecture.svg)
   - Write set: deleções `AppSidebar.tsx`, `ui/sidebar.tsx`, `components/Portfolio.tsx` (inline no Index), `public/assets/projects/portifolio/architecture.svg`
   - AC: AC-PC2-R2-07 (grep-zero)
 

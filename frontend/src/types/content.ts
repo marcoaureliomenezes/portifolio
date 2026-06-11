@@ -187,8 +187,10 @@ export interface ProjectsContentV2 {
   index: {
     title: string;
     description: string;
+    /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
+    kindLabels?: Record<Project["kind"], string>;
   };
-  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games. */
+  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games, rand-engine. */
   list: Project[];
 }
 
