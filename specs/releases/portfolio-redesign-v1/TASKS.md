@@ -39,13 +39,13 @@
 
 ## W4 — R4 headless Fase 1
 
-- [ ] **T-RD-09** — Conteúdo para `public/content/` + ids + profile + versão
+- [x] **T-RD-09** — Conteúdo para `public/content/` + ids + profile + versão
   - Write set: `public/content/{pt,en,de}.json` (git mv de `src/data/content/`), script de migração em `.dadaia/tmp/`
   - AC-RD-09, AC-RD-12
-- [ ] **T-RD-10** — Loader fetch + shim de teste + consumidores de profile
+- [x] **T-RD-10** — Loader fetch + shim de teste + consumidores de profile
   - Write set: `src/contexts/LanguageContext.tsx`, `src/test-setup.ts`, `src/data/profile.ts` (remove), `HeroSection`, `header/ContactStrip.tsx`, `header/EmailModal.tsx`, testes afetados
   - AC-RD-07, AC-RD-10
-- [ ] **T-RD-11** — Schema completo + contrato JSON Schema + validate
+- [x] **T-RD-11** (desvio documentado: schema canônico single-sourced em scripts/content-schema.mjs — evita cópia dupla TS/Node; sub-schema projects permanece em src/lib/schemas/projects.ts para o dev-guard) — Schema completo + contrato JSON Schema + validate
   - Write set: `src/lib/schemas/content.ts` (+test), `scripts/export-content-schema.mjs`, `scripts/validate-content.mjs`, `public/content/schema/v1.json`, `package.json` (script)
   - AC-RD-08
 

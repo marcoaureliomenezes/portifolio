@@ -1,6 +1,6 @@
 import { Github, Linkedin, Download } from "lucide-react";
 import type { SupportedLanguages } from "@/types/content";
-import { profile } from "@/data/profile";
+import { useContent } from "@/hooks/useContent";
 
 interface ContactStripProps {
   language: SupportedLanguages;
@@ -19,6 +19,8 @@ const RESUME_FILES: Record<SupportedLanguages, { href: string; download: string 
 };
 
 export function ContactStrip({ language }: ContactStripProps) {
+  const { content } = useContent();
+  const profile = content.profile;
   const resume = RESUME_FILES[language];
 
   const handleDownload = () => {
@@ -33,7 +35,7 @@ export function ContactStrip({ language }: ContactStripProps) {
   return (
     <>
       <a
-        href={profile.linkedinUrl}
+        href={profile?.linkedinUrl ?? "#"}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"
@@ -46,7 +48,7 @@ export function ContactStrip({ language }: ContactStripProps) {
       <span className="text-header-text-muted">|</span>
 
       <a
-        href={profile.githubUrl}
+        href={profile?.githubUrl ?? "#"}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center gap-1 text-header-link hover:text-header-text transition-colors whitespace-nowrap"

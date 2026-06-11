@@ -9,6 +9,13 @@ function renderWithRouter(ui: React.ReactElement) {
 }
 
 const baseContent: ContentData = {
+  profile: {
+    linkedinUrl: "https://www.linkedin.com/in/marco-menezes-731542b9",
+    githubUrl: "https://github.com/marcoaureliomenezes",
+    instagramUrl: "https://www.instagram.com/marcoaurelioreislima/",
+    email: "x@y.com",
+    cvUrl: "/cv.pdf",
+  },
   resumeTitle: "Resumo",
   skillsTitle: "Habilidades",
   experienceTitle: "Experiência",

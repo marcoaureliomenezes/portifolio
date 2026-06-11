@@ -1,4 +1,13 @@
 {
+  "schema_version": "1",
+  "published_at": "2026-06-11T00:00:00Z",
+  "profile": {
+    "linkedinUrl": "https://www.linkedin.com/in/marco-menezes-731542b9",
+    "githubUrl": "https://github.com/marcoaureliomenezes",
+    "instagramUrl": "https://www.instagram.com/marcoaurelioreislima/",
+    "email": "marcoaurelioreislima@gmail.com",
+    "cvUrl": "/cv.pdf"
+  },
   "resumeTitle": "Zusammenfassung",
   "skillsTitle": "Fähigkeiten",
   "experienceTitle": "Berufserfahrung",
@@ -69,7 +78,8 @@
         "Portugiesisch (Muttersprache)",
         "Englisch (Muttersprache oder zweisprachig)",
         "Deutsch (Vollständige berufliche Kompetenz)"
-      ]
+      ],
+      "id": "languages"
     },
     {
       "title": "Programmiersprachen",
@@ -80,7 +90,8 @@
         "Shell (5+ J.)",
         "Scala (2+ J.)",
         "Java"
-      ]
+      ],
+      "id": "programming-languages"
     },
     {
       "title": "Cloud-Anbieter",
@@ -89,7 +100,8 @@
         "AWS",
         "Azure",
         "Databricks"
-      ]
+      ],
+      "id": "cloud-providers"
     },
     {
       "title": "KI / Moderne Tools",
@@ -106,7 +118,8 @@
         "Spec Driven Development",
         "Harness",
         "Context engineering"
-      ]
+      ],
+      "id": "ai-modern-tooling"
     },
     {
       "title": "On-Premises Datentechnologien",
@@ -117,7 +130,8 @@
         "Spark",
         "Kafka",
         "Control-M"
-      ]
+      ],
+      "id": "on-premises-data-technologies"
     },
     {
       "title": "DevOps-Technologien",
@@ -130,7 +144,8 @@
         "Docker",
         "Jira",
         "ServiceNow"
-      ]
+      ],
+      "id": "devops-technologies"
     }
   ],
   "experiences": [
@@ -185,7 +200,8 @@
               "Legacy SAS-Stack → Azure Data Factory + Databricks (Medallion-Architektur)",
               "Devin-Pilot in der Bank — Grundlage für die Skalierung der Praxis"
             ]
-          }
+          },
+          "id": "santander-brazil-f1rst-digital-services-senior-data-engineer-02-2024-to-present"
         },
         {
           "title": "Data Engineer",
@@ -215,7 +231,8 @@
             "Databricks",
             "BMC Control-M",
             "Git"
-          ]
+          ],
+          "id": "santander-brazil-f1rst-digital-services-mid-level-data-engineer-07-2022-to-02-2024"
         },
         {
           "title": "Junior Data Engineer",
@@ -242,9 +259,11 @@
             "Git",
             "Jira",
             "Scrum"
-          ]
+          ],
+          "id": "santander-brazil-f1rst-digital-services-data-engineer-05-2021-to-07-2022"
         }
-      ]
+      ],
+      "id": "santander-brazil-f1rst-digital-services"
     },
     {
       "company": "Trie Engenharia",
@@ -271,9 +290,11 @@
             "Lambda-Architektur",
             "JupyterLab",
             "ETL"
-          ]
+          ],
+          "id": "trie-engenharia-data-analyst-jr-11-2020-to-05-2021"
         }
-      ]
+      ],
+      "id": "trie-engenharia"
     },
     {
       "company": "Colégio Técnico Inconfidentes Álvares Maciel",
@@ -304,9 +325,11 @@
             "Arbeitssicherheit",
             "MS Office",
             "Linux"
-          ]
+          ],
+          "id": "colegio-tecnico-inconfidentes-alvares-maciel-adjunct-instructor-04-2015-to-07-2018"
         }
-      ]
+      ],
+      "id": "colegio-tecnico-inconfidentes-alvares-maciel"
     },
     {
       "company": "Universidade Federal de Ouro Preto",
@@ -334,9 +357,11 @@
             "PID-Regelung",
             "Linux",
             "Git"
-          ]
+          ],
+          "id": "universidade-federal-de-ouro-preto-laboratory-assistant-08-2016-to-08-2017"
         }
-      ]
+      ],
+      "id": "universidade-federal-de-ouro-preto"
     },
     {
       "company": "Analógica Instrumentação e Controle",
@@ -363,9 +388,11 @@
             "Git",
             "Elektronik",
             "Eingebettete Systeme"
-          ]
+          ],
+          "id": "analogica-instrumentacao-e-controle-summer-internship-01-2015-to-02-2015"
         }
-      ]
+      ],
+      "id": "analogica-instrumentacao-e-controle"
     }
   ],
   "education": {
@@ -378,7 +405,8 @@
     "coursework": "Python, C/C++, eingebettete Systeme, Steuerungssystemdesign, Robotik und KI",
     "thesisLabel": "Bachelorarbeit",
     "thesis": "Analyse der Dynamik und Design von Temperaturreglern für elektrische Duschen.",
-    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342"
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342",
+    "id": "education-bundesuniversitat-ouro-preto"
   },
   "certifications": [
     {
@@ -391,7 +419,8 @@
       "icon": "images/badges/aws_data_engineer_associate.png",
       "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
       "description": "Fortgeschrittene AWS-Datentechnik-Zertifizierung mit Pipelines, ETL, Speicherung und Datenanalyse im großen Maßstab. Umfasst Services wie Glue, Redshift, Kinesis, EMR und Lake Formation.",
-      "priority": 1
+      "priority": 1,
+      "id": "aws-aws-data-engineer"
     },
     {
       "name": "AWS Solutions Architect",
@@ -403,7 +432,8 @@
       "icon": "images/badges/aws_solutions_architect_associate.png",
       "link": "https://www.credly.com/badges/3d7aeb44-78db-430f-8103-550f89660989/public_url",
       "description": "Zertifizierung in AWS-Lösungsarchitektur mit Design verteilter Systeme, hoher Verfügbarkeit, Fehlertoleranz und Kostenoptimierung. Umfasst Services wie EC2, VPC, S3, RDS, Lambda und CloudFormation.",
-      "priority": 2
+      "priority": 2,
+      "id": "aws-aws-solutions-architect"
     },
     {
       "name": "AWS AI Practitioner",
@@ -415,7 +445,8 @@
       "icon": "images/badges/aws_practitioner.png",
       "link": "#",
       "description": "Grundlagenzertifizierung für KI und maschinelles Lernen auf AWS, einschließlich generativer KI, verantwortungsvoller KI und AWS KI/ML-Services.",
-      "priority": 3
+      "priority": 3,
+      "id": "aws-aws-ai-practitioner"
     },
     {
       "name": "AWS Cloud Practitioner",
@@ -427,7 +458,8 @@
       "icon": "images/badges/aws_practitioner.png",
       "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
       "description": "Grundlagenzertifizierung für AWS Cloud-Grundlagen, Kernservices, Sicherheit, Architektur und bewährte Praktiken der Kostenoptimierung.",
-      "priority": 4
+      "priority": 4,
+      "id": "aws-aws-cloud-practitioner"
     },
     {
       "name": "Spark Data Engineer Associate",
@@ -439,7 +471,8 @@
       "icon": "images/databricks_de_associate.png",
       "link": "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
       "description": "Spezialisierung in Data Engineering mit Apache Spark, Delta Lake und modernen Datenarchitekturen. Umfasst ETL, Streaming, Performance-Tuning und Data Governance.",
-      "priority": 5
+      "priority": 5,
+      "id": "databricks-spark-data-engineer-associate"
     },
     {
       "name": "Spark Developer Associate",
@@ -451,7 +484,8 @@
       "icon": "images/databricks_spark_dev.png",
       "link": "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
       "description": "Zertifizierung in der Entwicklung von Apache Spark-Anwendungen für verteilte Datenverarbeitung. Umfasst DataFrame API, SQL, RDD und Performance-Optimierung.",
-      "priority": 6
+      "priority": 6,
+      "id": "databricks-spark-developer-associate"
     },
     {
       "name": "Azure Data Engineer Associate",
@@ -463,7 +497,8 @@
       "icon": "images/dp-203.png",
       "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
       "description": "Data Engineering-Zertifizierung auf Azure mit Azure Data Factory, Synapse Analytics, Data Lake Storage und Streaming-Services.",
-      "priority": 9
+      "priority": 9,
+      "id": "azure-azure-data-engineer-associate"
     },
     {
       "name": "Azure Fundamentals",
@@ -475,7 +510,8 @@
       "icon": "images/az-900.png",
       "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
       "description": "Microsoft Azure-Grundlagenzertifizierung mit Cloud Computing-Konzepten, Kernservices und Preismodellen.",
-      "priority": 7
+      "priority": 7,
+      "id": "azure-azure-fundamentals"
     },
     {
       "name": "Apache Airflow Fundamentals",
@@ -487,7 +523,8 @@
       "icon": "images/badges/airflow_fundamentals.png",
       "link": "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
       "description": "Zertifizierung in Workflow-Orchestrierung mit Apache Airflow für Datenpipeline-Automatisierung. Umfasst DAGs, Operatoren, Sensoren und bewährte Praktiken.",
-      "priority": 8
+      "priority": 8,
+      "id": "others-apache-airflow-fundamentals"
     },
     {
       "name": "Santander Data Engineer",
@@ -499,7 +536,8 @@
       "icon": "images/badges/santander-dea.svg",
       "link": "#",
       "description": "Fortgeschrittene interne Data Engineering-Zertifizierung von Santander Brasil. Top-10-Ranking nach technischem Fall und umfassender Prüfung zu Big Data, Cloud und verteilten Architekturen.",
-      "priority": 10
+      "priority": 10,
+      "id": "data-master-santander-data-engineer"
     },
     {
       "name": "Deutschkurs Niveau B1",
@@ -511,7 +549,8 @@
       "icon": "",
       "link": "#",
       "description": "Deutschsprachzertifikat auf B1-Niveau (Mittelstufe), das vollständige berufliche Kommunikationsfähigkeiten auf Deutsch belegt.",
-      "priority": 11
+      "priority": 11,
+      "id": "languages-curso-de-alemao-nivel-b1"
     }
   ],
   "projectsV2": {

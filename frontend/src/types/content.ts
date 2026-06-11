@@ -7,6 +7,19 @@
 
 export type SupportedLanguages = "pt" | "en" | "de";
 
+/**
+ * Operator profile — T-RD-10: absorbed from the old src/data/profile.ts into
+ * content so the future admin panel can edit contact/CV without a release.
+ */
+export interface Profile {
+  linkedinUrl: string;
+  githubUrl: string;
+  instagramUrl: string;
+  email: string;
+  /** CV asset path (single PDF serves all locales — operator decision 2026-05-17). */
+  cvUrl: string;
+}
+
 export interface HighlightProject {
   title: string;
   body: string;
@@ -15,6 +28,8 @@ export interface HighlightProject {
 }
 
 export interface Position {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   title: string;
   period: string;
   responsibilities?: string[];
@@ -24,6 +39,8 @@ export interface Position {
 }
 
 export interface Experience {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   company: string;
   fullName: string;
   location: string;
@@ -33,6 +50,8 @@ export interface Experience {
 }
 
 export interface Education {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   degreeLevel: string;
   degreeField: string;
   institution: string;
@@ -51,6 +70,8 @@ export interface Resume {
 }
 
 export interface Certification {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   name: string;
   issuer: string;
   category: string;
@@ -64,6 +85,8 @@ export interface Certification {
 }
 
 export interface SkillCategory {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   title: string;
   icon: string;
   skills: string[];
@@ -265,6 +288,11 @@ export interface ArchPageLabels {
 }
 
 export interface ContentData {
+  /** Headless Phase 1 (T-RD-09): contract version + publish stamp. */
+  schema_version?: string;
+  published_at?: string;
+  /** Contact/CV data (T-RD-10) — admin-editable. */
+  profile?: Profile;
   resumeTitle: string;
   skillsTitle: string;
   experienceTitle: string;
