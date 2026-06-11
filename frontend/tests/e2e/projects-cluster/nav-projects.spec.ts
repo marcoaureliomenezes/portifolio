@@ -38,7 +38,7 @@ test.describe('Navigation to /projetos from header and hero', () => {
 
     // Then: index page with 3 cards rendered
     const cards = page.locator('[data-testid="project-card"]');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
   });
 
   test('PC-E2E-19: mobile header contains "Projetos" nav link and it navigates', async ({ page }) => {

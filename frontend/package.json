@@ -18,9 +18,12 @@
     "test:e2e:install": "playwright install --with-deps chromium firefox webkit",
     "lighthouse": "lhci autorun",
     "validate:content": "node scripts/validate-content.mjs",
-    "check:i18n-projects": "node scripts/check-i18n-parity.mjs"
+    "check:i18n-projects": "node scripts/check-i18n-parity.mjs",
+    "schema:export": "node scripts/export-content-schema.mjs",
+    "schema:check": "node scripts/export-content-schema.mjs --check"
   },
   "dependencies": {
+    "@dadaia/analytics-sdk": "file:./vendor/analytics-sdk",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@radix-ui/react-collapsible": "^1.1.0",

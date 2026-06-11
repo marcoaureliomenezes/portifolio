@@ -1,41 +1,60 @@
 # Backlog — platform-observability-admin-v1
 
 **Registered:** 2026-05-22
+**Refined:** 2026-05-23 (dadaia-grill-me session — todas as decisões fechadas)
 **Operator:** Marco Aurelio Menezes
-**Status:** Parked — awaiting fresh session + specialist team kickoff
+**Status:** Candidate — pronta para SPEC.md por product-engineer
 
 ---
 
-## Scope
+## Visão
 
-Two platform-level features, designed to be **reusable across all future sites**.
-Both features must be built as a **central shared service** (multi-tenant),
-not per-site copies.
+Um portal central chamado **"Dadaia's Web"** — propriedade do operador (Marco) — onde
+os donos dos sites construídos por Marco podem fazer login, consultar analytics e editar
+conteúdo dos seus sites **sem necessidade de redeploy**.
 
-### Known tenant sites (as of 2026-05-22)
+Os sites continuam 100% estáticos (S3 + CloudFront). Quando o dono edita um texto no
+portal, o backend atualiza o JSON no S3 do site e dispara uma CloudFront Invalidation.
+O site reflete a mudança em segundos sem nenhum pipeline de CI/CD.
 
-| Repo | Description | Status |
+---
+
+## Repo Central
+
+**Nome:** `dadaia-web`
+**Estrutura:** mono-repo (frontend portal + Lambda Go + Terraform)
+**Stack:**
+- Frontend portal: React 18 + TypeScript + Vite 7 + Tailwind 3
+- Backend: Lambda Go arm64 + API Gateway HTTP API
+- Auth: AWS Cognito Hosted UI — User Pool único, atributo custom `site_id`
+- IaC: Terraform ≥ 1.9, estado em S3
+- CI/CD: GitHub Actions + OIDC
+
+---
+
+## Tenants
+
+| Tenant | Site | Status |
 |---|---|---|
-| `marcoaureliomenezes/portifolio` | Marco's portfolio — pilot tenant | Live (develop) |
-| `marcoaureliomenezes/burrinhos-barbe` | Burrinho's barber shop | Exists, not started |
-| `marcoaureliomenezes/jhony-trainer` | Jhony personal trainer — will evolve to student platform | Created (private) |
-| `marcoaureliomenezes/lindas-portifolio` | Linda (psychologist) portfolio | Created (private) |
-
-**Recommendation:** Create a dedicated `dm-platform` or `web-platform` repository for the
-shared analytics + admin service. Keeps portifolio isolated and gives the platform a clean
-home before onboarding tenant #2. This is an open decision for `software-architect`.
+| Marco (operador / super-admin) | portifolio — marco-menezes.com | Live em produção (pilot) |
+| Burrinho | burrinhos-barbe | Specs em draft |
+| Gisele (esposa) | lindas-portifolio (psicologia) | Repo criado (privado) |
+| Jhony | jhony-trainer (personal trainer) | Repo criado (privado) |
 
 ---
 
 ## Feature 1 — Engagement Analytics (`analytics-platform-v1`)
 
-### What
-Custom event tracking system that captures every meaningful interaction on every
-site and delivers raw event data to S3 for downstream processing in the data platform.
+### O que é
 
-### Events to capture (portifolio baseline)
-- Curriculum (CV) download click
-- Section expand / collapse (Experience, Education, Certifications, Skills)
+Sistema de tracking de eventos comportamentais anônimos — sem PII, sem cookies de
+identificação persistente. Captura interações significativas em todos os sites tenant
+e entrega os eventos em S3 para consumo pelo data platform (Databricks / Athena).
+
+### Eventos a capturar (baseline portfólio)
+
+- CV download click
+- Section expand / collapse (Experiência, Educação, Certificações, Skills)
 - Certification credential link click
 - Thesis link click
 - Project CTA clicks
@@ -43,138 +62,110 @@ site and delivers raw event data to S3 for downstream processing in the data pla
 - Theme toggle
 - Page view + referrer + UTM params
 
-### Architecture decisions (already made by operator)
-| Decision | Choice |
-|---|---|
-| Tracking approach | Custom — no third-party SDK |
-| Destination | AWS S3 bucket (Parquet or newline-delimited JSON) |
-| Reuse model | Central shared service (multi-tenant) |
+### Arquitetura — decisões fechadas
 
-### Architecture decisions (open — for software-architect + backend-engineer)
-| Decision | Options to evaluate |
-|---|---|
-| Ingest endpoint | API Gateway + Lambda vs CloudFront Function vs self-hosted FastAPI |
-| S3 partitioning | `site_id / year / month / day / hour / event_type` |
-| Event schema | Must include: `event_id`, `site_id`, `session_id`, `event_type`, `path`, `ts`, `metadata{}` |
-| Batching strategy | Browser-side batching (sendBeacon on unload) vs fire-and-forget per event |
-| PII / LGPD compliance | No PII in events; IP anonymization; cookie consent banner requirement |
-| DDOS / abuse protection | Rate limiting at ingest layer; CloudFront WAF rules |
+| Decisão | Escolha | Razão |
+|---|---|---|
+| Tracking | Custom — sem third-party SDK | Operador |
+| Destino | AWS S3 (Parquet ou NDJSON) | Operador |
+| Reuso | Serviço central multi-tenant (`dadaia-web`) | Operador |
+| Ingest endpoint | Lambda Go arm64 + API Gateway HTTP API | FastAPI fora da stack (constitution §2); CF Functions sem async HTTP |
+| Batching | `sendBeacon` on unload | Não bloqueia navegação; funciona em fechamento de browser |
+| PII / LGPD | Zero PII; session ID em memória (não persistido entre sessões); sem IP; sem cookie de tracking; sem consent banner; apenas cláusula em política de privacidade | Operador |
+| S3 partitioning | `site_id / year / month / day / hour / event_type` | Operador |
+| Autenticação do ingest | `site_id` público + rate limiting no API Gateway | Evento é anônimo — risco baixo |
 
-### Security concerns (for security-reviewer)
-- Ingest endpoint is public — must be rate-limited and authenticated via `site_id` + shared secret
-- No PII storage (LGPD/GDPR)
-- S3 bucket: private, no public access, encryption at rest
-- Investigate current site exposure: CloudFront + WAF gaps, missing security headers
+### Event schema
 
-### Deliverable
-Raw event files in S3, partitioned and queryable by the data platform (Databricks / Athena).
-Dashboard design and pipeline are **out of scope** for this feature — handled separately.
+```json
+{
+  "event_id": "uuid-v4",
+  "site_id": "portifolio",
+  "session_id": "uuid-v4 em memória",
+  "event_type": "cv_download | section_expand | ...",
+  "path": "/",
+  "ts": "ISO 8601",
+  "metadata": {}
+}
+```
 
 ---
 
 ## Feature 2 — Admin Management Console (`admin-console-v1`)
 
-### What
-Secure web admin panel where site owners (and operator) can edit site content
-without triggering a deploy. Changes are reflected on the live site in real-time
-(or near-real-time).
+### O que é
 
-### Capabilities (portifolio baseline)
-- Add / edit / remove certifications
-- Edit bio text, tagline, stats
-- Replace profile photo
-- Toggle dark/light theme as site-wide default
-- Add / edit experience entries
-- Add / edit education entry
-- Publish / unpublish changes (draft → live)
+Portal web onde cada dono de site faz login e edita o conteúdo do seu site em tempo
+real — sem deploy. O backend escreve o JSON atualizado no S3 do site e invalida o
+CloudFront. O site permanece 100% estático.
 
-### Architecture decisions (already made by operator)
-| Decision | Choice |
-|---|---|
-| Content storage | Database — Postgres or DynamoDB (to be decided by architect) |
-| Reuse model | Central shared service (multi-tenant) — one backend, N sites as tenants |
-| Auth model | Multi-tenant: each site has its own admin; operator has master access |
+### Capacidades (baseline portfólio)
 
-### Architecture decisions (open — for software-architect + backend-engineer)
-| Decision | Options to evaluate |
-|---|---|
-| Database | Postgres (RDS/Aurora Serverless v2) vs DynamoDB — architect to weigh cost, flexibility, schema evolution |
-| Content versioning | Optimistic locking + version history table; rollback to any previous version |
-| Frontend read model | Site fetches content from API at runtime vs SSG with ISR (revalidation on publish) |
-| Admin UI | Separate React app (admin.marcomenezes.dev) vs embedded route (/admin) behind auth guard |
-| Auth implementation | Multi-tenant user table + TOTP (2FA) for all accounts; operator has cross-tenant master role |
-| Media storage | S3 bucket for images (profile photo, cert badges); CDN in front |
-| Audit log | Every edit logged with user, timestamp, diff — for security and rollback |
+- Editar bio, tagline, stats
+- Adicionar / editar / remover certificações
+- Editar entradas de experiência e educação
+- Substituir foto de perfil
+- Toggle dark/light como padrão do site
+- Publicar / despublicar mudanças (draft → live)
 
-### Security concerns (for security-reviewer)
-- Admin routes must be completely separated from public routes (no shared Lambda/process)
-- Brute-force protection on login (lockout after N failures + CAPTCHA)
-- 2FA mandatory for all admin accounts
-- CSRF protection on all mutating API endpoints
-- Content sanitization before DB write (no XSS via stored content)
-- Rate limiting and IP allowlist option for admin login endpoint
-- Session expiry + revocation on logout
+### Arquitetura — decisões fechadas
+
+| Decisão | Escolha | Razão |
+|---|---|---|
+| Database | DynamoDB | Aurora Serverless v2 ~$15/mês idle viola teto $5/mês (constitution §7) |
+| Auth | Cognito User Pool único; 1 user por tenant com atributo `site_id`; Marco = super-admin cross-tenant | Operador |
+| Admin UI | Portal separado `dadaia-web` — não /admin em cada site | Operador |
+| Content read model | Backend escreve JSON no S3 do site + CloudFront Invalidation; sites permanecem estáticos | Operador |
+| Content versioning | Optimistic locking + tabela de histórico no DynamoDB; rollback disponível |  |
+| Media storage | S3 (imagens de perfil, badges); CDN CloudFront em frente |  |
+| Audit log | Toda edição logada: user, timestamp, diff — para segurança e rollback |  |
 
 ---
 
 ## Feature 3 — Security Audit (`security-audit-v1`)
 
-### What
-Before building the above, the site needs a security baseline assessment.
+Prerequisite para `admin-console-v1`. Pode correr em paralelo com `analytics-platform-v1`.
 
-### Scope
-- Current CloudFront + origin server exposure (DDOS surface)
-- Missing HTTP security headers (CSP, HSTS, X-Frame-Options, etc.)
+### Escopo
+
+- Exposição atual CloudFront + origin (superfície DDOS)
+- HTTP security headers ausentes (CSP, HSTS, X-Frame-Options, etc.)
 - Dependency CVEs (npm audit)
-- Infrastructure IaC review (Terraform config)
+- IaC review (Terraform)
 - LGPD compliance gap analysis
 
-### Owner: security-reviewer + devops-engineer
+**Owner:** security-reviewer + devops-engineer
 
 ---
 
-## Agents Required
+## Release Decomposition
 
-| Agent | Role |
+```
+∥ security-audit-v1        ← corre em paralelo com analytics; prerequisite para admin
+∥ analytics-platform-v1    ← ingest + S3 delivery; risco baixo; não bloqueia por audit
+       ↓
+   admin-console-v1         ← bloqueado por security-audit-v1; portfólio como pilot tenant
+       ↓
+   admin-console-v2         ← onboard burrinhos-barbe + gisele + jhony como tenants
+```
+
+---
+
+## Agentes Necessários
+
+| Agente | Role |
 |---|---|
-| `software-architect` | Design ADR for central service architecture; DB choice; tenant model |
-| `backend-engineer` | Ingest API, content API, admin auth service (Go or Python) |
-| `frontend-engineer` | Event tracking SDK (browser), admin UI components |
-| `devops-engineer` | S3 bucket, API Gateway/Lambda, WAF, CloudFront, CI/CD for new service |
-| `security-reviewer` | Security audit (Feature 3); auth design review; LGPD gap |
-| `qa-engineer` | E2E test plan for admin CRUD + event delivery verification |
-| `product-engineer` | SPEC/PLAN/TASKS authoring for each sub-release |
-| `project-manager` | Orchestration; dadaia-grill-me to align on DB choice and tenant model |
+| `software-architect` | ADR para arquitetura do `dadaia-web`; modelo de tenant no DynamoDB |
+| `backend-engineer` | Ingest API Go, Content API Go, auth middleware Cognito |
+| `frontend-engineer` | Portal React, event tracking SDK (browser) |
+| `devops-engineer` | S3, API Gateway, Lambda, Cognito, CloudFront, CI/CD para `dadaia-web` |
+| `security-reviewer` | Feature 3 (security-audit-v1); revisão de auth design |
+| `qa-engineer` | E2E test plan para admin CRUD + verificação de entrega de eventos |
+| `product-engineer` | SPEC/PLAN/TASKS para cada sub-release |
 
 ---
 
-## Suggested Release Decomposition
+## Activation
 
-```
-platform-observability-admin-v1/
-  security-audit-v1        ← prerequisite; unblocks architecture decisions
-  analytics-platform-v1    ← ingest + S3 delivery (no dashboard)
-  admin-console-v1         ← content API + admin UI (portifolio as pilot tenant)
-  admin-console-v2         ← onboard burrinho's barbe + gisele psicóloga as tenants
-```
-
-## Activation Trigger
-
-Operator opens a fresh session and runs `dadaia-grill-me` with `project-manager`
-to align the team on open decisions (DB choice, ingest endpoint, admin UI placement)
-before `product-engineer` authors the SPEC.
-
-## Open Questions for dadaia-grill-me
-
-1. **DB choice**: Postgres (Aurora Serverless v2) vs DynamoDB for content storage —
-   cost at low traffic vs schema flexibility vs operator familiarity?
-2. **Ingest endpoint**: Lambda (serverless, zero maintenance) vs FastAPI on ECS
-   (more control, reuses Python expertise) vs CloudFront Function (ultra-low latency)?
-3. **Admin UI placement**: Separate subdomain (admin.marcomenezes.dev) vs
-   embedded route (/admin) with auth guard — security vs operational simplicity?
-4. **Content read model**: Does the site call the content API on every page load
-   (dynamic) or does admin publish trigger a rebuild/cache invalidation (hybrid)?
-5. **LGPD cookie consent**: Required before firing any tracking events — scope this
-   into analytics-platform-v1 or as a separate prerequisite?
-6. **Burrinho and Gisele sites**: Are they also React/TypeScript (same stack as
-   portifolio) or different? This affects how the admin UI SDK is built.
+Pronto para product-engineer escrever SPECs individuais de `security-audit-v1` e
+`analytics-platform-v1`. Criar repo `dadaia-web` no GitHub antes de iniciar.

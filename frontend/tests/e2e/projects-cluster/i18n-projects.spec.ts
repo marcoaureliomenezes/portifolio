@@ -34,7 +34,7 @@ test.describe('i18n — Projects cluster routes', () => {
 
     // Capture PT card titles
     const cards = page.locator('[data-testid="project-card"]');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
     const ptTitles = await page.locator('[data-testid="project-card-title"]').allInnerTexts();
     expect(ptTitles.every((t) => t.trim().length > 0)).toBe(true);
 
@@ -78,7 +78,7 @@ test.describe('i18n — Projects cluster routes', () => {
 
     // Then: cards are immediately visible after networkidle (no blank flash persists)
     const cards = page.locator('[data-testid="project-card"]');
-    await expect(cards).toHaveCount(3);
+    await expect(cards).toHaveCount(4);
     for (let i = 0; i < 3; i++) {
       await expect(cards.nth(i)).toBeVisible();
     }

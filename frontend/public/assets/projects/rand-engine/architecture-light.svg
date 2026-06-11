@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" width="820" height="460" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">
+
+  <!-- Background -->
+  <rect width="820" height="460" fill="#f6f8fa" rx="12"/>
+
+  <!-- Title -->
+  <text x="410" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1f2328">rand-engine — architecture</text>
+  <text x="410" y="58" text-anchor="middle" font-size="12" fill="#656d76">Declarative synthetic data generation for Python</text>
+
+  <!-- ── Column 1: Input ─────────────────────────────────────────── -->
+  <text x="110" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#656d76" letter-spacing="1">INPUT</text>
+
+  <!-- Spec box -->
+  <rect x="30" y="100" width="160" height="56" rx="8" fill="#fff" stroke="#d0d7de" stroke-width="1.5"/>
+  <text x="110" y="122" text-anchor="middle" font-size="13" font-weight="600" fill="#0969da">RandSpecs</text>
+  <text x="110" y="140" text-anchor="middle" font-size="11" fill="#656d76">20+ ready-made specs</text>
+  <text x="110" y="154" text-anchor="middle" font-size="10" fill="#8c959f">customers · orders · sensors…</text>
+
+  <!-- Custom spec box -->
+  <rect x="30" y="170" width="160" height="44" rx="8" fill="#fff" stroke="#d0d7de" stroke-width="1.5"/>
+  <text x="110" y="190" text-anchor="middle" font-size="13" font-weight="600" fill="#0969da">Custom Spec</text>
+  <text x="110" y="207" text-anchor="middle" font-size="11" fill="#656d76">dict / JSON schema</text>
+
+  <!-- ── Column 2: Core ──────────────────────────────────────────── -->
+  <text x="410" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#656d76" letter-spacing="1">CORE ENGINE</text>
+
+  <!-- DataGenerator -->
+  <rect x="290" y="100" width="240" height="72" rx="8" fill="#ddf4ff" stroke="#54aeff" stroke-width="1.5"/>
+  <text x="410" y="124" text-anchor="middle" font-size="14" font-weight="700" fill="#0969da">DataGenerator</text>
+  <text x="410" y="143" text-anchor="middle" font-size="11" fill="#0969da">.size(n)  .get_df()  .stream()</text>
+  <text x="410" y="160" text-anchor="middle" font-size="10" fill="#57606a">seed · PK/FK constraints · lazy eval</text>
+
+  <!-- Backends row -->
+  <rect x="290" y="186" width="72" height="40" rx="6" fill="#fff8c5" stroke="#d4a72c" stroke-width="1.5"/>
+  <text x="326" y="202" text-anchor="middle" font-size="11" font-weight="600" fill="#9a6700">NPCore</text>
+  <text x="326" y="218" text-anchor="middle" font-size="10" fill="#9a6700">NumPy</text>
+
+  <rect x="374" y="186" width="72" height="40" rx="6" fill="#fff8c5" stroke="#d4a72c" stroke-width="1.5"/>
+  <text x="410" y="202" text-anchor="middle" font-size="11" font-weight="600" fill="#9a6700">PyCore</text>
+  <text x="410" y="218" text-anchor="middle" font-size="10" fill="#9a6700">patterns</text>
+
+  <rect x="458" y="186" width="72" height="40" rx="6" fill="#faf0fe" stroke="#bf8ff8" stroke-width="1.5"/>
+  <text x="494" y="202" text-anchor="middle" font-size="11" font-weight="600" fill="#8250df">SparkCore</text>
+  <text x="494" y="218" text-anchor="middle" font-size="10" fill="#8250df">distributed</text>
+
+  <!-- Features row -->
+  <text x="410" y="248" text-anchor="middle" font-size="10" font-weight="600" fill="#656d76">FEATURES</text>
+
+  <rect x="290" y="256" width="115" height="36" rx="6" fill="#e6f3e6" stroke="#57ab5a" stroke-width="1.5"/>
+  <text x="347" y="271" text-anchor="middle" font-size="11" font-weight="600" fill="#116329">Correlation</text>
+  <text x="347" y="285" text-anchor="middle" font-size="10" fill="#116329">currency↔country</text>
+
+  <rect x="415" y="256" width="115" height="36" rx="6" fill="#e6f3e6" stroke="#57ab5a" stroke-width="1.5"/>
+  <text x="472" y="271" text-anchor="middle" font-size="11" font-weight="600" fill="#116329">Hierarchy</text>
+  <text x="472" y="285" text-anchor="middle" font-size="10" fill="#116329">dept→level→role</text>
+
+  <!-- ── Column 3: Output ────────────────────────────────────────── -->
+  <text x="700" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#656d76" letter-spacing="1">OUTPUT</text>
+
+  <!-- Pandas -->
+  <rect x="610" y="100" width="175" height="44" rx="8" fill="#fff" stroke="#d0d7de" stroke-width="1.5"/>
+  <circle cx="632" cy="122" r="8" fill="#e6b400"/>
+  <text x="710" y="119" text-anchor="middle" font-size="13" font-weight="600" fill="#1f2328">Pandas DataFrame</text>
+  <text x="710" y="135" text-anchor="middle" font-size="10" fill="#8c959f">~132K rows/s local</text>
+
+  <!-- Spark -->
+  <rect x="610" y="156" width="175" height="44" rx="8" fill="#faf0fe" stroke="#bf8ff8" stroke-width="1.5"/>
+  <circle cx="632" cy="178" r="8" fill="#8250df"/>
+  <text x="710" y="175" text-anchor="middle" font-size="13" font-weight="600" fill="#8250df">Spark DataFrame</text>
+  <text x="710" y="191" text-anchor="middle" font-size="10" fill="#8250df">5.1M rows/s (Databricks)</text>
+
+  <!-- File export -->
+  <rect x="610" y="212" width="175" height="56" rx="8" fill="#fff" stroke="#d0d7de" stroke-width="1.5"/>
+  <text x="697" y="230" text-anchor="middle" font-size="12" font-weight="600" fill="#1f2328">File Export</text>
+  <text x="697" y="247" text-anchor="middle" font-size="11" fill="#656d76">CSV · Parquet · JSON</text>
+  <text x="697" y="262" text-anchor="middle" font-size="10" fill="#8c959f">batch · stream · partitioned</text>
+
+  <!-- ── Arrows ───────────────────────────────────────────────────── -->
+  <!-- Spec → DataGenerator -->
+  <line x1="190" y1="128" x2="288" y2="128" stroke="#0969da" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="190" y1="192" x2="270" y2="155" stroke="#0969da" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+  <!-- DataGenerator → Backends (internal, lighter) -->
+  <line x1="326" y1="172" x2="326" y2="184" stroke="#d4a72c" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="410" y1="172" x2="410" y2="184" stroke="#d4a72c" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="494" y1="172" x2="494" y2="184" stroke="#bf8ff8" stroke-width="1" stroke-dasharray="3,2"/>
+
+  <!-- DataGenerator → Output -->
+  <line x1="532" y1="122" x2="608" y2="122" stroke="#57606a" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+  <line x1="532" y1="136" x2="608" y2="175" stroke="#8250df" stroke-width="1.5" marker-end="url(#arr-purple)"/>
+  <line x1="532" y1="145" x2="608" y2="228" stroke="#57606a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arr-gray)"/>
+
+  <!-- ── Bottom stats ─────────────────────────────────────────────── -->
+  <rect x="30" y="320" width="760" height="60" rx="8" fill="#fff" stroke="#d0d7de" stroke-width="1"/>
+
+  <text x="410" y="340" text-anchor="middle" font-size="11" font-weight="600" fill="#656d76">PERFORMANCE BENCHMARKS</text>
+
+  <text x="130" y="365" text-anchor="middle" font-size="20" font-weight="700" fill="#0969da">132K</text>
+  <text x="130" y="378" text-anchor="middle" font-size="10" fill="#656d76">rows/s · local CPython</text>
+
+  <line x1="240" y1="328" x2="240" y2="372" stroke="#d0d7de" stroke-width="1"/>
+
+  <text x="330" y="365" text-anchor="middle" font-size="20" font-weight="700" fill="#8250df">5.1M</text>
+  <text x="330" y="378" text-anchor="middle" font-size="10" fill="#656d76">rows/s · Databricks Spark</text>
+
+  <line x1="440" y1="328" x2="440" y2="372" stroke="#d0d7de" stroke-width="1"/>
+
+  <text x="540" y="365" text-anchor="middle" font-size="20" font-weight="700" fill="#116329">494</text>
+  <text x="540" y="378" text-anchor="middle" font-size="10" fill="#656d76">tests passing · MIT</text>
+
+  <line x1="640" y1="328" x2="640" y2="372" stroke="#d0d7de" stroke-width="1"/>
+
+  <text x="730" y="365" text-anchor="middle" font-size="20" font-weight="700" fill="#9a6700">20+</text>
+  <text x="730" y="378" text-anchor="middle" font-size="10" fill="#656d76">ready-made specs</text>
+
+  <!-- ── Footer ───────────────────────────────────────────────────── -->
+  <text x="410" y="420" text-anchor="middle" font-size="11" fill="#8c959f">pip install rand-engine  ·  github.com/marcoaureliomenezes/rand_engine  ·  pypi.org/project/rand-engine</text>
+  <text x="410" y="445" text-anchor="middle" font-size="11" font-weight="600" fill="#656d76">Built for data engineering — test the flow, not the data.</text>
+
+  <!-- ── Arrow markers ─────────────────────────────────────────────── -->
+  <defs>
+    <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#0969da"/>
+    </marker>
+    <marker id="arr-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#57606a"/>
+    </marker>
+    <marker id="arr-purple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8250df"/>
+    </marker>
+  </defs>
+
+</svg>

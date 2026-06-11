@@ -9,6 +9,13 @@ function renderWithRouter(ui: React.ReactElement) {
 }
 
 const baseContent: ContentData = {
+  profile: {
+    linkedinUrl: "https://www.linkedin.com/in/marco-menezes-731542b9",
+    githubUrl: "https://github.com/marcoaureliomenezes",
+    instagramUrl: "https://www.instagram.com/marcoaurelioreislima/",
+    email: "x@y.com",
+    cvUrl: "/cv.pdf",
+  },
   resumeTitle: "Resumo",
   skillsTitle: "Habilidades",
   experienceTitle: "Experiência",
@@ -58,12 +65,12 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("uses the reduced headline scale and wraps on mobile (T-MR-02/T-MR-04)", () => {
+  it("uses the compact headline scale and always wraps — never truncates (T-RD-02 + operator feedback)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveClass("text-xl");
-    expect(heading).toHaveClass("sm:text-2xl");
-    expect(heading).toHaveClass("sm:whitespace-nowrap");
+    expect(heading).toHaveClass("text-lg");
+    expect(heading).toHaveClass("md:text-xl");
+    expect(heading.className).not.toMatch(/whitespace-nowrap|text-ellipsis|bg-clip-text/);
   });
 
   it("renders the profile avatar inside the hero (identity anchor above the headline)", () => {

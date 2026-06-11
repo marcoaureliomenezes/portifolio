@@ -1,2 +1,2 @@
-release: mobile-redesign-v1
+release: portfolio-redesign-v1
 phase: IMPLEMENTATION

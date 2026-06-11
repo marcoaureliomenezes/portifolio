@@ -27,16 +27,28 @@ type NullableContentData = { [K in keyof ContentData]: ContentData[K] | null };
 // vi.mock is hoisted by Vitest automatically.
 // --------------------------------------------------------------------------
 
-vi.mock("@/data/content/de.json", async (importOriginal) => {
-  const original = await importOriginal<typeof import("@/data/content/de.json")>();
-  return {
-    default: {
-      ...original,
-      // Explicitly null → triggers en fallback in deepMergeWithFallback.
-      resumeTitle: null,
-    } as NullableContentData as ContentData,
-  };
-});
+// T-RD-10: locales are fetched at runtime (/content/<lang>.json via the
+// test-setup disk shim). To exercise deepMergeWithFallback, layer a fetch
+// override that nulls resumeTitle in the de payload.
+const shimFetch = globalThis.fetch;
+globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+  const url =
+    typeof input === "string"
+      ? input
+      : input instanceof URL
+        ? input.pathname
+        : (input as Request).url;
+  const res = await shimFetch(input, init);
+  if (url === "/content/de.json") {
+    const data = (await res.json()) as ContentData;
+    const patched: NullableContentData = { ...data, resumeTitle: null };
+    return new Response(JSON.stringify(patched), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return res;
+}) as typeof fetch;
 
 // --------------------------------------------------------------------------
 // Wrapper helpers

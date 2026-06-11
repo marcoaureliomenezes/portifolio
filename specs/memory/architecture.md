@@ -1,3 +1,21 @@
+---
+slug: architecture
+title: Architecture Memory
+category: core
+tldr: SPA estático servido por CloudFront/S3 com OAC; camada futura serverless P1; regras de fronteira, decomposição de componentes e anti-patterns proibidos.
+summary: Define a arquitetura do portfólio 2.0 — SPA React estático sobre CloudFront+S3, camadas, regras de fronteira, decomposição alvo de componentes, princípios SOLID aplicáveis, anti-patterns proibidos, política de cache e riscos conhecidos.
+tags:
+  - architecture
+  - layers
+  - boundary-rules
+  - anti-patterns
+  - frontend
+agent_tier: self-pull
+token_estimate: 0
+last_updated: "2026-05-17"
+release_origin: foundation
+---
+
 # Architecture Memory: portifolio (2.0)
 
 **Status:** Aprovado

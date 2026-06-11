@@ -7,6 +7,19 @@
 
 export type SupportedLanguages = "pt" | "en" | "de";
 
+/**
+ * Operator profile — T-RD-10: absorbed from the old src/data/profile.ts into
+ * content so the future admin panel can edit contact/CV without a release.
+ */
+export interface Profile {
+  linkedinUrl: string;
+  githubUrl: string;
+  instagramUrl: string;
+  email: string;
+  /** CV asset path (single PDF serves all locales — operator decision 2026-05-17). */
+  cvUrl: string;
+}
+
 export interface HighlightProject {
   title: string;
   body: string;
@@ -15,6 +28,8 @@ export interface HighlightProject {
 }
 
 export interface Position {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   title: string;
   period: string;
   responsibilities?: string[];
@@ -24,6 +39,8 @@ export interface Position {
 }
 
 export interface Experience {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   company: string;
   fullName: string;
   location: string;
@@ -33,6 +50,8 @@ export interface Experience {
 }
 
 export interface Education {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   degreeLevel: string;
   degreeField: string;
   institution: string;
@@ -51,6 +70,8 @@ export interface Resume {
 }
 
 export interface Certification {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   name: string;
   issuer: string;
   category: string;
@@ -64,6 +85,8 @@ export interface Certification {
 }
 
 export interface SkillCategory {
+  /** Stable entity id (T-RD-09, admin contract). */
+  id?: string;
   title: string;
   icon: string;
   skills: string[];
@@ -90,7 +113,7 @@ export interface ProjectBase {
   /** URL-safe identifier. Regex: ^[a-z0-9-]+$. Not i18n. */
   slug: string;
   /** Discriminator. Not i18n. */
-  kind: "case-study" | "meta" | "games";
+  kind: "case-study" | "meta" | "games" | "library";
   hero: {
     /** i18n. */
     title: string;
@@ -106,6 +129,8 @@ export interface ProjectBase {
   };
   /** Optional path to diagram asset (light version). Not i18n. */
   diagram?: string;
+  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. Not i18n. */
+  diagramDark?: string;
   /** Alt text for diagram. i18n. Required when diagram is present. */
   diagramAlt?: string;
 }
@@ -153,8 +178,31 @@ export interface GamesProject extends ProjectBase {
   items: GameLink[];
 }
 
+/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
+export interface LibraryProject extends ProjectBase {
+  kind: "library";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  /** Registry metadata rendered as the install block. Not i18n. */
+  pypi: {
+    package: string;
+    version: string;
+    installCommand: string;
+  };
+  /** Optional headline stat (e.g. rows/s, test count). i18n label. */
+  stat?: {
+    label: string;
+    value: string;
+  };
+  links: {
+    repo: string;
+    pypi: string;
+    docs?: string;
+  };
+}
+
 /** Discriminated union of all project kinds. */
-export type Project = CaseStudyProject | MetaProject | GamesProject;
+export type Project = CaseStudyProject | MetaProject | GamesProject | LibraryProject;
 
 /** New open-list shape for the projects section in content JSON. */
 export interface ProjectsContentV2 {
@@ -162,8 +210,10 @@ export interface ProjectsContentV2 {
   index: {
     title: string;
     description: string;
+    /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
+    kindLabels?: Record<Project["kind"], string>;
   };
-  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games. */
+  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games, rand-engine. */
   list: Project[];
 }
 
@@ -212,6 +262,16 @@ export interface HeroStatsSuffix {
   clouds: string;
 }
 
+/** Labels for the library project template (T-PC2-R2-04). */
+export interface LibraryPageLabels {
+  installTitle: string;
+  versionLabel: string;
+  copyLabel: string;
+  copiedLabel: string;
+  linkPypi: string;
+  linkDocs: string;
+}
+
 export interface ArchPageLabels {
   infraDiagramTitle: string;
   techStackTitle: string;
@@ -228,6 +288,11 @@ export interface ArchPageLabels {
 }
 
 export interface ContentData {
+  /** Headless Phase 1 (T-RD-09): contract version + publish stamp. */
+  schema_version?: string;
+  published_at?: string;
+  /** Contact/CV data (T-RD-10) — admin-editable. */
+  profile?: Profile;
   resumeTitle: string;
   skillsTitle: string;
   experienceTitle: string;
@@ -261,6 +326,18 @@ export interface ContentData {
   heroStatsSuffix?: HeroStatsSuffix;
   /** Architecture / infra section labels (T-FE-QUAL-06). */
   archPage?: ArchPageLabels;
+  /** Library template labels (T-PC2-R2-04). Falls back to PT literals when absent. */
+  libraryPage?: LibraryPageLabels;
+  /** Featured-projects strip labels (T-RD-04). */
+  featuredProjectsTitle?: string;
+  seeAllProjects?: string;
+  /** Hero "now" panel labels (T-RD-05). */
+  nowPanel?: {
+    title: string;
+    currentRole: string;
+    latestCert: string;
+    latestProject: string;
+  };
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */

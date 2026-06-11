@@ -34,16 +34,20 @@ export async function expandSeniorRole(
   const section = page.locator('#experiencia');
   await section.scrollIntoViewIfNeeded();
 
-  // Mobile viewport: the entire section content lives inside a closed
-  // MobileCollapsibleSection (md:hidden). Expand it so role triggers become
-  // visible. On desktop the section title is just a heading — no button match.
+  // portfolio-redesign-v1: the section renders ONCE for all viewports and its
+  // heading button (Disclosure) is open by default. Only click it when it is
+  // actually collapsed — clicking unconditionally would CLOSE the section and
+  // hide every role trigger (the pre-redesign desktop had no section button).
   const sectionTrigger = section
     .locator('button')
     .filter({ hasText: SECTION_TITLE_PATTERN })
     .filter({ visible: true })
     .first();
   if ((await sectionTrigger.count()) > 0) {
-    await sectionTrigger.click().catch(() => {});
+    const sectionExpanded = await sectionTrigger.getAttribute('aria-expanded');
+    if (sectionExpanded === 'false') {
+      await sectionTrigger.click().catch(() => {});
+    }
   }
 
   const seniorTrigger = section

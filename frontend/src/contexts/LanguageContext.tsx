@@ -27,26 +27,25 @@ import type { SupportedLanguages, ContentData } from "@/types/content";
 // ---------------------------------------------------------------------------
 
 /**
- * Map of locale-code → lazy module loader.
- * Vite resolves this at build time and emits separate chunks for each JSON file.
- */
-const localeLoaders = import.meta.glob<{ default: ContentData }>(
-  "/src/data/content/*.json",
-  { eager: false },
-);
-
-/**
- * Load the raw ContentData for a given locale.
- * The path must match the glob pattern above.
+ * Load the raw ContentData for a given locale — T-RD-10 (headless Phase 1).
+ *
+ * Content lives OUTSIDE the JS bundle in /content/<lang>.json (served by the
+ * same S3+CloudFront origin as the app). Editing content = uploading a new
+ * JSON + CDN invalidation — no build, no release. `cache: "no-cache"` makes
+ * the browser revalidate via ETag so an invalidation is picked up on reload
+ * while unchanged content still rides the local cache.
+ *
+ * (Was: import.meta.glob build-time loaders — content compiled into hashed JS
+ * chunks, the architectural blocker for the external admin panel. E-1.)
  */
 async function loadLocaleRaw(lang: SupportedLanguages): Promise<ContentData> {
-  const path = `/src/data/content/${lang}.json`;
-  const loader = localeLoaders[path];
-  if (!loader) {
-    throw new Error(`[LanguageContext] No loader found for locale: ${lang}`);
+  const res = await fetch(`/content/${lang}.json`, { cache: "no-cache" });
+  if (!res.ok) {
+    throw new Error(
+      `[LanguageContext] Failed to load locale '${lang}': HTTP ${res.status}`,
+    );
   }
-  const mod = await loader();
-  return mod.default;
+  return (await res.json()) as ContentData;
 }
 
 // ---------------------------------------------------------------------------

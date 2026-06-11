@@ -33,7 +33,7 @@ export function HeaderMobileLayout({
       {/* Left — name only */}
       <a
         href="#main-content"
-        className="font-bold text-sm bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
+        className="font-bold text-sm text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
       >
         Marco Menezes
       </a>

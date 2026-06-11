@@ -59,8 +59,9 @@ describe("RoleCollapsible", () => {
       />
     );
 
-    // Three-line teaser should be visible before toggle, but full details remain hidden.
-    expect(screen.getByText(/Built pipelines Optimized queries Reduced batch failures/)).toBeInTheDocument();
+    // T-RD-03: summary = FIRST responsibility only, visible while closed;
+    // full details (later bullets) remain hidden.
+    expect(screen.getByText("Built pipelines")).toBeInTheDocument();
     expect(screen.queryByText("Led migrations")).not.toBeInTheDocument();
 
     // Click the trigger button to open
@@ -99,7 +100,10 @@ describe("RoleCollapsible", () => {
     const trigger = screen.getByRole("button");
     await user.click(trigger);
 
-    expect(screen.queryByText("Built pipelines")).not.toBeInTheDocument();
+    // T-RD-03: closed state shows the one-line summary (first responsibility)
+    // in the trigger; the LATER bullets must be gone.
+    expect(screen.queryByText("Led migrations")).not.toBeInTheDocument();
+    expect(screen.getByText("Built pipelines")).toBeInTheDocument();
   });
 
   it("trigger has aria-expanded=false when closed", () => {

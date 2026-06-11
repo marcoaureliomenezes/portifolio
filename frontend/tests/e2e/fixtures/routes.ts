@@ -8,6 +8,7 @@ export const ROUTES = {
   dadaiaWorkspace: "/projetos/dadaia-workspace",
   tauanGames: "/projetos/tauan-games",
   portifolio: "/projetos/portifolio",
+  randEngine: "/projetos/rand-engine",
   projectsNotFound: "/projetos/does-not-exist",
   notFound: "/rota-inexistente",
 } as const;

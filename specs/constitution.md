@@ -1,3 +1,6 @@
+---
+specs_pattern_version: 1
+---
 # Constitution: portifolio (2.0)
 
 **Status:** Aprovado
