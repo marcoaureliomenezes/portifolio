@@ -94,7 +94,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
 
     // Then: index grid renders (3 cards visible)
     const cardLinks = page.locator('[data-testid="project-card"]');
-    await expect(cardLinks).toHaveCount(3);
+    await expect(cardLinks).toHaveCount(4);
 
     // Then: breadcrumb reverts to index state — back-link is gone
     const backLinkAfter = page.locator('[data-testid="back-link"], a[href="/projetos"][data-role="back"]');
@@ -148,7 +148,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await page.waitForLoadState('networkidle');
 
     const cardLinks = page.locator('[data-testid="project-card"]');
-    await expect(cardLinks).toHaveCount(3);
+    await expect(cardLinks).toHaveCount(4);
 
     // When: user clicks the first card (dadaia-workspace)
     await cardLinks.first().click();

@@ -28,7 +28,7 @@ test.describe('Projects Index Page — /projetos', () => {
     // Then: exactly 3 card links present
     // Implementation contract C-02: cards are <a> elements, not div/button
     const cardLinks = page.locator('[data-testid="project-card"]');
-    await expect(cardLinks).toHaveCount(3);
+    await expect(cardLinks).toHaveCount(4);
 
     // Then: each is an anchor element
     for (let i = 0; i < 3; i++) {
@@ -43,7 +43,7 @@ test.describe('Projects Index Page — /projetos', () => {
     await page.waitForLoadState('networkidle');
 
     const cardLinks = page.locator('[data-testid="project-card"]');
-    await expect(cardLinks).toHaveCount(3);
+    await expect(cardLinks).toHaveCount(4);
 
     // Then: href order matches spec (dadaia-workspace, portifolio, tauan-games)
     for (let i = 0; i < EXPECTED_SLUGS.length; i++) {

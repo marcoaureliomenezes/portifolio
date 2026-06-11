@@ -55,20 +55,25 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
     expect(title.toLowerCase()).not.toBe('projetos');
   });
 
-  test('PC-E2E-13: diagram picture element present for portifolio', async ({ page }) => {
-    // Given: /projetos/portifolio (has diagram field per content contract)
+  test('PC-E2E-13: theme-aware diagram imgs present for portifolio (rc-2)', async ({ page }) => {
+    // Given: /projetos/portifolio (has diagram + diagramDark per content contract)
     await page.goto(ROUTES.portifolio);
     await page.waitForLoadState('networkidle');
 
-    // Then: <picture> with dark-mode source
-    const picture = page.locator('picture').first();
-    await expect(picture).toBeVisible();
+    // Then: img pair switched by html.dark class — no <picture>/<source>
+    // (AC-PC2-R2-04; replaces the prefers-color-scheme assertion)
+    await expect(page.locator('source[media*="prefers-color-scheme"]')).toHaveCount(0);
+    const lightImg = page.locator('[data-testid="diagram-light"]').first();
+    const darkImg = page.locator('[data-testid="diagram-dark"]').first();
+    await expect(lightImg).toHaveCount(1);
+    await expect(darkImg).toHaveCount(1);
 
-    const darkSource = picture.locator('source[media*="prefers-color-scheme: dark"]');
-    await expect(darkSource).toHaveCount({ min: 1 });
-
-    const img = picture.locator('img');
-    const alt = await img.getAttribute('alt');
+    const htmlIsDark = await page.evaluate(() =>
+      document.documentElement.classList.contains('dark'),
+    );
+    const visibleImg = htmlIsDark ? darkImg : lightImg;
+    await expect(visibleImg).toBeVisible();
+    const alt = await visibleImg.getAttribute('alt');
     expect((alt ?? '').trim().length).toBeGreaterThan(0);
   });
 
@@ -79,6 +84,6 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
 
     // Then: costs table has <th> elements (accessibility requirement)
     const thCells = page.locator('[data-testid="costs-table"] th, table th');
-    await expect(thCells).toHaveCount({ min: 1 });
+    await expect(thCells.first()).toBeVisible();
   });
 });

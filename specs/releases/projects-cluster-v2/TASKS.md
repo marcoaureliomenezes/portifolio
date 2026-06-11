@@ -83,7 +83,7 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase R2-W5 — Testes e gates
 
-- [ ] **T-PC2-R2-09** — Deflake `useContent.test.ts` + testes novos componentes
+- [x] **T-PC2-R2-09** — Deflake `useContent.test.ts` + testes novos componentes ✅ (asyncUtilTimeout 4s; 323/323 ×3 runs; +11 testes novos)
   - AC: AC-PC2-R2-08 (3× verde)
 - [ ] **T-PC2-R2-10** — ADR retroativo analytics validado
   - Verificar: 7 eventos `track()` compilam com SDK vendorizado; sem chamadas órfãs

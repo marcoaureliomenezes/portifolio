@@ -119,7 +119,7 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
             {stat && (
               <span
                 data-testid="project-card-stat"
-                className="shrink-0 font-semibold text-accent"
+                className="shrink-0 font-semibold text-foreground"
               >
                 {stat.value} {stat.label}
               </span>
