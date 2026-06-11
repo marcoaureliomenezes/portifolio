@@ -163,7 +163,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
                   className="flex items-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                  Docs
+                  {libLabels?.linkDocs ?? "Docs"}
                 </a>
               </Button>
             )}

@@ -850,6 +850,7 @@
     "versionLabel": "Version",
     "copyLabel": "Befehl kopieren",
     "copiedLabel": "Kopiert",
-    "linkPypi": "PyPI"
+    "linkPypi": "PyPI",
+    "linkDocs": "Doku"
   }
 }

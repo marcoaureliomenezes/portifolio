@@ -246,6 +246,7 @@ export interface LibraryPageLabels {
   copyLabel: string;
   copiedLabel: string;
   linkPypi: string;
+  linkDocs: string;
 }
 
 export interface ArchPageLabels {

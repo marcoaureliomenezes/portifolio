@@ -25,6 +25,12 @@ reference any rc-2-changed file; they were authored against UI that was never bu
 
 Option 1 is recommended: the i18n specs encode a legitimate product expectation.
 
+**Also pre-existing — Lighthouse CI broken by dependency override:** `package.json`
+`overrides.uuid: ">=11.1.1"` forces ESM-only uuid into `@lhci/cli` (CJS `require()`)
+→ `ERR_REQUIRE_ESM`, `npx lhci autorun` cannot start on any machine/CI with a fresh
+install. Same relaxed-gate commit covers it. Fix: scope the override away from
+@lhci/cli or upgrade @lhci/cli when a uuid-11-compatible release exists.
+
 rc-2 status: 30/39 green (all rand-engine, library, meta, index, a11y, games specs
 pass); these 9 are quarantined as pre-existing and must not block the rc-2 PR
 (gates already relaxed on main).

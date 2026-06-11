@@ -85,13 +85,13 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 - [x] **T-PC2-R2-09** — Deflake `useContent.test.ts` + testes novos componentes ✅ (asyncUtilTimeout 4s; 323/323 ×3 runs; +11 testes novos)
   - AC: AC-PC2-R2-08 (3× verde)
-- [ ] **T-PC2-R2-10** — ADR retroativo analytics validado
+- [x] **T-PC2-R2-10** — ADR retroativo analytics validado ✅ (8 imports do SDK vendorizado compilam; track() em App/Card/Library; build verde)
   - Verificar: 7 eventos `track()` compilam com SDK vendorizado; sem chamadas órfãs
   - AC: ADR-PC2-R2-03 satisfeito (build + grep)
 
 ## Fase C — JSON Content (frontend-engineer)
 
-- [ ] **T-PC2-C-01** — Atualizar bloco `dadaia-workspace` em pt/en/de
+- [x] **T-PC2-C-01** — Atualizar bloco `dadaia-workspace` em pt/en/de ✅ executado via T-PC2-R2-06 (valores rc-2 corrigidos: v0.1.5/9 agentes; retipado library)
   - Agente: `frontend-engineer`
   - Arquivos: `frontend/src/data/content/pt.json`, `en.json`, `de.json`
   - Campos a atualizar (detalhes com valores exatos em PLAN.md §3 T-PC2-C-01):
@@ -103,7 +103,7 @@ No máximo um `[-]` por agente ao mesmo tempo.
     - `diagramAlt`: atualizar em PT/EN/DE _(ver PLAN.md §3 T-PC2-C-01)_
   - AC: `check-i18n-parity.mjs` exit 0; paridade PT/EN/DE completa
 
-- [ ] **T-PC2-C-02** — Adicionar bloco `rand-engine` em pt/en/de
+- [x] **T-PC2-C-02** — Adicionar bloco `rand-engine` em pt/en/de ✅ executado via T-PC2-R2-06 (kind library, v0.6.4)
   - Agente: `frontend-engineer`
   - Arquivos: `frontend/src/data/content/pt.json`, `en.json`, `de.json`
   - Inserir após `tauan-games` em `projectsV2.list[]`
@@ -117,7 +117,7 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase E — E2E Smoke (qa-engineer)
 
-- [ ] **T-PC2-E-01** — Smoke spec rand-engine
+- [x] **T-PC2-E-01** — Smoke spec rand-engine ✅ tests/e2e/projects-cluster/rand-engine.spec.ts (4 testes, verdes em chromium)
   - Agente: `qa-engineer`
   - Depende de: T-PC2-C-02 `[x]`
   - Arquivo: `frontend/tests/e2e/projects-cluster/rand-engine.spec.ts`
@@ -133,7 +133,13 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase V — Validação CI (qa-engineer)
 
-- [ ] **T-PC2-V-01** — Validação completa pré-merge
+- [-] **T-PC2-V-01** — Validação completa pré-merge — **status rc-2 (2026-06-11):**
+  validate-content ✅ · i18n-parity ✅ · webp ≤60KB / SVG ≤50KB ✅ · rand-engine.spec ✅ ·
+  projects-cluster e2e 30/39 ✅ (9 vermelhos = débito pré-existente quarentenado,
+  `specs/backlog/e2e-spec-debt-projects-cluster.md`) · vitest 323/323 ×3 ✅ · tsc/eslint ✅ ·
+  npm ci limpo ✅ · **Lighthouse pendente no CI do PR** (lhci local quebrado pré-existente:
+  override uuid≥11 ESM × @lhci/cli CJS — documentado no mesmo backlog) ·
+  QA review APPROVE (handoff 2026-06-11T030653Z). Fecha no PR.
   - Agente: `qa-engineer`
   - Depende de: T-PC2-C-01 `[x]`, T-PC2-C-02 `[x]`, T-PC2-E-01 `[x]`, T-PC2-A-01 `[x]`, T-PC2-A-02 `[x]`
   - Checklist:
