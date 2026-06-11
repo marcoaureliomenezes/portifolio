@@ -59,13 +59,13 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase R2-W3 — Kind `library` + diagramas
 
-- [ ] **T-PC2-R2-03** — Schema + tipos: união de 4 kinds
+- [x] **T-PC2-R2-03** — Schema + tipos: união de 4 kinds ✅ (+ `diagramDark` opcional na base)
   - Write set: `frontend/src/lib/schemas/projects.ts`, `frontend/src/types/content.ts`, testes do schema
   - `LibraryProjectSchema`: base + `kind:"library"`, `sections`, `pypi:{package,version,installCommand?}`, `links:{repo,pypi,docs?}`, `stat?:{label,value}`
-- [ ] **T-PC2-R2-04** — `LibraryProjectTemplate` + dispatch
+- [x] **T-PC2-R2-04** — `LibraryProjectTemplate` + dispatch ✅
   - Write set: `frontend/src/pages/projects/LibraryProjectTemplate.tsx` (+test), `frontend/src/pages/projects/ProjectDetailPage.tsx`
   - Hero → diagrama → pip-install block (copy-friendly) → seções → stats → links PyPI/GitHub
-- [ ] **T-PC2-R2-05** — `DiagramAsset` theme-aware + `DiagramCard` i18n
+- [x] **T-PC2-R2-05** — `DiagramAsset` theme-aware + `DiagramCard` i18n ✅ (+ archPage labels ligados no MetaProjectTemplate)
   - Write set: `frontend/src/components/projects/DiagramAsset.tsx`, novo `DiagramCard.tsx` (+tests), `CaseStudyTemplate.tsx`, `MetaProjectTemplate.tsx`, chaves i18n nos 3 JSONs
   - AC: AC-PC2-R2-04, AC-PC2-R2-05
 

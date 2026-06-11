@@ -90,7 +90,7 @@ export interface ProjectBase {
   /** URL-safe identifier. Regex: ^[a-z0-9-]+$. Not i18n. */
   slug: string;
   /** Discriminator. Not i18n. */
-  kind: "case-study" | "meta" | "games";
+  kind: "case-study" | "meta" | "games" | "library";
   hero: {
     /** i18n. */
     title: string;
@@ -106,6 +106,8 @@ export interface ProjectBase {
   };
   /** Optional path to diagram asset (light version). Not i18n. */
   diagram?: string;
+  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. Not i18n. */
+  diagramDark?: string;
   /** Alt text for diagram. i18n. Required when diagram is present. */
   diagramAlt?: string;
 }
@@ -153,8 +155,31 @@ export interface GamesProject extends ProjectBase {
   items: GameLink[];
 }
 
+/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
+export interface LibraryProject extends ProjectBase {
+  kind: "library";
+  /** ≥ 1 section. */
+  sections: ProjectSectionData[];
+  /** Registry metadata rendered as the install block. Not i18n. */
+  pypi: {
+    package: string;
+    version: string;
+    installCommand: string;
+  };
+  /** Optional headline stat (e.g. rows/s, test count). i18n label. */
+  stat?: {
+    label: string;
+    value: string;
+  };
+  links: {
+    repo: string;
+    pypi: string;
+    docs?: string;
+  };
+}
+
 /** Discriminated union of all project kinds. */
-export type Project = CaseStudyProject | MetaProject | GamesProject;
+export type Project = CaseStudyProject | MetaProject | GamesProject | LibraryProject;
 
 /** New open-list shape for the projects section in content JSON. */
 export interface ProjectsContentV2 {
@@ -212,6 +237,15 @@ export interface HeroStatsSuffix {
   clouds: string;
 }
 
+/** Labels for the library project template (T-PC2-R2-04). */
+export interface LibraryPageLabels {
+  installTitle: string;
+  versionLabel: string;
+  copyLabel: string;
+  copiedLabel: string;
+  linkPypi: string;
+}
+
 export interface ArchPageLabels {
   infraDiagramTitle: string;
   techStackTitle: string;
@@ -261,6 +295,8 @@ export interface ContentData {
   heroStatsSuffix?: HeroStatsSuffix;
   /** Architecture / infra section labels (T-FE-QUAL-06). */
   archPage?: ArchPageLabels;
+  /** Library template labels (T-PC2-R2-04). Falls back to PT literals when absent. */
+  libraryPage?: LibraryPageLabels;
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */

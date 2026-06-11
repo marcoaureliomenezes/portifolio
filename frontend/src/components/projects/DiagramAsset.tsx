@@ -1,9 +1,14 @@
 /**
- * DiagramAsset.tsx — T-PC-C-02 / T-PC-C-06
+ * DiagramAsset.tsx — T-PC-C-02 / T-PC-C-06 / T-PC2-R2-05
  *
- * <picture> element with dark-mode source. When light/dark props are empty
- * strings (assets not yet available), renders an aria-hidden placeholder div
- * + figcaption with the alt text. No broken-image squares.
+ * Renders the architecture diagram with light/dark variants. When light/dark
+ * props are empty strings (assets not yet available), renders an aria-hidden
+ * placeholder div + figcaption with the alt text. No broken-image squares.
+ *
+ * rc-2 (AC-PC2-R2-04): variant switching is THEME-aware, not OS-aware. The app
+ * toggles the `dark` class on <html> (useTheme), so the dark image is shown via
+ * Tailwind `dark:` classes — a <source media="(prefers-color-scheme)"> would
+ * ignore the manual toggle and show the wrong variant.
  *
  * Props:
  *  - light: path to light-mode image (relative to /assets/ or absolute URL)
@@ -11,7 +16,7 @@
  *  - alt: accessible description (used as img alt; repeated in figcaption for placeholder mode)
  *
  * Accessibility:
- * - img alt carries the description.
+ * - img alt carries the description (on both variants; only one is visible).
  * - Placeholder div is aria-hidden; figcaption provides visible text.
  */
 
@@ -38,23 +43,37 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
     );
   }
 
-  // When dark is absent, use light for both modes
-  const darkSrc = dark ?? light;
-
-  return (
-    <figure className={className}>
-      <picture>
-        <source
-          media="(prefers-color-scheme: dark)"
-          srcSet={darkSrc}
-        />
+  // Single-variant mode: same image regardless of theme.
+  if (!dark || dark === light) {
+    return (
+      <figure className={className}>
         <img
           src={light}
           alt={alt}
           className="w-full rounded-lg border border-border"
           loading="lazy"
         />
-      </picture>
+      </figure>
+    );
+  }
+
+  // Theme-aware mode: html.dark class decides which variant is visible.
+  return (
+    <figure className={className}>
+      <img
+        src={light}
+        alt={alt}
+        data-testid="diagram-light"
+        className="w-full rounded-lg border border-border dark:hidden"
+        loading="lazy"
+      />
+      <img
+        src={dark}
+        alt={alt}
+        data-testid="diagram-dark"
+        className="w-full rounded-lg border border-border hidden dark:block"
+        loading="lazy"
+      />
     </figure>
   );
 }
