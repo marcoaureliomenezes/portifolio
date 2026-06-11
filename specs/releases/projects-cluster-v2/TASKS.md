@@ -46,14 +46,14 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ## Fase R2-W1 — Hotfix build (CRIT, primeiro)
 
-- [-] **T-PC2-R2-01** — Vendorizar `@dadaia/analytics-sdk`
+- [x] **T-PC2-R2-01** — Vendorizar `@dadaia/analytics-sdk` ✅ commit 9c00800 (npm ci + build + tsc verdes)
   - Write set: `frontend/vendor/analytics-sdk/**`, `frontend/package.json`, `frontend/package-lock.json`
   - Copiar src+package.json do pacote (única cópia: node_modules), reapontar para `file:./vendor/analytics-sdk`, regenerar lockfile
   - AC: AC-PC2-R2-01 (`npm ci` + `npm run build` exit 0 em checkout limpo)
 
 ## Fase R2-W2 — Higiene de repo
 
-- [ ] **T-PC2-R2-02** — Purge de artefatos proibidos + gitignore
+- [x] **T-PC2-R2-02** — Purge de artefatos proibidos + gitignore ✅ commit 651b089
   - Write set: `.gitignore`, deleções (`.worktrees/`, `specs_bkp/`, `frontend/{coverage,playwright-report,test-results,.lighthouseci}/`, `backend/__pycache__/`), commit das deleções `img/*.jpeg`, `specs/backlog/fe-qual-refactor-salvage.md`
   - AC: AC-PC2-R2-07 (working tree limpo)
 
