@@ -58,12 +58,12 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("uses the reduced headline scale and wraps on mobile (T-MR-02/T-MR-04)", () => {
+  it("uses the display headline scale and always wraps — never truncates (T-RD-02)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveClass("text-xl");
-    expect(heading).toHaveClass("sm:text-2xl");
-    expect(heading).toHaveClass("sm:whitespace-nowrap");
+    expect(heading).toHaveClass("text-3xl");
+    expect(heading).toHaveClass("md:text-5xl");
+    expect(heading.className).not.toMatch(/whitespace-nowrap|text-ellipsis|bg-clip-text/);
   });
 
   it("renders the profile avatar inside the hero (identity anchor above the headline)", () => {

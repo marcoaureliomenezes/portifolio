@@ -19,6 +19,7 @@ export function AvatarImageModal({ avatarUrl, name, trigger }: AvatarImageModalP
       <DialogContent
         className="max-w-lg bg-transparent border-none shadow-none p-0"
         aria-modal="true"
+        aria-describedby={undefined}
       >
         <DialogHeader className="sr-only">
           <DialogTitle>{`Foto de ${name}`}</DialogTitle>

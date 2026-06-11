@@ -22,7 +22,6 @@ export function EducationSection({ content }: EducationSectionProps) {
       <MobileCollapsibleSection
         title={content.educationTitle}
         icon={GraduationCap}
-        iconColor="text-green-500"
         headingId="educacao-heading"
         defaultOpen={true}
       >
@@ -47,7 +46,7 @@ export function EducationSection({ content }: EducationSectionProps) {
                   {edu.institution}
                 </span>
                 <span className="inline-flex items-center gap-1 font-semibold text-primary">
-                  <Calendar className="w-3 h-3 flex-shrink-0 text-green-600" aria-hidden="true" />
+                  <Calendar className="w-3 h-3 flex-shrink-0 text-muted-foreground" aria-hidden="true" />
                   {edu.period}
                 </span>
               </div>

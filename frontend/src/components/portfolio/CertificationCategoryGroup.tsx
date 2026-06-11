@@ -48,7 +48,7 @@ export function CertificationCategoryGroup({
                   />
                 ) : (
                   <>
-                    <Trophy className="w-4 h-4 md:w-6 md:h-6 text-yellow-600" />
+                    <Trophy className="w-4 h-4 md:w-6 md:h-6 text-muted-foreground" />
                     <h3 className="text-sm md:text-xl font-bold text-foreground">
                       {category}
                     </h3>

@@ -34,7 +34,6 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
       <MobileCollapsibleSection
         title={content.experienceTitle}
         icon={Briefcase}
-        iconColor="text-blue-500"
         headingId="experiencia-heading"
       >
         <div className="space-y-8">{cards}</div>

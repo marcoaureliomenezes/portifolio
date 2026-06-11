@@ -34,7 +34,8 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-md" aria-modal="true">
+      <DialogContent className="max-w-md" aria-modal="true"
+        aria-describedby={undefined}>
         <DialogHeader>
           <div className="flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full mx-auto mb-2">
             <Mail className="w-6 h-6 text-accent-foreground" />
@@ -54,7 +55,7 @@ export function EmailModal({ email, trigger }: EmailModalProps) {
                 aria-label="Copiar email"
               >
                 {copied ? (
-                  <Check className="w-4 h-4 text-green-500" />
+                  <Check className="w-4 h-4 text-muted-foreground" />
                 ) : (
                   <Copy className="w-4 h-4" />
                 )}

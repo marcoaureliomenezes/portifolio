@@ -32,15 +32,16 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           className="w-12 h-12 rounded-full object-cover object-top ring-2 ring-accent/40"
         />
         <span className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
           Marco Aurelio Menezes · Belo Horizonte, Brasil
         </span>
       </div>
 
       {/* H1 — single line on desktop, wraps on mobile */}
+      {/* T-RD-02: display scale, solid foreground, wraps — never truncates */}
       <h1
         id="hero-heading"
-        className="text-xl sm:text-2xl font-extrabold leading-tight tracking-tight mb-4 bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis"
+        className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight mb-4 text-foreground text-balance"
       >
         {tagline}
       </h1>
@@ -92,12 +93,13 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
 
       {/* Social links — brand colors always on, centered on mobile */}
       <div className="flex items-center justify-start gap-6 mt-5">
+        {/* T-RD-02: monochrome socials — accent only on hover (single-accent system) */}
         <a
           href={profile.linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
-          className="text-[#0A66C2] hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaLinkedin className="w-6 h-6" />
         </a>
@@ -106,7 +108,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
-          className="text-foreground hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaGithub className="w-6 h-6" />
         </a>
@@ -115,7 +117,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
-          className="text-[#E1306C] hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaInstagram className="w-6 h-6" />
         </a>

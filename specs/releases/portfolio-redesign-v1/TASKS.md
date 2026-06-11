@@ -8,13 +8,13 @@
 
 ## W1 — R1 design system
 
-- [ ] **T-RD-01** — Tokens + tema
+- [x] **T-RD-01** — Tokens + tema
   - Write set: `src/index.css`
   - `.dark` para dentro de `@layer base`; remover tokens `--sidebar-*` e regra `[data-sidebar]`
-- [ ] **T-RD-02** — Purge de cores literais + marca única + escala do h1
+- [x] **T-RD-02** — Purge de cores literais + marca única + escala do h1
   - Write set: `src/components/portfolio/*.tsx`, `src/components/header/*.tsx`
   - AC-RD-02; wordmark sólido; h1 display sem gradient/ellipsis
-- [ ] **T-RD-03** — Primitivo `Disclosure` + adoção + a11y
+- [x] **T-RD-03** — Primitivo `Disclosure` + adoção + a11y
   - Write set: `src/components/ui/disclosure.tsx` (+test), `MobileCollapsibleSection`, `RoleCollapsible`, `EmailModal`
   - AC-RD-03, AC-RD-04 (DialogTitle), heading fora do button
 

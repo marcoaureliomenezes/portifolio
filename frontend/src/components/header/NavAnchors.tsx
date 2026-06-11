@@ -12,6 +12,7 @@ import { useContent } from "@/hooks/useContent";
 import {
   Sheet,
   SheetContent,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "./ThemeToggle";
@@ -100,8 +101,11 @@ export function NavAnchors({ language, onLanguageChange }: NavAnchorsProps) {
           <SheetContent
             id="mobile-nav-drawer"
             side="right"
+            aria-describedby={undefined}
             className="bg-header-bg text-header-text border-header-text/20 w-72 p-0"
           >
+            {/* T-RD-03 / AC-RD-04: Radix Dialog requires a title (sr-only here) */}
+            <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
             <div className="flex flex-col h-full p-6 gap-6">
               <nav
                 aria-label="Section navigation"

@@ -50,7 +50,6 @@ export function CertificationsSection({ content }: CertificationsSectionProps) {
       <MobileCollapsibleSection
         title={content.certificationsTitle}
         icon={Award}
-        iconColor="text-yellow-600"
         headingId="certificacoes-heading"
       >
         <div className="space-y-8">{groups}</div>

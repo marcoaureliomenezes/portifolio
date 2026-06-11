@@ -114,13 +114,23 @@ export default {
 				'fade-in': {
 					from: { opacity: '0' },
 					to: { opacity: '1' }
+				},
+				'collapsible-down': {
+					from: { height: '0' },
+					to: { height: 'var(--radix-collapsible-content-height)' }
+				},
+				'collapsible-up': {
+					from: { height: 'var(--radix-collapsible-content-height)' },
+					to: { height: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-up': 'fade-up 0.5s ease-out both',
-				'fade-in': 'fade-in 0.4s ease-out both'
+				'fade-in': 'fade-in 0.4s ease-out both',
+				'collapsible-down': 'collapsible-down 0.2s ease-out',
+				'collapsible-up': 'collapsible-up 0.2s ease-out'
 			}
 		}
 	},
