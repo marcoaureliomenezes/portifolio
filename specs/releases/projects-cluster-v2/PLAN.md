@@ -337,6 +337,14 @@ Dia 2
 
 ---
 
+## 5-R2. Plano do rc-2 fold (2026-06-11)
+
+Ondas sequenciais, cada uma commitável: **W1** hotfix vendor SDK (desbloqueia tudo) →
+**W2** higiene → **W3** kind `library` (schema → template → diagramas theme-aware) →
+**W4** conteúdo + cards → **W5** testes/gates + deflake. Detalhe operacional, write
+sets e ACs: TASKS.md fases R2-W1..W5 (mantido lá para respeitar o cap de 300 linhas
+deste PLAN — SPEC-DOC-005; este arquivo já o excede e não deve crescer). ADRs: SPEC §9.
+
 ## 6. Riscos e mitigações
 
 | Risco | Probabilidade | Mitigação |

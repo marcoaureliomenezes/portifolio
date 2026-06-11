@@ -37,6 +37,58 @@ No máximo um `[-]` por agente ao mesmo tempo.
 
 ---
 
+> **Revisão rc-2 (2026-06-11, ADRs PC2-R2-01..05):** as fases C/E abaixo são executadas
+> com os valores corrigidos do SPEC §5 revisado (dadaia-workspace v0.1.5/9 agentes,
+> rand-engine v0.6.4, kind `library` para ambos). Onde o texto original disser
+> `case-study`/`v0.1.2`/`21`, prevalece o SPEC revisado. Owner de execução: sessão
+> coordenadora (Claude, bound implementation) — `frontend-engineer` plugin indisponível
+> como subagente dispatchável neste harness.
+
+## Fase R2-W1 — Hotfix build (CRIT, primeiro)
+
+- [-] **T-PC2-R2-01** — Vendorizar `@dadaia/analytics-sdk`
+  - Write set: `frontend/vendor/analytics-sdk/**`, `frontend/package.json`, `frontend/package-lock.json`
+  - Copiar src+package.json do pacote (única cópia: node_modules), reapontar para `file:./vendor/analytics-sdk`, regenerar lockfile
+  - AC: AC-PC2-R2-01 (`npm ci` + `npm run build` exit 0 em checkout limpo)
+
+## Fase R2-W2 — Higiene de repo
+
+- [ ] **T-PC2-R2-02** — Purge de artefatos proibidos + gitignore
+  - Write set: `.gitignore`, deleções (`.worktrees/`, `specs_bkp/`, `frontend/{coverage,playwright-report,test-results,.lighthouseci}/`, `backend/__pycache__/`), commit das deleções `img/*.jpeg`, `specs/backlog/fe-qual-refactor-salvage.md`
+  - AC: AC-PC2-R2-07 (working tree limpo)
+
+## Fase R2-W3 — Kind `library` + diagramas
+
+- [ ] **T-PC2-R2-03** — Schema + tipos: união de 4 kinds
+  - Write set: `frontend/src/lib/schemas/projects.ts`, `frontend/src/types/content.ts`, testes do schema
+  - `LibraryProjectSchema`: base + `kind:"library"`, `sections`, `pypi:{package,version,installCommand?}`, `links:{repo,pypi,docs?}`, `stat?:{label,value}`
+- [ ] **T-PC2-R2-04** — `LibraryProjectTemplate` + dispatch
+  - Write set: `frontend/src/pages/projects/LibraryProjectTemplate.tsx` (+test), `frontend/src/pages/projects/ProjectDetailPage.tsx`
+  - Hero → diagrama → pip-install block (copy-friendly) → seções → stats → links PyPI/GitHub
+- [ ] **T-PC2-R2-05** — `DiagramAsset` theme-aware + `DiagramCard` i18n
+  - Write set: `frontend/src/components/projects/DiagramAsset.tsx`, novo `DiagramCard.tsx` (+tests), `CaseStudyTemplate.tsx`, `MetaProjectTemplate.tsx`, chaves i18n nos 3 JSONs
+  - AC: AC-PC2-R2-04, AC-PC2-R2-05
+
+## Fase R2-W4 — Conteúdo + cards (substitui C-01/C-02 onde conflitar)
+
+- [ ] **T-PC2-R2-06** — Conteúdo: rand-engine novo + dadaia-workspace retipado + remoção da chave legacy `projects`
+  - Write set: `frontend/src/data/content/{pt,en,de}.json`, `frontend/scripts/validate-content.mjs` (se precisar do novo kind)
+  - AC: AC-PC2-01..05 (revisados), AC-PC2-R2-03
+- [ ] **T-PC2-R2-07** — `ProjectCard` redesign
+  - Write set: `frontend/src/components/projects/ProjectCard.tsx` (+test)
+  - Chip de kind, badges tech (≤4), stat de destaque, ícones GitHub/PyPI; AC-PC2-R2-06
+- [ ] **T-PC2-R2-08** — Dead code removal
+  - Write set: deleções `AppSidebar.tsx`, `ui/sidebar.tsx`, `components/Portfolio.tsx` (inline no Index), `public/assets/projects/portifolio/architecture.svg`
+  - AC: AC-PC2-R2-07 (grep-zero)
+
+## Fase R2-W5 — Testes e gates
+
+- [ ] **T-PC2-R2-09** — Deflake `useContent.test.ts` + testes novos componentes
+  - AC: AC-PC2-R2-08 (3× verde)
+- [ ] **T-PC2-R2-10** — ADR retroativo analytics validado
+  - Verificar: 7 eventos `track()` compilam com SDK vendorizado; sem chamadas órfãs
+  - AC: ADR-PC2-R2-03 satisfeito (build + grep)
+
 ## Fase C — JSON Content (frontend-engineer)
 
 - [ ] **T-PC2-C-01** — Atualizar bloco `dadaia-workspace` em pt/en/de
@@ -92,7 +144,7 @@ No máximo um `[-]` por agente ao mesmo tempo.
     - [ ] `npx playwright test tests/e2e/projects-cluster/rand-engine.spec.ts` pass
     - [ ] `npx playwright test tests/e2e/projects-cluster/` pass completo (regressão zero)
     - [ ] Lighthouse mobile `/projetos`: Performance ≥ 85
-  - AC: todos os itens acima ✅ antes do merge em `develop`
+  - AC: todos os itens acima ✅ antes do merge em `main` (revisado rc-2, ADR-PC2-R2-04 — PR direto a main; o checklist Lighthouse/E2E completo roda no CI do PR)
 
 ---
 
