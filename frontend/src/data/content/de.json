@@ -852,5 +852,13 @@
     "copiedLabel": "Kopiert",
     "linkPypi": "PyPI",
     "linkDocs": "Doku"
+  },
+  "featuredProjectsTitle": "Ausgewählte Projekte",
+  "seeAllProjects": "Alle Projekte ansehen",
+  "nowPanel": {
+    "title": "jetzt",
+    "currentRole": "aktuelle Rolle",
+    "latestCert": "neueste Zertifizierung",
+    "latestProject": "neuestes Projekt"
   }
 }

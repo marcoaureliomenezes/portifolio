@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
+import { HeroNowPanel } from "./HeroNowPanel";
 import { getCvUrl, profile } from "@/data/profile";
 import profileAvatar from "@/assets/profile.webp";
 import type { ContentData, SupportedLanguages } from "@/types/content";
@@ -23,6 +24,9 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
 
   return (
     <section aria-labelledby="hero-heading" className="pt-6 md:pt-10 pb-0">
+      {/* T-RD-05: 2-col on lg+ — identity left, "now" panel right (fills the fold) */}
+      <div className="lg:flex lg:items-center lg:gap-10">
+      <div className="min-w-0 flex-1">
 
       {/* Avatar + availability badge */}
       <div className="flex items-center gap-3 mb-6">
@@ -121,6 +125,11 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
         >
           <FaInstagram className="w-6 h-6" />
         </a>
+      </div>
+      </div>
+
+      {/* Right column — terminal "now" panel (lg+ only) */}
+      <HeroNowPanel content={content} />
       </div>
 
       {/* Separator */}

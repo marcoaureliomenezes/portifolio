@@ -300,6 +300,16 @@ export interface ContentData {
   archPage?: ArchPageLabels;
   /** Library template labels (T-PC2-R2-04). Falls back to PT literals when absent. */
   libraryPage?: LibraryPageLabels;
+  /** Featured-projects strip labels (T-RD-04). */
+  featuredProjectsTitle?: string;
+  seeAllProjects?: string;
+  /** Hero "now" panel labels (T-RD-05). */
+  nowPanel?: {
+    title: string;
+    currentRole: string;
+    latestCert: string;
+    latestProject: string;
+  };
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */

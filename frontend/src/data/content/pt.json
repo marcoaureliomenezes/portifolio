@@ -852,5 +852,13 @@
     "copiedLabel": "Copiado",
     "linkPypi": "PyPI",
     "linkDocs": "Documentação"
+  },
+  "featuredProjectsTitle": "Projetos em Destaque",
+  "seeAllProjects": "Ver todos os projetos",
+  "nowPanel": {
+    "title": "agora",
+    "currentRole": "papel atual",
+    "latestCert": "última certificação",
+    "latestProject": "último projeto"
   }
 }

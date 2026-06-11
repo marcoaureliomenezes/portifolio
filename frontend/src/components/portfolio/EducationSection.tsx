@@ -1,7 +1,5 @@
 import { GraduationCap, Calendar } from "lucide-react";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
-import { useInView } from "@/hooks/useInView";
-import { cn } from "@/lib/utils";
 import type { ContentData } from "@/types/content";
 
 interface EducationSectionProps {
@@ -9,15 +7,13 @@ interface EducationSectionProps {
 }
 
 export function EducationSection({ content }: EducationSectionProps) {
-  const { ref, inView } = useInView<HTMLElement>();
   const edu = content.education;
 
   return (
     <section
       id="educacao"
       aria-labelledby="educacao-heading"
-      ref={ref}
-      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+      className="motion-safe:animate-fade-up"
     >
       <MobileCollapsibleSection
         title={content.educationTitle}

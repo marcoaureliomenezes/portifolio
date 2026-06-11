@@ -20,11 +20,11 @@
 
 ## W2 — R2 home IA
 
-- [ ] **T-RD-04** — FeaturedProjects + labels i18n
+- [x] **T-RD-04** — FeaturedProjects + labels i18n
   - Write set: `src/components/portfolio/FeaturedProjects.tsx` (+test), `public/content/{pt,en,de}.json` (labels), `src/types/content.ts`
-- [ ] **T-RD-05** — Hero 2-col + painel "now"
+- [x] **T-RD-05** — Hero 2-col + painel "now"
   - Write set: `src/components/portfolio/HeroSection.tsx`, `src/components/portfolio/HeroNowPanel.tsx` (+test)
-- [ ] **T-RD-06** — Ordem de seções + NavAnchors + seções visíveis por default
+- [x] **T-RD-06** — Ordem de seções + NavAnchors + seções visíveis por default
   - Write set: `src/components/portfolio/Portfolio.tsx`, `src/components/header/NavAnchors.tsx`, seções (remoção do gate opacity-0)
   - AC-RD-01
 

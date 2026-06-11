@@ -24,10 +24,11 @@ interface NavAnchor {
   labelKey: "experienceTitle" | "certificationsTitle" | "skillsTitle";
 }
 
+// T-RD-06: anchor order mirrors the new section order on the home page.
 const NAV_ANCHORS: NavAnchor[] = [
   { anchor: "experiencia", labelKey: "experienceTitle" },
-  { anchor: "certificacoes", labelKey: "certificationsTitle" },
   { anchor: "habilidades", labelKey: "skillsTitle" },
+  { anchor: "certificacoes", labelKey: "certificationsTitle" },
 ];
 
 interface NavAnchorsProps {

@@ -1,8 +1,6 @@
 import { Award } from "lucide-react";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { CertificationCategoryGroup } from "./CertificationCategoryGroup";
-import { useInView } from "@/hooks/useInView";
-import { cn } from "@/lib/utils";
 import type { ContentData, Certification } from "@/types/content";
 
 interface CertificationsSectionProps {
@@ -38,14 +36,11 @@ export function CertificationsSection({ content }: CertificationsSectionProps) {
     />
   ));
 
-  const { ref, inView } = useInView<HTMLElement>();
-
   return (
     <section
       id="certificacoes"
       aria-labelledby="certificacoes-heading"
-      ref={ref}
-      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+      className="motion-safe:animate-fade-up"
     >
       <MobileCollapsibleSection
         title={content.certificationsTitle}
