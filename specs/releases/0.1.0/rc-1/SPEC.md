@@ -57,7 +57,7 @@ Wave ranking, by the pick: (1) law, skills and dev loop: FR1; (2) shared foundat
 ### FR1 — the `verify` npm script
 
 - AC1.1 `frontend/package.json` `scripts.verify` is exactly `npm ci && npm run lint && npm run typecheck && npm run test:run && npm run check:i18n-projects && npm run build`, and `npm --prefix frontend run verify` exits 0 on the tree that adds it. Test: no new test — the script is the gate; its exit code at the first job merge is the evidence.
-- AC1.2 The `tests:` line of the repo `AGENTS.md` (`frontend/src/*.test.ts frontend/src/*.test.tsx frontend/tests/e2e/*.spec.ts`, from the sibling lane) is on the job's base before the first task merge. Test: none — a precondition the PLAN checks.
+- AC1.2 The `tests:` line of the repo `AGENTS.md` (`AGENTS.md:66`: `frontend/src/*.test.ts frontend/src/*.test.tsx frontend/src/test-setup.ts frontend/tests/*`, from the sibling lane) is on the job's base before the first task merge; met at `d59385f`. Test: none — a precondition the PLAN checks.
 
 ### FR2 — main's state in the work branch (back-merge `origin/main`)
 
@@ -91,7 +91,7 @@ The item is `projectsV2.list` slug `dadaia-workspace`, kind `library`, in `front
 
 | risk | answer |
 |---|---|
-| The back-merge commit touches 152 paths; 31 of them match the `tests:` globs (`git diff --name-only b99da2a fcc8682`, fnmatch, `*` crosses `/`). A task-tree merge refuses an implementation commit that touches the `tests:` globs. | The PLAN names where the back-merge commit lands (which tree, which task kind) so no task merge refuses it. |
+| The back-merge commit touches 152 paths; 34 of them match the `tests:` globs (`git diff --name-only b99da2a fcc8682`, fnmatch, `*` crosses `/`). A task-tree merge refuses an implementation commit that touches the `tests:` globs. | The PLAN names where the back-merge commit lands (which tree, which task kind) so no task merge refuses it. |
 | The `verify` script (FR1) lands before the back-merge, so its first run is on develop's tree, unmeasured; the 34 s / 29 s measure is the back-merged tree's. | The PLAN orders FR1 and FR2; a red on develop's tree is the PLAN's to resolve, never a weaker script. |
 | `verify:` lands through `wt-backlog-verify-line` in parallel. | Job 1 opens after that lane merges into feature/0.1.0 and the `wt-rc` syncs it. |
 | The copy runs ahead of PyPI (0.4.7) until the dadaia-workspace promote. | Stage only in rc-1; prod waits for rc-21, minutes before the promote (timing ruling). |
