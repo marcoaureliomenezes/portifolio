@@ -1,6 +1,6 @@
 # PLAN — Release 0.1.0, rc-1
 
-**Status:** Draft
+**Status:** Approved
 **Owner:** dd-sw-engineer-sr
 
 ## 1. As-is review

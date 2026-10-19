@@ -1,6 +1,6 @@
 # SPEC — Release: 0.1.0
 
-**Status:** Draft
+**Status:** Approved
 **Release ID:** 0.1.0
 **Owner:** dd-product-engineer
 **Opened:** 2026-10-19
