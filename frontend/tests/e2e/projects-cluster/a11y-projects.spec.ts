@@ -77,7 +77,7 @@ test.describe('Accessibility — Projects cluster routes', () => {
     ).toHaveLength(0);
 
     // Then: diagram img has non-empty alt
-    const diagramImg = page.locator('picture img').first();
+    const diagramImg = page.locator('figure img').first();
     const alt = await diagramImg.getAttribute('alt');
     expect((alt ?? '').trim().length).toBeGreaterThan(0);
   });

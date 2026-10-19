@@ -1,11 +1,12 @@
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useContent } from "@/hooks/useContent";
 import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectHero } from "@/components/projects/ProjectHero";
 import { ProjectSections } from "@/components/projects/ProjectSections";
 import { CostsTable } from "@/components/projects/CostsTable";
 import { DecisionsList } from "@/components/projects/DecisionsList";
-import { DiagramAsset } from "@/components/projects/DiagramAsset";
+import { DiagramCard } from "@/components/projects/DiagramCard";
 import type { MetaProject } from "@/types/content";
 
 /**
@@ -24,7 +25,11 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
     description: project.seo.description,
   });
 
+  const { content } = useContent();
   const { slug, stack, costs, decisions, links } = project;
+  // T-PC2-R2-05 / AC-PC2-R2-05: headings come from content.archPage (i18n),
+  // with the previous literals as fallback for older content snapshots.
+  const labels = content.archPage;
 
   return (
     <main
@@ -34,28 +39,8 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
-      {/* ── Architecture diagram ─────────────────────────────────── */}
-      {project.diagram && (
-        <section aria-labelledby={`${slug}-diagram-heading`}>
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <h2
-                id={`${slug}-diagram-heading`}
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                Arquitetura
-              </h2>
-            </CardHeader>
-            <CardContent>
-              <DiagramAsset
-                light={project.diagram}
-                alt={project.diagramAlt ?? "Architecture diagram"}
-                className="w-full"
-              />
-            </CardContent>
-          </Card>
-        </section>
-      )}
+      {/* ── Architecture diagram (shared, i18n, theme-aware — T-PC2-R2-05) ── */}
+      <DiagramCard project={project} />
 
       {/* ── Body sections ────────────────────────────────────────── */}
       <ProjectSections sections={project.sections} slug={slug} />
@@ -69,7 +54,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
                 id={`${slug}-stack-heading`}
                 className="text-lg md:text-2xl font-bold text-foreground"
               >
-                Tech Stack
+                {labels?.techStackTitle ?? "Tech Stack"}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -77,10 +62,10 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left py-2 pr-4 text-muted-foreground font-medium w-1/3">
-                      Layer
+                      {labels?.tableHeaderLayer ?? "Layer"}
                     </th>
                     <th className="text-left py-2 text-foreground font-medium">
-                      Technology
+                      {labels?.tableHeaderTechnology ?? "Technology"}
                     </th>
                   </tr>
                 </thead>
@@ -107,7 +92,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
                 id={`${slug}-costs-heading`}
                 className="text-lg md:text-2xl font-bold text-foreground"
               >
-                Monthly Costs
+                {labels?.monthlyCostsTitle ?? "Monthly Costs"}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -126,7 +111,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
                 id={`${slug}-decisions-heading`}
                 className="text-lg md:text-2xl font-bold text-foreground"
               >
-                Architectural Decisions
+                {labels?.archDecisionsTitle ?? "Architectural Decisions"}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -144,7 +129,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               id={`${slug}-links-heading`}
               className="text-lg font-bold text-foreground"
             >
-              Links
+              {labels?.linksTitle ?? "Links"}
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-4">
@@ -155,7 +140,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              GitHub Repository
+              {labels?.linkGithubRepo ?? "GitHub Repository"}
             </a>
             <a
               href={links.terraform}
@@ -164,7 +149,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              Terraform
+              {labels?.linkTerraform ?? "Terraform"}
             </a>
             <a
               href={links.specs}
@@ -173,7 +158,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              Specs
+              {labels?.linkSpecs ?? "Specs"}
             </a>
           </CardContent>
         </Card>

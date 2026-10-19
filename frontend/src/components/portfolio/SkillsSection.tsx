@@ -1,7 +1,5 @@
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { SkillCategoryCard } from "./SkillCategoryCard";
-import { useInView } from "@/hooks/useInView";
-import { cn } from "@/lib/utils";
 import type { ContentData } from "@/types/content";
 
 interface SkillsSectionProps {
@@ -9,7 +7,6 @@ interface SkillsSectionProps {
 }
 
 export function SkillsSection({ content }: SkillsSectionProps) {
-  const { ref, inView } = useInView<HTMLElement>();
 
   const cards = content.skills.map((skillCategory, idx) => (
     <SkillCategoryCard key={idx} skillCategory={skillCategory} />
@@ -19,8 +16,7 @@ export function SkillsSection({ content }: SkillsSectionProps) {
     <section
       id="habilidades"
       aria-labelledby="habilidades-heading"
-      ref={ref}
-      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+      className="motion-safe:animate-fade-up"
     >
       <MobileCollapsibleSection
         title={content.skillsTitle}

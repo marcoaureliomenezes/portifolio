@@ -1,0 +1,903 @@
+{
+  "schema_version": "1",
+  "published_at": "2026-06-11T00:00:00Z",
+  "profile": {
+    "linkedinUrl": "https://www.linkedin.com/in/marco-menezes-731542b9",
+    "githubUrl": "https://github.com/marcoaureliomenezes",
+    "instagramUrl": "https://www.instagram.com/marcoaurelioreislima/",
+    "email": "marcoaurelioreislima@gmail.com",
+    "cvUrl": "/cv.pdf"
+  },
+  "resumeTitle": "Zusammenfassung",
+  "skillsTitle": "Fähigkeiten",
+  "experienceTitle": "Berufserfahrung",
+  "educationTitle": "Ausbildung",
+  "certificationsTitle": "Zertifizierungen",
+  "seeMore": "Mehr anzeigen",
+  "seeLess": "Weniger anzeigen",
+  "responsibilities": "Verantwortlichkeiten:",
+  "technologies": "Technologien:",
+  "validUntil": "Gültig bis",
+  "viewCredential": "Zertifikat anzeigen",
+  "issuerLabel": "Aussteller",
+  "certSingular": "Zertifikat",
+  "certPlural": "Zertifikate",
+  "careerProgression": "Karriereentwicklung",
+  "roleSingular": "Stelle",
+  "rolePlural": "Stellen",
+  "viewLarger": "Größer anzeigen",
+  "gamesComingSoon": "Demnächst verfügbar",
+  "gamesComingSoonDesc": "Die Spiele werden bald hier aufgelistet.",
+  "notFoundMessage": "Oops! Seite nicht gefunden",
+  "returnHome": "Zur Startseite",
+  "heroStatsSuffix": {
+    "years": "Jahre",
+    "certs": "Zertifikate",
+    "clouds": "Clouds"
+  },
+  "archPage": {
+    "infraDiagramTitle": "Infrastrukturdiagramm",
+    "techStackTitle": "Tech Stack",
+    "monthlyCostsTitle": "Monatliche Kosten",
+    "tableHeaderLayer": "Schicht",
+    "tableHeaderTechnology": "Technologie",
+    "tableHeaderService": "Dienst",
+    "tableHeaderCostUsd": "USD / Monat",
+    "archDecisionsTitle": "Architekturentscheidungen",
+    "linksTitle": "Links",
+    "linkGithubRepo": "GitHub-Repository",
+    "linkTerraform": "Terraform",
+    "linkSpecs": "Specs"
+  },
+  "header": {
+    "title": "Data Engineer | Big Data | Azure | AWS | Databricks",
+    "location": "Belo Horizonte, MG - Brasilien",
+    "viewEmail": "E-Mail anzeigen"
+  },
+  "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
+  "heroStats": {
+    "years": 6,
+    "certifications": 11,
+    "clouds": 4
+  },
+  "navProjects": "Personal Projects",
+  "heroCTAs": {
+    "downloadCv": "Lebenslauf herunterladen",
+    "seeExperience": "Erfahrung ansehen",
+    "seeProjects": "Personal Projects"
+  },
+  "resume": {
+    "short": "Von den Laboren der Steuerungs- und Automatisierungstechnik bis zur Leitung KI-augmentierter Datenmigrationsprojekte bei einer der größten Banken Brasiliens. Der Weg ist nicht offensichtlich — und genau das macht ihn interessant. Die meisten Ingenieure lernen Datenwerkzeuge. Ich begann mit Regelungstheorie, Physik und eingebetteten Systemen — und das gab mir etwas, das die meisten nicht haben...",
+    "full": "Ich komme aus der Steuerungs- und Automatisierungstechnik / Mechatronik — Mathematik, Physik, Regelungssysteme, Elektronik. Das ist kein Umweg zur Datentechnik; es ist das Fundament, wie ich über jedes System nachdenke, das ich baue: analytisch, mit Blick auf Einschränkungen, Trade-offs und Grundlagen.\n\nIch begann meine Karriere als Junior Data Engineer und baute Pipelines in einer vollständig On-Premises-Cloudera-Umgebung — PySpark, Hive, Shell-Scripting, Linux. Die Nähe zur Infrastrukturschicht hat mir ein tiefes Gespür dafür gegeben, wie Daten tatsächlich fließen und wo Systeme versagen.\n\n2022 wechselte alles zu Azure und Databricks. Ich begann mit der Unterstützung von Migrationen und übernahm mit der Zeit deren Leitung — Pipeline für Pipeline, Datensätze mappen, Data Domains erstellen, architektonische Entscheidungen treffen, die erst beim Paradigmenwechsel sichtbar werden. Jede Migration erforderte Optimierung, nicht nur Übersetzung. Um geerdet zu bleiben, studierte ich Cloud-Architektur intensiv und erwarb mehrere Zertifizierungen. Für mich ist eine Zertifizierung die Bestätigung, dass ich etwas wirklich beherrscht habe — kein Abzeichen zum Sammeln.\n\nDas KI-Kapitel begann 2023 mit GitHub Copilot in persönlichen Projekten. Bis 2024 war es Teil meines täglichen Arbeitsablaufs. 2025 wurde ich für ein internes KI-Pilotprogramm ausgewählt, das Devin und Windsurf in unser Team einführte — und wurde dafür anerkannt, mich schneller anzupassen als die meisten. Heute leite ich groß angelegte Migrationen von SAS- und PowerCenter-Pipelines zu Databricks mit KI-augmentierter Entwicklung — nicht als Abkürzung, sondern als Kraftmultiplikator für technisches Urteil.\n\nAuf der persönlichen Seite baue ich mit Claude Code und Codex: Multi-Agenten-Systeme, spec-getriebene Entwicklung, Context Engineering. Der Grund ist einfach — ich möchte verstehen, wohin das führt, und echte nützliche Dinge für Menschen bauen, während ich Fähigkeiten schärfe, die jahrelang wichtig sein werden.\n\nEin paar Dinge, die meine Arbeitsweise definieren: Ich frage immer zuerst nach den Trade-offs zwischen Ansätzen. Bei komplexen Problemen zerlege ich sie in Teile mit klaren Grenzen, löse jedes einzeln und füge sie wieder zusammen. Ich nutze Analogien, um das Abstrakte greifbar zu machen. Wenn ein Projekt erfordert, dass ich etwas Neues lerne, sehe ich das als den interessantesten Teil — nicht als Kosten.\n\nIch bin überzeugt: Die Ingenieure, die in den nächsten zehn Jahren am meisten zählen, sind die, die sowohl das Handwerk als auch die Werkzeuge gut genug verstehen, um eines zu nutzen, um das andere zu verbessern. Das ist die Richtung, in die ich mich bewege.\n\nAußerhalb der Arbeit: Ich spiele Gitarre und singe, lese wann immer ich kann, und stelle meine Familie in den Mittelpunkt von allem."
+  },
+  "skills": [
+    {
+      "title": "Sprachen",
+      "icon": "🌍",
+      "skills": [
+        "Portugiesisch (Muttersprache)",
+        "Englisch (Muttersprache oder zweisprachig)",
+        "Deutsch (Vollständige berufliche Kompetenz)"
+      ],
+      "id": "languages"
+    },
+    {
+      "title": "Programmiersprachen",
+      "icon": "💻",
+      "skills": [
+        "Python (10+ J.)",
+        "SQL (5+ J.)",
+        "Shell (5+ J.)",
+        "Scala (2+ J.)",
+        "Java"
+      ],
+      "id": "programming-languages"
+    },
+    {
+      "title": "Cloud-Anbieter",
+      "icon": "☁️",
+      "skills": [
+        "AWS",
+        "Azure",
+        "Databricks"
+      ],
+      "id": "cloud-providers"
+    },
+    {
+      "title": "KI / Moderne Tools",
+      "icon": "🤖",
+      "skills": [
+        "AI",
+        "LLM",
+        "Devin",
+        "OpenAI Codex",
+        "Claude Code",
+        "Opencode",
+        "Hermes agent",
+        "Openclaw",
+        "Spec Driven Development",
+        "Harness",
+        "Context engineering"
+      ],
+      "id": "ai-modern-tooling"
+    },
+    {
+      "title": "On-Premises Datentechnologien",
+      "icon": "🏗️",
+      "skills": [
+        "Hadoop",
+        "Hive",
+        "Spark",
+        "Kafka",
+        "Control-M"
+      ],
+      "id": "on-premises-data-technologies"
+    },
+    {
+      "title": "DevOps-Technologien",
+      "icon": "🔧",
+      "skills": [
+        "Git",
+        "GitHub",
+        "GitHub Actions",
+        "Jenkins",
+        "Docker",
+        "Jira",
+        "ServiceNow"
+      ],
+      "id": "devops-technologies"
+    }
+  ],
+  "experiences": [
+    {
+      "company": "Santander Brazil - F1rst Digital Services",
+      "fullName": "Santander Brazil - F1rst Digital Services",
+      "location": "Belo Horizonte, MG - Brasilien",
+      "totalPeriod": "05/2021 bis Heute (5 J. 1 M.)",
+      "type": "main",
+      "roles": [
+        {
+          "title": "Senior Data Engineer",
+          "period": "02/2024 bis Heute",
+          "responsibilities": [
+            "Technische Führung bei der Large-Scale-Migration von SAS/Oracle-Pipelines zu Azure + Databricks mit KI-gestütztem Engineering — eigenständige Durchführung.",
+            "Internes Pilotprojekt für Coding Agents (Devin) bei Santander — erster Einsatz eines autonomen Code-Agenten in der Bank, Grundlage für die Skalierung der Praxis.",
+            "Einführung von Spec-Driven Development + TDD im KI-unterstützten Data-Engineering-Kontext.",
+            "Verbreitung von KI-Tooling-Praktiken (GitHub Copilot, Claude Code, Codex) in technischen Teams des Geschäftsbereichs.",
+            "Architektur und Implementierung von Streaming-Pipelines zur Replikation von Transaktionsdaten von IBM DB2 zu Amazon Aurora über Kafka/MSK CDC.",
+            "Entwicklung von Databricks-Pipelines (Medallion-Architektur) in den Bereichen Konten & Gebühren und Finanzen."
+          ],
+          "achievements": [
+            "AWS Certified Solutions Architect – Associate",
+            "AWS Certified Data Engineer Associate",
+            "AWS Certified Cloud Practitioner",
+            "AWS Certified AI Practitioner",
+            "Databricks Apache Spark Developer"
+          ],
+          "skills": [
+            "Data Architecture",
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Databricks",
+            "Apache Spark",
+            "Azure Data Factory",
+            "AWS",
+            "Claude Code",
+            "GitHub Copilot",
+            "Devin",
+            "Windsurf",
+            "Spec-Driven Development",
+            "TDD com AI"
+          ],
+          "highlightProject": {
+            "title": "SAS → Azure + Databricks Migration",
+            "body": "Eigenständige Re-Architektur kritischer SAS-Datenpipelines auf den modernen Stack Azure Data Factory + Databricks mit Medallion-Architektur. Ersetzt kostspielige und langsame Batch-Prozesse durch elastische Pipelines. Ausführungs-Toolchain: Windsurf + Devin zur Code-Generierung, GitHub Copilot für interaktives Editieren, Claude Code für Refactorings und größere Reviews. Interne Hilfswerkzeuge zur Beschleunigung der SAS-Legacy-Analyse und Generierung von Migrationsspezifikationen.",
+            "impact": [
+              "Reduzierung der Migrationszeit: 12 Monate → 2 Monate (Projekt-SLA)",
+              "Eigenständige Durchführung durch KI-gestütztes Engineering ermöglicht",
+              "Legacy SAS-Stack → Azure Data Factory + Databricks (Medallion-Architektur)",
+              "Devin-Pilot in der Bank — Grundlage für die Skalierung der Praxis"
+            ]
+          },
+          "id": "santander-brazil-f1rst-digital-services-senior-data-engineer-02-2024-to-present"
+        },
+        {
+          "title": "Data Engineer",
+          "period": "07/2022 bis 02/2024",
+          "responsibilities": [
+            "Geschäftsbereich Interne Systeme — Betrieblicher Stilllegungsplan und Migration in die Cloud.",
+            "Migration von Systemen von On-Premises (Cloudera) zu Azure + Databricks.",
+            "Konfiguration von ADLS, Key Vault, Azure Data Factory, Event Hub und Service Principals.",
+            "Pipeline-Entwicklung mit Databricks (Python, SQL, Scala) und BMC Control-M für Orchestrierung.",
+            "Implementierung von Data Mesh und Medallion-Architektur für interne Systeme."
+          ],
+          "achievements": [
+            "Databricks Data Engineer Associate",
+            "Microsoft DP-203: Azure Data Engineer Associate",
+            "Microsoft AZ-900, DP-900, SC-900, AI-900"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "Scala",
+            "Linux",
+            "Cloudera",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "Azure Data Factory",
+            "Databricks",
+            "BMC Control-M",
+            "Git"
+          ],
+          "id": "santander-brazil-f1rst-digital-services-mid-level-data-engineer-07-2022-to-02-2024"
+        },
+        {
+          "title": "Junior Data Engineer",
+          "period": "05/2021 bis 07/2022",
+          "responsibilities": [
+            "Finanzbereich — anfänglich Überwachung und Pflege von Batch-Pipelines auf Basis von Hadoop/Spark/Hive.",
+            "Entwicklung von ETL-Pipelines für Finanz- und regulatorische Berichte mit PySpark und SQL.",
+            "Automatisierung von File Watchern und Dateiübertragungen mit Shell-Scripting und BMC Control-M.",
+            "Arbeit nach Scrum/Kanban-Methodik mit CI/CD-Praktiken."
+          ],
+          "achievements": [
+            "Zertifizierung Advanced Data Engineer im Santander Data Master Programm (Geldprämie + zusätzliche Leistungen)"
+          ],
+          "skills": [
+            "Python",
+            "SQL",
+            "PySpark",
+            "Shell scripting",
+            "Linux",
+            "Hadoop",
+            "Hive",
+            "Apache Spark",
+            "BMC Control-M",
+            "Git",
+            "Jira",
+            "Scrum"
+          ],
+          "id": "santander-brazil-f1rst-digital-services-data-engineer-05-2021-to-07-2022"
+        }
+      ],
+      "id": "santander-brazil-f1rst-digital-services"
+    },
+    {
+      "company": "Trie Engenharia",
+      "fullName": "Trie Engenharia",
+      "location": "Belo Horizonte, MG - Brasilien (Remote)",
+      "totalPeriod": "11/2020 bis 05/2021",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Data Analyst Jr",
+          "period": "11/2020 bis 05/2021",
+          "responsibilities": [
+            "Mitarbeit an einem Python-basierten Tool zur Datenaufnahme und -verarbeitung mit Lambda-Architektur für die Zementindustrie — Daten aus Industrieanlagen und von Mitarbeitern für Dashboards, Berichte und BI.",
+            "Entwicklung einer JupyterLab-Erweiterung in Python (Back-End) und React (Front-End), integriert mit der CFD-Software OpenFOAM zur Simulation von Zementöfen."
+          ],
+          "skills": [
+            "Python",
+            "React",
+            "SQL",
+            "Shell scripting",
+            "Linux",
+            "Git",
+            "Docker",
+            "Lambda-Architektur",
+            "JupyterLab",
+            "ETL"
+          ],
+          "id": "trie-engenharia-data-analyst-jr-11-2020-to-05-2021"
+        }
+      ],
+      "id": "trie-engenharia"
+    },
+    {
+      "company": "Colégio Técnico Inconfidentes Álvares Maciel",
+      "fullName": "Colégio Técnico Inconfidentes Álvares Maciel",
+      "location": "Ouro Preto, MG - Brasilien",
+      "totalPeriod": "04/2015 bis 07/2018 (3 J. 4 M.)",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Dozent",
+          "period": "04/2015 bis 07/2018",
+          "responsibilities": [
+            "Unterricht in Industriemechanik, Elektrotechnik und Arbeitssicherheit für Berufsschüler.",
+            "Hauptfächer: CNC-Maschinenprogrammierung (computergestützte Prozesse und integrierte Fertigung).",
+            "Einführung in Hydraulik und Pneumatik (FluidSIM-Simulationssoftware).",
+            "Technisches Zeichnen II (AutoCAD).",
+            "Einführung in die Informatik (Grundlagen, Betriebssysteme, MS Office).",
+            "Angewandte Mathematik in der Elektrotechnik."
+          ],
+          "skills": [
+            "Lehre",
+            "CNC-Programmierung",
+            "AutoCAD",
+            "FluidSIM",
+            "Elektrotechnik",
+            "Hydraulik",
+            "Pneumatik",
+            "Arbeitssicherheit",
+            "MS Office",
+            "Linux"
+          ],
+          "id": "colegio-tecnico-inconfidentes-alvares-maciel-adjunct-instructor-04-2015-to-07-2018"
+        }
+      ],
+      "id": "colegio-tecnico-inconfidentes-alvares-maciel"
+    },
+    {
+      "company": "Universidade Federal de Ouro Preto",
+      "fullName": "Universidade Federal de Ouro Preto",
+      "location": "Ouro Preto, MG - Brasilien",
+      "totalPeriod": "08/2016 bis 08/2017 (1 J. 1 M.)",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Laboratory Assistant",
+          "period": "08/2016 bis 08/2017",
+          "responsibilities": [
+            "Hardware-Entwickler für Steuerungs- und Leistungselektroniksysteme.",
+            "Firmware-Entwicklung in eingebettetem C auf Mikrocontroller für ein Gasofen-Wärmetestprojekt.",
+            "Implementierung eines zeitbasierten Temperaturregelungssystems für den Ofen."
+          ],
+          "skills": [
+            "Embedded C",
+            "Leistungselektronik",
+            "Regelungstechnik",
+            "Mikrocontroller",
+            "Hardware-Design",
+            "Python",
+            "MATLAB",
+            "PID-Regelung",
+            "Linux",
+            "Git"
+          ],
+          "id": "universidade-federal-de-ouro-preto-laboratory-assistant-08-2016-to-08-2017"
+        }
+      ],
+      "id": "universidade-federal-de-ouro-preto"
+    },
+    {
+      "company": "Analógica Instrumentação e Controle",
+      "fullName": "Analógica Instrumentação e Controle",
+      "location": "Belo Horizonte, MG - Brasilien",
+      "totalPeriod": "01/2015 bis 02/2015 (2 M.)",
+      "type": "minor",
+      "roles": [
+        {
+          "title": "Sommerpraktikant",
+          "period": "01/2015 bis 02/2015",
+          "responsibilities": [
+            "Softwareentwicklung für Datenerfassung zur Bestandsverwaltung in Tankstellen.",
+            "Implementierung der Schnittstelle zwischen Raspberry Pi und TLS-300 (Gerät zur Messung von Tankparametern) mit Python."
+          ],
+          "skills": [
+            "Python",
+            "Raspberry Pi",
+            "Hardware-Schnittstelle",
+            "Datenerfassung",
+            "Shell scripting",
+            "Linux",
+            "SQL",
+            "Git",
+            "Elektronik",
+            "Eingebettete Systeme"
+          ],
+          "id": "analogica-instrumentacao-e-controle-summer-internship-01-2015-to-02-2015"
+        }
+      ],
+      "id": "analogica-instrumentacao-e-controle"
+    }
+  ],
+  "education": {
+    "degreeLevel": "Bachelor",
+    "degreeField": "Steuerungs- und Automatisierungstechnik / Mechatronik",
+    "institution": "Bundesuniversität Ouro Preto",
+    "location": "MG - Brasilien",
+    "period": "08/2018",
+    "courseworkLabel": "Relevante Kurse",
+    "coursework": "Python, C/C++, eingebettete Systeme, Steuerungssystemdesign, Robotik und KI",
+    "thesisLabel": "Bachelorarbeit",
+    "thesis": "Analyse der Dynamik und Design von Temperaturreglern für elektrische Duschen.",
+    "thesisLink": "https://www.monografias.ufop.br/handle/35400000/1342",
+    "id": "education-bundesuniversitat-ouro-preto"
+  },
+  "certifications": [
+    {
+      "name": "AWS Data Engineer",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Dezember 2024",
+      "validity": "Dezember 2027",
+      "level": "Associate",
+      "icon": "images/badges/aws_data_engineer_associate.png",
+      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
+      "description": "Fortgeschrittene AWS-Datentechnik-Zertifizierung mit Pipelines, ETL, Speicherung und Datenanalyse im großen Maßstab. Umfasst Services wie Glue, Redshift, Kinesis, EMR und Lake Formation.",
+      "priority": 1,
+      "id": "aws-aws-data-engineer"
+    },
+    {
+      "name": "AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Januar 2025",
+      "validity": "Januar 2028",
+      "level": "Associate",
+      "icon": "images/badges/aws_solutions_architect_associate.png",
+      "link": "https://www.credly.com/badges/3d7aeb44-78db-430f-8103-550f89660989/public_url",
+      "description": "Zertifizierung in AWS-Lösungsarchitektur mit Design verteilter Systeme, hoher Verfügbarkeit, Fehlertoleranz und Kostenoptimierung. Umfasst Services wie EC2, VPC, S3, RDS, Lambda und CloudFormation.",
+      "priority": 2,
+      "id": "aws-aws-solutions-architect"
+    },
+    {
+      "name": "AWS AI Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "2025",
+      "validity": "2028",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "#",
+      "description": "Grundlagenzertifizierung für KI und maschinelles Lernen auf AWS, einschließlich generativer KI, verantwortungsvoller KI und AWS KI/ML-Services.",
+      "priority": 3,
+      "id": "aws-aws-ai-practitioner"
+    },
+    {
+      "name": "AWS Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "Juli 2024",
+      "validity": "Juli 2027",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
+      "description": "Grundlagenzertifizierung für AWS Cloud-Grundlagen, Kernservices, Sicherheit, Architektur und bewährte Praktiken der Kostenoptimierung.",
+      "priority": 4,
+      "id": "aws-aws-cloud-practitioner"
+    },
+    {
+      "name": "Spark Data Engineer Associate",
+      "issuer": "Databricks",
+      "category": "Databricks",
+      "date": "September 2024",
+      "validity": "September 2026",
+      "level": "Associate",
+      "icon": "images/databricks_de_associate.png",
+      "link": "https://credentials.databricks.com/dd82d9bc-fa36-4ea2-8e27-5683c0623401#acc.IaG8HjC2",
+      "description": "Spezialisierung in Data Engineering mit Apache Spark, Delta Lake und modernen Datenarchitekturen. Umfasst ETL, Streaming, Performance-Tuning und Data Governance.",
+      "priority": 5,
+      "id": "databricks-spark-data-engineer-associate"
+    },
+    {
+      "name": "Spark Developer Associate",
+      "issuer": "Databricks",
+      "category": "Databricks",
+      "date": "August 2024",
+      "validity": "August 2026",
+      "level": "Associate",
+      "icon": "images/databricks_spark_dev.png",
+      "link": "https://credentials.databricks.com/c7fa2bce-f333-4b95-a92d-36a5921b71f8#acc.HpcOW6i5",
+      "description": "Zertifizierung in der Entwicklung von Apache Spark-Anwendungen für verteilte Datenverarbeitung. Umfasst DataFrame API, SQL, RDD und Performance-Optimierung.",
+      "priority": 6,
+      "id": "databricks-spark-developer-associate"
+    },
+    {
+      "name": "Azure Data Engineer Associate",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "März 2023",
+      "validity": "März 2025 (abgelaufen)",
+      "level": "Associate",
+      "icon": "images/dp-203.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
+      "description": "Data Engineering-Zertifizierung auf Azure mit Azure Data Factory, Synapse Analytics, Data Lake Storage und Streaming-Services.",
+      "priority": 9,
+      "id": "azure-azure-data-engineer-associate"
+    },
+    {
+      "name": "Azure Fundamentals",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "Januar 2023",
+      "validity": "Läuft nicht ab",
+      "level": "Fundamentals",
+      "icon": "images/az-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
+      "description": "Microsoft Azure-Grundlagenzertifizierung mit Cloud Computing-Konzepten, Kernservices und Preismodellen.",
+      "priority": 7,
+      "id": "azure-azure-fundamentals"
+    },
+    {
+      "name": "Apache Airflow Fundamentals",
+      "issuer": "Astronomer",
+      "category": "Others",
+      "date": "Juni 2024",
+      "validity": "Juni 2026",
+      "level": "Fundamentals",
+      "icon": "images/badges/airflow_fundamentals.png",
+      "link": "https://www.credly.com/badges/8b32e72a-de5c-4625-9c69-6b8d6669e18d/linked_in?t=s0dqu1",
+      "description": "Zertifizierung in Workflow-Orchestrierung mit Apache Airflow für Datenpipeline-Automatisierung. Umfasst DAGs, Operatoren, Sensoren und bewährte Praktiken.",
+      "priority": 8,
+      "id": "others-apache-airflow-fundamentals"
+    },
+    {
+      "name": "Santander Data Engineer",
+      "issuer": "Santander Brasil",
+      "category": "Data Master",
+      "date": "November 2022",
+      "validity": "Läuft nicht ab",
+      "level": "Advanced",
+      "icon": "images/badges/santander-dea.svg",
+      "link": "#",
+      "description": "Fortgeschrittene interne Data Engineering-Zertifizierung von Santander Brasil. Top-10-Ranking nach technischem Fall und umfassender Prüfung zu Big Data, Cloud und verteilten Architekturen.",
+      "priority": 10,
+      "id": "data-master-santander-data-engineer"
+    },
+    {
+      "name": "Deutschkurs Niveau B1",
+      "issuer": "Sprachinstitut",
+      "category": "Languages",
+      "date": "2024",
+      "validity": "Läuft nicht ab",
+      "level": "B1",
+      "icon": "",
+      "link": "#",
+      "description": "Deutschsprachzertifikat auf B1-Niveau (Mittelstufe), das vollständige berufliche Kommunikationsfähigkeiten auf Deutsch belegt.",
+      "priority": 11,
+      "id": "languages-curso-de-alemao-nivel-b1"
+    }
+  ],
+  "projectsV2": {
+    "index": {
+      "title": "Projekte",
+      "description": "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn.",
+      "kindLabels": {
+        "case-study": "Fallstudie",
+        "meta": "Infrastruktur",
+        "games": "Games",
+        "library": "Python · PyPI"
+      }
+    },
+    "list": [
+      {
+        "slug": "dadaia-workspace",
+        "kind": "library",
+        "hero": {
+          "title": "dadaia-workspace",
+          "tagline": "Agentengesteuertes SDD-Ökosystem — eine Python-Bibliothek auf PyPI, die KI-Agenten per Spezifikation orchestriert."
+        },
+        "card": {
+          "cover": "/assets/projects/dadaia-workspace/cover.svg",
+          "summary": "Python-CLI (PyPI), das ein Verzeichnis in einen Multi-Agenten-Workspace verwandelt: 9 Core-Agenten mit klaren Rollen und Grenzen, die über gemeinsame Specs in 3 Runtimes zusammenarbeiten.",
+          "tech": [
+            "Python",
+            "Claude Code",
+            "Codex",
+            "SDD",
+            "Multi-agent"
+          ]
+        },
+        "seo": {
+          "title": "dadaia-workspace — Marco Menezes",
+          "description": "dadaia-workspace — Python-Bibliothek auf PyPI für Spec-driven Development mit kollaborativen KI-Agenten."
+        },
+        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
+        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
+        "diagramAlt": "Architekturdiagramm von dadaia-workspace: KI-Agenten, Projektkontexte und SDD-Fluss.",
+        "pypi": {
+          "package": "dadaia-workspace",
+          "version": "0.1.5",
+          "installCommand": "pip install dadaia-workspace"
+        },
+        "stat": {
+          "label": "Core-Agenten",
+          "value": "9"
+        },
+        "sections": [
+          {
+            "id": "what",
+            "title": "Was ist das",
+            "body": "dadaia-workspace ist eine Open-Source-Python-Bibliothek (PyPI), die ein Ökosystem von KI-Agenten für Spec-driven Development (SDD) orchestriert. Jeder Agent hat eine klar definierte Rolle und Reichweite — product-engineer, software-engineer, qa-engineer, security-reviewer und mehr — und alle arbeiten über gemeinsame Specs und Kontexte zusammen."
+          },
+          {
+            "id": "why",
+            "title": "Warum es existiert",
+            "body": "Die meisten KI-Entwicklungstools behandeln Agenten als generische Assistenten. dadaia-workspace kehrt das um: Jeder Agent kennt seine Grenzen, liest die Specs vor dem Handeln und schreibt nie Code außerhalb seiner Domäne. Das Ergebnis ist ein reproduzierbarer, auditierbarer und sicherer Workflow."
+          },
+          {
+            "id": "how",
+            "title": "Wie es funktioniert",
+            "body": "`pip install dadaia-workspace`, dann bindet `dadaia context bind <name>` die Session an einen Projektkontext. Jeder Agent liest die zugehörigen Specs, führt seine Aufgaben unter einem deterministischen SDD-Gate (Hooks) aus und berichtet zurück. Dieselben Agenten werden auf 3 Runtimes projiziert — Claude Code, Codex und OpenCode.",
+            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
+          },
+          {
+            "id": "status",
+            "title": "Aktueller Status",
+            "items": [
+              {
+                "label": "Version",
+                "value": "v0.1.5 (PyPI)"
+              },
+              {
+                "label": "Core-Agenten",
+                "value": "9 (festes Roster + Plugins)"
+              },
+              {
+                "label": "Runtimes",
+                "value": "Claude Code, Codex, OpenCode"
+              },
+              {
+                "label": "Letzter Meilenstein",
+                "value": "Cross-Plattform-Support Linux/macOS/Windows"
+              }
+            ]
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/dadaia-workspace",
+          "pypi": "https://pypi.org/project/dadaia-workspace/"
+        }
+      },
+      {
+        "slug": "portifolio",
+        "kind": "meta",
+        "hero": {
+          "title": "Portfolio-Architektur",
+          "tagline": "Wie diese Website aufgebaut, gehostet und gepflegt wird."
+        },
+        "card": {
+          "cover": "/assets/projects/portifolio/cover.svg",
+          "summary": "Portfolio-Website mit React + Vite, gehostet auf AWS mit S3 + CloudFront + Route53, mit CI/CD-Pipeline über GitHub Actions + OIDC.",
+          "tech": [
+            "React",
+            "TypeScript",
+            "Terraform",
+            "AWS",
+            "GitHub Actions"
+          ]
+        },
+        "seo": {
+          "title": "Portfolio-Architektur — Marco Menezes",
+          "description": "Stack, Terraform-Infra, monatliche Kosten und Architekturentscheidungen für marco-menezes.com."
+        },
+        "diagram": "/assets/projects/portifolio/architecture-light.svg",
+        "diagramAlt": "Infrastrukturdiagramm des Portfolios: S3, CloudFront, Route53, GitHub Actions CI/CD.",
+        "sections": [
+          {
+            "id": "overview",
+            "title": "Überblick",
+            "body": "Dieses Portfolio ist eine React SPA, die auf AWS gehostet wird. Das Frontend wird mit Vite erstellt und über CloudFront mit OAC über S3 ausgeliefert. Die Infrastruktur wird mit Terraform verwaltet und das Deployment über GitHub Actions mit OIDC automatisiert."
+          },
+          {
+            "id": "engineering",
+            "title": "Engineering",
+            "body": "Keine langlebigen AWS-Keys: Authentifizierung über OIDC direkt aus GitHub Actions. Zwei Umgebungen (stage + prod) mit identischer Pipeline. Automatisierte Tests mit Vitest + RTL + Playwright + LHCI vor jedem Deployment."
+          }
+        ],
+        "stack": [
+          {
+            "layer": "Frontend",
+            "tech": "React 18 + Vite 7 + TypeScript 5.5"
+          },
+          {
+            "layer": "UI",
+            "tech": "Tailwind CSS 3 + shadcn/ui (bereinigt)"
+          },
+          {
+            "layer": "Tests",
+            "tech": "Vitest + RTL + Playwright + LHCI"
+          },
+          {
+            "layer": "Infra",
+            "tech": "S3 (OAC) + CloudFront + ACM + Route53"
+          },
+          {
+            "layer": "IaC",
+            "tech": "Terraform 1.9, Remote S3-Backend"
+          },
+          {
+            "layer": "CI/CD",
+            "tech": "GitHub Actions mit OIDC (keine langlebigen Keys)"
+          }
+        ],
+        "costs": [
+          {
+            "service": "Route53 Hosted Zone",
+            "monthly_usd": 0.5
+          },
+          {
+            "service": "S3 Speicher",
+            "monthly_usd": 0
+          },
+          {
+            "service": "CloudFront",
+            "monthly_usd": 0
+          },
+          {
+            "service": "ACM Zertifikat",
+            "monthly_usd": 0
+          },
+          {
+            "service": "Geschätztes Gesamt",
+            "monthly_usd": 0.5
+          }
+        ],
+        "decisions": [
+          {
+            "title": "React/Vite statt Next.js oder Astro",
+            "rationale": "Hoher ROI für 5 statische Routen; kein Bedarf an SSR oder Edge Rendering.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/memory/architecture.html"
+          },
+          {
+            "title": "2 AWS-Umgebungen (stage + prod), lokale Entwicklung",
+            "rationale": "Explizites Gate vor Produktion ohne zusätzliche Kosten.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          },
+          {
+            "title": "OIDC ohne langlebige AWS-Keys",
+            "rationale": "Keine persistierten AWS-Secrets; Trust auf das Portfolio-Repo beschränkt.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          },
+          {
+            "title": "CMS-lite auf der Roadmap (nicht in P0)",
+            "rationale": "Zukünftige Content-Updates ohne Redeploy, ohne zusätzliche Komplexität jetzt.",
+            "spec": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs/releases/projects-cluster-v1/SPEC.md"
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/portifolio",
+          "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
+          "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
+        },
+        "diagramDark": "/assets/projects/portifolio/architecture-dark.svg"
+      },
+      {
+        "slug": "tauan-games",
+        "kind": "games",
+        "hero": {
+          "title": "tauan-games",
+          "tagline": "Spiele, die zu Hause mit meinem Sohn Tauan entwickelt wurden."
+        },
+        "card": {
+          "cover": "/assets/projects/tauan-games/cover.svg",
+          "summary": "Zwei Browser-Spiele mit Three.js und Phaser gemeinsam mit meinem Sohn Tauan — ein Luftkampf-Shooter und eine Neuauflage des Dinosaurierspiels.",
+          "tech": [
+            "Three.js",
+            "Phaser",
+            "JavaScript",
+            "Canvas API",
+            "GitHub Pages"
+          ]
+        },
+        "seo": {
+          "title": "tauan-games — Marco Menezes",
+          "description": "Browser-Spiele entwickelt mit Tauan: Aero Fighters (Three.js) und tauan-trex (Phaser)."
+        },
+        "items": [
+          {
+            "slug": "aero-fighters",
+            "title": "Aero Fighters",
+            "engine": "Three.js",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+            "body": "Ein Luftkampf-Shooter mit Three.js. Entstanden aus dem Wunsch, gemeinsam mit Tauan etwas Spielbares zu entwickeln — mit einfacher Physik, Sprites und Tastatursteuerung im Browser.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
+          },
+          {
+            "slug": "tauan-trex",
+            "title": "tauan-trex",
+            "engine": "Phaser",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
+            "body": "Eine Neuauflage des klassischen Chrome-Dinosaurierspiels mit Phaser, personalisiert mit von Tauan entworfenen Elementen. Ein Wochenendd-Projekt zum Erlernen von Tastaturereignissen und Animation.",
+            "repo": "https://github.com/marcoaureliomenezes/tauan-games",
+            "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
+          }
+        ]
+      },
+      {
+        "slug": "rand-engine",
+        "kind": "library",
+        "hero": {
+          "title": "rand-engine",
+          "tagline": "Hochperformante Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab — Pandas, Spark und DuckDB."
+        },
+        "card": {
+          "cover": "/assets/projects/rand-engine/cover.webp",
+          "summary": "Erzeugt realistische synthetische Daten in Sekunden. Native Pandas- und Spark-Unterstützung, 17+ fertige Specs, FK/PK-Constraint-System und reproduzierbares Seeding.",
+          "tech": [
+            "Python",
+            "Pandas",
+            "PySpark",
+            "DuckDB",
+            "NumPy"
+          ]
+        },
+        "seo": {
+          "title": "rand-engine — Marco Menezes",
+          "description": "rand-engine — Open-Source-Python-Bibliothek auf PyPI zur Erzeugung synthetischer Daten im großen Maßstab mit Pandas und Spark."
+        },
+        "diagram": "/assets/projects/rand-engine/architecture-light.svg",
+        "diagramDark": "/assets/projects/rand-engine/architecture-dark.svg",
+        "diagramAlt": "Architekturdiagramm von rand-engine: deklarative Specs, NumPy-Generatoren und Pandas/Spark-Ausgabe.",
+        "pypi": {
+          "package": "rand-engine",
+          "version": "0.6.4",
+          "installCommand": "pip install rand-engine"
+        },
+        "stat": {
+          "label": "rows/s (Spark)",
+          "value": "5.1M"
+        },
+        "sections": [
+          {
+            "id": "what",
+            "title": "Was ist das",
+            "body": "rand-engine ist eine Open-Source-Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab. Sie unterstützt Pandas (lokal) und Spark (verteilt), mit 17+ fertigen Specs — Kunden, Bestellungen, Produkte, Mitarbeiter und mehr. Veröffentlicht auf PyPI mit 494 automatisierten Tests unter MIT-Lizenz."
+          },
+          {
+            "id": "why",
+            "title": "Warum es existiert",
+            "body": "Das Testen von ETL/ELT-Pipelines erfordert realistische Daten, ohne sensible Informationen offenzulegen. Generische Tools wie Faker bieten keine native DataFrame-Unterstützung und keine Schlüssel-Constraints. rand-engine löst das mit einer deklarativen API, die Produktionsvolumen in Sekunden erzeugt."
+          },
+          {
+            "id": "how",
+            "title": "Wie es funktioniert",
+            "body": "`pip install rand-engine`. Definiere eine Spezifikation (Schema + Constraints), rufe `.generate(n_rows)` auf und erhalte einen Pandas- oder Spark-DataFrame. Der Parameter `seed` garantiert Reproduzierbarkeit. Nativer Export nach CSV, Parquet und JSON mit Kompression. Performance: ~12K rows/s lokal; 5,1M rows/s auf Databricks Spark."
+          },
+          {
+            "id": "status",
+            "title": "Aktueller Status",
+            "items": [
+              {
+                "label": "Version",
+                "value": "v0.6.4 (PyPI)"
+              },
+              {
+                "label": "Tests",
+                "value": "494 bestanden"
+              },
+              {
+                "label": "Lokale Performance",
+                "value": "~12K rows/s"
+              },
+              {
+                "label": "Spark-Performance",
+                "value": "5,1M rows/s (Databricks)"
+              },
+              {
+                "label": "Lizenz",
+                "value": "MIT"
+              }
+            ]
+          }
+        ],
+        "links": {
+          "repo": "https://github.com/marcoaureliomenezes/rand_engine",
+          "pypi": "https://pypi.org/project/rand-engine/"
+        }
+      }
+    ]
+  },
+  "libraryPage": {
+    "installTitle": "Installation",
+    "versionLabel": "Version",
+    "copyLabel": "Befehl kopieren",
+    "copiedLabel": "Kopiert",
+    "linkPypi": "PyPI",
+    "linkDocs": "Doku"
+  },
+  "featuredProjectsTitle": "Ausgewählte Projekte",
+  "seeAllProjects": "Alle Projekte ansehen",
+  "nowPanel": {
+    "title": "jetzt",
+    "currentRole": "aktuelle Rolle",
+    "latestCert": "neueste Zertifizierung",
+    "latestProject": "neuestes Projekt"
+  }
+}

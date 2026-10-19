@@ -34,13 +34,17 @@ export function ProjectsIndexPage() {
         )}
       </div>
 
-      {/* Project grid — fixed order: dadaia-workspace, portifolio, tauan-games */}
+      {/* Project grid — fixed order: dadaia-workspace, portifolio, tauan-games, rand-engine */}
       <div
         data-testid="projects-grid"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {list.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            kindLabels={index.kindLabels}
+          />
         ))}
       </div>
     </main>

@@ -82,13 +82,13 @@ describe("MobileCollapsibleSection", () => {
       </MobileCollapsibleSection>
     );
     // Collapsible wraps a Card — verifiable by the w-full class applied to the Card
-    const card = container.querySelector(".w-full.shadow-medium");
+    const card = container.querySelector(".w-full.shadow-soft");
     expect(card).not.toBeNull();
   });
 
   it("renders optional icon when provided", () => {
     render(
-      <MobileCollapsibleSection title="Code" icon={Code} iconColor="text-blue-500">
+      <MobileCollapsibleSection title="Code" icon={Code}>
         <p>content</p>
       </MobileCollapsibleSection>
     );

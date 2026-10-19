@@ -29,7 +29,7 @@ describe("DiagramAsset — rendering", () => {
     expect(img?.getAttribute("src")).toBe("/diagrams/arch-light.svg");
   });
 
-  it("img has correct alt text", () => {
+  it("img has correct alt text (both variants)", () => {
     render(
       <DiagramAsset
         light="/diagrams/arch-light.svg"
@@ -37,11 +37,16 @@ describe("DiagramAsset — rendering", () => {
         alt="Architecture diagram"
       />
     );
-    const img = screen.getByRole("img");
-    expect(img.getAttribute("alt")).toBe("Architecture diagram");
+    const imgs = screen.getAllByRole("img");
+    expect(imgs).toHaveLength(2);
+    for (const img of imgs) {
+      expect(img.getAttribute("alt")).toBe("Architecture diagram");
+    }
   });
 
-  it("source element has dark media query", () => {
+  // T-PC2-R2-05 / AC-PC2-R2-04: variant switching is class-based (html.dark),
+  // NOT prefers-color-scheme — the manual theme toggle must control it.
+  it("renders theme-aware variants via dark: classes, no <source media>", () => {
     const { container } = render(
       <DiagramAsset
         light="/diagrams/arch-light.svg"
@@ -49,9 +54,14 @@ describe("DiagramAsset — rendering", () => {
         alt="Architecture diagram"
       />
     );
-    const source = container.querySelector("source");
-    expect(source?.getAttribute("media")).toBe("(prefers-color-scheme: dark)");
-    expect(source?.getAttribute("srcset")).toBe("/diagrams/arch-dark.svg");
+    expect(container.querySelector("source")).toBeNull();
+    const lightImg = screen.getByTestId("diagram-light");
+    const darkImg = screen.getByTestId("diagram-dark");
+    expect(lightImg.getAttribute("src")).toBe("/diagrams/arch-light.svg");
+    expect(lightImg.className).toContain("dark:hidden");
+    expect(darkImg.getAttribute("src")).toBe("/diagrams/arch-dark.svg");
+    expect(darkImg.className).toContain("hidden");
+    expect(darkImg.className).toContain("dark:block");
   });
 
   it("renders placeholder div with aria-hidden when light is empty string", () => {
@@ -70,15 +80,16 @@ describe("DiagramAsset — rendering", () => {
     expect(screen.getByText("Architecture diagram")).toBeTruthy();
   });
 
-  it("when dark is omitted, source srcSet falls back to light", () => {
+  it("when dark is omitted, renders a single light img (no variant pair)", () => {
     const { container } = render(
       <DiagramAsset
         light="/diagrams/arch-light.svg"
         alt="Architecture diagram"
       />
     );
-    const source = container.querySelector("source");
-    expect(source?.getAttribute("srcset")).toBe("/diagrams/arch-light.svg");
+    const imgs = container.querySelectorAll("img");
+    expect(imgs).toHaveLength(1);
+    expect(container.querySelector("[data-testid='diagram-dark']")).toBeNull();
   });
 
   it("when dark is omitted, img src is still light", () => {

@@ -4,6 +4,7 @@ import { assertNever } from "@/lib/assertNever";
 import { CaseStudyTemplate } from "./CaseStudyTemplate";
 import { MetaProjectTemplate } from "./MetaProjectTemplate";
 import { GamesProjectTemplate } from "./GamesProjectTemplate";
+import { LibraryProjectTemplate } from "./LibraryProjectTemplate";
 import NotFound from "../NotFound";
 import type { ProjectsContentV2 } from "@/types/content";
 
@@ -50,6 +51,8 @@ export function ProjectDetailPage() {
       return <MetaProjectTemplate project={project} />;
     case "games":
       return <GamesProjectTemplate project={project} />;
+    case "library":
+      return <LibraryProjectTemplate project={project} />;
     default:
       return assertNever(project);
   }

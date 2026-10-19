@@ -1,8 +1,6 @@
 import { Briefcase } from "lucide-react";
 import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
 import { ExperienceCard } from "./ExperienceCard";
-import { useInView } from "@/hooks/useInView";
-import { cn } from "@/lib/utils";
 import type { ContentData } from "@/types/content";
 
 interface ExperienceSectionProps {
@@ -10,7 +8,6 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ content }: ExperienceSectionProps) {
-  const { ref, inView } = useInView<HTMLElement>();
 
   const labels = {
     responsibilities: content.responsibilities,
@@ -28,13 +25,11 @@ export function ExperienceSection({ content }: ExperienceSectionProps) {
     <section
       id="experiencia"
       aria-labelledby="experiencia-heading"
-      ref={ref}
-      className={cn("opacity-0", inView && "opacity-100 motion-safe:animate-fade-up")}
+      className="motion-safe:animate-fade-up"
     >
       <MobileCollapsibleSection
         title={content.experienceTitle}
         icon={Briefcase}
-        iconColor="text-blue-500"
         headingId="experiencia-heading"
       >
         <div className="space-y-8">{cards}</div>
