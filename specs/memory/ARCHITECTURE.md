@@ -20,11 +20,7 @@ layout.
 
 ## Structure
 
-The module layout is recorded by the first audit pass. One part is recorded:
-
-- Site content: `frontend/public/content/{pt,en,de}.json`, fetched at runtime as
-  `/content/<lang>.json` (`frontend/src/contexts/LanguageContext.tsx`); its contract is
-  `frontend/scripts/content-schema.mjs`, exported as `frontend/public/content/schema/v1.json`.
+No module layout is recorded yet; the founding release's CLOSURE records the implemented one.
 
 <!-- dadaia:fixed slop-code -->
 ### Slop — code (fixed)
