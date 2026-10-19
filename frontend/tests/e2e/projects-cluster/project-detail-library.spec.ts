@@ -7,7 +7,7 @@
  *
  * AC-PC-04: dynamic routing dispatches to correct template
  * AC-PC-11: useDocumentSeo sets document.title (no react-helmet-async)
- * AC-PC2-R2-02: library template renders pip snippet, version and PyPI link
+ * AC-PC2-R2-02: library template renders uvx snippet, version and PyPI link
  * AC-PC2-R2-04: diagram renders as theme-aware img pair (no <picture>/<source>)
  *
  * Tests:
@@ -39,7 +39,7 @@ test.describe('Detail page — dadaia-workspace (kind: library)', () => {
     // Then: install block shows the pip command (AC-PC2-R2-02)
     const install = page.locator('[data-testid="install-command"]');
     await expect(install).toBeVisible();
-    await expect(install).toContainText('pip install dadaia-workspace');
+    await expect(install).toContainText('uvx dadaia-workspace init <dir> --harness <name>');
 
     // Then: PyPI and GitHub links present
     await expect(page.locator('a[href*="pypi.org/project/dadaia-workspace"]').first()).toBeVisible();
