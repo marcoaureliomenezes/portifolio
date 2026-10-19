@@ -570,11 +570,11 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Agentengesteuertes SDD-Ökosystem — eine Python-Bibliothek auf PyPI, die KI-Agenten per Spezifikation orchestriert."
+          "tagline": "Ein lokal-first, spezifikationsgesteuerter Workspace, der KI-Agenten aktuellen Kontext, einen dokumentgesteuerten Lebenszyklus und Anti-Slop-Grenzen gibt."
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Python-CLI (PyPI), das ein Verzeichnis in einen Multi-Agenten-Workspace verwandelt: 9 Core-Agenten mit klaren Rollen und Grenzen, die über gemeinsame Specs in 3 Runtimes zusammenarbeiten.",
+          "summary": "Lokal-first Python-CLI (PyPI): ein Ordner pro Workspace, sechs Agent-Harnesses, fünf Agentenrollen und ein dokumentgesteuerter Lebenszyklus vom Backlog bis zum Release.",
           "tech": [
             "Python",
             "Claude Code",
@@ -592,28 +592,28 @@
         "diagramAlt": "Architekturdiagramm von dadaia-workspace: KI-Agenten, Projektkontexte und SDD-Fluss.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.1.5",
-          "installCommand": "pip install dadaia-workspace"
+          "version": "0.5.0",
+          "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
         },
         "stat": {
-          "label": "Core-Agenten",
-          "value": "9"
+          "label": "Agentenrollen",
+          "value": "5"
         },
         "sections": [
           {
             "id": "what",
             "title": "Was ist das",
-            "body": "dadaia-workspace ist eine Open-Source-Python-Bibliothek (PyPI), die ein Ökosystem von KI-Agenten für Spec-driven Development (SDD) orchestriert. Jeder Agent hat eine klar definierte Rolle und Reichweite — product-engineer, software-engineer, qa-engineer, security-reviewer und mehr — und alle arbeiten über gemeinsame Specs und Kontexte zusammen."
+            "body": "dadaia-workspace ist eine Open-Source-CLI (PyPI) für die Entwicklung mit KI-Agenten. Ein Workspace ist ein Ordner: Deine Projekte liegen darin als Repositories, und die Governance (`AGENTS.md`, Skills, Hooks) liegt außerhalb jedes Repos. Die Arbeit wird durch Dokumente gesteuert — Backlog, SPEC, PLAN und Job-Dateien — nicht durch eine Runtime. Fünf Agentenrollen teilen sich diese Dokumente: Product Engineer, Senior- und Junior-Software-Engineer, Code Reviewer und Researcher."
           },
           {
             "id": "why",
             "title": "Warum es existiert",
-            "body": "Die meisten KI-Entwicklungstools behandeln Agenten als generische Assistenten. dadaia-workspace kehrt das um: Jeder Agent kennt seine Grenzen, liest die Specs vor dem Handeln und schreibt nie Code außerhalb seiner Domäne. Das Ergebnis ist ein reproduzierbarer, auditierbarer und sicherer Workflow."
+            "body": "Agenten, denen ein ganzes Repository gegeben wird, driften ab: Sie verlieren den Kontext, schreiben, wohin sie wollen, und hinterlassen eigenen Zustand. dadaia-workspace bindet eine Session an ein Projekt, injiziert nur dessen Memory und Release-Zustand und erzwingt die Grenzen mechanisch — ein Pre-Tool-Gate verweigert Schreibzugriffe außerhalb des Scopes, und jede Verweigerung trägt eine Korrekturzeile."
           },
           {
             "id": "how",
             "title": "Wie es funktioniert",
-            "body": "`pip install dadaia-workspace`, dann bindet `dadaia context bind <name>` die Session an einen Projektkontext. Jeder Agent liest die zugehörigen Specs, führt seine Aufgaben unter einem deterministischen SDD-Gate (Hooks) aus und berichtet zurück. Dieselben Agenten werden auf 3 Runtimes projiziert — Claude Code, Codex und OpenCode.",
+            "body": "`uvx dadaia-workspace init <dir> --harness <name>` erstellt den Workspace und projiziert die Agenten in Claude Code, Codex, Kimi Code, Cursor, Devin oder GitHub Copilot. Jede Aufgabe läuft in ihrem eigenen Git-Worktree, und jeder Job landet erst nach einem APPROVED des Reviewers; `worktree pause` und `resume` legen einen Arbeitsbaum als Bundle beiseite und holen ihn zurück. `dadaia export` schreibt die Kontexte des Workspaces in eine Datei (`--hard` fügt die nicht gepushte Arbeit hinzu), und `init --from` baut ihn anderswo wieder auf.",
             "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
           },
           {
@@ -622,19 +622,19 @@
             "items": [
               {
                 "label": "Version",
-                "value": "v0.1.5 (PyPI)"
+                "value": "v0.5.0 (PyPI)"
               },
               {
-                "label": "Core-Agenten",
-                "value": "9 (festes Roster + Plugins)"
+                "label": "Agentenrollen",
+                "value": "5"
               },
               {
-                "label": "Runtimes",
-                "value": "Claude Code, Codex, OpenCode"
+                "label": "Harnesses",
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
               },
               {
                 "label": "Letzter Meilenstein",
-                "value": "Cross-Plattform-Support Linux/macOS/Windows"
+                "value": "Portable Workspaces: export, export --hard und init --from"
               }
             ]
           }

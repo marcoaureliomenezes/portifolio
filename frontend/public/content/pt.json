@@ -570,11 +570,11 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Ecossistema SDD orientado a agentes — biblioteca Python publicada no PyPI que orquestra agentes de IA por especificação."
+          "tagline": "Workspace local, orientado a especificação, que dá aos agentes de IA contexto atualizado, um ciclo de vida governado por documentos e limites anti-slop."
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "CLI Python (PyPI) que transforma um diretório em workspace multi-agente: 9 agentes core com papéis e limites definidos, colaborando via specs compartilhadas em 3 runtimes.",
+          "summary": "CLI local-first (PyPI): uma pasta por workspace, seis harnesses de agentes, cinco papéis de agente e um ciclo de vida governado por documentos, do backlog à release.",
           "tech": [
             "Python",
             "Claude Code",
@@ -592,28 +592,28 @@
         "diagramAlt": "Diagrama de arquitetura do dadaia-workspace: agentes de IA, contextos de projeto e fluxo SDD.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.1.5",
-          "installCommand": "pip install dadaia-workspace"
+          "version": "0.5.0",
+          "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
         },
         "stat": {
-          "label": "agentes core",
-          "value": "9"
+          "label": "papéis de agente",
+          "value": "5"
         },
         "sections": [
           {
             "id": "what",
             "title": "O que é",
-            "body": "dadaia-workspace é uma biblioteca Python open-source (PyPI) que orquestra um ecossistema de agentes de IA para desenvolvimento spec-driven (SDD). Cada agente tem papel e escopo bem definidos — product-engineer, software-engineer, qa-engineer, security-reviewer e mais — e todos colaboram através de specs e contextos compartilhados."
+            "body": "dadaia-workspace é uma CLI open-source (PyPI) para desenvolver com agentes de IA. Um workspace é uma pasta: seus projetos vivem em repositórios dentro dela, e a governança (`AGENTS.md`, skills, hooks) fica fora de cada repo. O trabalho é guiado por documentos — backlog, SPEC, PLAN e arquivos de job — não por um runtime. Cinco papéis de agente compartilham esses documentos: engenheiro de produto, engenheiro de software sênior e júnior, revisor de código e pesquisador."
           },
           {
             "id": "why",
             "title": "Por que existe",
-            "body": "A maioria das ferramentas de IA trata agentes como assistentes genéricos. dadaia-workspace inverte isso: cada agente conhece seus limites, lê as specs antes de agir e nunca escreve código fora do seu domínio. O resultado é um fluxo reproduzível, auditável e seguro."
+            "body": "Agentes que recebem um repositório inteiro se desviam: perdem o contexto, escrevem onde querem e deixam estado próprio para trás. O dadaia-workspace prende cada sessão a um projeto, injeta apenas a memória e o estado de release desse projeto e faz cumprir os limites mecanicamente — um gate pré-ferramenta recusa escritas fora do escopo, e cada recusa traz uma linha de correção."
           },
           {
             "id": "how",
             "title": "Como funciona",
-            "body": "`pip install dadaia-workspace`, depois `dadaia context bind <nome>` vincula a sessão a um contexto de projeto. Cada agente lê as specs correspondentes, executa suas tarefas sob um gate SDD determinístico (hooks) e reporta de volta. Os mesmos agentes são projetados para 3 runtimes — Claude Code, Codex e OpenCode.",
+            "body": "`uvx dadaia-workspace init <dir> --harness <name>` cria o workspace e projeta os agentes para Claude Code, Codex, Kimi Code, Cursor, Devin ou GitHub Copilot. Cada tarefa roda em sua própria worktree git, e cada job só entra depois de um APPROVED do revisor; `worktree pause` e `resume` põem uma árvore de lado como bundle e a trazem de volta. `dadaia export` grava os contextos do workspace em um arquivo (`--hard` acrescenta o trabalho não enviado), e `init --from` o reconstrói em outro lugar.",
             "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
           },
           {
@@ -622,19 +622,19 @@
             "items": [
               {
                 "label": "Versão",
-                "value": "v0.1.5 (PyPI)"
+                "value": "v0.5.0 (PyPI)"
               },
               {
-                "label": "Agentes core",
-                "value": "9 (roster fixo + plugins)"
+                "label": "Papéis de agente",
+                "value": "5"
               },
               {
-                "label": "Runtimes",
-                "value": "Claude Code, Codex, OpenCode"
+                "label": "Harnesses",
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
               },
               {
                 "label": "Último marco",
-                "value": "Compatibilidade cross-platform Linux/macOS/Windows"
+                "value": "Workspaces portáteis: export, export --hard e init --from"
               }
             ]
           }
