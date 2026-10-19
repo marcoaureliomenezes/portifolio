@@ -63,4 +63,4 @@ bash scripts/bootstrap-oidc.sh
 
 verify: npm --prefix frontend run verify
 
-tests: frontend/src/*.test.ts frontend/src/*.test.tsx frontend/tests/e2e/*.spec.ts
+tests: frontend/src/*.test.ts frontend/src/*.test.tsx frontend/src/test-setup.ts frontend/tests/*
