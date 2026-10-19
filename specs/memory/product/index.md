@@ -21,7 +21,11 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 ## Feature catalog
 
-_No features found._
+### projects
+
+| slug | title | tldr |
+|------|-------|------|
+| `dadaia-workspace-page` | dadaia-workspace project page | The portfolio's library-kind page for dadaia-workspace, in pt, en and de, stating its PyPI version, install line and links. |
 
 ## Capability map
 

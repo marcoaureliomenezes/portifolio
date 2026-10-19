@@ -22,6 +22,12 @@ a subprocess or real git; LARGE = `tests/e2e`. Test basics: the root `AGENTS.md`
 
 The repo's tracked `verify:` line runs once, at the merge; nothing reruns it before a push.
 
+- `verify: npm --prefix frontend run verify` (`AGENTS.md` `## Gates`): the `verify` script of
+  `frontend/package.json` chains `npm ci`, `lint`, `typecheck`, `test:run`,
+  `check:i18n-projects` and `build`.
+- `tests: frontend/src/*.test.ts frontend/src/*.test.tsx frontend/src/test-setup.ts frontend/tests/*`
+  (`AGENTS.md` `## Gates`): the paths a task merge treats as test files.
+
 <!-- dadaia:fixed slop-tests -->
 ### Slop — tests (fixed)
 - A test follows the root `AGENTS.md` map §1 test basics; an own module is tested through its interface.
