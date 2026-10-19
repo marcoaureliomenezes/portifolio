@@ -570,11 +570,11 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Agent-driven SDD ecosystem — a Python library on PyPI that orchestrates AI agents by specification."
+          "tagline": "A local-first, spec-driven workspace that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries."
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Python CLI (PyPI) that turns a directory into a multi-agent workspace: 9 core agents with defined roles and boundaries, collaborating through shared specs across 3 runtimes.",
+          "summary": "Local-first CLI (PyPI): one folder per workspace, six agent harnesses, five agent roles and a document-governed lifecycle from backlog to release.",
           "tech": [
             "Python",
             "Claude Code",
@@ -592,28 +592,28 @@
         "diagramAlt": "dadaia-workspace architecture diagram: AI agents, project contexts and SDD flow.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.1.5",
-          "installCommand": "pip install dadaia-workspace"
+          "version": "0.5.0",
+          "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
         },
         "stat": {
-          "label": "core agents",
-          "value": "9"
+          "label": "agent roles",
+          "value": "5"
         },
         "sections": [
           {
             "id": "what",
             "title": "What is it",
-            "body": "dadaia-workspace is an open-source Python library (PyPI) that orchestrates an ecosystem of AI agents for spec-driven development (SDD). Each agent has a well-defined role and scope — product-engineer, software-engineer, qa-engineer, security-reviewer and more — all collaborating through shared specs and contexts."
+            "body": "dadaia-workspace is an open-source CLI (PyPI) for developing with AI agents. A workspace is one folder: your projects live in repos inside it, and the governance (`AGENTS.md`, skills, hooks) sits outside every repo. Work is driven by documents — backlog, SPEC, PLAN and job files — not by a runtime. Five agent roles share them: product engineer, senior and junior software engineer, code reviewer and researcher."
           },
           {
             "id": "why",
             "title": "Why it exists",
-            "body": "Most AI development tools treat agents as generic assistants. dadaia-workspace inverts this: each agent knows its boundaries, reads the specs before acting, and never writes code outside its domain. The result is a reproducible, auditable, and secure workflow."
+            "body": "Agents given a whole repository drift: they lose context, write wherever they like and leave their own state behind. dadaia-workspace binds a session to one project, injects only that project's memory and release state, and enforces the boundaries mechanically — a pre-tool gate refuses out-of-scope writes and each refusal carries one fix line."
           },
           {
             "id": "how",
             "title": "How it works",
-            "body": "`pip install dadaia-workspace`, then `dadaia context bind <name>` binds the session to a project context. Each agent reads the corresponding specs, executes its tasks under a deterministic SDD gate (hooks), and reports back. The same agents are projected to 3 runtimes — Claude Code, Codex and OpenCode.",
+            "body": "`uvx dadaia-workspace init <dir> --harness <name>` creates the workspace and projects the agents into Claude Code, Codex, Kimi Code, Cursor, Devin or GitHub Copilot. Each task runs in its own git worktree and each job lands only after a reviewer's APPROVED; `worktree pause` and `resume` set a tree aside as a bundle and bring it back. `dadaia export` writes the workspace's contexts to a file (`--hard` adds the unpushed work), and `init --from` rebuilds it elsewhere.",
             "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
           },
           {
@@ -622,19 +622,19 @@
             "items": [
               {
                 "label": "Version",
-                "value": "v0.1.5 (PyPI)"
+                "value": "v0.5.0 (PyPI)"
               },
               {
-                "label": "Core agents",
-                "value": "9 (fixed roster + plugins)"
+                "label": "Agent roles",
+                "value": "5"
               },
               {
-                "label": "Runtimes",
-                "value": "Claude Code, Codex, OpenCode"
+                "label": "Harnesses",
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
               },
               {
                 "label": "Last milestone",
-                "value": "Cross-platform Linux/macOS/Windows support"
+                "value": "Portable workspaces: export, export --hard and init --from"
               }
             ]
           }
