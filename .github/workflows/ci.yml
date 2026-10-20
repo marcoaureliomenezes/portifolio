@@ -1,7 +1,7 @@
 name: CI
 
 # Fast gate on every push to develop/main (lint + unit + build ~3 min).
-# Full gate on PRs to main (+ E2E smoke + Lighthouse).
+# Full gate on PRs to develop and main (+ E2E smoke + Lighthouse).
 on:
   push:
     branches: [develop, main]
@@ -9,7 +9,7 @@ on:
       - "frontend/**"
       - ".github/workflows/ci.yml"
   pull_request:
-    branches: [main]
+    branches: [develop, main]
     types: [opened, synchronize, reopened]
 
 env:
