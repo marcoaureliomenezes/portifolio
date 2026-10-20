@@ -113,7 +113,7 @@ jobs:
           path: frontend/dist/
           retention-days: 3
 
-  # E2E and Lighthouse run only on PRs to main — they are the quality gate
+  # E2E and Lighthouse run only on PRs to develop and main — they are the quality gate
   # before production. Direct pushes to develop get the fast path above.
   e2e:
     name: CI / E2E
