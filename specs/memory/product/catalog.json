@@ -1,4 +1,27 @@
 {
-  "generated_at": "2026-10-19T21:09:40Z",
-  "features": []
+  "generated_at": "2026-10-20T00:16:50Z",
+  "features": [
+    {
+      "rank": 1,
+      "slug": "dadaia-workspace-page",
+      "title": "dadaia-workspace project page",
+      "area": "projects",
+      "tldr": "The portfolio's library-kind page for dadaia-workspace, in pt, en and de, stating its PyPI version, install line and links.",
+      "summary": "The projectsV2 item slug dadaia-workspace, kind library, in the three locale content files; it describes the library to a visitor and points to its GitHub repo and PyPI page.",
+      "path": "specs/memory/product/projects/dadaia-workspace-page.md",
+      "tags": [
+        "projects",
+        "content",
+        "library"
+      ],
+      "token_estimate": 231,
+      "depends_on": [],
+      "sources": [
+        "frontend/public/content/pt.json",
+        "frontend/public/content/en.json",
+        "frontend/public/content/de.json",
+        "frontend/public/assets/projects/dadaia-workspace/*"
+      ]
+    }
+  ]
 }

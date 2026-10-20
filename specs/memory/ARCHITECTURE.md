@@ -11,16 +11,17 @@ tags:
 
 ## Principles
 
-Greenfield: no principle is recorded yet. The founding release's SPEC proposes the initial
-layout.
+No principle is recorded yet.
 
 ## Tech Stack
 
-- (one line per technology, filled from the code by the first audit pass)
+No technology is recorded yet.
 
 ## Structure
 
-No module layout is recorded yet; the founding release's CLOSURE records the implemented one.
+- Site content: `frontend/public/content/{pt,en,de}.json`, fetched at runtime as
+  `/content/<lang>.json` (`frontend/src/contexts/LanguageContext.tsx`); its contract is
+  `frontend/scripts/content-schema.mjs`, exported as `frontend/public/content/schema/v1.json`.
 
 <!-- dadaia:fixed slop-code -->
 ### Slop — code (fixed)
