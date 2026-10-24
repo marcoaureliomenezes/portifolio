@@ -233,6 +233,11 @@ export function LanguageProvider({
     void loadLocale(language);
   }, [language, loadLocale]);
 
+  // <html lang> follows the active locale; "pt-BR" is the tag index.html declares.
+  useEffect(() => {
+    document.documentElement.lang = language === "pt" ? "pt-BR" : language;
+  }, [language]);
+
   function setLanguage(lang: SupportedLanguages): void {
     persistLanguage(lang);
     setLanguageState(lang);
