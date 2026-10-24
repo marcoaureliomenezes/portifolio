@@ -13,20 +13,27 @@ import { Media } from "./Media";
 interface ProjectSectionsProps {
   sections: ProjectSectionData[];
   slug: string;
+  scene?: boolean;
 }
 
-export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
+export function ProjectSections({ sections, slug, scene }: ProjectSectionsProps) {
   const { content } = useContent();
   if (sections.length === 0) return null;
 
   return (
     <>
       {sections.map(({ id, title, body, media, code, items }) => (
-        <Block key={id} id={`${slug}-${id}-heading`} title={title}>
+        <Block
+          key={id}
+          id={`${slug}-${id}-heading`}
+          title={title}
+          scene={scene}
+          aside={scene && media ? <Media media={media} /> : undefined}
+        >
           {body && (
             <p className="max-w-[680px] text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
           )}
-          {media && <Media media={media} />}
+          {!scene && media && <Media media={media} />}
           {code && (
             <CodeBlock
               code={code}

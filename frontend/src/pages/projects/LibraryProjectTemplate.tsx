@@ -63,10 +63,12 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
       </header>
       {hero.media && <Media media={hero.media} />}
       {scenes.length > 0 && (
-        <div className="space-y-10">
-          <h2 className="text-label text-muted-foreground">{labels?.howTitle}</h2>
-          <ProjectSections sections={scenes} slug={slug} />
-        </div>
+        <section aria-labelledby={`${slug}-how-heading`} className="space-y-10">
+          <h2 id={`${slug}-how-heading`} className="text-label text-muted-foreground">
+            {labels?.howTitle}
+          </h2>
+          <ProjectSections sections={scenes} slug={slug} scene />
+        </section>
       )}
       <ProjectSections sections={following} slug={slug} />
     </div>
