@@ -896,7 +896,9 @@
     "copyLabel": "Befehl kopieren",
     "copiedLabel": "Kopiert",
     "linkPypi": "PyPI",
-    "linkDocs": "Doku"
+    "linkDocs": "Doku",
+    "howTitle": "So funktioniert es",
+    "factsTitle": "Fakten"
   },
   "featuredProjectsTitle": "Ausgewählte Projekte",
   "seeAllProjects": "Alle Projekte ansehen",

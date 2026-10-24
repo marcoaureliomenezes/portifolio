@@ -156,6 +156,8 @@ export interface LibraryPageLabels {
   copiedLabel: string;
   linkPypi: string;
   linkDocs: string;
+  howTitle: string;
+  factsTitle: string;
 }
 
 export interface ArchPageLabels {
