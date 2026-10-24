@@ -16,14 +16,15 @@
 <div id="t"></div>
 <script>
   // window.__CAST__ = { steps: [{ cmd, out }] } (set by record.mjs); ?cut=phone|desktop is carried by the viewport.
-  const TYPE_CPS = 24, OUT_LPS = 10;
+  // Integer ticks (120/s = lcm of 24 chars/s and 10 lines/s) keep every boundary exact.
+  const TICKS = 120, CHAR_T = 5, LINE_T = 12;
   const steps = (window.__CAST__ || { steps: [] }).steps.map((s) => ({
     cmd: s.cmd,
     out: s.out === "" ? [] : s.out.replace(/\n$/, "").split("\n"),
   }));
-  const cmdT = (s) => s.cmd.length / TYPE_CPS;
-  const outT = (s) => s.out.length / OUT_LPS;
-  window.duration = steps.reduce((d, s) => d + cmdT(s) + outT(s), 0);
+  const cmdT = (s) => s.cmd.length * CHAR_T;
+  const outT = (s) => s.out.length * LINE_T;
+  window.duration = steps.reduce((d, s) => d + cmdT(s) + outT(s), 0) / TICKS;
 
   const root = document.getElementById("t");
   const line = (html) => { const d = document.createElement("div"); d.innerHTML = html; root.append(d); return d; };
@@ -31,16 +32,15 @@
 
   window.render = (t) => {
     root.replaceChildren();
-    let rest = t;
+    let rest = Math.round(t * TICKS);
     for (const s of steps) {
       if (rest < 0) break;
-      const n = Math.min(s.cmd.length, Math.floor(rest * TYPE_CPS));
+      const n = Math.min(s.cmd.length, Math.floor(rest / CHAR_T));
       line(`<span class="p">$ </span>${esc(s.cmd.slice(0, n))}`);
       rest -= cmdT(s);
       if (rest < 0) break;
-      for (const o of s.out.slice(0, Math.floor(rest * OUT_LPS))) line(esc(o));
+      for (const o of s.out.slice(0, Math.floor(rest / LINE_T))) line(esc(o));
       rest -= outT(s);
-      if (rest < 0) break;
     }
     // cursor on the last line; lines stack top-down, so overflow shows in scrollHeight: drop whole leading lines until the last one fits, so the top line is never clipped
     if (root.lastChild) root.lastChild.insertAdjacentHTML("beforeend", '<span class="c"></span>');
