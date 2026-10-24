@@ -20,7 +20,7 @@ const NotFound = () => {
         <p className="text-lg md:text-xl text-foreground/80">{content.notFoundMessage}</p>
         <a
           href="/"
-          className="inline-block underline font-medium text-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
+          className="inline-block underline text-body text-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm"
         >
           {content.returnHome}
         </a>
