@@ -5,7 +5,7 @@
  * Accepts only `LibraryProject` (narrow type); discrimination upstream in
  * `ProjectDetailPage`.
  *
- * Layout: hero → install block (pip snippet + version + headline stat) →
+ * Layout: hero → install block (pip snippet + version) →
  *         architecture diagram → body sections → links (GitHub + PyPI [+ docs])
  *
  * The install block is the signature element of this kind: a copy-friendly
@@ -35,7 +35,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
   });
 
   const { content } = useContent();
-  const { slug, pypi, stat, links } = project;
+  const { slug, pypi, links } = project;
   const archLabels = content.archPage;
   const libLabels = content.libraryPage;
 
@@ -74,11 +74,6 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
               <Badge variant="secondary" data-testid="library-version">
                 {libLabels?.versionLabel ?? "versão"} {pypi.version}
               </Badge>
-              {stat && (
-                <Badge variant="outline" data-testid="library-stat">
-                  {stat.value} {stat.label}
-                </Badge>
-              )}
             </div>
           </CardHeader>
           <CardContent>

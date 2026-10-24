@@ -7,12 +7,12 @@
  * rc-2 redesign (AC-PC2-R2-06): the card must "sell" in seconds —
  *  - kind chip (i18n via projectsV2.index.kindLabels, code fallback)
  *  - up to 4 tech badges
- *  - headline stat + registry hint for library projects (pip install …)
+ *  - registry hint for library projects (pip install …)
  *  - subtle hover lift on the cover
  *
  * Accessibility (unchanged contract):
- * - The <Link> is the ONLY interactive element in the card — registry/stat
- *   affordances are passive chips, never nested anchors/buttons.
+ * - The <Link> is the ONLY interactive element in the card — the registry
+ *   affordance is a passive chip, never a nested anchor/button.
  * - focus-visible:ring-2 applied directly on the link for keyboard navigation.
  * - aria-label on the link combines title for screen readers.
  */
@@ -39,7 +39,6 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
   const { slug, hero, card, kind } = project;
 
   const kindLabel = kindLabels?.[kind] ?? KIND_FALLBACK_LABELS[kind];
-  const stat = kind === "library" ? project.stat : undefined;
   const installHint = kind === "library" ? project.pypi.installCommand : undefined;
 
   return (
@@ -105,25 +104,15 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
           ))}
         </div>
 
-        {/* Library signal row: install hint + headline stat (passive chips) */}
-        {(installHint || stat) && (
+        {/* Library signal row: install hint (passive chip) */}
+        {installHint && (
           <div className="flex items-center justify-between gap-2 text-xs">
-            {installHint && (
-              <code
-                data-testid="project-card-install"
-                className="font-mono text-muted-foreground truncate"
-              >
-                $ {installHint}
-              </code>
-            )}
-            {stat && (
-              <span
-                data-testid="project-card-stat"
-                className="shrink-0 font-semibold text-foreground"
-              >
-                {stat.value} {stat.label}
-              </span>
-            )}
+            <code
+              data-testid="project-card-install"
+              className="font-mono text-muted-foreground truncate"
+            >
+              $ {installHint}
+            </code>
           </div>
         )}
       </div>
