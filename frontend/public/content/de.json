@@ -854,11 +854,11 @@
           {
             "id": "related-tables",
             "title": "Verwandte Tabellen",
-            "body": "Verwandte Tabellen teilen die pk-Spezifikation des Elternteils mit dem fk des Kindes, damit die Schlüssel konsistent bleiben. Hier ist orders.customer_id ein fk auf den pk customer_id von customers.",
+            "body": "Verwandte Tabellen teilen die pk-Spezifikation der Elterntabelle mit dem fk der Kindtabelle, damit die Schlüssel konsistent bleiben. Hier ist orders.customer_id ein fk auf den pk customer_id von customers.",
             "media": {
               "type": "svg",
               "alt": "Zwei Tabellen. Die Tabelle customers hat customer_id, mit pk markiert, und city, mit den Zeilen 1 Rio, 2 Recife und 3 Rio. Die Tabelle orders hat order_id, mit pk markiert, und customer_id, mit fk markiert, mit den Bestellungen 1, 2 und 3, die auf die Kunden 2, 1 und 2 zeigen.",
-              "caption": "orders.customer_id ist ein fk auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
+              "caption": "orders.customer_id ist ein Fremdschlüssel auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
               "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
               "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
             }
@@ -906,7 +906,7 @@
           },
           {
             "id": "why",
-            "title": "Warum man es nutzt",
+            "title": "Warum es das gibt",
             "body": "Pipelines brauchen Testdaten, mit Nullwerten und Anomalien auf Abruf. Verwandte Tabellen halten ihre pk- und fk-Schlüssel über Batches, Streams und Dateien hinweg konsistent."
           },
           {
