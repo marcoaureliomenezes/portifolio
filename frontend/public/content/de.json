@@ -811,81 +811,135 @@
         "kind": "library",
         "hero": {
           "title": "rand-engine",
-          "tagline": "Hochperformante Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab — Pandas, Spark und DuckDB."
+          "tagline": "Synthetische Daten aus einer deklarativen Spezifikation, für Batch und Streaming.",
+          "media": {
+            "type": "video",
+            "alt": "Ein Terminal führt einen Python-Befehl aus. Er baut einen DataGenerator aus einer Spezifikation mit zwei Spalten, age als Ganzzahl von 18 bis 80 und plan als free oder pro, mit seed 42 und 5 Zeilen, und gibt eine Tabelle mit den Spalten age und plan und 5 Zeilen aus.",
+            "caption": "Eine Spezifikation rein, ein DataFrame mit Seed raus.",
+            "desktop": {
+              "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
+              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
+              "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+              "width": 1280,
+              "height": 720
+            },
+            "phone": {
+              "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
+              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
+              "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
+              "width": 720,
+              "height": 900
+            }
+          }
         },
         "card": {
-          "cover": "/assets/projects/rand-engine/cover.webp",
-          "summary": "Erzeugt realistische synthetische Daten in Sekunden. Native Pandas- und Spark-Unterstützung, 17+ fertige Specs, FK/PK-Constraint-System und reproduzierbares Seeding.",
+          "cover": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+          "summary": "Reproduzierbare DataFrames mit Seed, verwandte Tabellen, Dateien und Event-Streams aus einer deklarativen Spezifikation.",
           "tech": [
             "Python",
-            "Pandas",
-            "PySpark",
-            "DuckDB",
-            "NumPy"
+            "NumPy",
+            "pandas"
           ]
         },
         "seo": {
           "title": "rand-engine — Marco Menezes",
-          "description": "rand-engine — Open-Source-Python-Bibliothek auf PyPI zur Erzeugung synthetischer Daten im großen Maßstab mit Pandas und Spark."
+          "description": "rand-engine — Open-Source-Python-Bibliothek auf PyPI, die reproduzierbare synthetische Daten aus einer deklarativen Spezifikation erzeugt."
         },
-        "diagram": "/assets/projects/rand-engine/architecture-light.svg",
-        "diagramDark": "/assets/projects/rand-engine/architecture-dark.svg",
-        "diagramAlt": "Architekturdiagramm von rand-engine: deklarative Specs, NumPy-Generatoren und Pandas/Spark-Ausgabe.",
         "pypi": {
           "package": "rand-engine",
-          "version": "0.6.4",
+          "version": "0.8.0",
           "installCommand": "pip install rand-engine"
-        },
-        "stat": {
-          "label": "rows/s (Spark)",
-          "value": "5.1M"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "Was ist das",
-            "body": "rand-engine ist eine Open-Source-Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab. Sie unterstützt Pandas (lokal) und Spark (verteilt), mit 17+ fertigen Specs — Kunden, Bestellungen, Produkte, Mitarbeiter und mehr. Veröffentlicht auf PyPI mit 494 automatisierten Tests unter MIT-Lizenz."
+            "id": "related-tables",
+            "title": "Verwandte Tabellen",
+            "body": "Verwandte Tabellen teilen die pk-Spezifikation des Elternteils mit dem fk des Kindes, damit die Schlüssel konsistent bleiben. Hier ist orders.customer_id ein fk auf den pk customer_id von customers.",
+            "media": {
+              "type": "svg",
+              "alt": "Zwei Tabellen. Die Tabelle customers hat customer_id, mit pk markiert, und city, mit den Zeilen 1 Rio, 2 Recife und 3 Rio. Die Tabelle orders hat order_id, mit pk markiert, und customer_id, mit fk markiert, mit den Bestellungen 1, 2 und 3, die auf die Kunden 2, 1 und 2 zeigen.",
+              "caption": "orders.customer_id ist ein fk auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
+              "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
+              "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
+            }
+          },
+          {
+            "id": "event-stream",
+            "title": "Event-Streams",
+            "body": "stream_dict liefert einen unendlichen Generator aus Dicts, den der Aufrufer beendet. Seine event_id ist ein pk, der über Microbatches hinweg weiterläuft, sodass sich die Werte nie wiederholen.",
+            "media": {
+              "type": "svg",
+              "alt": "Ein Generator, gebaut mit DataGenerator(spec, seed=1).size(10).stream_dict(), gibt Datensätze nacheinander aus, mit event_id 1, 2, 3 und 4, jeweils neben einem Feld timestamp_created, und ein Label besagt, dass er nie endet.",
+              "caption": "Jeder Datensatz trägt die nächste event_id, und der Stream endet nie.",
+              "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
+              "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
+            }
+          },
+          {
+            "id": "files-in-parts",
+            "title": "Dateien in Teilen",
+            "body": "Beim Schreiben mit numFiles größer als 1 entsteht ein Ordner mit Teildateien statt einer einzigen Datei. Die pk-Werte wiederholen sich zwischen den Teilen nie.",
+            "media": {
+              "type": "video",
+              "alt": "Ein Terminal führt einen Python-Befehl aus, der 1000 Zeilen einer pk-Spalte namens id mit numFiles gleich 3 in eine CSV-Datei schreibt. Ein zweiter Befehl listet den Ausgabeordner, der drei Dateien enthält, deren Namen part_, id und .csv enthalten.",
+              "caption": "Ein Speichervorgang, drei Teildateien.",
+              "desktop": {
+                "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
+                "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
+                "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
+                "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
+                "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          },
+          {
+            "id": "try",
+            "title": "Ausprobieren",
+            "code": "from rand_engine import DataGenerator\n\nspec = {\n    \"user_id\": {\"method\": \"int_zfilled\", \"kwargs\": {\"length\": 8}},\n    \"age\": {\"method\": \"integers\", \"kwargs\": {\"min\": 18, \"max\": 80}},\n    \"plan\": {\"method\": \"distincts_prop\", \"kwargs\": {\"distincts\": {\"free\": 8, \"pro\": 2}}},\n    \"signup\": {\"method\": \"dates\", \"kwargs\": {\"start\": \"2024-01-01\", \"end\": \"2024-12-31\"}},\n}\n\ndf = DataGenerator(spec, seed=42).size(1_000).get_df()\nprint(df.head())\n"
           },
           {
             "id": "why",
-            "title": "Warum es existiert",
-            "body": "Das Testen von ETL/ELT-Pipelines erfordert realistische Daten, ohne sensible Informationen offenzulegen. Generische Tools wie Faker bieten keine native DataFrame-Unterstützung und keine Schlüssel-Constraints. rand-engine löst das mit einer deklarativen API, die Produktionsvolumen in Sekunden erzeugt."
+            "title": "Warum man es nutzt",
+            "body": "Pipelines brauchen Testdaten, mit Nullwerten und Anomalien auf Abruf. Verwandte Tabellen halten ihre pk- und fk-Schlüssel über Batches, Streams und Dateien hinweg konsistent."
           },
           {
-            "id": "how",
-            "title": "Wie es funktioniert",
-            "body": "`pip install rand-engine`. Definiere eine Spezifikation (Schema + Constraints), rufe `.generate(n_rows)` auf und erhalte einen Pandas- oder Spark-DataFrame. Der Parameter `seed` garantiert Reproduzierbarkeit. Nativer Export nach CSV, Parquet und JSON mit Kompression. Performance: ~12K rows/s lokal; 5,1M rows/s auf Databricks Spark."
-          },
-          {
-            "id": "status",
-            "title": "Aktueller Status",
+            "id": "facts",
+            "title": "Fakten",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.6.4 (PyPI)"
+                "label": "Sprache",
+                "value": "Python >=3.10",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
               },
               {
-                "label": "Tests",
-                "value": "494 bestanden"
-              },
-              {
-                "label": "Lokale Performance",
-                "value": "~12K rows/s"
-              },
-              {
-                "label": "Spark-Performance",
-                "value": "5,1M rows/s (Databricks)"
+                "label": "pandas",
+                "value": "^2.2.2",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
               },
               {
                 "label": "Lizenz",
-                "value": "MIT"
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+              },
+              {
+                "label": "Geschwindigkeit (CI-Runner)",
+                "value": "1.000.000 Ganzzahlen in 0,006 s, 10.000.000 in 0,041 s",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/docs/BENCHMARKS.md"
               }
             ]
           }
         ],
         "links": {
           "repo": "https://github.com/marcoaureliomenezes/rand_engine",
-          "pypi": "https://pypi.org/project/rand-engine/"
+          "pypi": "https://pypi.org/project/rand-engine/",
+          "docs": "https://marcoaureliomenezes.github.io/rand_engine/"
         }
       }
     ]
