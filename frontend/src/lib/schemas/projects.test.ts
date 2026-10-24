@@ -284,3 +284,22 @@ describe("Schema structural contract (zero z.any())", () => {
     expect(result.success).toBe(false);
   });
 });
+
+describe("project link URLs accept only http(s)", () => {
+  it.each(["javascript:alert(1)", "data:text/html,x"])("rejects %s", (bad) => {
+    expect(GamesProjectSchema.safeParse({ ...validGames, items: [{ ...validGameLink, playUrl: bad }] }).success).toBe(false);
+    expect(GamesProjectSchema.safeParse({ ...validGames, items: [{ ...validGameLink, repo: bad }] }).success).toBe(false);
+    expect(CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: bad } }).success).toBe(false);
+  });
+
+  it("rejects javascript: in a decision spec link", () => {
+    const decisions = [{ ...validDecision, spec: "javascript:alert(1)" }];
+    expect(MetaProjectSchema.safeParse({ ...validMeta, decisions }).success).toBe(false);
+  });
+
+  it("accepts an https URL", () => {
+    expect(
+      CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: "https://github.com/x/y" } }).success,
+    ).toBe(true);
+  });
+});
