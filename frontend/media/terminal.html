@@ -5,7 +5,7 @@
   html, body { margin: 0; height: 100%; overflow: hidden; background: #121317; }
   #t {
     box-sizing: border-box; height: 100%; padding: 6px; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: flex-end;
+    display: flex; flex-direction: column;
     font: 13px/18px ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", monospace;
     color: #d6d8de;
   }
@@ -42,7 +42,7 @@
       rest -= outT(s);
       if (rest < 0) break;
     }
-    // cursor on the last line; drop whole leading lines until the rest fits, so no line is clipped
+    // cursor on the last line; lines stack top-down, so overflow shows in scrollHeight: drop whole leading lines until the last one fits, so the top line is never clipped
     if (root.lastChild) root.lastChild.insertAdjacentHTML("beforeend", '<span class="c"></span>');
     while (root.childElementCount > 1 && root.scrollHeight > root.clientHeight) root.firstChild.remove();
   };
