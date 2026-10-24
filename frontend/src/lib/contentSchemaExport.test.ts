@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 // @ts-expect-error plain ESM contract, no declaration file
-import { CertificationSchema, EducationSchema, ProfileSchema } from "../../scripts/content-schema.mjs";
+import { CertificationSchema, ContentDataSchema, EducationSchema, ProfileSchema } from "../../scripts/content-schema.mjs";
 
 const root = resolve(__dirname, "../..");
 const artifact = JSON.parse(
@@ -71,5 +71,13 @@ describe("content schema export (v1.json)", () => {
     };
     walk(contract, "$");
     expect(closed).toEqual([]);
+  });
+});
+
+describe("committed locale content", () => {
+  it.each(["pt", "en", "de"])("%s.json parses against the full content schema", (locale) => {
+    const data = JSON.parse(readFileSync(resolve(root, `public/content/${locale}.json`), "utf-8"));
+    const result = ContentDataSchema.safeParse(data);
+    expect(result.error?.issues ?? []).toEqual([]);
   });
 });
