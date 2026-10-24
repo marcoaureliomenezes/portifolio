@@ -24,13 +24,14 @@ import { z } from "zod";
 
 const Slug = z.string().regex(/^[a-z0-9-]+$/);
 const Id = z.string().min(1);
+const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
 
 export const ProfileSchema = z.object({
-  linkedinUrl: z.string().url(),
-  githubUrl: z.string().url(),
-  instagramUrl: z.string().url(),
+  linkedinUrl: HttpUrl,
+  githubUrl: HttpUrl,
+  instagramUrl: HttpUrl,
   email: z.string().email(),
-  cvUrl: z.string().min(1),
+  cvUrl: z.string().regex(/^\/(?![\/\\])/), // same-origin path only
 });
 
 // ── experiences ─────────────────────────────────────────────────────────────
@@ -39,7 +40,7 @@ const HighlightProjectSchema = z.object({
   title: z.string().min(1),
   body: z.string().min(1),
   impact: z.array(z.string()).optional(),
-  links: z.array(z.object({ label: z.string(), url: z.string().url() })).optional(),
+  links: z.array(z.object({ label: z.string(), url: HttpUrl })).optional(),
 });
 
 export const RoleSchema = z.object({
@@ -73,7 +74,7 @@ export const CertificationSchema = z.object({
   validity: z.string(),
   level: z.string().min(1),
   icon: z.string(),
-  link: z.string(),
+  link: z.union([HttpUrl, z.literal("#")]),
   description: z.string(),
   priority: z.number(),
 });
@@ -89,7 +90,7 @@ export const EducationSchema = z.object({
   coursework: z.string(),
   thesisLabel: z.string(),
   thesis: z.string(),
-  thesisLink: z.string().optional(),
+  thesisLink: HttpUrl.optional(),
 });
 
 export const SkillCategorySchema = z.object({
@@ -128,7 +129,7 @@ const ProjectBaseSchema = z.object({
 const CaseStudyProjectSchema = ProjectBaseSchema.extend({
   kind: z.literal("case-study"),
   sections: z.array(ProjectSectionDataSchema).min(1),
-  cta: z.object({ github: z.string().url(), githubLabel: z.string().optional() }),
+  cta: z.object({ github: HttpUrl, githubLabel: z.string().optional() }),
 });
 
 const MetaProjectSchema = ProjectBaseSchema.extend({
@@ -137,9 +138,9 @@ const MetaProjectSchema = ProjectBaseSchema.extend({
   stack: z.array(z.object({ layer: z.string().min(1), tech: z.string().min(1) })).min(1),
   costs: z.array(z.object({ service: z.string().min(1), monthly_usd: z.number() })),
   decisions: z
-    .array(z.object({ title: z.string().min(1), rationale: z.string().min(1), spec: z.string().min(1) }))
+    .array(z.object({ title: z.string().min(1), rationale: z.string().min(1), spec: HttpUrl }))
     .min(1),
-  links: z.object({ repo: z.string().url(), terraform: z.string().url(), specs: z.string().url() }),
+  links: z.object({ repo: HttpUrl, terraform: HttpUrl, specs: HttpUrl }),
 });
 
 const GamesProjectSchema = ProjectBaseSchema.extend({
@@ -152,8 +153,8 @@ const GamesProjectSchema = ProjectBaseSchema.extend({
         engine: z.string().min(1),
         cover: z.string().min(1),
         body: z.string().min(1),
-        repo: z.string().url(),
-        playUrl: z.string().url(),
+        repo: HttpUrl,
+        playUrl: HttpUrl,
       }),
     )
     .min(1),
@@ -168,7 +169,7 @@ const LibraryProjectSchema = ProjectBaseSchema.extend({
     installCommand: z.string().min(1),
   }),
   stat: z.object({ label: z.string().min(1), value: z.string().min(1) }).optional(),
-  links: z.object({ repo: z.string().url(), pypi: z.string().url(), docs: z.string().url().optional() }),
+  links: z.object({ repo: HttpUrl, pypi: HttpUrl, docs: HttpUrl.optional() }),
 });
 
 export const ProjectSchema = z.discriminatedUnion("kind", [

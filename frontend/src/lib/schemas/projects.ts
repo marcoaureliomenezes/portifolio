@@ -15,6 +15,8 @@
 
 import { z } from "zod";
 
+const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
+
 // ---------------------------------------------------------------------------
 // Shared sub-schemas
 // ---------------------------------------------------------------------------
@@ -65,7 +67,7 @@ export const CostRowSchema = z.object({
 export const ArchDecisionSchema = z.object({
   title: z.string().min(1),
   rationale: z.string().min(1),
-  spec: z.string().min(1),
+  spec: HttpUrl,
 });
 
 export const GameLinkSchema = z.object({
@@ -74,8 +76,8 @@ export const GameLinkSchema = z.object({
   engine: z.string().min(1),
   cover: z.string().min(1),
   body: z.string().min(1),
-  repo: z.string().url(),
-  playUrl: z.string().url(),
+  repo: HttpUrl,
+  playUrl: HttpUrl,
 });
 
 // ---------------------------------------------------------------------------
@@ -98,7 +100,7 @@ export const CaseStudyProjectSchema = ProjectBaseSchema.extend({
   kind: z.literal("case-study"),
   sections: z.array(ProjectSectionDataSchema).min(1),
   cta: z.object({
-    github: z.string().url(),
+    github: HttpUrl,
     githubLabel: z.string().optional(),
   }),
 });
@@ -110,9 +112,9 @@ export const MetaProjectSchema = ProjectBaseSchema.extend({
   costs: z.array(CostRowSchema),
   decisions: z.array(ArchDecisionSchema).min(1),
   links: z.object({
-    repo: z.string().url(),
-    terraform: z.string().url(),
-    specs: z.string().url(),
+    repo: HttpUrl,
+    terraform: HttpUrl,
+    specs: HttpUrl,
   }),
 });
 
@@ -137,9 +139,9 @@ export const LibraryProjectSchema = ProjectBaseSchema.extend({
     })
     .optional(),
   links: z.object({
-    repo: z.string().url(),
-    pypi: z.string().url(),
-    docs: z.string().url().optional(),
+    repo: HttpUrl,
+    pypi: HttpUrl,
+    docs: HttpUrl.optional(),
   }),
 });
 

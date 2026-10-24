@@ -18,15 +18,15 @@
           "properties": {
             "linkedinUrl": {
               "type": "string",
-              "format": "uri"
+              "pattern": "^https?:\\/\\/"
             },
             "githubUrl": {
               "type": "string",
-              "format": "uri"
+              "pattern": "^https?:\\/\\/"
             },
             "instagramUrl": {
               "type": "string",
-              "format": "uri"
+              "pattern": "^https?:\\/\\/"
             },
             "email": {
               "type": "string",
@@ -35,7 +35,7 @@
             },
             "cvUrl": {
               "type": "string",
-              "minLength": 1
+              "pattern": "^\\/(?![\\/\\\\])"
             }
           },
           "required": [
@@ -181,7 +181,7 @@
                               },
                               "url": {
                                 "type": "string",
-                                "format": "uri"
+                                "pattern": "^https?:\\/\\/"
                               }
                             },
                             "required": [
@@ -257,7 +257,16 @@
                 "type": "string"
               },
               "link": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^https?:\\/\\/"
+                  },
+                  {
+                    "type": "string",
+                    "const": "#"
+                  }
+                ]
               },
               "description": {
                 "type": "string"
@@ -322,7 +331,8 @@
               "type": "string"
             },
             "thesisLink": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^https?:\\/\\/"
             }
           },
           "required": [
@@ -559,7 +569,7 @@
                         "properties": {
                           "github": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           },
                           "githubLabel": {
                             "type": "string"
@@ -768,7 +778,7 @@
                             },
                             "spec": {
                               "type": "string",
-                              "minLength": 1
+                              "pattern": "^https?:\\/\\/"
                             }
                           },
                           "required": [
@@ -784,15 +794,15 @@
                         "properties": {
                           "repo": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           },
                           "terraform": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           },
                           "specs": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           }
                         },
                         "required": [
@@ -925,11 +935,11 @@
                             },
                             "repo": {
                               "type": "string",
-                              "format": "uri"
+                              "pattern": "^https?:\\/\\/"
                             },
                             "playUrl": {
                               "type": "string",
-                              "format": "uri"
+                              "pattern": "^https?:\\/\\/"
                             }
                           },
                           "required": [
@@ -1129,15 +1139,15 @@
                         "properties": {
                           "repo": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           },
                           "pypi": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           },
                           "docs": {
                             "type": "string",
-                            "format": "uri"
+                            "pattern": "^https?:\\/\\/"
                           }
                         },
                         "required": [
