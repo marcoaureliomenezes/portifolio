@@ -36,7 +36,7 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
           aria-hidden="true"
           className="w-full aspect-video rounded-lg bg-muted flex items-center justify-center"
         />
-        <figcaption className="text-xs text-muted-foreground text-center mt-1">
+        <figcaption className="text-meta text-muted-foreground text-center mt-1">
           {alt}
         </figcaption>
       </figure>

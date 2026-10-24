@@ -50,7 +50,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
         >
           {hero.title}
         </h1>
-        <p className="text-muted-foreground text-base md:text-lg max-w-2xl">
+        <p className="text-muted-foreground text-body max-w-2xl">
           {hero.tagline}
         </p>
         {card.tech.length > 0 && (

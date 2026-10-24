@@ -23,7 +23,7 @@ export function DiagramCard({ project }: DiagramCardProps) {
   if (!project.diagram) return null;
 
   const { slug } = project;
-  const title = content.archPage?.infraDiagramTitle ?? "Arquitetura";
+  const title = content.archPage?.infraDiagramTitle ?? "";
 
   return (
     <section aria-labelledby={`${slug}-diagram-heading`}>
