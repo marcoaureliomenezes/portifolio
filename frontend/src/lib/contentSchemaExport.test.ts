@@ -74,11 +74,11 @@ describe("content schema export (v1.json)", () => {
   });
 
   it("carries a media definition reachable from a project section", () => {
-    type Node = { properties: Record<string, Node>; items: Node; anyOf: Node[]; const: string };
-    const projects: Node[] = contract.properties.projectsV2.properties.list.items.anyOf;
+    type Node = { properties: Record<string, Node>; items: Node; oneOf: Node[]; const: string };
+    const projects: Node[] = contract.properties.projectsV2.properties.list.items.oneOf;
     const withSections = projects.find((p) => p.properties.sections);
     const media = withSections?.properties.sections.items.properties.media;
-    const variants = media?.anyOf.map((v) => v.properties.type.const).sort();
+    const variants = media?.oneOf.map((v) => v.properties.type.const).sort();
     expect(variants).toEqual(["svg", "video"]);
   });
 });
