@@ -60,3 +60,21 @@ describe("DiagramCard", () => {
     );
   });
 });
+
+describe("DiagramCard — un-boxed", () => {
+  it("has no element carrying rounded + border, a shadow or a gradient", () => {
+    const { container } = render(
+      <DiagramCard project={{ ...baseProject, diagram: "/d/arch-light.svg" }} />,
+    );
+    const tokens = (el: Element) => el.className.toString().split(/\s+/);
+    const all = [...container.querySelectorAll("*")];
+    expect(
+      all.filter((el) => {
+        const t = tokens(el);
+        return t.some((c) => /^rounded/.test(c)) && t.some((c) => /^border(-|$)/.test(c));
+      }),
+    ).toHaveLength(0);
+    expect(all.filter((el) => tokens(el).some((c) => /(^|:)shadow/.test(c)))).toHaveLength(0);
+    expect(all.filter((el) => tokens(el).some((c) => /gradient|^from-|^to-/.test(c)))).toHaveLength(0);
+  });
+});

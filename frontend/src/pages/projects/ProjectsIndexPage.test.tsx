@@ -13,9 +13,17 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ProjectsIndexPage } from "./ProjectsIndexPage";
-import type { Project } from "@/types/content";
+import { ProjectsLayoutShell } from "@/components/projects/ProjectsLayoutShell";
+import { SiteLayout } from "@/components/layout/SiteLayout";
+import { LanguageContext } from "@/contexts/LanguageContext";
+import type { ContentData, Project } from "@/types/content";
+
+// Boundary stub: the header's own contract lives in Header.test.tsx.
+vi.mock("@/components/Header", () => ({
+  Header: () => <header>header</header>,
+}));
 
 const mockProjects: Project[] = [
   {
@@ -69,6 +77,31 @@ function renderPage() {
   );
 }
 
+/** The layout route mirror: SiteLayout owns the <main>, the shell owns the breadcrumb. */
+function renderInLayout() {
+  const content = {
+    siteChrome: {
+      breadcrumb: { label: "Breadcrumb", projects: "Projetos" },
+      backToProjects: "Voltar para projetos",
+    },
+  } as unknown as ContentData;
+  return render(
+    <LanguageContext.Provider
+      value={{ language: "pt", setLanguage: () => undefined, content, isLoading: false }}
+    >
+      <MemoryRouter initialEntries={["/projetos"]}>
+        <Routes>
+          <Route element={<SiteLayout />}>
+            <Route element={<ProjectsLayoutShell />}>
+              <Route path="/projetos" element={<ProjectsIndexPage />} />
+            </Route>
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </LanguageContext.Provider>,
+  );
+}
+
 describe("ProjectsIndexPage — rendering", () => {
   it("renders the page heading from content.projectsV2.index.title", () => {
     renderPage();
@@ -100,7 +133,14 @@ describe("ProjectsIndexPage — rendering", () => {
   });
 
   it("page content is within a <main> landmark", () => {
-    renderPage();
+    renderInLayout();
     expect(screen.getByRole("main")).toBeTruthy();
+  });
+});
+
+describe("ProjectsIndexPage — shell owns the landmark", () => {
+  it("renders no <main> of its own", () => {
+    const { container } = renderPage();
+    expect(container.querySelector("main")).toBeNull();
   });
 });
