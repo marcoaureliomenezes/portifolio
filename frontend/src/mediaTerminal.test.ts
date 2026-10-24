@@ -1,19 +1,23 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { JSDOM } from "jsdom";
 import { describe, expect, it } from "vitest";
 
 const html = readFileSync(resolve(__dirname, "../media/terminal.html"), "utf8");
+const script = html.slice(html.indexOf("<script>") + "<script>".length, html.indexOf("</script>"));
 
-// Loads terminal.html with the cast set before its script runs; returns the drawn lines at t = duration.
 type Cast = { steps: { cmd: string; out: string }[] };
 type TermWindow = Window & { __CAST__?: Cast; render: (t: number) => void; duration: number };
 
+// Runs terminal.html's own script against the test jsdom with the cast set first; returns the lines drawn at t = duration.
 function drawnAtEnd(cast: Cast): string[] {
-  const dom = new JSDOM(html, { runScripts: "dangerously", beforeParse: (w) => { (w as unknown as TermWindow).__CAST__ = cast; } });
-  const w = dom.window as unknown as TermWindow;
+  document.body.innerHTML = '<div id="t"></div>';
+  const w = window as unknown as TermWindow;
+  w.__CAST__ = cast;
+  (0, eval)(script);
   w.render(w.duration);
-  return [...w.document.getElementById("t").children].map((d: Element) => d.textContent as string);
+  const root = document.getElementById("t");
+  if (!root) throw new Error("terminal root missing");
+  return [...root.children].map((d) => d.textContent ?? "");
 }
 
 describe("media terminal: the last state holds", () => {
