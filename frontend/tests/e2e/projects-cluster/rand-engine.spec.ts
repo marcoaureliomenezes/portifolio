@@ -48,6 +48,9 @@ test.describe('rand-engine — library project smoke', () => {
     );
     await expect(page.locator('[data-testid="library-version"]')).toContainText(pypi.version);
     await expect(
+      page.locator('[data-testid="project-section"] h2', { hasText: ` · rand-engine ${pypi.version}` }),
+    ).toBeVisible();
+    await expect(
       page.locator('[data-testid="project-section"]').first(),
     ).toBeVisible();
   });
