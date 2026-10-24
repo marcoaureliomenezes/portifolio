@@ -3,7 +3,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProjectsLayoutShell } from "@/components/projects/ProjectsLayoutShell";
-import Index from "./pages/Index";
+import { SiteLayout } from "@/components/layout/SiteLayout";
+import { Portfolio } from "@/components/portfolio/Portfolio";
 import { track } from "@dadaia/analytics-sdk";
 
 // Lazy chunks — keep home (LCP route) eager; defer everything else.
@@ -38,20 +39,18 @@ const App = () => {
       <BrowserRouter>
         <Suspense fallback={null}>
           <Routes>
-            {/* Home */}
-            <Route path="/" element={<Index />} />
+            <Route element={<SiteLayout />}>
+              <Route path="/" element={<Portfolio />} />
 
-            {/* Projects cluster — T-PC-B-09: nested layout route wraps /projetos/* */}
-            {/* ProjectsLayoutShell renders breadcrumb + back-link + <Outlet /> */}
-            <Route element={<ProjectsLayoutShell />}>
-              {/* T-PC-C-03: ProjectsIndexPage (lazy chunk) */}
-              <Route path="/projetos" element={<ProjectsIndexPage />} />
-              {/* Dynamic detail: dispatches to CaseStudy | Meta | Games template */}
-              <Route path="/projetos/:slug" element={<ProjectDetailPage />} />
+              {/* ProjectsLayoutShell renders breadcrumb + back-link + <Outlet /> */}
+              <Route element={<ProjectsLayoutShell />}>
+                <Route path="/projetos" element={<ProjectsIndexPage />} />
+                {/* Dynamic detail: dispatches to CaseStudy | Meta | Games template */}
+                <Route path="/projetos/:slug" element={<ProjectDetailPage />} />
+              </Route>
+
+              <Route path="*" element={<NotFound />} />
             </Route>
-
-            {/* Catch-all */}
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

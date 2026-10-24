@@ -18,7 +18,7 @@ export function Portfolio() {
   const { content, language } = useContent();
 
   return (
-    <div className="container mx-auto px-4 pt-16 md:pt-[72px] pb-8 space-y-6 max-w-5xl">
+    <div className="container mx-auto px-4 pb-8 space-y-6 max-w-5xl">
       <HeroSection content={content} locale={language} />
       <FeaturedProjects content={content} />
       <ExperienceSection content={content} />
