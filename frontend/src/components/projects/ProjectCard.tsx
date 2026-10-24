@@ -75,7 +75,7 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         )}
         <span
           data-testid="project-card-kind"
-          className="absolute top-2 right-2 rounded-full bg-background/85 backdrop-blur px-2.5 py-0.5 text-xs font-medium text-foreground border border-border/60"
+          className="absolute top-2 right-2 rounded-full bg-background/85 backdrop-blur px-2.5 py-0.5 text-label text-foreground border border-border/60"
         >
           {kindLabel}
         </span>
