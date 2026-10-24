@@ -32,9 +32,9 @@ export function ProjectsLayoutShell() {
       <nav
         aria-label={chrome?.breadcrumb.label}
         data-testid="breadcrumb"
-        className="container mx-auto px-4 pb-2 max-w-4xl"
+        className="container mx-auto px-4 pt-6 pb-2 max-w-4xl"
       >
-        <ol className="flex items-center gap-1 text-sm text-muted-foreground flex-wrap">
+        <ol className="flex items-center gap-1 text-meta text-muted-foreground flex-wrap">
           <li>
             {isDetail ? (
               <Link
@@ -44,7 +44,7 @@ export function ProjectsLayoutShell() {
                 {chrome?.breadcrumb.projects}
               </Link>
             ) : (
-              <span className="text-foreground font-medium">
+              <span className="text-foreground">
                 {chrome?.breadcrumb.projects}
               </span>
             )}
@@ -55,7 +55,7 @@ export function ProjectsLayoutShell() {
                 <ChevronRight className="h-3.5 w-3.5 flex-shrink-0" />
               </li>
               <li>
-                <span className="text-foreground font-medium">{displayName}</span>
+                <span className="text-foreground">{displayName}</span>
               </li>
             </>
           )}
@@ -72,7 +72,7 @@ export function ProjectsLayoutShell() {
             to="/projetos"
             data-testid="back-link"
             data-role="back"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+            className="inline-flex items-center gap-1.5 text-meta text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
             aria-label={chrome?.backToProjects}
           >
             <ChevronLeft className="h-4 w-4" />
