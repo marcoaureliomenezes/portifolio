@@ -1,17 +1,14 @@
 /**
- * ProjectSections.tsx — T-PC-C-02
- *
- * Renders the `sections: Array<ProjectSectionData>` block common to
- * CaseStudyProject and MetaProject. Heading hierarchy: page uses h1
- * (ProjectHero), sections use h2.
- *
- * Supports two section variants:
- *  - items present → definition list (key-value)
- *  - default → body text paragraph
+ * ProjectSections — one flat `Block` per section: body, media, code, then
+ * items as definition rows (value linked when `href` is set). Renders nothing
+ * for an empty list; copy labels come from `content.libraryPage`.
  */
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useContent } from "@/hooks/useContent";
 import type { ProjectSectionData } from "@/types/content";
+import { Block } from "./Block";
+import { CodeBlock } from "./CodeBlock";
+import { Media } from "./Media";
 
 interface ProjectSectionsProps {
   sections: ProjectSectionData[];
@@ -19,67 +16,49 @@ interface ProjectSectionsProps {
 }
 
 export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
+  const { content } = useContent();
   if (sections.length === 0) return null;
 
   return (
     <>
-      {sections.map((section) => {
-        const headingId = `${slug}-${section.id}-heading`;
-
-        // Key-value items section
-        if (section.items) {
-          return (
-            <section key={section.id} aria-labelledby={headingId} data-testid="project-section">
-              <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <h2
-                    id={headingId}
-                    className="text-lg md:text-2xl font-bold text-foreground"
-                  >
-                    {section.title}
-                  </h2>
-                </CardHeader>
-                <CardContent>
-                  <dl className="divide-y divide-border">
-                    {section.items.map((item) => (
-                      <div
-                        key={item.label}
-                        className="py-3 flex justify-between text-sm"
+      {sections.map(({ id, title, body, media, code, items }) => (
+        <Block key={id} id={`${slug}-${id}-heading`} title={title}>
+          {body && (
+            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
+          )}
+          {media && <Media media={media} />}
+          {code && (
+            <CodeBlock
+              code={code}
+              copyLabel={content.libraryPage?.copyLabel ?? ""}
+              copiedLabel={content.libraryPage?.copiedLabel ?? ""}
+            />
+          )}
+          {items && (
+            <dl className="divide-y divide-border">
+              {items.map(({ label, value, href }) => (
+                <div key={label} className="py-3 flex justify-between gap-4">
+                  <dt className="text-muted-foreground">{label}</dt>
+                  <dd className="text-foreground">
+                    {href ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-4"
                       >
-                        <dt className="text-muted-foreground font-medium">
-                          {item.label}
-                        </dt>
-                        <dd className="text-foreground">{item.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </CardContent>
-              </Card>
-            </section>
-          );
-        }
-
-        // Default: body text section
-        return (
-          <section key={section.id} aria-labelledby={headingId} data-testid="project-section">
-            <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-              <CardHeader className="pb-2">
-                <h2
-                  id={headingId}
-                  className="text-lg md:text-2xl font-bold text-foreground"
-                >
-                  {section.title}
-                </h2>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base whitespace-pre-line">
-                  {section.body}
-                </p>
-              </CardContent>
-            </Card>
-          </section>
-        );
-      })}
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </Block>
+      ))}
     </>
   );
 }
