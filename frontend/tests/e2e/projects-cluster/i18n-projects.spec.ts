@@ -42,11 +42,13 @@ test.describe('i18n — Projects cluster routes', () => {
     await switchLanguage(page, 'English');
 
     // Then: titles are non-empty and changed (EN != PT)
-    const enTitles = await page.locator('[data-testid="project-card-title"]').allInnerTexts();
+    const titles = page.locator('[data-testid="project-card-title"]');
+    // At least some titles changed (PT !== EN for at least 1 card); retries until the re-render lands
+    await expect
+      .poll(async () => (await titles.allInnerTexts()).some((t, i) => t !== ptTitles[i]))
+      .toBe(true);
+    const enTitles = await titles.allInnerTexts();
     expect(enTitles.every((t) => t.trim().length > 0)).toBe(true);
-    // At least some titles changed (PT !== EN for at least 1 card)
-    const someChanged = ptTitles.some((pt, i) => pt !== enTitles[i]);
-    expect(someChanged).toBe(true);
   });
 
   test('PC-E2E-05: /projetos DE fallback — never PT, never empty', async ({ page }) => {
@@ -60,12 +62,14 @@ test.describe('i18n — Projects cluster routes', () => {
     await switchLanguage(page, 'Deutsch');
 
     // Then: titles are non-empty (DE or EN fallback, never empty)
-    const deTitles = await page.locator('[data-testid="project-card-title"]').allInnerTexts();
-    expect(deTitles.every((t) => t.trim().length > 0)).toBe(true);
+    const titles = page.locator('[data-testid="project-card-title"]');
 
-    // Then: DE titles do NOT equal PT titles (fallback is EN, not PT — quality-bar §i18n)
-    const isStillPT = deTitles.every((de, i) => de === ptTitles[i]);
-    expect(isStillPT).toBe(false);
+    // Then: DE titles do NOT equal PT titles (fallback is EN, not PT — quality-bar §i18n); retries until the re-render lands
+    await expect
+      .poll(async () => (await titles.allInnerTexts()).every((de, i) => de === ptTitles[i]))
+      .toBe(false);
+    const deTitles = await titles.allInnerTexts();
+    expect(deTitles.every((t) => t.trim().length > 0)).toBe(true);
   });
 
   test('PC-E2E-18: language switch on /projetos does not blank-render cards', async ({ page }) => {
