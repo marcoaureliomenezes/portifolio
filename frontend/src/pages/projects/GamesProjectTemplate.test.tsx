@@ -14,7 +14,8 @@ import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { GamesProjectTemplate } from "./GamesProjectTemplate";
-import type { GamesProject } from "@/types/content";
+import type { GamesProject, ContentData } from "@/types/content";
+import { LanguageContext } from "@/contexts/LanguageContext";
 
 afterEach(() => {
   cleanup();
@@ -62,11 +63,20 @@ const mockProject: GamesProject = {
   ],
 };
 
+const enContent = {
+  gamesComingSoon: "Coming soon in English",
+  gamesComingSoonDesc: "Games will be listed here in English.",
+} as unknown as ContentData;
+
 function renderTemplate(project = mockProject) {
   return render(
-    <MemoryRouter>
-      <GamesProjectTemplate project={project} />
-    </MemoryRouter>,
+    <LanguageContext.Provider
+      value={{ language: "en", setLanguage: () => undefined, content: enContent, isLoading: false }}
+    >
+      <MemoryRouter>
+        <GamesProjectTemplate project={project} />
+      </MemoryRouter>
+    </LanguageContext.Provider>,
   );
 }
 
@@ -167,5 +177,20 @@ describe("GamesProjectTemplate", () => {
       .getAllByRole("link")
       .filter((l) => l.getAttribute("href")?.startsWith("https://marcoaureliomenezes.github.io"));
     expect(playLinks.length).toBe(0);
+  });
+
+  it("renders no <main>: SiteLayout owns it", () => {
+    const { container } = renderTemplate();
+    expect(container.querySelector("main")).toBeNull();
+  });
+
+  it("empty state shows the en content, no pt literal", () => {
+    const { container } = renderTemplate({ ...mockProject, items: [] });
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Coming soon in English" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Games will be listed here in English.")).toBeInTheDocument();
+    expect(container.textContent).not.toContain("Em breve");
+    expect(container.textContent).not.toContain("sendo preparados");
   });
 });

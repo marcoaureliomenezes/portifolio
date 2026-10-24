@@ -14,7 +14,8 @@ import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { MetaProjectTemplate } from "./MetaProjectTemplate";
-import type { MetaProject } from "@/types/content";
+import type { MetaProject, ContentData } from "@/types/content";
+import { LanguageContext } from "@/contexts/LanguageContext";
 
 afterEach(() => {
   cleanup();
@@ -65,11 +66,29 @@ const mockProject: MetaProject = {
   },
 };
 
+const enContent = {
+  archPage: {
+    techStackTitle: "Stack in English",
+    monthlyCostsTitle: "Costs in English",
+    tableHeaderLayer: "Layer EN",
+    tableHeaderTechnology: "Technology EN",
+    archDecisionsTitle: "Decisions in English",
+    linksTitle: "Links EN",
+    linkGithubRepo: "Repository EN",
+    linkTerraform: "Terraform EN",
+    linkSpecs: "Specs EN",
+  },
+} as unknown as ContentData;
+
 function renderTemplate(project = mockProject) {
   return render(
-    <MemoryRouter>
-      <MetaProjectTemplate project={project} />
-    </MemoryRouter>,
+    <LanguageContext.Provider
+      value={{ language: "en", setLanguage: () => undefined, content: enContent, isLoading: false }}
+    >
+      <MemoryRouter>
+        <MetaProjectTemplate project={project} />
+      </MemoryRouter>
+    </LanguageContext.Provider>,
   );
 }
 
@@ -155,6 +174,18 @@ describe("MetaProjectTemplate", () => {
       // both in the hero badge strip and in the links section label.
       const matches = screen.getAllByText(tech);
       expect(matches.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("renders no <main>: SiteLayout owns it", () => {
+    const { container } = renderTemplate();
+    expect(container.querySelector("main")).toBeNull();
+  });
+
+  it("renders the en archPage labels", () => {
+    const { container } = renderTemplate();
+    for (const text of ["Stack in English", "Costs in English", "Decisions in English", "Links EN", "Repository EN", "Specs EN"]) {
+      expect(container.textContent).toContain(text);
     }
   });
 });
