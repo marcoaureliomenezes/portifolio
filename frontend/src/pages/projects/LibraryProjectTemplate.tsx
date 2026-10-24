@@ -67,7 +67,26 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
           <h2 id={`${slug}-how-heading`} className="text-label text-muted-foreground">
             {labels?.howTitle}
           </h2>
-          <ProjectSections sections={scenes} slug={slug} scene />
+          {scenes.map(({ id, title, body, media }) => (
+            <section
+              key={id}
+              aria-labelledby={`${slug}-${id}-heading`}
+              data-testid="project-section"
+              className="space-y-4 md:space-y-0 md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:gap-9 md:items-center"
+            >
+              <div className="space-y-4">
+                <h3 id={`${slug}-${id}-heading`} className="text-item text-primary">
+                  {title}
+                </h3>
+                {body && (
+                  <p className="max-w-[680px] text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {body}
+                  </p>
+                )}
+              </div>
+              {media && <Media media={media} />}
+            </section>
+          ))}
         </section>
       )}
       <ProjectSections sections={following} slug={slug} />
