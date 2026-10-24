@@ -21,7 +21,8 @@ No technology is recorded yet.
 
 - Site content: `frontend/public/content/{pt,en,de}.json`, fetched at runtime as
   `/content/<lang>.json` (`frontend/src/contexts/LanguageContext.tsx`); its contract is
-  `frontend/scripts/content-schema.mjs`, exported as `frontend/public/content/schema/v1.json`.
+  `frontend/scripts/content-schema.mjs`, built on the one project schema
+  `frontend/src/lib/schemas/projects.ts` and exported as `frontend/public/content/schema/v1.json`.
 
 <!-- dadaia:fixed slop-code -->
 ### Slop — code (fixed)

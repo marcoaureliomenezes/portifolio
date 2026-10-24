@@ -28,8 +28,9 @@ The repo's tracked `verify:` line runs once, at the merge; nothing reruns it bef
 - `tests: frontend/src/*.test.ts frontend/src/*.test.tsx frontend/src/test-setup.ts frontend/tests/*`
   (`AGENTS.md` `## Gates`): the paths a task merge treats as test files.
 - Playwright E2E (`npm run test:e2e`) runs only in CI, outside `verify`: the `e2e` job of
-  `.github/workflows/ci.yml` on pull requests to main, and the `full-e2e` job of
-  `.github/workflows/ci-weekly.yml` on its weekly schedule.
+  `.github/workflows/ci.yml` runs the smoke set (`E2E_SMOKE=true`) on pull requests to develop
+  and main, and the `full-e2e` job of `.github/workflows/ci-weekly.yml` runs the full suite on
+  its weekly schedule.
 
 <!-- dadaia:fixed slop-tests -->
 ### Slop — tests (fixed)

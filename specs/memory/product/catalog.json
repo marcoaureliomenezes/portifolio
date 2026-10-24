@@ -1,26 +1,193 @@
 {
-  "generated_at": "2026-10-20T00:16:50Z",
+  "generated_at": "2026-10-24T23:32:11Z",
   "features": [
     {
       "rank": 1,
+      "slug": "content-contract",
+      "title": "Content contract",
+      "area": "content",
+      "tldr": "projects.ts is the one project schema, every link is http(s), v1.json is its input-mode export, and verify parses the three locales and checks every asset.",
+      "summary": "The site's content JSON has one machine contract built on the one project schema; verify's unit tests parse the three locale files against it, keep the exported JSON Schema equal to a fresh export, and hold every rule on the files under public/assets.",
+      "path": "specs/memory/product/content/content-contract.md",
+      "tags": [
+        "content",
+        "schema",
+        "i18n",
+        "assets"
+      ],
+      "token_estimate": 572,
+      "depends_on": [
+        "scene-media",
+        "library-page",
+        "site-chrome"
+      ],
+      "sources": [
+        "frontend/src/lib/schemas/projects.ts",
+        "frontend/src/lib/schemas/projects.test.ts",
+        "frontend/src/types/content.ts",
+        "frontend/scripts/content-schema.mjs",
+        "frontend/scripts/export-content-schema.mjs",
+        "frontend/scripts/check-i18n-parity.mjs",
+        "frontend/public/content/schema/v1.json",
+        "frontend/src/lib/contentSchemaExport.test.ts",
+        "frontend/src/lib/contentAssets.test.ts"
+      ]
+    },
+    {
+      "rank": 2,
+      "slug": "scene-media",
+      "title": "Scene media pipeline and player",
+      "area": "media",
+      "tldr": "Scenes recorded from a pinned PyPI version, hash-named under byte budgets, played muted and looped, a still under reduced motion.",
+      "summary": "A developer tool in frontend/media turns a pinned package's real terminal output into hash-named webm, mp4 and poster cuts, and publishes SVG scene pairs; the Media component plays them in view, picks the cut by width and shows the still when motion is reduced.",
+      "path": "specs/memory/product/media/scene-media.md",
+      "tags": [
+        "media",
+        "projects",
+        "accessibility",
+        "performance"
+      ],
+      "token_estimate": 481,
+      "depends_on": [
+        "content-contract",
+        "rand-engine-page",
+        "dadaia-workspace-page",
+        "library-page"
+      ],
+      "sources": [
+        "frontend/media/README.md",
+        "frontend/media/capture.sh",
+        "frontend/media/record.mjs",
+        "frontend/media/terminal.html",
+        "frontend/src/components/projects/Media.tsx",
+        "frontend/src/components/projects/DiagramAsset.tsx",
+        "frontend/src/hooks/useMediaQuery.ts",
+        "frontend/src/hooks/useInView.ts",
+        "frontend/tests/e2e/projects-cluster/library-scenes.spec.ts"
+      ]
+    },
+    {
+      "rank": 3,
       "slug": "dadaia-workspace-page",
       "title": "dadaia-workspace project page",
       "area": "projects",
-      "tldr": "The portfolio's library-kind page for dadaia-workspace, in pt, en and de, stating its PyPI version, install line and links.",
-      "summary": "The projectsV2 item slug dadaia-workspace, kind library, in the three locale content files; it describes the library to a visitor and points to its GitHub repo and PyPI page.",
+      "tldr": "The library page for dadaia-workspace, pinned to PyPI 0.4.7 and tag v0.4.7, with a hero loop, three scenes, a pinned Try it and facts from the tag.",
+      "summary": "The projectsV2 item slug dadaia-workspace, kind library, in the three locale content files; every claim on it states what the pinned PyPI release ships and links its source at the pinned git tag.",
       "path": "specs/memory/product/projects/dadaia-workspace-page.md",
       "tags": [
         "projects",
         "content",
         "library"
       ],
-      "token_estimate": 231,
-      "depends_on": [],
+      "token_estimate": 467,
+      "depends_on": [
+        "scene-media",
+        "library-page",
+        "content-contract"
+      ],
       "sources": [
         "frontend/public/content/pt.json",
         "frontend/public/content/en.json",
         "frontend/public/content/de.json",
-        "frontend/public/assets/projects/dadaia-workspace/*"
+        "frontend/public/assets/projects/dadaia-workspace/*",
+        "frontend/media/dadaia-workspace/*",
+        "frontend/tests/e2e/projects-cluster/project-detail-library.spec.ts"
+      ]
+    },
+    {
+      "rank": 4,
+      "slug": "library-page",
+      "title": "Library project page layout",
+      "area": "projects",
+      "tldr": "The one library page layout - purpose, install line, hero loop, side-by-side scenes, Try it, Why it exists, facts pinned to a tag.",
+      "summary": "LibraryProjectTemplate renders a library item in a fixed order from its content alone; scene sections sit text beside media on wide screens, and the facts heading names the library and its pinned version.",
+      "path": "specs/memory/product/projects/library-page.md",
+      "tags": [
+        "projects",
+        "library",
+        "layout"
+      ],
+      "token_estimate": 439,
+      "depends_on": [
+        "site-chrome",
+        "scene-media",
+        "content-contract",
+        "rand-engine-page",
+        "dadaia-workspace-page"
+      ],
+      "sources": [
+        "frontend/src/pages/projects/LibraryProjectTemplate.tsx",
+        "frontend/src/components/projects/ProjectSections.tsx",
+        "frontend/src/components/projects/Block.tsx",
+        "frontend/src/components/projects/CodeBlock.tsx",
+        "frontend/tests/e2e/projects-cluster/library-scenes.spec.ts",
+        "frontend/tests/e2e/projects-cluster/project-detail-library.spec.ts"
+      ]
+    },
+    {
+      "rank": 5,
+      "slug": "rand-engine-page",
+      "title": "rand-engine project page",
+      "area": "projects",
+      "tldr": "The library page for rand-engine, pinned to PyPI 0.8.0 and tag 0.8.0, with a hero loop, three scenes, a runnable Try it and facts from the tag.",
+      "summary": "The projectsV2 item slug rand-engine, kind library, in the three locale content files; its scenes, example and facts state what the pinned PyPI release ships, each fact linked to its source at the pinned git tag.",
+      "path": "specs/memory/product/projects/rand-engine-page.md",
+      "tags": [
+        "projects",
+        "content",
+        "library"
+      ],
+      "token_estimate": 500,
+      "depends_on": [
+        "scene-media",
+        "library-page",
+        "content-contract"
+      ],
+      "sources": [
+        "frontend/public/content/pt.json",
+        "frontend/public/content/en.json",
+        "frontend/public/content/de.json",
+        "frontend/public/assets/projects/rand-engine/*",
+        "frontend/media/rand-engine/*",
+        "frontend/tests/e2e/projects-cluster/rand-engine.spec.ts"
+      ]
+    },
+    {
+      "rank": 6,
+      "slug": "site-chrome",
+      "title": "Shared site chrome",
+      "area": "site",
+      "tldr": "One header on every route, one type scale, a 960 px project column with 680 px prose, localized chrome strings and <html lang>.",
+      "summary": "A layout route renders the one header and the one main landmark for every page; the project routes add a breadcrumb and back link in a 960 px column; chrome text, theme first paint and the document language follow the visitor's locale and stored theme.",
+      "path": "specs/memory/product/site/site-chrome.md",
+      "tags": [
+        "site",
+        "layout",
+        "i18n",
+        "design-tokens"
+      ],
+      "token_estimate": 482,
+      "depends_on": [
+        "library-page",
+        "content-contract"
+      ],
+      "sources": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Header.tsx",
+        "frontend/src/components/header/*",
+        "frontend/src/components/layout/*",
+        "frontend/src/components/projects/ProjectsLayoutShell.tsx",
+        "frontend/src/contexts/LanguageContext.tsx",
+        "frontend/src/hooks/useTheme.ts",
+        "frontend/src/pages/NotFound.tsx",
+        "frontend/src/lib/utils.ts",
+        "frontend/src/index.css",
+        "frontend/src/main.tsx",
+        "frontend/tailwind.config.ts",
+        "frontend/index.html",
+        "frontend/tests/e2e/projects-cluster/nav-projects.spec.ts",
+        "frontend/tests/e2e/projects-cluster/layout-shell.spec.ts",
+        "frontend/tests/e2e/pages/theme-first-paint.spec.ts"
       ]
     }
   ]
