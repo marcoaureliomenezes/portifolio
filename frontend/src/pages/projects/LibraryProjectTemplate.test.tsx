@@ -49,7 +49,6 @@ const mockProject: LibraryProject = {
     version: "0.6.4",
     installCommand: "pip install rand-engine",
   },
-  stat: { label: "rows/s (Spark)", value: "5.1M" },
   sections: [
     { id: "what", title: "What is it", body: "A Python library." },
     { id: "why", title: "Why", body: "Realistic test data." },
@@ -90,7 +89,6 @@ describe("LibraryProjectTemplate", () => {
       "pip install rand-engine",
     );
     expect(screen.getByTestId("library-version").textContent).toContain("0.6.4");
-    expect(screen.getByTestId("library-stat").textContent).toContain("5.1M");
   });
 
   it("renders PyPI and GitHub links as external anchors", () => {
@@ -119,11 +117,5 @@ describe("LibraryProjectTemplate", () => {
     renderTemplate();
     expect(screen.getByTestId("diagram-light")).toBeTruthy();
     expect(screen.getByTestId("diagram-dark")).toBeTruthy();
-  });
-
-  it("omits the stat badge when stat is absent", () => {
-    const { stat: _stat, ...rest } = mockProject;
-    renderTemplate(rest as LibraryProject);
-    expect(screen.queryByTestId("library-stat")).toBeNull();
   });
 });
