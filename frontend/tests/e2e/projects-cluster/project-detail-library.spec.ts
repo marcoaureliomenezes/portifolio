@@ -99,3 +99,25 @@ test.describe('Detail page — dadaia-workspace (kind: library)', () => {
     await expect(heading).toBeVisible();
   });
 });
+
+test.describe('Scene layout (rand-engine, en)', () => {
+  test.use({ locale: 'en-US' });
+
+  for (const [width, sideBySide] of [[1440, true], [390, false]] as const) {
+    test(`PC-E2E-30: at ${width}px a scene's media starts ${sideBySide ? 'right of' : 'below'} its title`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(ROUTES.randEngine);
+      await page.waitForLoadState('networkidle');
+
+      const scene = page.locator('[data-testid="project-section"]').filter({ has: page.locator('h3') }).first();
+      await scene.scrollIntoViewIfNeeded();
+      const media = scene.locator('video, img').locator('visible=true').first();
+      await expect(media).toBeVisible();
+
+      const title = (await scene.locator('h3').boundingBox())!;
+      const box = (await media.boundingBox())!;
+      if (sideBySide) expect(box.x).toBeGreaterThanOrEqual(title.x + title.width);
+      else expect(box.y).toBeGreaterThanOrEqual(title.y + title.height);
+    });
+  }
+});
