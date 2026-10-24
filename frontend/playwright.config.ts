@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Smoke gate: 9 files that verify the site loads and core UX works.
-// Used in CI on every push. Full suite runs in ci-weekly.yml.
+// Used in CI on pull requests. Full suite runs in ci-weekly.yml.
 const SMOKE_SPECS = [
   'tests/e2e/pages/health.spec.ts',
   'tests/e2e/pages/home.spec.ts',

@@ -89,6 +89,8 @@ const ProjectBaseSchema = z.object({
   card: ProjectCardSchema,
   seo: ProjectSeoSchema,
   diagram: z.string().optional(),
+  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. */
+  diagramDark: z.string().optional(),
   diagramAlt: z.string().optional(),
 });
 
@@ -119,6 +121,28 @@ export const GamesProjectSchema = ProjectBaseSchema.extend({
   items: z.array(GameLinkSchema).min(1),
 });
 
+/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
+export const LibraryProjectSchema = ProjectBaseSchema.extend({
+  kind: z.literal("library"),
+  sections: z.array(ProjectSectionDataSchema).min(1),
+  pypi: z.object({
+    package: z.string().min(1),
+    version: z.string().min(1),
+    installCommand: z.string().min(1),
+  }),
+  stat: z
+    .object({
+      label: z.string().min(1),
+      value: z.string().min(1),
+    })
+    .optional(),
+  links: z.object({
+    repo: z.string().url(),
+    pypi: z.string().url(),
+    docs: z.string().url().optional(),
+  }),
+});
+
 // ---------------------------------------------------------------------------
 // Discriminated union
 // ---------------------------------------------------------------------------
@@ -127,6 +151,7 @@ export const ProjectSchema = z.discriminatedUnion("kind", [
   CaseStudyProjectSchema,
   MetaProjectSchema,
   GamesProjectSchema,
+  LibraryProjectSchema,
 ]);
 
 // ---------------------------------------------------------------------------
@@ -136,6 +161,15 @@ export const ProjectSchema = z.discriminatedUnion("kind", [
 export const ProjectsIndexSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
+  /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
+  kindLabels: z
+    .object({
+      "case-study": z.string().min(1),
+      meta: z.string().min(1),
+      games: z.string().min(1),
+      library: z.string().min(1),
+    })
+    .optional(),
 });
 
 export const ProjectsContentSchema = z.object({
@@ -151,4 +185,5 @@ export type ProjectSchemaType = z.infer<typeof ProjectSchema>;
 export type CaseStudyProjectSchemaType = z.infer<typeof CaseStudyProjectSchema>;
 export type MetaProjectSchemaType = z.infer<typeof MetaProjectSchema>;
 export type GamesProjectSchemaType = z.infer<typeof GamesProjectSchema>;
+export type LibraryProjectSchemaType = z.infer<typeof LibraryProjectSchema>;
 export type ProjectsContentSchemaType = z.infer<typeof ProjectsContentSchema>;

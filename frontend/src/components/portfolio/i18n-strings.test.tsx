@@ -6,7 +6,7 @@
  *
  * Components covered:
  *   - CertificationCard        (issuerLabel, seeMore/seeLess reuse)
- *   - CertificationCategoryGroup (certSingular / certPlural)
+ *   - CertificationsSection (certSingular / certPlural)
  *   - ExperienceCard           (careerProgression, roleSingular / rolePlural)
  *   - HeroSection              (heroStatsSuffix: yearsSuffix, certsSuffix, cloudsSuffix)
  *   - NotFound                 (notFoundMessage, returnHome)
@@ -17,7 +17,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { CertificationCard } from "./CertificationCard";
-import { CertificationCategoryGroup } from "./CertificationCategoryGroup";
+import { CertificationsSection } from "./CertificationsSection";
 import { ExperienceCard } from "./ExperienceCard";
 import { HeroSection } from "./HeroSection";
 import type { ContentData, Certification, Experience } from "@/types/content";
@@ -97,23 +97,13 @@ const mockLabels = {
 // ── CertificationCard ─────────────────────────────────────────────────────
 
 describe("CertificationCard — i18n", () => {
-  it("renders viewCredential label from labels prop (not hardcoded)", () => {
-    render(
-      <CertificationCard
-        cert={mockCert}
-        labels={{ ...mockLabels, viewCredential: "Ver certificado" }}
-        defaultOpen
-      />,
-    );
-    expect(screen.getByText("Ver certificado")).toBeInTheDocument();
-  });
-
+  // T-RD-07: tile contract — name/level/date come from the cert itself;
+  // the tile carries no label props (the old viewCredential button is gone:
+  // the whole tile IS the credential link).
   it("renders cert name and level from cert prop", () => {
     render(
       <CertificationCard
         cert={{ ...mockCert, name: "GCP Associate", level: "Associate" }}
-        labels={mockLabels}
-        defaultOpen
       />,
     );
     expect(screen.getByText("GCP Associate")).toBeInTheDocument();
@@ -121,35 +111,36 @@ describe("CertificationCard — i18n", () => {
   });
 });
 
-// ── CertificationCategoryGroup ────────────────────────────────────────────
+// ── CertificationsSection (provider caption counts) ──────────────────────
 
-describe("CertificationCategoryGroup — i18n", () => {
-  it("renders singular certSingular label when count is 1", () => {
+describe("CertificationsSection — i18n", () => {
+  it("renders singular certSingular when a category has 1 cert", () => {
     render(
-      <CertificationCategoryGroup
-        category="AWS"
-        certs={[mockCert]}
-        labels={{
-          ...mockLabels,
+      <CertificationsSection
+        content={{
+          ...baseContent,
+          certifications: [{ ...mockCert, category: "GCP" }],
           certSingular: "certificado",
           certPlural: "certificados",
-        }}
+        } as unknown as ContentData}
       />,
     );
     expect(screen.getByText(/1 certificado/)).toBeInTheDocument();
     expect(screen.queryByText(/certificados/)).not.toBeInTheDocument();
   });
 
-  it("renders plural certPlural label when count > 1", () => {
+  it("renders plural certPlural when a category has many", () => {
     render(
-      <CertificationCategoryGroup
-        category="AWS"
-        certs={[mockCert, { ...mockCert, name: "AWS Cloud Practitioner" }]}
-        labels={{
-          ...mockLabels,
+      <CertificationsSection
+        content={{
+          ...baseContent,
+          certifications: [
+            { ...mockCert, category: "GCP" },
+            { ...mockCert, category: "GCP", name: "Other Cert" },
+          ],
           certSingular: "certificado",
           certPlural: "certificados",
-        }}
+        } as unknown as ContentData}
       />,
     );
     expect(screen.getByText(/2 certificados/)).toBeInTheDocument();

@@ -32,7 +32,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = resolve(__dirname, "../src/data/content");
+const DATA_DIR = resolve(__dirname, "../public/content");
 const LOCALES = ["pt", "en", "de"];
 
 // ── Helpers ────────────────────────────────────────────────────────────────

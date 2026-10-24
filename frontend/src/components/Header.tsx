@@ -1,7 +1,6 @@
 import { useContent } from "@/hooks/useContent";
 import type { SupportedLanguages } from "@/types/content";
 import profileAvatar from "@/assets/profile.webp";
-import { profile } from "@/data/profile";
 import { HeaderShell } from "./header/HeaderShell";
 
 /** Maps old display-name strings to locale codes (bridge for T-FE-04 consumers). */
@@ -57,7 +56,7 @@ export const Header = ({
       <div className="container mx-auto px-6 md:px-8 lg:px-12 transition-all duration-300">
         <HeaderShell
           name={name}
-          email={profile.email}
+          email={content.profile?.email ?? ""}
           avatarUrl={profileAvatar}
           language={activeLocale}
           onLanguageChange={handleLanguageChange}

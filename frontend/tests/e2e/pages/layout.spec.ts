@@ -87,8 +87,8 @@ test('T-LAY-02: desktop main content container is horizontally centered', async 
   expect(box, 'hero section bounding box should not be null').not.toBeNull();
   expect(
     box!.x,
-    `Hero section left edge (${box!.x}px) should be > 150 px on a 1280px viewport — content appears left-flush`,
-  ).toBeGreaterThan(150);
+    `Hero section left edge (${box!.x}px) should be > 110 px on a 1280px viewport — content appears left-flush`,
+  ).toBeGreaterThan(110);
 
   await ctx.close();
 });

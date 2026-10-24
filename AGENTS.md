@@ -58,3 +58,9 @@ python3 backend/stable_server.py
 # Bootstrap AWS (rodar em AWS CloudShell — NÃO local)
 bash scripts/bootstrap-oidc.sh
 ```
+
+## Gates
+
+verify: npm --prefix frontend run verify
+
+tests: frontend/src/*.test.ts frontend/src/*.test.tsx frontend/src/test-setup.ts frontend/tests/*

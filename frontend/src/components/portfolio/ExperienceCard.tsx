@@ -22,11 +22,11 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
               </h3>
               <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1 font-semibold text-primary">
-                  <Calendar className="w-3 h-3 text-green-600" />
+                  <Calendar className="w-3 h-3 text-muted-foreground" />
                   {formatPeriod(experience.totalPeriod)}
                 </span>
                 <span className="inline-flex items-center gap-1 min-w-0">
-                  <MapPin className="w-3 h-3 flex-shrink-0 text-red-600" />
+                  <MapPin className="w-3 h-3 flex-shrink-0 text-muted-foreground" />
                   <span className="truncate">{experience.location}</span>
                 </span>
               </div>

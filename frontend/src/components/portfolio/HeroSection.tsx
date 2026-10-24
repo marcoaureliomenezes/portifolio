@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import { getCvUrl, profile } from "@/data/profile";
+import { HeroNowPanel } from "./HeroNowPanel";
 import profileAvatar from "@/assets/profile.webp";
 import type { ContentData, SupportedLanguages } from "@/types/content";
+import { track } from "@dadaia/analytics-sdk";
 
 interface HeroSectionProps {
   content: ContentData;
@@ -17,11 +18,17 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const stats = content.heroStats ?? { years: 5, certifications: 11, clouds: 4 };
   const ctas = content.heroCTAs ?? { downloadCv: "Download CV", seeProjects: "See projects" };
   const statsSuffix = content.heroStatsSuffix ?? { years: "years", certs: "certs", clouds: "clouds" };
-  const cvUrl = getCvUrl(locale);
+  // T-RD-10: profile/CV come from content (admin-editable). locale kept for future per-locale CVs.
+  void locale;
+  const profile = content.profile;
+  const cvUrl = profile?.cvUrl ?? "/cv.pdf";
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <section aria-labelledby="hero-heading" className="pt-6 md:pt-10 pb-0">
+      {/* T-RD-05: 2-col on lg+ — identity left, "now" panel right (fills the fold) */}
+      <div className="lg:flex lg:items-center lg:gap-10">
+      <div className="min-w-0 flex-1">
 
       {/* Avatar + availability badge */}
       <div className="flex items-center gap-3 mb-6">
@@ -31,15 +38,17 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           className="w-12 h-12 rounded-full object-cover object-top ring-2 ring-accent/40"
         />
         <span className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-accent motion-safe:animate-pulse" />
           Marco Aurelio Menezes · Belo Horizonte, Brasil
         </span>
       </div>
 
       {/* H1 — single line on desktop, wraps on mobile */}
+      {/* T-RD-02 + operator feedback 2026-06-11: compact headline (~70% smaller
+          than the display scale), solid foreground, wraps — never truncates */}
       <h1
         id="hero-heading"
-        className="text-xl sm:text-2xl font-extrabold leading-tight tracking-tight mb-4 bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis"
+        className="text-lg md:text-xl font-bold leading-snug tracking-tight mb-4 text-foreground text-balance"
       >
         {tagline}
       </h1>
@@ -82,7 +91,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           variant="outline"
           className="border-border hover:border-accent/60 hover:bg-accent/5 gap-2"
         >
-          <a href={cvUrl} download>
+          <a href={cvUrl} download onClick={() => track('cv_download')}>
             <Download className="w-4 h-4" aria-hidden="true" />
             {ctas.downloadCv}
           </a>
@@ -91,33 +100,39 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
 
       {/* Social links — brand colors always on, centered on mobile */}
       <div className="flex items-center justify-start gap-6 mt-5">
+        {/* T-RD-02: monochrome socials — accent only on hover (single-accent system) */}
         <a
-          href={profile.linkedinUrl}
+          href={profile?.linkedinUrl ?? "#"}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
-          className="text-[#0A66C2] hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaLinkedin className="w-6 h-6" />
         </a>
         <a
-          href={profile.githubUrl}
+          href={profile?.githubUrl ?? "#"}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
-          className="text-foreground hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaGithub className="w-6 h-6" />
         </a>
         <a
-          href={profile.instagramUrl}
+          href={profile?.instagramUrl ?? "#"}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
-          className="text-[#E1306C] hover:opacity-80 transition-opacity"
+          className="text-muted-foreground hover:text-accent transition-colors"
         >
           <FaInstagram className="w-6 h-6" />
         </a>
+      </div>
+      </div>
+
+      {/* Right column — terminal "now" panel (lg+ only) */}
+      <HeroNowPanel content={content} />
       </div>
 
       {/* Separator */}
