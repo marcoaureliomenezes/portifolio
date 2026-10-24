@@ -106,9 +106,8 @@ test.describe('i18n — Projects cluster routes', () => {
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
     // Then: document.title changed
-    const enTitle = await page.title();
-    expect(enTitle.trim().length).toBeGreaterThan(0);
-    expect(enTitle).not.toBe(ptTitle);
+    await expect(page).not.toHaveTitle(ptTitle);
+    expect((await page.title()).trim().length).toBeGreaterThan(0);
 
     // Then: the purpose line under the h1 changed (the h1 is the product name in every locale)
     await expect(purpose).not.toHaveText(ptPurpose);
