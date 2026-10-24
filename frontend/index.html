@@ -12,7 +12,6 @@
     <!-- Desabilitar tradução automática -->
     <meta name="google" content="notranslate">
     <meta name="robots" content="notranslate">
-    <meta http-equiv="Content-Language" content="pt-BR">
 
     <meta property="og:title" content="Marco Aurelio Menezes - Engenheiro de Dados" />
     <meta property="og:description" content="Portfolio de Marco Aurelio Menezes - Engenheiro de Dados especialista em Azure, AWS e soluções de Big Data" />
@@ -22,12 +21,10 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <script>
-      // Anti-flash: applies stored or system theme before React hydrates.
-      try {
-        var t = localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        if (t === 'dark') document.documentElement.classList.add('dark');
-      } catch (e) {}
+      // Anti-flash: dark unless the stored theme is 'light' (same rule as useTheme).
+      var light = false;
+      try { light = localStorage.getItem('theme') === 'light'; } catch (e) {}
+      if (!light) document.documentElement.classList.add('dark');
     </script>
   </head>
 
