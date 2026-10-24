@@ -61,4 +61,15 @@ describe("content schema export (v1.json)", () => {
       expect(ProfileSchema.safeParse({ ...profile, cvUrl: bad }).success).toBe(false);
     }
   });
+
+  it("forbids no unknown key, like the Zod schema that strips them", () => {
+    const closed: string[] = [];
+    const walk = (node: unknown, path: string) => {
+      if (node === null || typeof node !== "object") return;
+      if ((node as Record<string, unknown>).additionalProperties === false) closed.push(path);
+      for (const [k, v] of Object.entries(node)) walk(v, `${path}.${k}`);
+    };
+    walk(contract, "$");
+    expect(closed).toEqual([]);
+  });
 });
