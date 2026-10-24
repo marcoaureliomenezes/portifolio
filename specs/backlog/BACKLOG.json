@@ -2,14 +2,6 @@
   "schema": "backlog-v1",
   "active": [
     {
-      "id": "library-pages-in-motion",
-      "title": "Project pages that show how rand-engine and dadaia-workspace work",
-      "opened": "2026-10-24",
-      "status": "idea",
-      "description": "Operator words on the rand-engine page: \"it's poor, it lacks diagrams that are representatives. It lacks animated GIFs presenting some dynamics and functionality\"; \"Think about users seeing \u2026 GIFs that are very representative about how the lib works\". Rulings: projects first (\"Projects first\"), as the next candidate. (1) A shared base for the whole site: the header on every page with Resume \u00b7 Projects \u00b7 Blog plus theme and language controls; one type scale; no nested boxes or section accordions in shared parts; hardcoded Portuguese strings and the document language follow the selected locale. (2) The rand-engine and dadaia-workspace pages rebuilt in one order: what it is + install line, a ~10 s hero loop, how it works in moving scenes, a real copyable example, why it exists, a facts table where every number names its source at a pinned tag. rand-engine scenes: spec \u2192 DataFrame (hero), related tables PK/FK, event stream, files written in parts. dadaia-workspace scenes: one command \u2192 workspace + doctor (hero), demand \u2192 merge flow, the gate refuses, one law \u2192 six harnesses; the page states only what the PyPI version on recording day ships. (3) The games project and Portfolio Architecture move onto the new template unchanged (\"Keep, restyled only\"). (4) Every scene legible at 360px; recordings ship as muted looping video with a poster, diagrams as animated SVG, reduced motion shows the still; recordings are scripted so a new library version is one re-record; asset file names are versioned (assets are cached immutable for a year). (5) The definition carries a static mockup for operator approval. (6) False or unsourced claims on the current pages are fixed in scope \u2014 rand-engine: version 0.6.4 vs PyPI 0.8.0, DuckDB, `.generate()`, partitioned export, unsourced rows/s and test counts; dadaia-workspace: four-role diagrams, `context activate`, a PyPI version not yet published.",
-      "provenance": "operator demand 2026-10-24 (grill session confirmed by the operator)"
-    },
-    {
       "id": "resume-refinement",
       "title": "A lighter, better-organized resume home",
       "opened": "2026-10-24",
