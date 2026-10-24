@@ -43,10 +43,13 @@ beforeEach(() => {
   vi.stubGlobal(
     "IntersectionObserver",
     class {
+      private cb: (entries: { isIntersecting: boolean }[]) => void;
       constructor(cb: (entries: { isIntersecting: boolean }[]) => void) {
-        cb([{ isIntersecting: true }]);
+        this.cb = cb;
       }
-      observe() {}
+      observe() {
+        this.cb([{ isIntersecting: true }]);
+      }
       disconnect() {}
     },
   );
