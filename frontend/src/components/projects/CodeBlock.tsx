@@ -7,9 +7,10 @@ interface CodeBlockProps {
   copyLabel: string;
   copiedLabel: string;
   onCopy?: () => void;
+  testIds?: { code: string; button: string };
 }
 
-export function CodeBlock({ code, copyLabel, copiedLabel, onCopy }: CodeBlockProps) {
+export function CodeBlock({ code, copyLabel, copiedLabel, onCopy, testIds }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -30,9 +31,10 @@ export function CodeBlock({ code, copyLabel, copiedLabel, onCopy }: CodeBlockPro
 
   return (
     <div className="flex items-start justify-between gap-3 rounded-md bg-muted px-4 py-3">
-      <pre className="text-meta overflow-x-auto min-w-0">{code}</pre>
+      <pre data-testid={testIds?.code} className="text-meta overflow-x-auto min-w-0">{code}</pre>
       <button
         type="button"
+        data-testid={testIds?.button}
         onClick={copy}
         className="text-label shrink-0 rounded px-2 py-1 hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >

@@ -15,12 +15,6 @@ import type { LibraryProject } from "@/types/content";
 
 const FOLLOWING = ["try", "why", "facts"];
 
-// CodeBlock takes no testids; tag its text and button for the page contract.
-const tagInstall = (el: HTMLElement | null) => {
-  el?.querySelector("pre")?.setAttribute("data-testid", "install-command");
-  el?.querySelector("button")?.setAttribute("data-testid", "copy-install");
-};
-
 export function LibraryProjectTemplate({ project }: { project: LibraryProject }) {
   useDocumentSeo({ title: project.seo.title, description: project.seo.description });
 
@@ -47,7 +41,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
   );
 
   return (
-    <div className="space-y-10">
+    <div className="mx-auto max-w-3xl px-5 md:px-6 space-y-10">
       <header className="space-y-4">
         <h1 className="text-title-sm md:text-title text-primary">{hero.title}</h1>
         <p className="text-muted-foreground">{hero.tagline}</p>
@@ -59,14 +53,13 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
           {link(links.pypi, labels?.linkPypi, "pypi")}
           {links.docs && link(links.docs, labels?.linkDocs)}
         </div>
-        <div ref={tagInstall}>
-          <CodeBlock
-            code={pypi.installCommand}
-            copyLabel={labels?.copyLabel || ""}
-            copiedLabel={labels?.copiedLabel || ""}
-            onCopy={() => track("project_cta", { project: slug, action: "copy_install" })}
-          />
-        </div>
+        <CodeBlock
+          code={pypi.installCommand}
+          copyLabel={labels?.copyLabel || ""}
+          copiedLabel={labels?.copiedLabel || ""}
+          onCopy={() => track("project_cta", { project: slug, action: "copy_install" })}
+          testIds={{ code: "install-command", button: "copy-install" }}
+        />
       </header>
       {hero.media && <Media media={hero.media} />}
       {scenes.length > 0 && (
