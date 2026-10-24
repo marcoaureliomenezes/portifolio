@@ -1,11 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { Media } from "../Media";
 
 const inViewState = { inView: false };
-vi.mock("@/hooks/useInView", () => ({
-  useInView: () => ({ ref: { current: null }, inView: inViewState.inView }),
-}));
+
+class ObserverStub {
+  constructor(private cb: (entries: { isIntersecting: boolean }[]) => void) {}
+  observe() {
+    if (inViewState.inView) this.cb([{ isIntersecting: true }]);
+  }
+  unobserve() {}
+  disconnect() {}
+}
 
 const cut = (name: string, width: number, height: number) => ({
   webm: `/media/${name}.webm`,
@@ -43,6 +49,7 @@ const REDUCED = "(prefers-reduced-motion: reduce)";
 
 beforeEach(() => {
   inViewState.inView = true;
+  vi.stubGlobal("IntersectionObserver", ObserverStub);
 });
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -109,5 +116,46 @@ describe("Media — svg", () => {
     expect(dark.getAttribute("src")).toBe("/media/flow-dark.svg");
     expect(light.getAttribute("alt")).toBe("Demand to merge flow");
     expect(dark.getAttribute("alt")).toBe("Demand to merge flow");
+  });
+});
+
+function stubChangeableMatchMedia(initial: string[]) {
+  const listeners = new Set<(e: { matches: boolean }) => void>();
+  let matching = initial;
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    get matches() {
+      return matching.includes(query);
+    },
+    media: query,
+    addEventListener: (_: string, l: (e: { matches: boolean }) => void) => listeners.add(l),
+    removeEventListener: (_: string, l: (e: { matches: boolean }) => void) => listeners.delete(l),
+  }));
+  return (next: string[]) => {
+    matching = next;
+    act(() => listeners.forEach((l) => l({ matches: false })));
+  };
+}
+
+describe("Media — cut and box lifecycle", () => {
+  it("replaces the video element when the breakpoint flips, so the new cut is the one loaded", () => {
+    const flip = stubChangeableMatchMedia([WIDE]);
+    const { container } = render(<Media media={video} />);
+    const before = container.querySelector("video");
+    expect(before?.getAttribute("poster")).toBe("/media/desktop.jpg");
+    flip([]);
+    const after = container.querySelector("video") as HTMLVideoElement;
+    expect(after).not.toBe(before);
+    expect(after.getAttribute("poster")).toBe("/media/phone.jpg");
+    expect(after.getAttribute("width")).toBe("360");
+    expect(after.getAttribute("height")).toBe("450");
+    expect(after.querySelector("source")?.getAttribute("src")).toBe("/media/phone.webm");
+  });
+
+  it("reserves the chosen cut's size before the in-view signal", () => {
+    stubMatchMedia([WIDE]);
+    inViewState.inView = false;
+    const { container } = render(<Media media={video} />);
+    const sized = container.querySelector("figure")?.querySelector('[width="1280"][height="720"]');
+    expect(sized).not.toBeNull();
   });
 });
