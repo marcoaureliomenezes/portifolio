@@ -10,6 +10,7 @@
  */
 
 import { useContent } from "@/hooks/useContent";
+import { Block } from "./Block";
 import { DiagramAsset } from "@/components/projects/DiagramAsset";
 import type { Project } from "@/types/content";
 
@@ -26,19 +27,13 @@ export function DiagramCard({ project }: DiagramCardProps) {
   const title = content.archPage?.infraDiagramTitle ?? "";
 
   return (
-    <section aria-labelledby={`${slug}-diagram-heading`}>
-      <h2
-        id={`${slug}-diagram-heading`}
-        className="text-hero text-foreground mb-4"
-      >
-        {title}
-      </h2>
+    <Block id={`${slug}-diagram-heading`} title={title}>
       <DiagramAsset
         light={project.diagram}
         dark={project.diagramDark}
         alt={project.diagramAlt ?? title}
         className="w-full"
       />
-    </section>
+    </Block>
   );
 }

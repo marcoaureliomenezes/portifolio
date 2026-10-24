@@ -22,7 +22,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
 
   return (
     <section aria-labelledby={`${slug}-hero-heading`}>
-      <div className="w-full flex flex-col items-center text-center gap-4">
+      <div className="w-full flex flex-col gap-4">
         {/* Cover area — gradient placeholder until T-PC-C-06 drops real assets */}
         {card.cover ? (
           <div
@@ -55,7 +55,7 @@ export function ProjectHero({ project }: ProjectHeroProps) {
         </p>
         {card.tech.length > 0 && (
           <div
-            className="flex flex-wrap gap-2 justify-center"
+            className="flex flex-wrap gap-2"
             aria-label="Technologies"
           >
             {card.tech.map((t) => (
