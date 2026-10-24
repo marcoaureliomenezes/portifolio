@@ -3,13 +3,18 @@
  *
  * Tests the shared architecture-diagram card:
  *  - returns null when the project has no diagram
- *  - renders the i18n fallback heading ("Arquitetura") outside a provider
+ *  - renders the heading from content.archPage.infraDiagramTitle
  *  - passes light + dark variants through to DiagramAsset
  */
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { DiagramCard } from "../DiagramCard";
-import type { CaseStudyProject } from "@/types/content";
+import { LanguageContext } from "@/contexts/LanguageContext";
+import type { CaseStudyProject, ContentData } from "@/types/content";
+
+const content = {
+  archPage: { infraDiagramTitle: "Infrastructure Diagram" },
+} as unknown as ContentData;
 
 const baseProject: CaseStudyProject = {
   slug: "demo",
@@ -27,18 +32,22 @@ describe("DiagramCard", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("renders the heading (PT fallback without provider) and the diagram", () => {
+  it("renders the content heading and the diagram", () => {
     render(
-      <DiagramCard
-        project={{
-          ...baseProject,
-          diagram: "/d/arch-light.svg",
-          diagramAlt: "Demo architecture",
-        }}
-      />,
+      <LanguageContext.Provider
+        value={{ language: "en", setLanguage: () => undefined, content, isLoading: false }}
+      >
+        <DiagramCard
+          project={{
+            ...baseProject,
+            diagram: "/d/arch-light.svg",
+            diagramAlt: "Demo architecture",
+          }}
+        />
+      </LanguageContext.Provider>,
     );
     expect(screen.getByRole("heading", { level: 2 }).textContent).toBe(
-      "Arquitetura",
+      "Infrastructure Diagram",
     );
     expect(screen.getByRole("img").getAttribute("src")).toBe("/d/arch-light.svg");
   });
