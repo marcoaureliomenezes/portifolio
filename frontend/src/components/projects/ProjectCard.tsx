@@ -86,11 +86,11 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         <div className="space-y-1">
           <h3
             data-testid="project-card-title"
-            className="text-base font-semibold text-foreground leading-snug group-hover:text-accent transition-colors"
+            className="text-item text-foreground group-hover:text-accent transition-colors"
           >
             {hero.title}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="text-meta text-muted-foreground line-clamp-2">
             {card.summary}
           </p>
         </div>
@@ -98,7 +98,7 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         {/* Tech badges (≤ 4) — AC-PC2-R2-06 */}
         <div className="flex flex-wrap gap-1.5" data-testid="project-card-tech">
           {card.tech.slice(0, 4).map((t) => (
-            <Badge key={t} variant="secondary" className="text-xs font-normal">
+            <Badge key={t} variant="secondary" className="text-label font-normal">
               {t}
             </Badge>
           ))}
@@ -106,7 +106,7 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
 
         {/* Library signal row: install hint (passive chip) */}
         {installHint && (
-          <div className="flex items-center justify-between gap-2 text-xs">
+          <div className="flex items-center justify-between gap-2 text-meta">
             <code
               data-testid="project-card-install"
               className="font-mono text-muted-foreground truncate"
