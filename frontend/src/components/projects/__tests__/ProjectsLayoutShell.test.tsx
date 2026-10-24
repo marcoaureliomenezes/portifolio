@@ -26,26 +26,56 @@ vi.mock("@/components/Header", () => ({
   Header: () => <header>header</header>,
 }));
 
+const CHROME = {
+  pt: { projects: "Projetos", back: "Voltar para projetos" },
+  en: { projects: "Projects", back: "Back to projects" },
+} as const;
+
+/** Supplies the siteChrome content the shell reads its labels from. */
+function ChromeProvider({
+  lang,
+  children,
+}: {
+  lang: "pt" | "en";
+  children: React.ReactNode;
+}) {
+  const content = {
+    siteChrome: {
+      breadcrumb: { label: "Breadcrumb", projects: CHROME[lang].projects },
+      backToProjects: CHROME[lang].back,
+    },
+  } as unknown as ContentData;
+  return (
+    <LanguageContext.Provider
+      value={{ language: lang, setLanguage: () => undefined, content, isLoading: false }}
+    >
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
 /** Render the shell at a given path with an optional child. */
 function renderShell(path: string, childContent = "child rendered") {
   return render(
-    <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        {/*
-         * The shell wraps both /projetos (index) and /projetos/:slug (detail).
-         * We use an index route + a param route as children, mirroring App.tsx.
-         */}
-        <Route element={<SiteLayout />}>
-          <Route element={<ProjectsLayoutShell />}>
-            <Route index path="/projetos" element={<div>{childContent}</div>} />
-            <Route
-              path="/projetos/:slug"
-              element={<div>{childContent}</div>}
-            />
+    <ChromeProvider lang="pt">
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          {/*
+           * The shell wraps both /projetos (index) and /projetos/:slug (detail).
+           * We use an index route + a param route as children, mirroring App.tsx.
+           */}
+          <Route element={<SiteLayout />}>
+            <Route element={<ProjectsLayoutShell />}>
+              <Route index path="/projetos" element={<div>{childContent}</div>} />
+              <Route
+                path="/projetos/:slug"
+                element={<div>{childContent}</div>}
+              />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </MemoryRouter>,
+        </Routes>
+      </MemoryRouter>
+    </ChromeProvider>,
   );
 }
 
@@ -146,22 +176,9 @@ describe("ProjectsLayoutShell — detail route (/projetos/:slug)", () => {
 // Labels per locale, and DOM order of the back link
 // ---------------------------------------------------------------------------
 
-const CHROME = {
-  pt: { projects: "Projetos", back: "Voltar para projetos" },
-  en: { projects: "Projects", back: "Back to projects" },
-} as const;
-
 function renderLocalized(lang: "pt" | "en", path: string) {
-  const content = {
-    siteChrome: {
-      breadcrumb: { label: "Breadcrumb", projects: CHROME[lang].projects },
-      backToProjects: CHROME[lang].back,
-    },
-  } as unknown as ContentData;
   return render(
-    <LanguageContext.Provider
-      value={{ language: lang, setLanguage: () => undefined, content, isLoading: false }}
-    >
+    <ChromeProvider lang={lang}>
       <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route element={<SiteLayout />}>
@@ -171,7 +188,7 @@ function renderLocalized(lang: "pt" | "en", path: string) {
           </Route>
         </Routes>
       </MemoryRouter>
-    </LanguageContext.Provider>,
+    </ChromeProvider>,
   );
 }
 
