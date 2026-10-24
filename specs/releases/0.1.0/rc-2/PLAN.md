@@ -1,6 +1,6 @@
 # PLAN — Release 0.1.0, rc-2
 
-**Status:** Draft
+**Status:** Approved
 **Owner:** dd-sw-engineer-sr
 
 Paths are relative to `repos/portifolio/`. Tree: `feature/0.1.0` @ `adfc1c8` (the schema bug is fixed; `zod-to-json-schema` is gone, Zod 4 `z.toJSONSchema` is in use) with the SPEC at `085327c`.
