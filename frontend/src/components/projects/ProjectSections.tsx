@@ -24,7 +24,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
       {sections.map(({ id, title, body, media, code, items }) => (
         <Block key={id} id={`${slug}-${id}-heading`} title={title}>
           {body && (
-            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
+            <p className="max-w-[680px] text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
           )}
           {media && <Media media={media} />}
           {code && (

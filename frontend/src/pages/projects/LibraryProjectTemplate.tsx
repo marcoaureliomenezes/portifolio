@@ -44,7 +44,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
     <div className="space-y-10">
       <header className="space-y-4">
         <h1 className="text-title-sm md:text-title text-primary">{hero.title}</h1>
-        <p className="text-muted-foreground">{hero.tagline}</p>
+        <p className="max-w-[680px] text-muted-foreground">{hero.tagline}</p>
         <div className="flex flex-wrap gap-4 text-meta">
           <span data-testid="library-version">
             {labels?.versionLabel} {pypi.version}

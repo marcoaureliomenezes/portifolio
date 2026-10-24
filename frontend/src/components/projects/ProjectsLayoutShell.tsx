@@ -27,7 +27,7 @@ export function ProjectsLayoutShell() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-5 md:px-6 flex flex-col min-h-screen">
+    <div className="mx-auto max-w-[960px] px-5 md:px-6 pb-12 flex flex-col min-h-screen">
       {/* ── Breadcrumb chrome ────────────────────────────────────── */}
       <nav
         aria-label={chrome?.breadcrumb.label}
@@ -67,7 +67,7 @@ export function ProjectsLayoutShell() {
 
       {/* ── Back-link (detail view only) ──────────────────────────── */}
       {isDetail && (
-        <div className="pb-4">
+        <div className="pt-10">
           <Link
             to="/projetos"
             data-testid="back-link"
