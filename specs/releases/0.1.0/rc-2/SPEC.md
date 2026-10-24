@@ -10,7 +10,7 @@
 
 ## Bug window review
 
-**Window:** the whole history (`specs/audits/_archive/audits_histo.jsonl` is empty). rc-1's window was none. The ledger holds one record, resolved: `ci-never-runs-the-checks-develop-requires` (MEDIUM, `caused_by: none`, culprit `415c57d`). `bugs.py status`: 0 open.
+**Window:** the whole history (`specs/audits/_archive/audits_histo.jsonl` is empty). The ledger holds one record, resolved: `ci-never-runs-the-checks-develop-requires` (MEDIUM, `caused_by: none`, culprit `415c57d`). `bugs.py status`: 0 open.
 
 | fix | what it changed | overfitting check | verdict |
 |---|---|---|---|
@@ -40,6 +40,7 @@ Operator rulings this SPEC rests on (grill 2026-10-24, verbatim options):
 - Confirm: "Confirmed, proceed (Recommended)", defaults included: dark default, one amber accent, Inter + JetBrains Mono; no nested boxes, accordions or rainbow pills; muted looping WebM/MP4 with poster, animated SVG diagrams, reduced motion shows the still; recordings scripted in the repo; versioned asset names; `$ now` panel dropped; a static mockup for approval; Blog nav item only once a post exists.
 - Test changes ("Do you approve these test changes?" → "Approve all (Recommended)"). These are deleted: `NavAnchors.test`, `use-mobile.test`, the 4 `Header.test` cases of the deleted desktop/mobile JS branch, and the 2 orphan PNGs of `email-modal-dark-mode.spec.ts-snapshots`. These are rewritten: PC-E2E-17 and PC-E2E-19 (`nav-projects.spec.ts`) and the `0.6.4` literal at `rand-engine.spec.ts:43`. The surviving theme and active-link asserts move into the new header test. Every PLAN `test(...)` commit that applies this ruling names it.
 - Phone nav ("On phones, how should the header reach the pages? …" → "Second nav row (Recommended)"): on phones the nav links sit in a visible row under the name, theme and language on the top row; no menu button. It extends the test ruling: the hamburger asserts, T-LAY-01's "hamburger present" included, become "phone nav row present" in a `test(...)` commit naming this ruling.
+- Meta row ("The mockup's meta row shows 'Python ≥ 3.10 · MIT · PyPI 0.8.0', but no content field holds language or license. Where do they go?" → "Facts table only (Recommended)"): language and license sit in the facts table with their source; no schema field is added.
 - Bug `content-schema-export-is-empty` (MEDIUM): "Register, fix in its own lane (Recommended)".
 
 **Main-thread ruling (2026-10-24)**, not the operator's: asserts that follow the operator's rulings are moved or narrowed, each named in its `test(...)` commit: the header labels (Resume · Projects), the library diagram pair replaced by scenes (PC-E2E-10 `diagram-light`/`diagram-dark`, the `LibraryProjectTemplate.test` diagram case), the stale `0.6.4` and claim literals, and the `navProjects` key. No other assert is removed.
@@ -56,7 +57,7 @@ Operator rulings this SPEC rests on (grill 2026-10-24, verbatim options):
 - Section titles are quiet 12 px mono uppercase labels.
 - Type scale: label 12 mono · meta 13 mono · body 16 · item 17/600 · hero headline 20/700 (operator ruling 2026-06-11, kept) · project page title 32/700, 28 on phones.
 - No boxes inside boxes, no section accordions, one neutral pill style, one amber accent.
-- Library page order: breadcrumb, title, one-line purpose, meta (language, license, PyPI version, GitHub, PyPI), copyable install line, hero loop with poster, "How it works" (three scenes, each a title, two sentences and a moving image; on phones each scene shows a portrait 4:5 cut with larger type), "Try it" (a copyable real example), "Why it exists", a "Facts · <lib> <version>" table whose rows each name their source file at the pinned tag, and "← All projects".
+- Library page order: breadcrumb, title, one-line purpose, meta (PyPI version, GitHub, PyPI), copyable install line, hero loop with poster, "How it works" (three scenes, each a title, two sentences and a moving image; on phones each scene shows a portrait 4:5 cut with larger type), "Try it" (a copyable real example), "Why it exists", a "Facts · <lib> <version>" table whose rows each name their source file at the pinned tag, and "← All projects".
 
 ## 2. Measurable Goals
 
@@ -106,7 +107,7 @@ Paths are relative to `frontend/`. Domain names: `projectsV2` items, `LibraryPro
 - **AC2.3** The install line and the "Try it" example each have a copy button that copies exactly the text shown, and the existing `track()` events still fire. Test: unit (the shared code block).
 - **AC2.4** A project's shape in content has one definition. The section `diagram` field becomes `media`, a video or an SVG pair. Sections gain `code` and item links (`href`); the hero gains `media`. The project-level `diagram*` fields stay for Portfolio Architecture. `alt` and `caption` are parity keys. The three locale files parse against the definition inside `verify`, and a malformed `media` entry fails the parse. Test: unit (schema cases, and the parse of the 3 real files). Integration: `check:i18n-projects`.
 - **AC2.5** The games project and Portfolio Architecture render on the shared parts with their content unchanged. Comparing their `projectsV2` items at the PR head with `993011a` (`jq`, 3 locales) shows no difference. Test: E2E (`project-detail-meta.spec.ts`, `project-detail-games.spec.ts`, asserts unchanged). The `jq` comparison is the reviewer's.
-- **AC2.6** No project card (`/projetos`, home) and no library page renders a `stat` chip, and the project shape has no `stat` field; the meta row and the facts table carry the figures. Test: unit (`ProjectCard` and `LibraryProjectTemplate` render no `project-card-stat` or `library-stat`).
+- **AC2.6** No project card (`/projetos`, home) and no library page renders a `stat` chip, and the project shape has no `stat` field; the facts table carries the figures. Test: unit (`ProjectCard` and `LibraryProjectTemplate` render no `project-card-stat` or `library-stat`).
 
 ### FR3 — scenes: recorded from text, named by hash, legible at 360 px
 
@@ -123,7 +124,7 @@ Paths are relative to `frontend/`. Domain names: `projectsV2` items, `LibraryPro
 - **AC4.1** The page is pinned to rand-engine at the tag of the PyPI latest on recording day: 0.8.0 today, git tag `0.8.0`. A newer release before recording moves the pin. `pypi.version`, the meta row and the "Facts · rand-engine <version>" heading all show the pin, and every recording ran that version. Test: E2E (RE-E2E-02's version assert, rewritten under the test ruling, reads the expected version from the content item, not a literal).
 - **AC4.2** Scenes: the hero loop is spec → DataFrame (a recording). "How it works" holds related tables PK/FK, event stream, and files written in parts. Each scene's title and two sentences are true at the pin. Test: none; the reviewer checks the copy against the tag. Presence is AC3.6.
 - **AC4.3** "Try it" is a real example that runs unchanged against the pin and prints what the page shows. Test: none (no Python in `verify`). Evidence: the hand-back runs it in a throwaway environment at the pin and pastes the output.
-- **AC4.4** Each facts row has a label, a value and a link to its source file at the pinned tag (`…/blob/<tag>/<path>`). Performance comes only from `docs/BENCHMARKS.md` at the tag, until rand-engine publishes its per-release benchmark page. Spark speed is not featured, because Spark is maintenance-only in rand-engine's roadmap. A test count or spec count appears only if read from the tag. Version-dependent facts (version, Python and pandas ranges, benchmarks) appear only in the meta row and the facts table, never in prose or scene text. Test: none; the reviewer opens every link.
+- **AC4.4** Each facts row has a label, a value and a link to its source file at the pinned tag (`…/blob/<tag>/<path>`). Performance comes only from `docs/BENCHMARKS.md` at the tag, until rand-engine publishes its per-release benchmark page. Spark speed is not featured, because Spark is maintenance-only in rand-engine's roadmap. A test count or spec count appears only if read from the tag. Python and pandas ranges, license and benchmarks sit in the facts table only (meta-row ruling); no version-dependent fact appears in prose or scene text. Test: none; the reviewer opens every link.
 - **AC4.5** Documentation links point to the docs root or the API reference only. Test: none; reviewer.
 - **AC4.6** The text of the rand-engine item (3 locales) and its scenes contains none of: `0.6.4`, `0.6.3`, `DuckDB`, `.generate(`, `partitioned`, `.stream()`, `dict / JSON schema`, `12K`, `132K`, `5.1M`, `494`, `17+`, `20+`; a Faker comparison appears only if sourced at the tag (`docs/comparison.md`). Test: none. Copy is not pinned by tests (root map §1); the reviewer greps.
 - **AC4.7** Stage serves the page after the rc-2 PR merges into develop. Test: E2E by hand: the `deploy-stage` run URL and one fetch of the stage page, plus one video asset with `curl -I` showing its content type, recorded in the closure summary.
@@ -151,11 +152,11 @@ Paths are relative to `frontend/`. Domain names: `projectsV2` items, `LibraryPro
 - `Card`-boxed project sections: the three branches of `ProjectSections`, the carded `ProjectHero` with its cover and 36 px `h1`, and the old library page order (AC2.1, AC2.2).
 - The section `diagram` field and the three hand-kept copies of the project shape (`src/lib/schemas/projects.ts`, `scripts/content-schema.mjs:102-188`, `src/types/content.ts:103-244`) (AC2.4).
 - The two libraries' static images under stable names (`rand-engine/cover.webp`, `rand-engine/architecture-{light,dark}.svg`, `dadaia-workspace/architecture-{light,dark}.svg`, `dadaia-workspace/cover.svg`, `workspace-panel-01.webp`). Hash-named scenes and posters replace them (AC3.2).
-- The orphan assets `dadaia-workspace/{logo.svg,diagram.svg,workspace-panel-02.webp}` and the two unreferenced SVGs of the games project. The two orphan snapshot PNGs go too, by the test ruling (AC3.2).
-- The card and library-page `stat` chip (`5.1M rows/s (Spark)`, `5 agent roles`) and its content field; the meta row and facts table replace it (AC2.6).
+- The orphan assets `dadaia-workspace/{logo.svg,diagram.svg,workspace-panel-02.webp}` and the two unreferenced SVGs of the games project.
+- The card and library-page `stat` chip (`5.1M rows/s (Spark)`, `5 agent roles`) and its content field; the facts table replaces it (AC2.6).
 - rand-engine's false and unsourced claims (AC4.6).
-- rc-1's dadaia-workspace 0.5.0 copy, reversing rc-1 AC3.3, AC3.4 and AC3.6 under the ruling that the page states only what PyPI serves; the closed rc-1 SPEC is not edited (AC5.1, AC5.4).
-- The tests removed by the test ruling: `NavAnchors.test`, `use-mobile.test` and 4 `Header.test` cases. Their subjects are deleted; the surviving asserts are re-homed (AC1.2).
+- rc-1's dadaia-workspace 0.5.0 copy, reversing rc-1 AC3.3, AC3.4 and AC3.6; the closed rc-1 SPEC is not edited (AC5.1, AC5.4).
+- The tests and snapshot PNGs the test ruling removes: their subjects are deleted, their surviving asserts re-homed (AC1.2, AC3.2).
 
 ### Closure
 
@@ -168,7 +169,7 @@ Paths are relative to `frontend/`. Domain names: `projectsV2` items, `LibraryPro
 | risk | answer |
 |---|---|
 | Bug `content-schema-export-is-empty` touched `scripts/content-schema.mjs` and `scripts/export-content-schema.mjs`, which FR2 also rebuilds. | Its lane merged into `feature/0.1.0` (`adfc1c8`); the `wt-rc` syncs onto it before rc-2 implements. FR2's one project-shape authority builds on that export (Zod 4 `z.toJSONSchema`; `zod-to-json-schema` removed). |
-| Claims drift: a library publishes during rc-2 (rand-engine 0.8.1 is pending; dadaia-workspace 0.5.0 is in closure). | Pin on recording day (AC4.1, AC5.1). Version-dependent facts live only in the facts table and meta row (AC4.4). |
+| Claims drift: a library publishes during rc-2 (rand-engine 0.8.1 is pending; dadaia-workspace 0.5.0 is in closure). | Pin on recording day (AC4.1, AC5.1). Version-dependent facts stay out of prose and scenes (AC4.4). |
 | Unhashed assets are cached immutable for a year (`deploy.yml:74-80`); a replacement under the same name is served stale. | Hash-in-name contract test (AC3.2). The content JSON is fetched `no-cache`. |
 | The header moves the fixed offset on four pages at once. | One offset token (AC1.6); T-LAY-01..06 and AC3.6 guard it. |
 | PRs run only the 9 E2E smoke specs. | Each job hand-back carries local chromium runs of the E2E files it reaches. |
