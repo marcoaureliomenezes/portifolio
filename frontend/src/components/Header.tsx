@@ -4,7 +4,7 @@ import { LanguageSelector } from "./header/LanguageSelector";
 import { ThemeToggle } from "./header/ThemeToggle";
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  "flex h-full items-center border-b-2 text-item font-normal transition-colors " +
+  "flex h-full items-center border-b-2 text-body transition-colors " +
   (isActive
     ? "border-accent text-header-text"
     : "border-transparent text-header-text/70 hover:text-header-text");
