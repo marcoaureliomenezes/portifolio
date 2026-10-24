@@ -47,10 +47,9 @@ All colors MUST be HSL.
     --header-text-muted: 0 0% 75%;
     --header-link: 28 90% 65%;
 
-    /* Mobile-first responsive header heights (mobile-redesign-v1) */
-    --header-height-mobile: 64px;
-    --header-height-desktop: 72px;
-    
+    /* Phone header has two rows (name+controls, links) and stays <= 80px */
+    --header-h: 76px;
+
     /* Modern design tokens with dark elegance */
     --gradient-primary: linear-gradient(135deg, hsl(220 13% 25%) 0%, hsl(217 19% 35%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(220 14% 96%) 0%, hsl(220 13% 91%) 100%);
@@ -92,6 +91,12 @@ All colors MUST be HSL.
     --border: 220 13% 18%;
     --input: 220 13% 18%;
     --ring: 28 95% 62%;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --header-h: 64px;
+    }
   }
 }
 
