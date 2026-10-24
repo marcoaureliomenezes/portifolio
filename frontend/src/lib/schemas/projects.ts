@@ -14,7 +14,7 @@
 
 import { z } from "zod";
 
-const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
+export const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
 
 // ---------------------------------------------------------------------------
 // Shared sub-schemas
@@ -35,21 +35,49 @@ const ProjectSeoSchema = z.object({
   description: z.string().min(1),
 });
 
+const CutSchema = z.object({
+  webm: z.string().min(1),
+  mp4: z.string().min(1),
+  poster: z.string().min(1),
+  width: z.number(),
+  height: z.number(),
+});
+
+export const MediaSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("video"),
+    alt: z.string().min(1),
+    caption: z.string().optional(),
+    desktop: CutSchema,
+    phone: CutSchema,
+  }),
+  z.object({
+    type: z.literal("svg"),
+    alt: z.string().min(1),
+    caption: z.string().optional(),
+    light: z.string().min(1),
+    dark: z.string().min(1),
+  }),
+]);
+
 const ProjectHeroSchema = z.object({
   title: z.string().min(1),
   tagline: z.string().min(1),
+  media: MediaSchema.optional(),
 });
 
 const ProjectSectionItemSchema = z.object({
   label: z.string().min(1),
   value: z.string(),
+  href: HttpUrl.optional(),
 });
 
 export const ProjectSectionDataSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   body: z.string().optional(),
-  diagram: z.string().optional(),
+  media: MediaSchema.optional(),
+  code: z.string().optional(),
   items: z.array(ProjectSectionItemSchema).optional(),
 });
 
@@ -131,12 +159,6 @@ export const LibraryProjectSchema = ProjectBaseSchema.extend({
     version: z.string().min(1),
     installCommand: z.string().min(1),
   }),
-  stat: z
-    .object({
-      label: z.string().min(1),
-      value: z.string().min(1),
-    })
-    .optional(),
   links: z.object({
     repo: HttpUrl,
     pypi: HttpUrl,

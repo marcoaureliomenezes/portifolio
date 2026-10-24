@@ -8,10 +8,8 @@
  *    versioned artifact (/content/schema/v1.json) the external admin-panel
  *    project renders its forms from.
  *
- * The projects sub-schema mirrors src/lib/schemas/projects.ts (dev-runtime
- * guard); structural drift between the two is caught because CI validates the
- * real locales against THIS schema while the dev guard validates projectsV2
- * against the TS one.
+ * The projects sub-schema is imported from src/lib/schemas/projects.ts, its
+ * one authority (Node type stripping loads it; it imports only zod).
  *
  * Policy: structured collections are strict; top-level UI label keys are
  * intentionally tolerated via .catchall() — labels come and go with features
@@ -19,12 +17,11 @@
  */
 
 import { z } from "zod";
+import { HttpUrl, ProjectsContentSchema } from "../src/lib/schemas/projects.ts";
 
 // ── shared ──────────────────────────────────────────────────────────────────
 
-const Slug = z.string().regex(/^[a-z0-9-]+$/);
 const Id = z.string().min(1);
-const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
 
 export const ProfileSchema = z.object({
   linkedinUrl: HttpUrl,
@@ -98,101 +95,6 @@ export const SkillCategorySchema = z.object({
   title: z.string().min(1),
   icon: z.string(),
   skills: z.array(z.string()).min(1),
-});
-
-// ── projects (mirrors src/lib/schemas/projects.ts) ──────────────────────────
-
-const ProjectCardSchema = z.object({
-  cover: z.string().optional(),
-  summary: z.string().min(1),
-  tech: z.array(z.string()).min(3),
-});
-
-const ProjectSectionDataSchema = z.object({
-  id: z.string().min(1),
-  title: z.string().min(1),
-  body: z.string().optional(),
-  diagram: z.string().optional(),
-  items: z.array(z.object({ label: z.string().min(1), value: z.string() })).optional(),
-});
-
-const ProjectBaseSchema = z.object({
-  slug: Slug,
-  hero: z.object({ title: z.string().min(1), tagline: z.string().min(1) }),
-  card: ProjectCardSchema,
-  seo: z.object({ title: z.string().min(1), description: z.string().min(1) }),
-  diagram: z.string().optional(),
-  diagramDark: z.string().optional(),
-  diagramAlt: z.string().optional(),
-});
-
-const CaseStudyProjectSchema = ProjectBaseSchema.extend({
-  kind: z.literal("case-study"),
-  sections: z.array(ProjectSectionDataSchema).min(1),
-  cta: z.object({ github: HttpUrl, githubLabel: z.string().optional() }),
-});
-
-const MetaProjectSchema = ProjectBaseSchema.extend({
-  kind: z.literal("meta"),
-  sections: z.array(ProjectSectionDataSchema).min(1),
-  stack: z.array(z.object({ layer: z.string().min(1), tech: z.string().min(1) })).min(1),
-  costs: z.array(z.object({ service: z.string().min(1), monthly_usd: z.number() })),
-  decisions: z
-    .array(z.object({ title: z.string().min(1), rationale: z.string().min(1), spec: HttpUrl }))
-    .min(1),
-  links: z.object({ repo: HttpUrl, terraform: HttpUrl, specs: HttpUrl }),
-});
-
-const GamesProjectSchema = ProjectBaseSchema.extend({
-  kind: z.literal("games"),
-  items: z
-    .array(
-      z.object({
-        slug: Slug,
-        title: z.string().min(1),
-        engine: z.string().min(1),
-        cover: z.string().min(1),
-        body: z.string().min(1),
-        repo: HttpUrl,
-        playUrl: HttpUrl,
-      }),
-    )
-    .min(1),
-});
-
-const LibraryProjectSchema = ProjectBaseSchema.extend({
-  kind: z.literal("library"),
-  sections: z.array(ProjectSectionDataSchema).min(1),
-  pypi: z.object({
-    package: z.string().min(1),
-    version: z.string().min(1),
-    installCommand: z.string().min(1),
-  }),
-  stat: z.object({ label: z.string().min(1), value: z.string().min(1) }).optional(),
-  links: z.object({ repo: HttpUrl, pypi: HttpUrl, docs: HttpUrl.optional() }),
-});
-
-export const ProjectSchema = z.discriminatedUnion("kind", [
-  CaseStudyProjectSchema,
-  MetaProjectSchema,
-  GamesProjectSchema,
-  LibraryProjectSchema,
-]);
-
-export const ProjectsContentSchema = z.object({
-  index: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    kindLabels: z
-      .object({
-        "case-study": z.string().min(1),
-        meta: z.string().min(1),
-        games: z.string().min(1),
-        library: z.string().min(1),
-      })
-      .optional(),
-  }),
-  list: z.array(ProjectSchema),
 });
 
 // ── top-level contract ──────────────────────────────────────────────────────
