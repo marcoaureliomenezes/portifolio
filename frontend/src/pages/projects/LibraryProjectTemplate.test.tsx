@@ -263,6 +263,20 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     });
   });
 
+  it("ranks the headings: scene titles are h3 in the How it works region, the rest h2", () => {
+    renderRoute();
+    const how = screen.getByRole("region", { name: "How it works" });
+    expect(
+      within(how)
+        .getAllByRole("heading", { level: 3 })
+        .map((h) => h.textContent),
+    ).toEqual(["Related tables", "Event streams"]);
+    expect(within(how).queryAllByRole("heading", { level: 2 })).toEqual([]);
+    for (const name of ["Try it", "Why it exists", "Facts · rand-engine 1.2.3"]) {
+      expect(screen.getByRole("heading", { level: 2, name })).toBeTruthy();
+    }
+  });
+
   it("copies exactly the install command and tracks copy_install once", async () => {
     renderRoute();
     fireEvent.click(screen.getByTestId("copy-install"));
