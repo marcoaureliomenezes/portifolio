@@ -98,7 +98,8 @@ test.describe('i18n — Projects cluster routes', () => {
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
     const ptTitle = await page.title();
-    const ptH1 = await page.locator('h1').first().innerText();
+    const purpose = page.locator('h1 + p').first();
+    const ptPurpose = await purpose.innerText();
 
     // When: switch to EN
     await switchLanguage(page, 'English');
@@ -109,10 +110,9 @@ test.describe('i18n — Projects cluster routes', () => {
     expect(enTitle.trim().length).toBeGreaterThan(0);
     expect(enTitle).not.toBe(ptTitle);
 
-    // Then: h1 changed (hero title is i18n)
-    const enH1 = await page.locator('h1').first().innerText();
-    expect(enH1.trim().length).toBeGreaterThan(0);
-    expect(enH1).not.toBe(ptH1);
+    // Then: the purpose line under the h1 changed (the h1 is the product name in every locale)
+    await expect(purpose).not.toHaveText(ptPurpose);
+    expect((await purpose.innerText()).trim().length).toBeGreaterThan(0);
   });
 
   test('PC-E2E-15: portifolio detail — EN costs and decisions sections non-empty', async ({ page }) => {
