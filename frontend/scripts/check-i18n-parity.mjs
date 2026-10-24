@@ -7,7 +7,7 @@
  *   2. No empty/whitespace strings in i18n fields.
  *   3. No sensitive infrastructure identifiers leaked into content strings
  *      (AC-PC-15 redaction lint).
- * It also checks that the `siteChrome` block has the same key set in all 3 locales.
+ * It also checks that the `siteChrome` block has every key, non-blank, in all 3 locales.
  *
  * Usage:  node scripts/check-i18n-parity.mjs
  * Exit:   0 on success, 1 on any parity or redaction failure.
@@ -55,17 +55,21 @@ function isBlankString(value) {
 }
 
 /**
- * Flatten a value into its dotted leaf paths, e.g. `siteChrome.nav.label`.
- * An absent value yields no paths.
+ * Flatten nested plain objects into one object keyed by dotted leaf path.
+ * An absent value stays undefined.
  * @param {unknown} value
  * @param {string} prefix
- * @returns {string[]}
+ * @returns {Record<string, unknown> | undefined}
  */
-function leafKeys(value, prefix) {
-  if (value === undefined) return [];
-  if (!isPlainObject(value)) return [prefix];
-  return Object.entries(value).flatMap(([k, v]) => leafKeys(v, `${prefix}.${k}`));
+function flattenLeaves(value, prefix = "") {
+  if (!isPlainObject(value)) return prefix ? { [prefix]: value } : undefined;
+  return Object.assign({}, ...Object.entries(value).map(([k, v]) => flattenLeaves(v, prefix ? `${prefix}.${k}` : k)));
 }
+
+const CHROME_I18N_KEYS = new Set([
+  "nav.label", "nav.resume", "nav.projects", "theme.toLight", "theme.toDark",
+  "language.label", "breadcrumb.label", "breadcrumb.projects", "backToProjects",
+]);
 
 // ── I18n-bearing field identification ─────────────────────────────────────
 //
@@ -622,23 +626,14 @@ const allData = loadedLocales.map(({ data }) => data);
   }
 }
 
-// ── 4. siteChrome key-set parity ───────────────────────────────────────────
+// ── 4. siteChrome parity ───────────────────────────────────────────────────
 {
-  const keySets = loadedLocales.map(({ chrome }) => new Set(leafKeys(chrome, "siteChrome")));
-  const reference = keySets[0];
-  for (let li = 1; li < LOCALES.length; li++) {
-    for (const key of reference) {
-      if (!keySets[li].has(key)) {
-        console.error(`[check-i18n-parity] [${LOCALES[li]}] ${key}: missing (present in ${LOCALES[0]})`);
-        hasErrors = true;
-      }
-    }
-    for (const key of keySets[li]) {
-      if (!reference.has(key)) {
-        console.error(`[check-i18n-parity] [${LOCALES[li]}] ${key}: extra (absent in ${LOCALES[0]})`);
-        hasErrors = true;
-      }
-    }
+  const chromes = loadedLocales.map(({ chrome }) => flattenLeaves(chrome));
+  const { errors } = checkObjectParity(chromes, CHROME_I18N_KEYS, LOCALES, "siteChrome");
+  if (errors.length > 0) {
+    console.error("[check-i18n-parity] Parity errors in siteChrome:");
+    errors.forEach((e) => console.error(`  ${e}`));
+    hasErrors = true;
   }
 }
 
