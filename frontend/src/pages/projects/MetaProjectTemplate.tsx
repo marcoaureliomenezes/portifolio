@@ -32,10 +32,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
   const labels = content.archPage;
 
   return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={project.seo.title}
-    >
+    <div className="container mx-auto px-4 pb-12 space-y-10 max-w-4xl">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
@@ -61,10 +58,10 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-muted-foreground font-medium w-1/3">
+                    <th className="text-left py-2 pr-4 text-label text-muted-foreground w-1/3">
                       {labels?.tableHeaderLayer ?? "Layer"}
                     </th>
-                    <th className="text-left py-2 text-foreground font-medium">
+                    <th className="text-left py-2 text-label text-foreground">
                       {labels?.tableHeaderTechnology ?? "Technology"}
                     </th>
                   </tr>
@@ -137,7 +134,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               href={links.repo}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-meta text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
               {labels?.linkGithubRepo ?? "GitHub Repository"}
@@ -146,7 +143,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               href={links.terraform}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-meta text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
               {labels?.linkTerraform ?? "Terraform"}
@@ -155,7 +152,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
               href={links.specs}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-meta text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
               {labels?.linkSpecs ?? "Specs"}
@@ -163,6 +160,6 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
           </CardContent>
         </Card>
       </section>
-    </main>
+    </div>
   );
 }
