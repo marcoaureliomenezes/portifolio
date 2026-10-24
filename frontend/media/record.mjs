@@ -10,7 +10,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const FPS = 15, MIN_S = 8, MAX_S = 12;
+const FPS = 15, MIN_S = 8, MAX_S = 12, HOLD_S = 1.5;
 const CUTS = { desktop: { width: 640, height: 360 }, phone: { width: 360, height: 450 } };
 const BUDGET = { webm: 307200, mp4: 409600, webp: 61440, svg: 51200 };
 
@@ -70,12 +70,12 @@ try {
     await page.addInitScript((c) => { window.__CAST__ = c; }, cast);
     await page.goto(`${pathToFileURL(join(here, "terminal.html"))}?cut=${cut}`);
     const duration = await page.evaluate(() => window.duration);
-    if (duration > MAX_S) die(`${project}/${scene} runs ${duration.toFixed(1)} s, above ${MAX_S} s; shorten the commands`);
-    const frames = Math.ceil(Math.max(duration, MIN_S) * FPS);
+    if (duration + HOLD_S > MAX_S) die(`${project}/${scene} runs ${duration.toFixed(1)} s plus a ${HOLD_S} s hold, above ${MAX_S} s; shorten the commands`);
+    const frames = Math.ceil(Math.max(duration + HOLD_S, MIN_S) * FPS);
     const dir = join(work, cut);
     mkdirSync(dir);
     for (let i = 0; i < frames; i++) {
-      await page.evaluate((t) => window.render(t), i / FPS);
+      await page.evaluate((t) => window.render(t), Math.min(i / FPS, duration));
       await page.screenshot({ path: join(dir, `f${String(i).padStart(4, "0")}.png`) });
     }
     await page.close();
