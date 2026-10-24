@@ -17,11 +17,12 @@ export function Media({ media }: { media: z.infer<typeof MediaSchema> }) {
   } else {
     const cut = wide ? media.desktop : media.phone;
     const size = { width: cut.width, height: cut.height };
-    if (reduced) {
+    if (reduced || !inView) {
       body = <img src={cut.poster} alt={media.alt} className={BOX} {...size} />;
-    } else if (inView) {
+    } else {
       body = (
         <video
+          key={cut.webm}
           aria-label={media.alt}
           className={BOX}
           poster={cut.poster}
