@@ -572,83 +572,141 @@
     },
     "list": [
       {
-        "slug": "dadaia-workspace",
-        "kind": "library",
-        "hero": {
-          "title": "dadaia-workspace",
-          "tagline": "Workspace local, orientado a especificação, que dá aos agentes de IA contexto atualizado, um ciclo de vida governado por documentos e limites anti-slop."
+    "slug": "dadaia-workspace",
+    "kind": "library",
+    "hero": {
+      "title": "dadaia-workspace",
+      "tagline": "Workspace local, orientado a especificações, que dá aos agentes de IA contexto atual, um ciclo de vida governado por documentos e limites anti-slop.",
+      "media": {
+        "type": "video",
+        "alt": "Um terminal executa dadaia-workspace init para um diretório chamado demo com o harness claude e imprime Harness: claude. Listar demo mostra .agents, AGENTS.md, .claude e .dadaia. Executar doctor em demo imprime exit 0.",
+        "caption": "Um comando cria um workspace, e doctor termina com exit 0.",
+        "desktop": {
+          "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+          "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+          "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+          "width": 1280,
+          "height": 720
         },
-        "card": {
-          "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "CLI local-first (PyPI): uma pasta por workspace, seis harnesses de agentes, cinco papéis de agente e um ciclo de vida governado por documentos, do backlog à release.",
-          "tech": [
-            "Python",
-            "Claude Code",
-            "Codex",
-            "SDD",
-            "Multi-agent"
-          ]
-        },
-        "seo": {
-          "title": "dadaia-workspace — Marco Menezes",
-          "description": "dadaia-workspace — biblioteca Python no PyPI para desenvolvimento spec-driven com agentes de IA colaborativos."
-        },
-        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
-        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
-        "diagramAlt": "Diagrama de arquitetura do dadaia-workspace: agentes de IA, contextos de projeto e fluxo SDD.",
-        "pypi": {
-          "package": "dadaia-workspace",
-          "version": "0.5.0",
-          "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
-        },
-        "stat": {
-          "label": "papéis de agente",
-          "value": "5"
-        },
-        "sections": [
-          {
-            "id": "what",
-            "title": "O que é",
-            "body": "dadaia-workspace é uma CLI open-source (PyPI) para desenvolver com agentes de IA. Um workspace é uma pasta: seus projetos vivem em repositórios dentro dela, e a governança (`AGENTS.md`, skills, hooks) fica fora de cada repo. O trabalho é guiado por documentos — backlog, SPEC, PLAN e arquivos de job — não por um runtime. Cinco papéis de agente compartilham esses documentos: engenheiro de produto, engenheiro de software sênior e júnior, revisor de código e pesquisador."
-          },
-          {
-            "id": "why",
-            "title": "Por que existe",
-            "body": "Agentes que recebem um repositório inteiro se desviam: perdem o contexto, escrevem onde querem e deixam estado próprio para trás. O dadaia-workspace prende cada sessão a um projeto, injeta apenas a memória e o estado de release desse projeto e faz cumprir os limites mecanicamente — um gate pré-ferramenta recusa escritas fora do escopo, e cada recusa traz uma linha de correção."
-          },
-          {
-            "id": "how",
-            "title": "Como funciona",
-            "body": "`uvx dadaia-workspace init <dir> --harness <name>` cria o workspace e projeta os agentes para Claude Code, Codex, Kimi Code, Cursor, Devin ou GitHub Copilot. Cada tarefa roda em sua própria worktree git, e cada job só entra depois de um APPROVED do revisor; `worktree pause` e `resume` põem uma árvore de lado como bundle e a trazem de volta. `dadaia export` grava os contextos do workspace em um arquivo (`--hard` acrescenta o trabalho não enviado), e `init --from` o reconstrói em outro lugar.",
-            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
-          },
-          {
-            "id": "status",
-            "title": "Status atual",
-            "items": [
-              {
-                "label": "Versão",
-                "value": "v0.5.0 (PyPI)"
-              },
-              {
-                "label": "Papéis de agente",
-                "value": "5"
-              },
-              {
-                "label": "Harnesses",
-                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
-              },
-              {
-                "label": "Último marco",
-                "value": "Workspaces portáteis: export, export --hard e init --from"
-              }
-            ]
-          }
-        ],
-        "links": {
-          "repo": "https://github.com/marcoaureliomenezes/dadaia-workspace",
-          "pypi": "https://pypi.org/project/dadaia-workspace/"
+        "phone": {
+          "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+          "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+          "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+          "width": 720,
+          "height": 900
         }
+      }
+    },
+    "card": {
+      "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+      "summary": "CLI local-first no PyPI: uma pasta por workspace, seis harnesses de agentes e um ciclo de vida governado por documentos.",
+      "tech": [
+        "Python",
+        "Claude Code",
+        "Codex",
+        "SDD",
+        "Multi-agent"
+      ]
+    },
+    "seo": {
+      "title": "dadaia-workspace, um workspace spec-driven para agentes de IA — Marco Menezes",
+      "description": "dadaia-workspace é uma CLI local-first no PyPI que dá a agentes de IA contexto atual, um ciclo de vida governado por documentos e limites anti-slop em seis harnesses."
+    },
+    "pypi": {
+      "package": "dadaia-workspace",
+      "version": "0.4.7",
+      "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
+    },
+    "sections": [
+      {
+        "id": "demand-to-merge",
+        "title": "Da demanda ao merge",
+        "body": "Um conjunto escolhido passa por um grill, depois SPEC, PLAN e TASKS. Uma tarefa é reservada por vez e só é marcada após o APPROVED do revisor; depois, o fechamento faz o merge de feature em develop.",
+        "media": {
+          "type": "svg",
+          "alt": "Da demanda ao merge: conjunto escolhido, grill, SPEC PLAN TASKS, uma tarefa reservada por vez, marcada só após APPROVED, depois fechamento com o merge de feature em develop.",
+          "caption": "Cada etapa espera pela anterior.",
+          "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+          "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+        }
+      },
+      {
+        "id": "gate-refuses",
+        "title": "O gate recusa",
+        "body": "O pre-gate bloqueia uma execução do dadaia fora do venv do workspace. Sua recusa nomeia o comando bloqueado e traz uma linha de correção.",
+        "media": {
+          "type": "video",
+          "alt": "Um terminal cria um workspace chamado w e depois envia ao pre-gate uma chamada Bash para dadaia doctor. O gate imprime uma recusa VENV GUARD que nomeia o comando bloqueado, dadaia doctor, e uma linha de correção, .dadaia/.venv/bin/dadaia doctor.",
+          "caption": "Um comando bloqueado, uma linha de correção.",
+          "desktop": {
+            "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+            "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+            "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+            "width": 1280,
+            "height": 720
+          },
+          "phone": {
+            "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+            "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+            "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+            "width": 720,
+            "height": 900
+          }
+        }
+      },
+      {
+        "id": "six-harnesses",
+        "title": "Seis harnesses",
+        "body": "A lei em AGENTS.md é escrita uma vez e lida pelo Claude Code, Codex, Kimi Code, Cursor, Devin e GitHub Copilot. Um harness difere apenas na serialização: nomes de eventos, arquivo de hook e formato da resposta.",
+        "media": {
+          "type": "svg",
+          "alt": "Uma lei, AGENTS.md, projetada em seis harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin e GitHub Copilot.",
+          "caption": "Uma lei, seis harnesses.",
+          "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+          "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+        }
+      },
+      {
+        "id": "try",
+        "title": "Experimente",
+        "code": "uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3"
+      },
+      {
+        "id": "why",
+        "title": "Por que existe",
+        "body": "Uma sessão de agente precisa do contexto atual de um projeto e de limites claros. dadaia-workspace prende a sessão a um projeto, injeta a memória e o estado de release desse projeto, e um gate pré-ferramenta bloqueia as escritas que a sessão não pode fazer, cada recusa com uma linha de correção."
+      },
+      {
+        "id": "facts",
+        "title": "Fatos",
+        "items": [
+          {
+            "label": "Linguagem",
+            "value": "Python ^3.12",
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/pyproject.toml"
+          },
+          {
+            "label": "Licença",
+            "value": "MIT",
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/LICENSE"
+          },
+          {
+            "label": "Harnesses",
+            "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/README.md"
+          },
+          {
+            "label": "Papéis de agente",
+            "value": "3: revisor de código, engenheiro de produto, engenheiro de software",
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/v0.4.7/dadaia_workspace/public/agents"
+          }
+        ]
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/marcoaureliomenezes/dadaia-workspace",
+      "pypi": "https://pypi.org/project/dadaia-workspace/"
+    }
       },
       {
         "slug": "portifolio",
