@@ -24,8 +24,8 @@ export default {
 				mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace']
 			},
 			fontSize: {
-				label: ['0.75rem', { lineHeight: '1rem', fontFamily: '"JetBrains Mono", ui-monospace, monospace' }],
-				meta: ['0.8125rem', { lineHeight: '1.25rem', fontFamily: '"JetBrains Mono", ui-monospace, monospace' }],
+				label: ['0.75rem', { lineHeight: '1rem' }],
+				meta: ['0.8125rem', { lineHeight: '1.25rem' }],
 				body: ['1rem', { lineHeight: '1.625rem' }],
 				item: ['1.0625rem', { lineHeight: '1.5rem', fontWeight: '600' }],
 				hero: ['1.25rem', { lineHeight: '1.75rem', fontWeight: '700' }],
