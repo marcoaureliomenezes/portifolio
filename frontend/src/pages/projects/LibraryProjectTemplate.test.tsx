@@ -271,7 +271,11 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
         .getAllByRole("heading", { level: 3 })
         .map((h) => h.textContent),
     ).toEqual(["Related tables", "Event streams"]);
-    expect(within(how).queryAllByRole("heading", { level: 2 })).toEqual([]);
+    expect(
+      within(how)
+        .getAllByRole("heading", { level: 2 })
+        .map((h) => h.textContent),
+    ).toEqual(["How it works"]);
     for (const name of ["Try it", "Why it exists", "Facts · rand-engine 1.2.3"]) {
       expect(screen.getByRole("heading", { level: 2, name })).toBeTruthy();
     }
