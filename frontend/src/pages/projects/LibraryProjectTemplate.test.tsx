@@ -74,7 +74,7 @@ const mockProject: LibraryProject = {
     tagline: "High-performance synthetic data generation.",
   },
   card: {
-    cover: "/assets/projects/rand-engine/cover.webp",
+    cover: "/fixture/cover.webp",
     summary: "Generates realistic synthetic data in seconds.",
     tech: ["Python", "Pandas", "PySpark"],
   },
