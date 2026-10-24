@@ -95,6 +95,12 @@ const SECTION_I18N_MANDATORY_KEYS = new Set(["title"]);
 /** Optional i18n keys inside a section (only flagged when present in some locales). */
 const SECTION_I18N_OPTIONAL_KEYS = new Set(["body"]);
 
+/** Optional i18n keys inside a hero media (only flagged when present in some locales). */
+const HERO_MEDIA_I18N_OPTIONAL_KEYS = new Set(["alt", "caption"]);
+
+/** Optional i18n keys inside a section media (only flagged when present in some locales). */
+const SECTION_MEDIA_I18N_OPTIONAL_KEYS = new Set(["alt", "caption"]);
+
 /** Mandatory i18n keys inside a game link item (GameLink). */
 const GAME_LINK_I18N_KEYS = new Set(["title", "body"]);
 
@@ -242,6 +248,10 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
   const seos = projectsByLocale.map((p) => (isPlainObject(p) ? p["seo"] : undefined));
   errors.push(...checkObjectParity(seos, SEO_I18N_KEYS, locales, `${basePath}.seo`).errors);
 
+  // hero.media — optional alt, present in all locales or in none
+  const heroMedia = heroes.map((h) => (isPlainObject(h) && isPlainObject(h.media) ? h.media : undefined));
+  errors.push(...checkOptionalParity(heroMedia, HERO_MEDIA_I18N_OPTIONAL_KEYS, locales, `${basePath}.hero.media`).errors);
+
   // diagramAlt — optional string; if any locale has it, all must
   const diagramAlts = projectsByLocale.map((p) =>
     isPlainObject(p) ? { diagramAlt: p["diagramAlt"] } : undefined
@@ -259,7 +269,8 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
     }
   }
 
-  if (referenceKind === "case-study" || referenceKind === "meta") {
+  // sections[] — every kind that carries them (case-study, meta, library)
+  {
     const sectionsByLocale = projectsByLocale.map((p) =>
       isPlainObject(p) && Array.isArray(p["sections"]) ? p["sections"] : []
     );
@@ -277,6 +288,9 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
       errors.push(...checkObjectParity(secObjs, SECTION_I18N_MANDATORY_KEYS, locales, secPath).errors);
       // Optional keys (body)
       errors.push(...checkOptionalParity(secObjs, SECTION_I18N_OPTIONAL_KEYS, locales, secPath).errors);
+      // Optional media keys (alt, caption)
+      const secMedia = secObjs.map((s) => (isPlainObject(s) && isPlainObject(s.media) ? s.media : undefined));
+      errors.push(...checkOptionalParity(secMedia, SECTION_MEDIA_I18N_OPTIONAL_KEYS, locales, `${secPath}.media`).errors);
     }
   }
 
