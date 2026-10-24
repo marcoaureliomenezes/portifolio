@@ -3,7 +3,7 @@
  *
  * THE canonical machine contract for portfolio content (headless Phase 1).
  * Single-sourced here (plain ESM so Node can run it without a TS toolchain):
- *  - consumed by scripts/validate-content.mjs (CI gate over public/content/*)
+ *  - parsed against public/content/*.json by src/lib/contentSchemaExport.test.ts (inside verify)
  *  - exported as JSON Schema by scripts/export-content-schema.mjs — the
  *    versioned artifact (/content/schema/v1.json) the external admin-panel
  *    project renders its forms from.

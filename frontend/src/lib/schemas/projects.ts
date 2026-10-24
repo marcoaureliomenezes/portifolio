@@ -7,9 +7,8 @@
  * - Zero z.any() — all shapes explicit.
  * - z.discriminatedUnion("kind", [...]) with 3 variants.
  * - sections / stack / costs / decisions are z.array(z.object({...})).min(1).
- * - This file is ONLY imported in:
- *   (a) frontend/scripts/validate-content.mjs (Node, build-time), and
- *   (b) frontend/src/hooks/useContent.ts (inside if(import.meta.env.DEV) guard).
+ * - This file is ONLY imported in frontend/src/hooks/useContent.ts (inside
+ *   if(import.meta.env.DEV) guard).
  * Vite tree-shakes Zod from the production bundle (AC-PC-02).
  */
 

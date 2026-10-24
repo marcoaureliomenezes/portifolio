@@ -158,7 +158,7 @@ function checkObjectParity(objects, i18nKeys, locales, path) {
       } else if (value === null || value === undefined) {
         errors.push(`[${locale}] ${path}.${key}: null or undefined`);
       }
-      // Arrays (e.g. tech[]) are allowed — validate:content checks min length via Zod
+      // Arrays (e.g. tech[]) are allowed — contentSchemaExport.test.ts checks min length via Zod
     }
   }
   return { errors };
