@@ -27,12 +27,12 @@ export function ProjectsLayoutShell() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="mx-auto max-w-3xl px-5 md:px-6 flex flex-col min-h-screen">
       {/* ── Breadcrumb chrome ────────────────────────────────────── */}
       <nav
         aria-label={chrome?.breadcrumb.label}
         data-testid="breadcrumb"
-        className="container mx-auto px-4 pt-6 pb-2 max-w-4xl"
+        className="pt-6 pb-2"
       >
         <ol className="flex items-center gap-1 text-meta text-muted-foreground flex-wrap">
           <li>
@@ -67,7 +67,7 @@ export function ProjectsLayoutShell() {
 
       {/* ── Back-link (detail view only) ──────────────────────────── */}
       {isDetail && (
-        <div className="container mx-auto px-4 pb-4 max-w-4xl">
+        <div className="pb-4">
           <Link
             to="/projetos"
             data-testid="back-link"

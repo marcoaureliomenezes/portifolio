@@ -41,7 +41,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
   );
 
   return (
-    <div className="mx-auto max-w-3xl px-5 md:px-6 space-y-10">
+    <div className="space-y-10">
       <header className="space-y-4">
         <h1 className="text-title-sm md:text-title text-primary">{hero.title}</h1>
         <p className="text-muted-foreground">{hero.tagline}</p>

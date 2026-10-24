@@ -26,7 +26,7 @@ export function CaseStudyTemplate({ project }: { project: CaseStudyProject }) {
   const { slug, cta } = project;
 
   return (
-    <div className="container mx-auto px-4 pb-12 space-y-10 max-w-4xl">
+    <div className="pb-12 space-y-10">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 

@@ -25,7 +25,7 @@ export function ProjectsIndexPage() {
   const { index, list } = projectsV2;
 
   return (
-    <div className="container mx-auto px-4 pb-12 space-y-8 max-w-4xl">
+    <div className="pb-12 space-y-8">
       {/* Page heading — uses index.title from i18n content */}
       <div className="space-y-2">
         <h1 className="text-3xl font-bold text-primary">{index.title}</h1>
