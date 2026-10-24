@@ -4,7 +4,7 @@
  * These tests catch regressions that unit tests cannot observe:
  *   - Header height on mobile (must not be a 240px LinkedIn-style banner)
  *   - Absence of avatar inside the mobile header
- *   - Hamburger button presence on mobile
+ *   - Phone nav row under the name, no menu button
  *   - Body content centered on desktop (not left-flush)
  *   - No visible sidebar on mobile (AppSidebar is hidden md:flex)
  *   - Main element width matches viewport on mobile
@@ -29,9 +29,9 @@ const MOBILE = { width: 390, height: 844 };
 const DESKTOP = { width: 1280, height: 800 };
 
 // ---------------------------------------------------------------------------
-// Test 1 — Mobile header is slim (≤ 80 px), no avatar, hamburger visible
+// Test 1 — Mobile header is slim (≤ 80 px), no avatar, nav row visible
 // ---------------------------------------------------------------------------
-test('T-LAY-01: mobile header height ≤ 80 px, no avatar, hamburger present', async ({ browser }) => {
+test('T-LAY-01: mobile header height ≤ 80 px, no avatar, nav row present', async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: MOBILE });
   const page = await ctx.newPage();
 
@@ -59,9 +59,12 @@ test('T-LAY-01: mobile header height ≤ 80 px, no avatar, hamburger present', a
     'Avatar image must not appear inside the header on mobile',
   ).toBe(0);
 
-  // Hamburger button is visible — NavAnchors renders aria-label="Menu"
-  const hamburger = page.locator('button[aria-label="Menu"]');
-  await expect(hamburger).toBeVisible();
+  // Phone nav row: both links visible inside the header, below the name; no menu button
+  const nav = header.locator('nav[aria-label="Navegação principal"]');
+  await expect(nav).toBeVisible();
+  await expect(nav.locator('a[href="/"]')).toBeVisible();
+  await expect(nav.locator('a[href="/projetos"]')).toBeVisible();
+  await expect(page.locator('button[aria-label="Menu"]')).toHaveCount(0);
 
   await ctx.close();
 });

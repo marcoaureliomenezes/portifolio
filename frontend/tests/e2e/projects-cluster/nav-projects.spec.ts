@@ -1,65 +1,55 @@
 /**
- * E2E stubs — Header CTA and Hero CTA navigation to /projetos
+ * E2E — the one header's nav and the Hero CTA reach /projetos
  *
- * AC-PC-05: headerNavRoutes replaces navRoutes; header has nav link "Projetos"
- * AC-PC-09: HeaderDesktop + HeaderMobile + Hero 3rd CTA all navigate to /projetos
- *
- * Tests:
- *   PC-E2E-17: desktop header nav link "Projetos" navigates to /projetos
- *   PC-E2E-19: mobile header sheet exposes "Projetos" link and it navigates
+ *   PC-E2E-17: desktop header has Resume and Projects links, active state, Projects navigates
+ *   PC-E2E-19: phone header shows the same links in a visible row, no menu button
  *   PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos
- *
- * Activated in: T-PC-C-08 (after T-PC-C-04 Header CTA and T-PC-C-05 Hero CTA are delivered)
- * Implementation contract: C-10, C-11, C-12 in qa-engineer E2E plan report.
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 test.describe('Navigation to /projetos from header and hero', () => {
-  test('PC-E2E-17: desktop header nav link "Projetos" navigates to /projetos', async ({ page }) => {
-    // Given: home page at desktop viewport
+  test('PC-E2E-17: desktop header nav has Resume and Projects links and Projects navigates', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
-    // Then: nav link "Projetos" visible in header (AC-PC-09 + AC-PC-05)
-    // The nav must have aria-label="Navegação principal" or equivalent
-    const headerNav = page.locator('header nav[aria-label*="avega"], header nav[aria-label*="rincipal"]');
+    const headerNav = page.locator('header nav[aria-label="Navegação principal"]');
     await expect(headerNav).toBeVisible();
+    await expect(headerNav.locator('a')).toHaveCount(2);
 
+    const resumeLink = headerNav.locator('a[href="/"]');
     const projLink = headerNav.locator('a[href="/projetos"]');
+    await expect(resumeLink).toBeVisible();
     await expect(projLink).toBeVisible();
+    await expect(resumeLink).toHaveAttribute('aria-current', 'page');
+    await expect(projLink).not.toHaveAttribute('aria-current', 'page');
+    await expect(page.locator('button[aria-label="Menu"]')).toHaveCount(0);
 
-    // When: user clicks the header nav link
     await projLink.click();
-
-    // Then: URL becomes /projetos
     await expect(page).toHaveURL('/projetos');
+    await expect(projLink).toHaveAttribute('aria-current', 'page');
+    await expect(resumeLink).not.toHaveAttribute('aria-current', 'page');
 
-    // Then: index page with 3 cards rendered
-    const cards = page.locator('[data-testid="project-card"]');
-    await expect(cards).toHaveCount(4);
+    await expect(page.locator('[data-testid="project-card"]')).toHaveCount(4);
   });
 
-  test('PC-E2E-19: mobile header contains "Projetos" nav link and it navigates', async ({ page }) => {
-    // Given: home page at mobile viewport
-    // Note: mobile header uses inline nav links (no dialog/sheet — T-PC-C-04 deviation note).
+  test('PC-E2E-19: phone header shows a visible nav row with Projects, no menu button', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
-    // Then: mobile header nav exposes an inline "Projetos" link (aria-label="Navegação principal")
-    const mobileHeaderNav = page.locator('.block.md\\:hidden nav[aria-label*="avega"]');
-    await expect(mobileHeaderNav).toBeVisible();
+    await expect(page.locator('button[aria-label="Menu"]')).toHaveCount(0);
 
-    const projLink = mobileHeaderNav.locator('a[href="/projetos"]');
+    const headerNav = page.locator('header nav[aria-label="Navegação principal"]');
+    await expect(headerNav).toBeVisible();
+    await expect(headerNav.locator('a[href="/"]')).toBeVisible();
+    const projLink = headerNav.locator('a[href="/projetos"]');
     await expect(projLink).toBeVisible();
 
-    // When: user clicks the Projetos link
     await projLink.click();
-
-    // Then: URL becomes /projetos
     await expect(page).toHaveURL('/projetos');
+    await expect(projLink).toHaveAttribute('aria-current', 'page');
   });
 
   test('PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos', async ({ page }) => {
