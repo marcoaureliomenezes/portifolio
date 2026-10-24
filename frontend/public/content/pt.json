@@ -60,7 +60,13 @@
     "certifications": 11,
     "clouds": 4
   },
-  "navProjects": "Personal Projects",
+  "siteChrome": {
+    "nav": { "label": "Navegação principal", "resume": "Currículo", "projects": "Projetos" },
+    "theme": { "toLight": "Mudar para tema claro", "toDark": "Mudar para tema escuro" },
+    "language": { "label": "Selecionar idioma" },
+    "breadcrumb": { "label": "Breadcrumb", "projects": "Projetos" },
+    "backToProjects": "Voltar para projetos"
+  },
   "heroCTAs": {
     "downloadCv": "Baixar CV",
     "seeExperience": "Ver experiência",

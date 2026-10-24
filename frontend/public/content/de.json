@@ -60,7 +60,13 @@
     "certifications": 11,
     "clouds": 4
   },
-  "navProjects": "Personal Projects",
+  "siteChrome": {
+    "nav": { "label": "Hauptnavigation", "resume": "Lebenslauf", "projects": "Projekte" },
+    "theme": { "toLight": "Zum hellen Design wechseln", "toDark": "Zum dunklen Design wechseln" },
+    "language": { "label": "Sprache auswählen" },
+    "breadcrumb": { "label": "Navigationspfad", "projects": "Projekte" },
+    "backToProjects": "Zurück zu den Projekten"
+  },
   "heroCTAs": {
     "downloadCv": "Lebenslauf herunterladen",
     "seeExperience": "Erfahrung ansehen",

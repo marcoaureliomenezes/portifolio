@@ -7,6 +7,7 @@
  *   2. No empty/whitespace strings in i18n fields.
  *   3. No sensitive infrastructure identifiers leaked into content strings
  *      (AC-PC-15 redaction lint).
+ * It also checks that the `siteChrome` block has the same key set in all 3 locales.
  *
  * Usage:  node scripts/check-i18n-parity.mjs
  * Exit:   0 on success, 1 on any parity or redaction failure.
@@ -51,6 +52,19 @@ function isPlainObject(v) {
  */
 function isBlankString(value) {
   return value.trim().length === 0;
+}
+
+/**
+ * Flatten a value into its dotted leaf paths, e.g. `siteChrome.nav.label`.
+ * An absent value yields no paths.
+ * @param {unknown} value
+ * @param {string} prefix
+ * @returns {string[]}
+ */
+function leafKeys(value, prefix) {
+  if (value === undefined) return [];
+  if (!isPlainObject(value)) return [prefix];
+  return Object.entries(value).flatMap(([k, v]) => leafKeys(v, `${prefix}.${k}`));
 }
 
 // ── I18n-bearing field identification ─────────────────────────────────────
@@ -537,7 +551,7 @@ for (const locale of LOCALES) {
     loadedLocales.push({ locale, data: null });
     continue;
   }
-  loadedLocales.push({ locale, data: raw.projectsV2 });
+  loadedLocales.push({ locale, data: raw.projectsV2, chrome: raw.siteChrome });
 }
 
 if (loadedLocales.some(({ data }) => data === null)) {
@@ -605,6 +619,26 @@ const allData = loadedLocales.map(({ data }) => data);
     console.error("[check-i18n-parity] Redaction lint findings (AC-PC-15):");
     redactionFindings.forEach((f) => console.error(`  ${f}`));
     hasErrors = true;
+  }
+}
+
+// ── 4. siteChrome key-set parity ───────────────────────────────────────────
+{
+  const keySets = loadedLocales.map(({ chrome }) => new Set(leafKeys(chrome, "siteChrome")));
+  const reference = keySets[0];
+  for (let li = 1; li < LOCALES.length; li++) {
+    for (const key of reference) {
+      if (!keySets[li].has(key)) {
+        console.error(`[check-i18n-parity] [${LOCALES[li]}] ${key}: missing (present in ${LOCALES[0]})`);
+        hasErrors = true;
+      }
+    }
+    for (const key of keySets[li]) {
+      if (!reference.has(key)) {
+        console.error(`[check-i18n-parity] [${LOCALES[li]}] ${key}: extra (absent in ${LOCALES[0]})`);
+        hasErrors = true;
+      }
+    }
   }
 }
 

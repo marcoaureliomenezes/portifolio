@@ -314,7 +314,7 @@ export interface ContentData {
   /** Singular/plural for role count in ExperienceCard (T-FE-QUAL-06). */
   roleSingular: string;
   rolePlural: string;
-  /** Avatar hover label in HeaderDesktopLayout / HeaderMobileLayout (T-FE-QUAL-06). */
+  /** Avatar hover label. */
   viewLarger: string;
   /** Games empty-state labels (T-FE-QUAL-06). */
   gamesComingSoon: string;
@@ -350,11 +350,14 @@ export interface ContentData {
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
-  /**
-   * Navigation label for the "Projetos" header link (T-PC-C-04).
-   * Falls back to "Projetos" when absent.
-   */
-  navProjects?: string;
+  /** Site chrome labels: header nav, theme toggle, language selector, breadcrumb, back link. */
+  siteChrome?: {
+    nav: { label: string; resume: string; projects: string };
+    theme: { toLight: string; toDark: string };
+    language: { label: string };
+    breadcrumb: { label: string; projects: string };
+    backToProjects: string;
+  };
   /**
    * Open-list shape for projects-cluster-v1 (T-PC-A-01).
    */
