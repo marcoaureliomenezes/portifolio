@@ -6,8 +6,8 @@
       "out": ""
     },
     {
-      "cmd": "cd w;echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"dadaia doctor\"}}'|.dadaia/.venv/bin/python -m dadaia_workspace.hooks.pre_gate|jq -r .reason|tail -1",
-      "out": "fix: .dadaia/.venv/bin/dadaia doctor"
+      "cmd": "cd w;echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"dadaia doctor\"}}'|.dadaia/.venv/bin/python -m dadaia_workspace.hooks.pre_gate|jq -r .reason|sed 3d",
+      "out": "[VENV GUARD] This command must run from the workspace venv (.dadaia/.venv/bin/). Blocked:\n  dadaia doctor\nfix: .dadaia/.venv/bin/dadaia doctor"
     }
   ]
 }

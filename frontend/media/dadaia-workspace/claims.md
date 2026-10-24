@@ -1,6 +1,6 @@
 # Claims at the pin
 
-Pin: `dadaia-workspace==0.4.7`, git tag `v0.4.7` (`2d1f4351a46c8081f488a055d36c89abc20f6af9`). Every row is `claim | file:line at the tag` (`git show v0.4.7:<file>`). Nothing here reads the unpublished 0.5.0 tree.
+Pin: `dadaia-workspace==0.4.7`, git tag `v0.4.7` (`2d1f4351a46c8081f488a055d36c89abc20f6af9`). Every row is `claim | file:line at the tag` (`git show v0.4.7:<file>`). Nothing here reads the repo's unpublished HEAD.
 
 | claim | file:line at the tag |
 |---|---|
@@ -9,7 +9,7 @@ Pin: `dadaia-workspace==0.4.7`, git tag `v0.4.7` (`2d1f4351a46c8081f488a055d36c8
 | `init` provisions `.dadaia/.venv`, the `.dadaia/` zones, `.agents/skills` and the named harness's projection | `README.md:64-66` |
 | `init` stages and installs the public assets, the one writer of every hook wiring | `README.md:66-68` |
 | The init scene's `Harness: claude` line | `dadaia_workspace/cli/commands/init.py:96` |
-| `init` prints that `dadaia context create <name> --main-repo <slug>` makes the first project (the "Try it" tail) | `README.md:69-71` |
+| `init` closes with three notes, the last: `dadaia context create <name> --main-repo <slug> --url <url>` makes the first project (the "Try it" tail) | `dadaia_workspace/cli/commands/init.py:25-32` |
 | After init the directory holds `.agents`, `AGENTS.md`, `.claude`, `.dadaia` (the `ls -A` output): the root `AGENTS.md` map and the harness projection | `README.md:99-101`, `README.md:64-66` |
 | `doctor` is the one instance validator; it exits 1 only when a section fails, so a fresh workspace prints nothing and exits 0 | `README.md:79-81`, `dadaia_workspace/cli/commands/doctor.py:363-364` |
 | `doctor` findings are `<CODE> <verdict> <message>`, each error with one `fix: <command>` line | `README.md:80-81` |
@@ -18,6 +18,7 @@ Pin: `dadaia-workspace==0.4.7`, git tag `v0.4.7` (`2d1f4351a46c8081f488a055d36c8
 | Every BLOCK carries exactly one `fix:` line | `README.md:113` |
 | The hook the workspace wires is `dadaia_workspace.hooks.pre_gate` | `dadaia_workspace/infrastructure/runtime_config.py:206` |
 | The refusal text `[VENV GUARD] This command must run from the workspace venv`, the blocked command and `fix: <corrected command>` | `dadaia_workspace/hooks/venv_guard.py:146-153` |
+| The refusal header `[VENV GUARD] This command must run from the workspace venv (.dadaia/.venv/bin/). Blocked:`, then the blocked command on its own line | `dadaia_workspace/hooks/venv_guard.py:146-151` |
 | The hook reads the tool call as JSON on stdin and prints the refusal | `dadaia_workspace/hooks/pre_gate.py:70-72` |
 | Six entry harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot | `README.md:35-36` |
 | `init --harness` takes one of `claude, codex, kimi-code, cursor, devin, copilot` | `dadaia_workspace/cli/commands/init.py:50` (rendered by `init --help` at the pin) |
@@ -31,5 +32,5 @@ Pin: `dadaia-workspace==0.4.7`, git tag `v0.4.7` (`2d1f4351a46c8081f488a055d36c8
 ## What the casts print
 
 - `init-workspace`: `Harness: claude`; the four entries of the new directory; `exit 0` from `doctor` (silent, clean).
-- `gate-refuses`: the last line of the pre-gate's refusal for a Bash call `dadaia doctor`: `fix: .dadaia/.venv/bin/dadaia doctor` (`venv_guard.py:152`). The hook is fed the tool-call JSON a harness sends; only `tool_name` and `tool_input.command` are given.
+- `gate-refuses`: the pre-gate's refusal for a Bash call `dadaia doctor`, verbatim except its `(pytest/ruff/mypy …)` note line: header, blocked command, `fix: .dadaia/.venv/bin/dadaia doctor` (`venv_guard.py:146-153`). The hook is fed the tool-call JSON a harness sends; only `tool_name` and `tool_input.command` are given.
 - `try-it`: the last three lines `init` prints, then the new directory. The page's command is `uvx dadaia-workspace init demo --harness claude` (`README.md:60`); the cast runs the pinned venv's `dadaia-workspace`, the same entry point, so a re-record never drifts to a later release.
