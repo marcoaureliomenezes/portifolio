@@ -576,11 +576,30 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "A local-first, spec-driven workspace that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries."
+          "tagline": "A local-first, spec-driven workspace that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries.",
+          "media": {
+            "type": "video",
+            "alt": "A terminal runs dadaia-workspace init for a directory named demo with the claude harness and prints Harness: claude. Listing demo shows .agents, AGENTS.md, .claude and .dadaia. Running doctor in demo prints exit 0.",
+            "caption": "One command makes a workspace, and doctor exits 0.",
+            "desktop": {
+              "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+              "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+              "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+              "width": 1280,
+              "height": 720
+            },
+            "phone": {
+              "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+              "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+              "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+              "width": 720,
+              "height": 900
+            }
+          }
         },
         "card": {
-          "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Local-first CLI (PyPI): one folder per workspace, six agent harnesses, five agent roles and a document-governed lifecycle from backlog to release.",
+          "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+          "summary": "Local-first CLI on PyPI: one folder per workspace, six agent harnesses and a lifecycle carried by documents.",
           "tech": [
             "Python",
             "Claude Code",
@@ -590,57 +609,96 @@
           ]
         },
         "seo": {
-          "title": "dadaia-workspace — Marco Menezes",
-          "description": "dadaia-workspace — Python library on PyPI for spec-driven development with collaborative AI agents."
+          "title": "dadaia-workspace, a spec-driven workspace for AI agents — Marco Menezes",
+          "description": "dadaia-workspace is a local-first CLI on PyPI that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries across six harnesses."
         },
-        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
-        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
-        "diagramAlt": "dadaia-workspace architecture diagram: AI agents, project contexts and SDD flow.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.5.0",
+          "version": "0.4.7",
           "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
-        },
-        "stat": {
-          "label": "agent roles",
-          "value": "5"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "What is it",
-            "body": "dadaia-workspace is an open-source CLI (PyPI) for developing with AI agents. A workspace is one folder: your projects live in repos inside it, and the governance (`AGENTS.md`, skills, hooks) sits outside every repo. Work is driven by documents — backlog, SPEC, PLAN and job files — not by a runtime. Five agent roles share them: product engineer, senior and junior software engineer, code reviewer and researcher."
+            "id": "demand-to-merge",
+            "title": "Demand to merge",
+            "body": "A picked set goes through a grill, then SPEC, PLAN and TASKS. One task is reserved at a time and is checked off only after the reviewer's APPROVED, then closure merges feature into develop.",
+            "media": {
+              "type": "svg",
+              "alt": "Demand to merge: picked set, grill, SPEC PLAN TASKS, one reserved task at a time, checked only after APPROVED, then closure with the feature to develop merge",
+              "caption": "Each step waits for the one before it.",
+              "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+              "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+            }
+          },
+          {
+            "id": "gate-refuses",
+            "title": "The gate refuses",
+            "body": "The pre-gate blocks a dadaia run outside the workspace venv. Its refusal names the blocked command and carries one fix line.",
+            "media": {
+              "type": "video",
+              "alt": "A terminal makes a workspace named w, then sends the pre-gate a Bash call for dadaia doctor. The gate prints a VENV GUARD refusal that names the blocked command, dadaia doctor, and one fix line, .dadaia/.venv/bin/dadaia doctor.",
+              "caption": "One blocked command, one fix line.",
+              "desktop": {
+                "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+                "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+                "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          },
+          {
+            "id": "six-harnesses",
+            "title": "Six harnesses",
+            "body": "The law in AGENTS.md is authored once and read by Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot. A harness differs only in serialization: event names, hook file and answer shape.",
+            "media": {
+              "type": "svg",
+              "alt": "One law, AGENTS.md, projected into six harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot.",
+              "caption": "One law, six harnesses.",
+              "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+              "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+            }
+          },
+          {
+            "id": "try",
+            "title": "Try it",
+            "code": "uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3"
           },
           {
             "id": "why",
             "title": "Why it exists",
-            "body": "Agents given a whole repository drift: they lose context, write wherever they like and leave their own state behind. dadaia-workspace binds a session to one project, injects only that project's memory and release state, and enforces the boundaries mechanically — a pre-tool gate refuses out-of-scope writes and each refusal carries one fix line."
+            "body": "An agent session needs the current context of one project and clear boundaries. dadaia-workspace binds a session to one project and injects its memory and release state, and a pre-tool gate blocks writes the session may not make, each refusal with one fix line."
           },
           {
-            "id": "how",
-            "title": "How it works",
-            "body": "`uvx dadaia-workspace init <dir> --harness <name>` creates the workspace and projects the agents into Claude Code, Codex, Kimi Code, Cursor, Devin or GitHub Copilot. Each task runs in its own git worktree and each job lands only after a reviewer's APPROVED; `worktree pause` and `resume` set a tree aside as a bundle and bring it back. `dadaia export` writes the workspace's contexts to a file (`--hard` adds the unpushed work), and `init --from` rebuilds it elsewhere.",
-            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
-          },
-          {
-            "id": "status",
-            "title": "Current status",
+            "id": "facts",
+            "title": "Facts",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.5.0 (PyPI)"
+                "label": "Language",
+                "value": "Python ^3.12",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/pyproject.toml"
               },
               {
-                "label": "Agent roles",
-                "value": "5"
+                "label": "License",
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/LICENSE"
               },
               {
                 "label": "Harnesses",
-                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/README.md"
               },
               {
-                "label": "Last milestone",
-                "value": "Portable workspaces: export, export --hard and init --from"
+                "label": "Agent roles",
+                "value": "3: code reviewer, product engineer, software engineer",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/v0.4.7/dadaia_workspace/public/agents"
               }
             ]
           }
