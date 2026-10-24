@@ -1,0 +1,2 @@
+dadaia-workspace init demo --harness claude | tail -n 3
+ls -A demo
