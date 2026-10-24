@@ -27,7 +27,7 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
   const { slug, items } = project;
 
   return (
-    <div className="pb-12 space-y-10">
+    <div className="space-y-10">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
@@ -49,18 +49,18 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
             <CardContent className="py-12 flex flex-col items-center text-center gap-4">
               <h2
                 id={`${slug}-empty-heading`}
-                className="text-lg font-semibold text-muted-foreground"
+                className="text-item text-muted-foreground"
               >
                 {content.gamesComingSoon}
               </h2>
-              <p className="text-sm text-muted-foreground max-w-md">
+              <p className="text-meta text-muted-foreground max-w-md">
                 {content.gamesComingSoonDesc}
               </p>
               <a
                 href="https://github.com/marcoaureliomenezes/tauan-games"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary underline text-sm"
+                className="text-primary underline text-meta"
               >
                 github.com/marcoaureliomenezes/tauan-games
               </a>
