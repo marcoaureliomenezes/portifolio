@@ -44,9 +44,9 @@ file at the pinned tag.
 - "Try it" is a Python example (`DataGenerator(spec, seed=42).size(1_000).get_df()` over four
   columns) with a copy button; `frontend/media/rand-engine/try-it.py` and its cast hold the same
   code and its real output at the pin.
-- Facts rows: Language (Python >=3.10), pandas (the range `pyproject.toml` declares), License
-  (MIT) and Speed on the CI runner (1,000,000 integers in 0.006 s, 10,000,000 in 0.041 s, from
-  `docs/BENCHMARKS.md`).
+- Facts rows, each sourced in the library's repo at the tag: Language (Python >=3.10), pandas
+  (the range its pyproject declares), License (MIT) and Speed on the CI runner (1,000,000
+  integers in 0.006 s, 10,000,000 in 0.041 s, from its benchmarks page).
 - The meta row links the GitHub repo, the PyPI page and the docs root.
 - The card on `/projetos` uses the hero's desktop poster as its cover.
 - The three locale files carry the same keys, media paths and facts rows; text, `alt` and

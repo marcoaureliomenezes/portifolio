@@ -41,9 +41,9 @@ command to try it and a facts table whose rows each link their source file at th
   refuses (a recording of the pre-gate's VENV GUARD refusal, which names the blocked command and
   carries one fix line), and six harnesses (an animated SVG pair: Claude Code, Codex, Kimi Code,
   Cursor, Devin and GitHub Copilot).
-- Facts rows: Language (Python ^3.12, `pyproject.toml`), License (MIT, `LICENSE`), Harnesses
-  (the six, `README.md`) and Agent roles (3: code reviewer, product engineer, software engineer,
-  `dadaia_workspace/public/agents/`).
+- Facts rows, each sourced in the library's repo at the tag: Language (Python ^3.12, its
+  pyproject), License (MIT, its LICENSE), Harnesses (the six, its README) and Agent roles (3:
+  code reviewer, product engineer, software engineer, its public agents folder).
 - The meta row links the GitHub repo and the PyPI page; the item has no docs link, because the
   library's docs URL answers 404.
 - The card on `/projetos` uses the hero's desktop poster as its cover.

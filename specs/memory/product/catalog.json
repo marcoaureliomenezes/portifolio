@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T23:32:11Z",
+  "generated_at": "2026-10-24T23:35:45Z",
   "features": [
     {
       "rank": 1,
@@ -79,7 +79,7 @@
         "content",
         "library"
       ],
-      "token_estimate": 467,
+      "token_estimate": 487,
       "depends_on": [
         "scene-media",
         "library-page",
@@ -137,7 +137,7 @@
         "content",
         "library"
       ],
-      "token_estimate": 500,
+      "token_estimate": 516,
       "depends_on": [
         "scene-media",
         "library-page",
