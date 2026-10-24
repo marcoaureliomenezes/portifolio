@@ -906,7 +906,7 @@
           },
           {
             "id": "why",
-            "title": "Why use it",
+            "title": "Why it exists",
             "body": "Pipelines need test data, with nulls and anomalies on demand. Related tables keep their pk and fk keys consistent across batches, streams and files."
           },
           {
