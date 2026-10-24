@@ -1,0 +1,13 @@
+{
+  "pin": "rand-engine==0.8.0",
+  "steps": [
+    {
+      "cmd": "python -c \"from rand_engine import DataGenerator as G;G({'id':{'method':'pk','kwargs':{'start':1}}},seed=1).size(1000).write.format('csv').options(numFiles=3).save('out/clients.csv')\"",
+      "out": ""
+    },
+    {
+      "cmd": "ls out/clients",
+      "out": "part_4d4fcb84-49d6-4e3c.csv\npart_59de3a57-62ff-4507.csv\npart_fde35656-9a60-4b6c.csv"
+    }
+  ]
+}
