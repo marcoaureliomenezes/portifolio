@@ -291,3 +291,35 @@ describe("resolveInitialLanguage (T-FE-QUAL-07)", () => {
     expect(valid).toContain(result);
   });
 });
+
+// -------------------------------------------------------------------------
+// <html lang> follows the active language
+// -------------------------------------------------------------------------
+
+describe("LanguageProvider — document.documentElement.lang", () => {
+  it("tracks setLanguage: en, then de, then pt", async () => {
+    const user = userEvent.setup();
+    localStorage.clear();
+    document.documentElement.lang = "pt-BR";
+
+    render(
+      <LanguageProvider initialLanguage="pt">
+        <LanguageDisplay />
+      </LanguageProvider>,
+    );
+    await waitFor(() => screen.getByRole("button", { name: "Set EN" }));
+
+    for (const [button, expected] of [
+      ["Set EN", "en"],
+      ["Set DE", "de"],
+      ["Set PT", "pt"],
+    ]) {
+      await act(async () => {
+        await user.click(screen.getByRole("button", { name: button }));
+      });
+      await waitFor(() => {
+        expect(document.documentElement.lang.split("-")[0]).toBe(expected);
+      });
+    }
+  });
+});

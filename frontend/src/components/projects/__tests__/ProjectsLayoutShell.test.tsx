@@ -1,8 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import { ProjectsLayoutShell } from "../ProjectsLayoutShell";
+import { SiteLayout } from "@/components/layout/SiteLayout";
+import { LanguageContext } from "@/contexts/LanguageContext";
+import type { ContentData } from "@/types/content";
 
 /**
  * ProjectsLayoutShell.test.tsx — T-PC-B-09
@@ -18,6 +21,11 @@ import { ProjectsLayoutShell } from "../ProjectsLayoutShell";
  * QA contract C-04 (ARIA), C-05 (back-link), C-06 (no SEO override in shell).
  */
 
+// Boundary stub: the header's own contract lives in Header.test.tsx.
+vi.mock("@/components/Header", () => ({
+  Header: () => <header>header</header>,
+}));
+
 /** Render the shell at a given path with an optional child. */
 function renderShell(path: string, childContent = "child rendered") {
   return render(
@@ -27,12 +35,14 @@ function renderShell(path: string, childContent = "child rendered") {
          * The shell wraps both /projetos (index) and /projetos/:slug (detail).
          * We use an index route + a param route as children, mirroring App.tsx.
          */}
-        <Route element={<ProjectsLayoutShell />}>
-          <Route index path="/projetos" element={<div>{childContent}</div>} />
-          <Route
-            path="/projetos/:slug"
-            element={<div>{childContent}</div>}
-          />
+        <Route element={<SiteLayout />}>
+          <Route element={<ProjectsLayoutShell />}>
+            <Route index path="/projetos" element={<div>{childContent}</div>} />
+            <Route
+              path="/projetos/:slug"
+              element={<div>{childContent}</div>}
+            />
+          </Route>
         </Route>
       </Routes>
     </MemoryRouter>,
@@ -129,5 +139,56 @@ describe("ProjectsLayoutShell — detail route (/projetos/:slug)", () => {
     const backLink = screen.getByRole("link", { name: /volta|back/i });
     // The accessible name must not be empty
     expect(backLink.textContent?.trim().length).toBeGreaterThan(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Labels per locale, and DOM order of the back link
+// ---------------------------------------------------------------------------
+
+const CHROME = {
+  pt: { projects: "Projetos", back: "Voltar para projetos" },
+  en: { projects: "Projects", back: "Back to projects" },
+} as const;
+
+function renderLocalized(lang: "pt" | "en", path: string) {
+  const content = {
+    siteChrome: {
+      breadcrumb: { label: "Breadcrumb", projects: CHROME[lang].projects },
+      backToProjects: CHROME[lang].back,
+    },
+  } as unknown as ContentData;
+  return render(
+    <LanguageContext.Provider
+      value={{ language: lang, setLanguage: () => undefined, content, isLoading: false }}
+    >
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route element={<SiteLayout />}>
+            <Route element={<ProjectsLayoutShell />}>
+              <Route path="/projetos/:slug" element={<div data-testid="page">page</div>} />
+            </Route>
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </LanguageContext.Provider>,
+  );
+}
+
+describe("ProjectsLayoutShell — siteChrome labels and order", () => {
+  it.each(["pt", "en"] as const)("%s: breadcrumb and back link use the locale labels", (lang) => {
+    renderLocalized(lang, "/projetos/x");
+    const nav = screen.getByRole("navigation", { name: /breadcrumb/i });
+    expect(nav.textContent).toContain(CHROME[lang].projects);
+    expect(screen.getByTestId("back-link").textContent).toBe(CHROME[lang].back);
+  });
+
+  it("on a detail route the back link follows the outlet content", () => {
+    renderLocalized("pt", "/projetos/x");
+    const page = screen.getByTestId("page");
+    const back = screen.getByTestId("back-link");
+    expect(
+      page.compareDocumentPosition(back) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 });
