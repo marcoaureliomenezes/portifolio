@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = resolve(__dirname, "../..");
@@ -12,7 +12,8 @@ const walk = (dir: string): string[] =>
     const p = join(dir, n);
     return statSync(p).isDirectory() ? walk(p) : [p];
   });
-const rel = (p: string) => relative(root, p);
+const rel = (p: string) => relative(root, p).split(sep).join("/");
+const urlOf = (f: string) => "/" + relative(pub, f).split(sep).join("/");
 const text = (p: string) => readFileSync(p, "latin1");
 
 const contentFiles = ["en", "pt", "de"].map((l) => join(pub, `content/${l}.json`));
@@ -26,7 +27,13 @@ const readers = [...srcFiles, join(root, "index.html"), ...contentFiles];
 const QUOTED = /["'`](\/assets\/[^"'`\s$]+)/g;
 
 const allProject = walk(projects);
-const media = allProject.filter((p) => /\/(rand-engine|dadaia-workspace)\//.test(p));
+// The media list is the content's own URLs, so a renamed folder cannot empty it.
+const mediaItems = JSON.parse(text(contentFiles[0])).projectsV2.list.filter((i: { slug: string }) =>
+  ["rand-engine", "dadaia-workspace"].includes(i.slug),
+);
+const media = [...new Set(pathsIn(JSON.stringify(mediaItems), /(\/assets\/projects\/[^"]+)/g))].map((u) =>
+  join(pub, ...u.split("/")),
+);
 const byExt = (ext: string) => media.filter((p) => p.endsWith(`.${ext}`));
 const posters = byExt("webp");
 const svgs = byExt("svg");
@@ -44,10 +51,16 @@ describe("AC3.2 every file under public/assets/projects is referenced by a conte
   const referenced = new Set(contentFiles.flatMap((f) => pathsIn(text(f), QUOTED)));
   for (const f of allProject) {
     it(rel(f), () => {
-      const url = "/" + relative(pub, f);
+      const url = urlOf(f);
       expect(referenced.has(url), `${rel(f)}: no content file references ${url}`).toBe(true);
     });
   }
+});
+
+describe("AC3.2 the media list", () => {
+  it("holds the 32 rand-engine and dadaia-workspace files", () => {
+    expect(media.length).toBe(32);
+  });
 });
 
 describe("AC3.2 media names carry the sha256 of their bytes", () => {
