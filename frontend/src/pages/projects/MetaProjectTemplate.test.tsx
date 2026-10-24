@@ -8,7 +8,7 @@
  *  - Renders cost rows in a table
  *  - Renders architectural decisions
  *  - Renders external links (repo, terraform, specs) as proper anchors
- *  - shadcn Card primitives rendered
+ *  - every section a flat Block
  */
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
@@ -159,12 +159,6 @@ describe("MetaProjectTemplate", () => {
     for (const link of externalLinks) {
       expect(link).toHaveAttribute("rel", "noopener noreferrer");
     }
-  });
-
-  it("renders at least one Card primitive", () => {
-    const { container } = renderTemplate();
-    const cards = container.querySelectorAll('[class*="card"]');
-    expect(cards.length).toBeGreaterThan(0);
   });
 
   it("renders tech badges from card.tech", () => {
