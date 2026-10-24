@@ -1,0 +1,50 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>terminal</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #121317; }
+  #t {
+    box-sizing: border-box; height: 100%; padding: 6px; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    font: 13px/18px ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    color: #d6d8de;
+  }
+  #t div { white-space: pre-wrap; overflow-wrap: anywhere; flex: none; min-height: 18px; }
+  .p { color: #f38525; }
+  .c { display: inline-block; width: 7px; height: 14px; vertical-align: text-bottom; background: #f38525; }
+</style>
+<div id="t"></div>
+<script>
+  // window.__CAST__ = { steps: [{ cmd, out }] } (set by record.mjs); ?cut=phone|desktop is carried by the viewport.
+  const TYPE_CPS = 24, OUT_LPS = 10;
+  const steps = (window.__CAST__ || { steps: [] }).steps.map((s) => ({
+    cmd: s.cmd,
+    out: s.out === "" ? [] : s.out.replace(/\n$/, "").split("\n"),
+  }));
+  const cmdT = (s) => s.cmd.length / TYPE_CPS;
+  const outT = (s) => s.out.length / OUT_LPS;
+  window.duration = steps.reduce((d, s) => d + cmdT(s) + outT(s), 0);
+
+  const root = document.getElementById("t");
+  const line = (html) => { const d = document.createElement("div"); d.innerHTML = html; root.append(d); return d; };
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+  window.render = (t) => {
+    root.replaceChildren();
+    let rest = t;
+    for (const s of steps) {
+      if (rest < 0) break;
+      const n = Math.min(s.cmd.length, Math.floor(rest * TYPE_CPS));
+      line(`<span class="p">$ </span>${esc(s.cmd.slice(0, n))}`);
+      rest -= cmdT(s);
+      if (rest < 0) break;
+      for (const o of s.out.slice(0, Math.floor(rest * OUT_LPS))) line(esc(o));
+      rest -= outT(s);
+      if (rest < 0) break;
+    }
+    // cursor on the last line; drop whole leading lines until the rest fits, so no line is clipped
+    if (root.lastChild) root.lastChild.insertAdjacentHTML("beforeend", '<span class="c"></span>');
+    while (root.childElementCount > 1 && root.scrollHeight > root.clientHeight) root.firstChild.remove();
+  };
+  window.render(0);
+</script>
