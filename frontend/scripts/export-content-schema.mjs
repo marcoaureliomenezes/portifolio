@@ -23,7 +23,7 @@ import { ContentDataSchema } from "./content-schema.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, "../public/content/schema/v1.json");
 
-const { $schema, ...contract } = z.toJSONSchema(ContentDataSchema, { target: "draft-7" });
+const { $schema, ...contract } = z.toJSONSchema(ContentDataSchema, { target: "draft-7", io: "input" });
 
 const artifact = `${JSON.stringify(
   {

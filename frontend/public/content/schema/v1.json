@@ -44,8 +44,7 @@
             "instagramUrl",
             "email",
             "cvUrl"
-          ],
-          "additionalProperties": false
+          ]
         },
         "resume": {
           "type": "object",
@@ -62,8 +61,7 @@
           "required": [
             "short",
             "full"
-          ],
-          "additionalProperties": false
+          ]
         },
         "header": {
           "type": "object",
@@ -85,8 +83,7 @@
             "title",
             "location",
             "viewEmail"
-          ],
-          "additionalProperties": false
+          ]
         },
         "experiences": {
           "minItems": 1,
@@ -187,24 +184,21 @@
                             "required": [
                               "label",
                               "url"
-                            ],
-                            "additionalProperties": false
+                            ]
                           }
                         }
                       },
                       "required": [
                         "title",
                         "body"
-                      ],
-                      "additionalProperties": false
+                      ]
                     }
                   },
                   "required": [
                     "id",
                     "title",
                     "period"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             },
@@ -216,8 +210,7 @@
               "totalPeriod",
               "type",
               "roles"
-            ],
-            "additionalProperties": false
+            ]
           }
         },
         "certifications": {
@@ -287,8 +280,7 @@
               "link",
               "description",
               "priority"
-            ],
-            "additionalProperties": false
+            ]
           }
         },
         "education": {
@@ -346,8 +338,7 @@
             "coursework",
             "thesisLabel",
             "thesis"
-          ],
-          "additionalProperties": false
+          ]
         },
         "skills": {
           "minItems": 1,
@@ -379,8 +370,7 @@
               "title",
               "icon",
               "skills"
-            ],
-            "additionalProperties": false
+            ]
           }
         },
         "projectsV2": {
@@ -422,15 +412,13 @@
                     "meta",
                     "games",
                     "library"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               },
               "required": [
                 "title",
                 "description"
-              ],
-              "additionalProperties": false
+              ]
             },
             "list": {
               "type": "array",
@@ -458,8 +446,7 @@
                         "required": [
                           "title",
                           "tagline"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "card": {
                         "type": "object",
@@ -482,8 +469,7 @@
                         "required": [
                           "summary",
                           "tech"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "seo": {
                         "type": "object",
@@ -500,8 +486,7 @@
                         "required": [
                           "title",
                           "description"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "diagram": {
                         "type": "string"
@@ -552,16 +537,14 @@
                                 "required": [
                                   "label",
                                   "value"
-                                ],
-                                "additionalProperties": false
+                                ]
                               }
                             }
                           },
                           "required": [
                             "id",
                             "title"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "cta": {
@@ -577,8 +560,7 @@
                         },
                         "required": [
                           "github"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "required": [
@@ -589,8 +571,7 @@
                       "kind",
                       "sections",
                       "cta"
-                    ],
-                    "additionalProperties": false
+                    ]
                   },
                   {
                     "type": "object",
@@ -614,8 +595,7 @@
                         "required": [
                           "title",
                           "tagline"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "card": {
                         "type": "object",
@@ -638,8 +618,7 @@
                         "required": [
                           "summary",
                           "tech"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "seo": {
                         "type": "object",
@@ -656,8 +635,7 @@
                         "required": [
                           "title",
                           "description"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "diagram": {
                         "type": "string"
@@ -708,16 +686,14 @@
                                 "required": [
                                   "label",
                                   "value"
-                                ],
-                                "additionalProperties": false
+                                ]
                               }
                             }
                           },
                           "required": [
                             "id",
                             "title"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "stack": {
@@ -738,8 +714,7 @@
                           "required": [
                             "layer",
                             "tech"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "costs": {
@@ -758,8 +733,7 @@
                           "required": [
                             "service",
                             "monthly_usd"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "decisions": {
@@ -785,8 +759,7 @@
                             "title",
                             "rationale",
                             "spec"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "links": {
@@ -809,8 +782,7 @@
                           "repo",
                           "terraform",
                           "specs"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "required": [
@@ -824,8 +796,7 @@
                       "costs",
                       "decisions",
                       "links"
-                    ],
-                    "additionalProperties": false
+                    ]
                   },
                   {
                     "type": "object",
@@ -849,8 +820,7 @@
                         "required": [
                           "title",
                           "tagline"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "card": {
                         "type": "object",
@@ -873,8 +843,7 @@
                         "required": [
                           "summary",
                           "tech"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "seo": {
                         "type": "object",
@@ -891,8 +860,7 @@
                         "required": [
                           "title",
                           "description"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "diagram": {
                         "type": "string"
@@ -950,8 +918,7 @@
                             "body",
                             "repo",
                             "playUrl"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       }
                     },
@@ -962,8 +929,7 @@
                       "seo",
                       "kind",
                       "items"
-                    ],
-                    "additionalProperties": false
+                    ]
                   },
                   {
                     "type": "object",
@@ -987,8 +953,7 @@
                         "required": [
                           "title",
                           "tagline"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "card": {
                         "type": "object",
@@ -1011,8 +976,7 @@
                         "required": [
                           "summary",
                           "tech"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "seo": {
                         "type": "object",
@@ -1029,8 +993,7 @@
                         "required": [
                           "title",
                           "description"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "diagram": {
                         "type": "string"
@@ -1081,16 +1044,14 @@
                                 "required": [
                                   "label",
                                   "value"
-                                ],
-                                "additionalProperties": false
+                                ]
                               }
                             }
                           },
                           "required": [
                             "id",
                             "title"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "pypi": {
@@ -1113,8 +1074,7 @@
                           "package",
                           "version",
                           "installCommand"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "stat": {
                         "type": "object",
@@ -1131,8 +1091,7 @@
                         "required": [
                           "label",
                           "value"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "links": {
                         "type": "object",
@@ -1153,8 +1112,7 @@
                         "required": [
                           "repo",
                           "pypi"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "required": [
@@ -1166,8 +1124,7 @@
                       "sections",
                       "pypi",
                       "links"
-                    ],
-                    "additionalProperties": false
+                    ]
                   }
                 ]
               }
@@ -1176,8 +1133,7 @@
           "required": [
             "index",
             "list"
-          ],
-          "additionalProperties": false
+          ]
         }
       },
       "required": [
