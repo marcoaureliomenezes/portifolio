@@ -45,17 +45,17 @@ export function GameCard({ game }: GameCardProps) {
 
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-lg font-bold text-foreground">
+          <CardTitle className="text-item text-foreground">
             {game.title}
           </CardTitle>
-          <Badge variant="secondary" className="shrink-0 text-xs">
+          <Badge variant="secondary" className="shrink-0 text-label">
             {game.engine}
           </Badge>
         </div>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-4 flex-1">
-        <p className="text-muted-foreground text-sm leading-relaxed">
+        <p className="text-muted-foreground text-body">
           {game.body}
         </p>
         <div className="flex flex-wrap gap-3 mt-auto">
@@ -64,7 +64,7 @@ export function GameCard({ game }: GameCardProps) {
             href={game.playUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline"
+            className="inline-flex items-center gap-2 text-primary text-meta hover:underline"
             aria-label={`Play ${game.title}`}
           >
             <Play className="w-4 h-4" aria-hidden="true" />
@@ -75,7 +75,7 @@ export function GameCard({ game }: GameCardProps) {
             href={game.repo}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-muted-foreground text-sm font-medium hover:underline"
+            className="inline-flex items-center gap-2 text-muted-foreground text-meta hover:underline"
             aria-label={`View ${game.title} on GitHub`}
           >
             <ExternalLink className="w-4 h-4" aria-hidden="true" />
