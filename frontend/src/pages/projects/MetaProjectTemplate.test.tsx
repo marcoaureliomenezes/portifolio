@@ -188,4 +188,20 @@ describe("MetaProjectTemplate", () => {
       expect(container.textContent).toContain(text);
     }
   });
+
+  it("renders every section flat: no boxed descendant, no shadow", () => {
+    renderTemplate();
+    const sections = screen.getAllByTestId("project-section");
+    expect(sections.length).toBeGreaterThanOrEqual(4);
+    for (const section of sections) {
+      for (const el of [section, ...Array.from(section.querySelectorAll("*"))]) {
+        const tokens = Array.from(el.classList);
+        const boxed =
+          tokens.some((t) => t.startsWith("rounded")) &&
+          tokens.some((t) => t === "border" || t.startsWith("border-"));
+        expect(boxed).toBe(false);
+        expect(tokens.some((t) => t.startsWith("shadow"))).toBe(false);
+      }
+    }
+  });
 });
