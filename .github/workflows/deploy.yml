@@ -88,6 +88,17 @@ jobs:
             --exclude "assets/*" \
             --cache-control "no-cache"
 
+      - name: Upload route objects (extensionless, no-cache)
+        run: |
+          roots="dist/projetos"
+          [ -d dist/blog ] && roots="dist/blog $roots"
+          find $roots -mindepth 2 -maxdepth 2 -name index.html | sort | while read -r f; do
+            key="${f#dist/}"; key="${key%/index.html}"
+            aws s3 cp "$f" "s3://${{ vars.S3_BUCKET }}/$key" \
+              --content-type "text/html; charset=utf-8" \
+              --cache-control "no-cache"
+          done
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
@@ -138,6 +149,17 @@ jobs:
             --exact-timestamps \
             --exclude "assets/*" \
             --cache-control "no-cache"
+
+      - name: Upload route objects (extensionless, no-cache)
+        run: |
+          roots="dist/projetos"
+          [ -d dist/blog ] && roots="dist/blog $roots"
+          find $roots -mindepth 2 -maxdepth 2 -name index.html | sort | while read -r f; do
+            key="${f#dist/}"; key="${key%/index.html}"
+            aws s3 cp "$f" "s3://${{ vars.S3_BUCKET }}/$key" \
+              --content-type "text/html; charset=utf-8" \
+              --cache-control "no-cache"
+          done
 
       - name: Invalidate CloudFront cache
         run: |
