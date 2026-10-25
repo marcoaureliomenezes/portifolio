@@ -43,7 +43,6 @@ export function ProjectsIndexPage() {
           <ProjectCard
             key={project.slug}
             project={project}
-            kindLabels={index.kindLabels}
           />
         ))}
       </div>

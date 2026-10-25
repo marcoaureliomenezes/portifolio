@@ -2,8 +2,8 @@
  * FeaturedProjects — T-RD-04 (AC-RD-01)
  *
  * The recruiter-facing showcase strip on the home page, directly under the
- * hero. Renders 3 curated ProjectCards (ADR-RD-03: the two PyPI libraries +
- * the meta architecture project) and a "see all" link to /projetos.
+ * hero. Renders 2 curated ProjectCards (the two PyPI libraries) and a
+ * "see all" link to /projetos.
  *
  * Reuses the /projetos ProjectCard untouched — same card, new stage.
  */
@@ -11,10 +11,11 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { SectionHeading } from "@/components/portfolio/SectionHeading";
 import type { ContentData, ProjectsContentV2 } from "@/types/content";
 
-/** Curated order — strongest recruiter signal first (ADR-RD-03). */
-const FEATURED_SLUGS = ["rand-engine", "dadaia-workspace", "portifolio"] as const;
+/** Curated order — strongest recruiter signal first. */
+const FEATURED_SLUGS = ["rand-engine", "dadaia-workspace"] as const;
 
 interface FeaturedProjectsProps {
   content: ContentData;
@@ -40,12 +41,7 @@ export function FeaturedProjects({ content }: FeaturedProjectsProps) {
       className="motion-safe:animate-fade-up"
     >
       <div className="flex items-baseline justify-between gap-3 mb-4">
-        <h2
-          id="featured-projects-heading"
-          className="text-xl md:text-2xl font-bold text-foreground"
-        >
-          {title}
-        </h2>
+        <SectionHeading id="featured-projects-heading">{title}</SectionHeading>
         <Link
           to="/projetos"
           data-testid="see-all-projects"
@@ -58,14 +54,10 @@ export function FeaturedProjects({ content }: FeaturedProjectsProps) {
 
       <div
         data-testid="featured-projects-grid"
-        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         {featured.map((project) => (
-          <ProjectCard
-            key={project.slug}
-            project={project}
-            kindLabels={projectsV2.index.kindLabels}
-          />
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
     </section>
