@@ -13,27 +13,15 @@
   "experienceTitle": "Professional Experience",
   "educationTitle": "Education",
   "certificationsTitle": "Certifications",
-  "seeMore": "See more",
-  "seeLess": "See less",
   "responsibilities": "Responsibilities:",
   "technologies": "Technologies:",
-  "validUntil": "Valid until",
-  "viewCredential": "View credential",
-  "issuerLabel": "Issuer",
-  "certSingular": "certification",
-  "certPlural": "certifications",
-  "careerProgression": "Career progression",
-  "roleSingular": "role",
-  "rolePlural": "roles",
-  "viewLarger": "View larger",
   "gamesComingSoon": "Coming soon",
   "gamesComingSoonDesc": "Games will be listed here soon.",
   "notFoundMessage": "Oops! Page not found",
   "returnHome": "Return to Home",
   "heroStatsSuffix": {
     "years": "years",
-    "certs": "certifications",
-    "clouds": "clouds"
+    "certs": "certifications"
   },
   "archPage": {
     "infraDiagramTitle": "Infrastructure Diagram",
@@ -55,11 +43,6 @@
     "viewEmail": "Email"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": {
-    "years": 6,
-    "certifications": 11,
-    "clouds": 4
-  },
   "siteChrome": {
     "nav": { "label": "Main navigation", "resume": "Resume", "projects": "Projects" },
     "theme": { "toLight": "Switch to light theme", "toDark": "Switch to dark theme" },
@@ -75,9 +58,7 @@
     }
   },
   "heroCTAs": {
-    "downloadCv": "Download CV",
-    "seeExperience": "See experience",
-    "seeProjects": "Personal Projects"
+    "downloadCv": "Download CV"
   },
   "resume": {
     "short": "From Mechatronics Engineering labs to leading AI-augmented data pipeline migrations at one of Brazil's largest banks. The path isn't obvious — and that's precisely the point. Most engineers learn data tools. I started with control theory, physics, and embedded systems, which gave me something most data engineers don't have...",
@@ -1011,11 +992,5 @@
   "detailsClose": "Details −",
   "storyOpen": "Read the story",
   "storyClose": "Hide the story",
-  "impactLabel": "Impact",
-  "nowPanel": {
-    "title": "now",
-    "currentRole": "current role",
-    "latestCert": "latest certification",
-    "latestProject": "latest project"
-  }
+  "impactLabel": "Impact"
 }

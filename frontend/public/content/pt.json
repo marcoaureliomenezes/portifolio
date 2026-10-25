@@ -13,27 +13,15 @@
   "experienceTitle": "Experiência Profissional",
   "educationTitle": "Educação",
   "certificationsTitle": "Certificações",
-  "seeMore": "Ver mais",
-  "seeLess": "Ver menos",
   "responsibilities": "Responsabilidades:",
   "technologies": "Tecnologias:",
-  "validUntil": "Válido até",
-  "viewCredential": "Ver credencial",
-  "issuerLabel": "Emissor",
-  "certSingular": "certificado",
-  "certPlural": "certificados",
-  "careerProgression": "Progressão de carreira",
-  "roleSingular": "cargo",
-  "rolePlural": "cargos",
-  "viewLarger": "Ver maior",
   "gamesComingSoon": "Em construção",
   "gamesComingSoonDesc": "Os jogos serão listados aqui em breve.",
   "notFoundMessage": "Oops! Página não encontrada",
   "returnHome": "Voltar ao início",
   "heroStatsSuffix": {
     "years": "anos",
-    "certs": "certificações",
-    "clouds": "nuvens"
+    "certs": "certificações"
   },
   "archPage": {
     "infraDiagramTitle": "Diagrama de Infraestrutura",
@@ -55,11 +43,6 @@
     "viewEmail": "E-mail"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": {
-    "years": 6,
-    "certifications": 11,
-    "clouds": 4
-  },
   "siteChrome": {
     "nav": { "label": "Navegação principal", "resume": "Currículo", "projects": "Projetos" },
     "theme": { "toLight": "Mudar para tema claro", "toDark": "Mudar para tema escuro" },
@@ -75,9 +58,7 @@
     }
   },
   "heroCTAs": {
-    "downloadCv": "Baixar CV",
-    "seeExperience": "Ver experiência",
-    "seeProjects": "Personal Projects"
+    "downloadCv": "Baixar CV"
   },
   "resume": {
     "short": "Dos laboratórios de Engenharia Mecatrônica a liderar migrações de pipelines de dados com IA em um dos maiores bancos do Brasil. A trajetória não é óbvia — e é exatamente isso que importa. A maioria dos engenheiros aprende ferramentas de dados. Eu comecei com teoria de controle, física e sistemas embarcados, o que me deu algo que a maioria não tem...",
@@ -1011,11 +992,5 @@
   "detailsClose": "Detalhes −",
   "storyOpen": "Ler a história",
   "storyClose": "Ocultar a história",
-  "impactLabel": "Impacto",
-  "nowPanel": {
-    "title": "agora",
-    "currentRole": "papel atual",
-    "latestCert": "última certificação",
-    "latestProject": "último projeto"
-  }
+  "impactLabel": "Impacto"
 }

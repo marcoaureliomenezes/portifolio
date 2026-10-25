@@ -116,6 +116,6 @@ export const ContentDataSchema = z
     skills: z.array(SkillCategorySchema).min(1),
     projectsV2: ProjectsContentSchema,
   })
-  // UI label keys (resumeTitle, seeMore, nowPanel, …) are feature-owned and
+  // UI label keys (resumeTitle, storyOpen, …) are feature-owned and
   // intentionally schema-tolerant; i18n parity is enforced by check-i18n-parity.
   .catchall(z.unknown());

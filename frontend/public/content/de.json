@@ -13,27 +13,15 @@
   "experienceTitle": "Berufserfahrung",
   "educationTitle": "Ausbildung",
   "certificationsTitle": "Zertifizierungen",
-  "seeMore": "Mehr anzeigen",
-  "seeLess": "Weniger anzeigen",
   "responsibilities": "Verantwortlichkeiten:",
   "technologies": "Technologien:",
-  "validUntil": "Gültig bis",
-  "viewCredential": "Zertifikat anzeigen",
-  "issuerLabel": "Aussteller",
-  "certSingular": "Zertifikat",
-  "certPlural": "Zertifikate",
-  "careerProgression": "Karriereentwicklung",
-  "roleSingular": "Stelle",
-  "rolePlural": "Stellen",
-  "viewLarger": "Größer anzeigen",
   "gamesComingSoon": "Demnächst verfügbar",
   "gamesComingSoonDesc": "Die Spiele werden bald hier aufgelistet.",
   "notFoundMessage": "Oops! Seite nicht gefunden",
   "returnHome": "Zur Startseite",
   "heroStatsSuffix": {
     "years": "Jahre",
-    "certs": "Zertifizierungen",
-    "clouds": "Clouds"
+    "certs": "Zertifizierungen"
   },
   "archPage": {
     "infraDiagramTitle": "Infrastrukturdiagramm",
@@ -55,11 +43,6 @@
     "viewEmail": "E-Mail anzeigen"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": {
-    "years": 6,
-    "certifications": 11,
-    "clouds": 4
-  },
   "siteChrome": {
     "nav": { "label": "Hauptnavigation", "resume": "Lebenslauf", "projects": "Projekte" },
     "theme": { "toLight": "Zum hellen Design wechseln", "toDark": "Zum dunklen Design wechseln" },
@@ -75,9 +58,7 @@
     }
   },
   "heroCTAs": {
-    "downloadCv": "Lebenslauf herunterladen",
-    "seeExperience": "Erfahrung ansehen",
-    "seeProjects": "Personal Projects"
+    "downloadCv": "Lebenslauf herunterladen"
   },
   "resume": {
     "short": "Von den Laboren der Steuerungs- und Automatisierungstechnik bis zur Leitung KI-augmentierter Datenmigrationsprojekte bei einer der größten Banken Brasiliens. Der Weg ist nicht offensichtlich — und genau das macht ihn interessant. Die meisten Ingenieure lernen Datenwerkzeuge. Ich begann mit Regelungstheorie, Physik und eingebetteten Systemen — und das gab mir etwas, das die meisten nicht haben...",
@@ -1011,11 +992,5 @@
   "detailsClose": "Details −",
   "storyOpen": "Die Geschichte lesen",
   "storyClose": "Geschichte ausblenden",
-  "impactLabel": "Wirkung",
-  "nowPanel": {
-    "title": "jetzt",
-    "currentRole": "aktuelle Rolle",
-    "latestCert": "neueste Zertifizierung",
-    "latestProject": "neuestes Projekt"
-  }
+  "impactLabel": "Wirkung"
 }
