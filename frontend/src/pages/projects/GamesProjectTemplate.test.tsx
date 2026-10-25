@@ -71,7 +71,7 @@ const committed = JSON.parse(
 ) as Pick<ContentData, "profile">;
 
 const enContent = {
-  profile: committed.profile,
+  profile: { ...committed.profile, githubUrl: "https://git.example/owner" },
   gamesComingSoon: "Coming soon in English",
   gamesComingSoonDesc: "Games will be listed here in English.",
 } as unknown as ContentData;
@@ -200,5 +200,11 @@ describe("GamesProjectTemplate", () => {
     expect(screen.getByText("Games will be listed here in English.")).toBeInTheDocument();
     expect(container.textContent).not.toContain("Em breve");
     expect(container.textContent).not.toContain("sendo preparados");
+  });
+
+  it("empty state links the profile's GitHub URL, shown without its scheme", () => {
+    renderTemplate({ ...mockProject, items: [] });
+    const link = screen.getByRole("link", { name: "git.example/owner" });
+    expect(link).toHaveAttribute("href", "https://git.example/owner");
   });
 });
