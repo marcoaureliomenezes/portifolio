@@ -13,15 +13,9 @@ import { describe, it, expect } from "vitest";
 import { ExperienceCard } from "./ExperienceCard";
 import type { Experience, ContentData } from "@/types/content";
 
-const mockLabels: Pick<
-  ContentData,
-  "responsibilities" | "technologies" | "careerProgression" | "roleSingular" | "rolePlural"
-> = {
+const mockLabels: Pick<ContentData, "responsibilities" | "technologies"> = {
   responsibilities: "Responsibilities",
   technologies: "Technologies",
-  careerProgression: "Career progression",
-  roleSingular: "role",
-  rolePlural: "roles",
 };
 
 const singleRoleWithSkills: Experience = {
@@ -77,7 +71,7 @@ const singleRoleNoExtras: Experience = {
 
 describe("ExperienceCard", () => {
   it("renders a single-role experience in the same collapsed model with a teaser", () => {
-    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} />);
+    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="en" />);
     expect(screen.getByText("Acme Corp")).toBeInTheDocument();
     expect(screen.getAllByText("Jan 2021 – Present").length).toBeGreaterThan(0);
     expect(screen.getByText("São Paulo, BR")).toBeInTheDocument();
@@ -87,7 +81,7 @@ describe("ExperienceCard", () => {
 
   it("renders skill badges after expanding a role", async () => {
     const user = userEvent.setup();
-    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} />);
+    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="en" />);
     await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
     const badges = screen.getAllByTestId("skill-badge");
     expect(badges).toHaveLength(4);
@@ -98,13 +92,13 @@ describe("ExperienceCard", () => {
   });
 
   it("does not render badges when skills are absent", () => {
-    render(<ExperienceCard experience={singleRoleNoExtras} labels={mockLabels} />);
+    render(<ExperienceCard experience={singleRoleNoExtras} labels={mockLabels} locale="en" />);
     expect(screen.queryByTestId("skill-badge")).not.toBeInTheDocument();
   });
 
   it("renders highlight block after expanding when highlightProject is set", async () => {
     const user = userEvent.setup();
-    render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} />);
+    render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} locale="en" />);
     await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
     expect(screen.getByText("Migração SAS → Azure")).toBeInTheDocument();
     expect(screen.getByText("Redução SLA: 12 meses → 2 meses")).toBeInTheDocument();
@@ -112,7 +106,7 @@ describe("ExperienceCard", () => {
   });
 
   it("does not render highlight block when highlightProject is absent", () => {
-    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} />);
+    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="en" />);
     // No ⚡ Impacto badge should appear
     expect(screen.queryByLabelText("Impacto")).not.toBeInTheDocument();
   });
@@ -133,73 +127,54 @@ const multiRoleExperience: Experience = {
 };
 
 describe("ExperienceCard — i18n", () => {
-  it("renders careerProgression label from labels prop (not hardcoded)", () => {
-    // Use a custom string — if the component had it hardcoded, this would fail
-    render(
-      <ExperienceCard
-        experience={multiRoleExperience}
-        labels={{
-          responsibilities: "Responsabilidades:",
-          technologies: "Tecnologias:",
-          careerProgression: "Trajeto profissional",
-          roleSingular: "cargo",
-          rolePlural: "cargos",
-        }}
-      />,
-    );
-    expect(screen.getByText(/Trajeto profissional/)).toBeInTheDocument();
-  });
-
   it("does NOT render hardcoded 'Progressão de carreira' when custom label supplied", () => {
     render(
       <ExperienceCard
         experience={multiRoleExperience}
-        labels={{
-          responsibilities: "Responsabilidades:",
-          technologies: "Tecnologias:",
-          careerProgression: "Career progression",
-          roleSingular: "position",
-          rolePlural: "positions",
-        }}
+        labels={{ responsibilities: "Responsabilidades:", technologies: "Tecnologias:" }}
+        locale="en"
       />,
     );
     // Hardcoded 'Progressão de carreira' must NOT appear
     expect(screen.queryByText(/Progressão de carreira/i)).not.toBeInTheDocument();
   });
+});
 
-  it("renders plural rolePlural when roles.length > 1", () => {
-    render(
-      <ExperienceCard
-        experience={multiRoleExperience}
-        labels={{
-          responsibilities: "Responsabilidades:",
-          technologies: "Tecnologias:",
-          careerProgression: "Career progression",
-          roleSingular: "position",
-          rolePlural: "positions",
-        }}
-      />,
-    );
-    expect(screen.getByText(/2 positions/)).toBeInTheDocument();
+// ── ExperienceCard — employer line ────────────────────────────────────────
+
+describe("ExperienceCard — employer line", () => {
+  const closed: Experience = {
+    ...multiRoleExperience,
+    totalPeriod: "07-2022 a 02-2024",
+    roles: [
+      { title: "Senior Engineer", period: "07-2022 a 02-2024" },
+      { title: "Mid Engineer", period: "07-2022 a 02-2024" },
+    ],
+  };
+
+  it("renders company, localized period and location in one h3", () => {
+    render(<ExperienceCard experience={closed} labels={mockLabels} locale="pt" />);
+    const h3 = screen.getByRole("heading", { level: 3 });
+    expect(h3).toHaveTextContent("Acme Corp");
+    expect(h3).toHaveTextContent("jul. de 2022 – fev. de 2024 · 1 ano 7 meses");
+    expect(h3).toHaveTextContent("São Paulo");
   });
 
-  it("renders singular roleSingular when roles.length === 1", () => {
-    const singleRole: Experience = {
-      ...multiRoleExperience,
-      roles: [{ title: "Senior Engineer", period: "2022–present" }],
-    };
-    render(
-      <ExperienceCard
-        experience={singleRole}
-        labels={{
-          responsibilities: "Responsabilidades:",
-          technologies: "Tecnologias:",
-          careerProgression: "Career progression",
-          roleSingular: "position",
-          rolePlural: "positions",
-        }}
-      />,
+  it("puts the employer line and its roles under a left rule, with no card", () => {
+    const { container } = render(
+      <ExperienceCard experience={closed} labels={mockLabels} locale="en" />,
     );
-    expect(screen.getByText(/1 position/)).toBeInTheDocument();
+    const rule = container.querySelector('[class*="border-l"]');
+    expect(rule).not.toBeNull();
+    expect(rule).toContainElement(screen.getByRole("heading", { level: 3 }));
+    expect(rule).toContainElement(screen.getAllByText("Senior Engineer")[0]);
+    expect(screen.getByRole("heading", { level: 3 }).closest('[class*="bg-card"]')).toBeNull();
+    expect(container.querySelector('[class*="bg-gradient"]')).toBeNull();
+  });
+
+  it("renders no career-progression count", () => {
+    render(<ExperienceCard experience={closed} labels={mockLabels} locale="en" />);
+    expect(screen.queryByText(/2 roles/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Career progression/i)).not.toBeInTheDocument();
   });
 });
