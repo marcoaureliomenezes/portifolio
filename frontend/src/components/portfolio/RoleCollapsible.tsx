@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { PROSE } from "@/lib/layout";
-import {
-  Disclosure,
-  DisclosureTrigger,
-  DisclosureContent,
-} from "@/components/ui/disclosure";
+import { Disclosure, DisclosureContent } from "@/components/ui/disclosure";
+import { CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RoleSkillBadges } from "./RoleSkillBadges";
 import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Position, ContentData } from "@/types/content";
@@ -38,7 +35,7 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
     <Disclosure open={open} onOpenChange={handleOpenChange}>
       <article
         data-testid="role"
-        className="bg-card rounded-xl border border-border/40 overflow-hidden hover:border-accent/40 transition-colors duration-200 p-3 md:p-4 space-y-1"
+        className="flex flex-col space-y-1"
       >
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5">
           <h4 className="font-bold text-foreground text-sm md:text-base">{role.title}</h4>
@@ -47,9 +44,9 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
         {summary && (
           <p className={`${PROSE} text-sm leading-relaxed text-muted-foreground`}>{summary}</p>
         )}
-        <DisclosureTrigger className="py-1 text-sm font-medium text-foreground">
+        <CollapsibleTrigger className="self-start font-mono text-xs font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">
           {open ? labels.detailsClose : labels.detailsOpen}
-        </DisclosureTrigger>
+        </CollapsibleTrigger>
 
         <DisclosureContent>
           <div className="pb-1 space-y-4">
