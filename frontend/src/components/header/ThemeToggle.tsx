@@ -10,7 +10,7 @@ interface ThemeToggleProps {
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
-  const { toLight, toDark } = useContent().content.siteChrome!.theme;
+  const { toLight, toDark } = useContent().content.siteChrome.theme;
 
   // T-AN-D-02: Track theme_toggle event; report the new theme (opposite of current).
   function handleToggle() {

@@ -11,7 +11,7 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
 
 export const Header = () => {
   const { content, language, setLanguage } = useContent();
-  const { nav } = content.siteChrome!;
+  const { nav } = content.siteChrome;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-30 h-[var(--header-h)] bg-header-bg text-header-text shadow-lg">

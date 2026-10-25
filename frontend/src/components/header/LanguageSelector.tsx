@@ -26,7 +26,7 @@ export function LanguageSelector({
   onLanguageChange,
   compact = false,
 }: LanguageSelectorProps) {
-  const label = useContent().content.siteChrome!.language.label;
+  const label = useContent().content.siteChrome.language.label;
   const current = LANGUAGE_OPTIONS.find((o) => o.value === language);
 
   // T-AN-D-02: Track language_switch event when the language changes.
