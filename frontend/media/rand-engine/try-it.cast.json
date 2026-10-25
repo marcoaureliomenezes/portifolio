@@ -1,0 +1,9 @@
+{
+  "pin": "rand-engine==0.8.0",
+  "steps": [
+    {
+      "cmd": "python try-it.py",
+      "out": "    user_id  age  plan      signup\n0  08925095   49  free  2024-03-19\n1  77395604   20  free  2024-08-06\n2  65457151   25  free  2024-09-28\n3  43887843   21  free  2024-05-07\n4  43301523   22  free  2024-02-17"
+    }
+  ]
+}

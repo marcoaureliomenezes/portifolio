@@ -5,6 +5,8 @@
  * TDD approach: tests written first, schema written to make them pass.
  */
 
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   ProjectsContentSchema,
@@ -282,5 +284,135 @@ describe("Schema structural contract (zero z.any())", () => {
       costs: [{ service: "Route53" }],
     });
     expect(result.success).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Media, code, item href, hero.media; stat and section diagram are gone
+// ---------------------------------------------------------------------------
+
+const cut = (name: string) => ({
+  webm: `/assets/projects/x/${name}.webm`,
+  mp4: `/assets/projects/x/${name}.mp4`,
+  poster: `/assets/projects/x/${name}.webp`,
+  width: 1280,
+  height: 720,
+});
+const videoMedia = {
+  type: "video" as const,
+  alt: "Demo",
+  caption: "A demo.",
+  desktop: cut("desktop"),
+  phone: { ...cut("phone"), width: 360, height: 640 },
+};
+const svgMedia = {
+  type: "svg" as const,
+  alt: "Architecture",
+  light: "/assets/projects/x/arch-light.svg",
+  dark: "/assets/projects/x/arch-dark.svg",
+};
+const parseSection = (section: object) =>
+  CaseStudyProjectSchema.safeParse({
+    ...validCaseStudy,
+    sections: [{ ...validSection, ...section }],
+  });
+
+describe("project section media, code and href", () => {
+  it("keeps a video media with both cuts", () => {
+    const r = parseSection({ media: videoMedia });
+    expect(r.success && r.data.sections[0].media).toEqual(videoMedia);
+  });
+
+  it("keeps an svg media with its light/dark pair", () => {
+    const r = parseSection({ media: svgMedia });
+    expect(r.success && r.data.sections[0].media).toEqual(svgMedia);
+  });
+
+  it("keeps code and an item href", () => {
+    const items = [{ label: "Docs", value: "Read", href: "https://example.com/docs" }];
+    const r = parseSection({ code: "pip install x", items });
+    expect(r.success && r.data.sections[0].code).toBe("pip install x");
+    expect(r.success && r.data.sections[0].items).toEqual(items);
+  });
+
+  it("keeps hero.media", () => {
+    const r = CaseStudyProjectSchema.safeParse({
+      ...validCaseStudy,
+      hero: { ...validCaseStudy.hero, media: videoMedia },
+    });
+    expect(r.success && r.data.hero.media).toEqual(videoMedia);
+  });
+
+  it.each([
+    ["a video without the phone cut", { ...videoMedia, phone: undefined }],
+    ["a cut without a mp4", { ...videoMedia, desktop: { ...cut("d"), mp4: undefined } }],
+    ["a cut with a non-numeric width", { ...videoMedia, desktop: { ...cut("d"), width: "wide" } }],
+    ["an svg without the dark path", { ...svgMedia, dark: undefined }],
+    ["a media without alt", { ...svgMedia, alt: undefined }],
+    ["an unknown media type", { ...svgMedia, type: "gif" }],
+  ])("rejects %s", (_name, media) => {
+    expect(parseSection({ media }).success).toBe(false);
+  });
+});
+
+describe("removed fields are stripped", () => {
+  it("drops a library stat", () => {
+    const r = ProjectsContentSchema.safeParse({
+      index: validProjectsContent.index,
+      list: [
+        {
+          slug: "lib",
+          kind: "library",
+          hero: validCaseStudy.hero,
+          card: validProjectCard,
+          seo: validSeo,
+          sections: [validSection],
+          pypi: { package: "lib", version: "1.0.0", installCommand: "pip install lib" },
+          stat: { label: "rows/s", value: "5.1M" },
+          links: { repo: "https://github.com/a/b", pypi: "https://pypi.org/project/lib" },
+        },
+      ],
+    });
+    expect(r.success).toBe(true);
+    expect(r.success && "stat" in r.data.list[0]).toBe(false);
+  });
+
+  it("drops a section diagram", () => {
+    const r = parseSection({ diagram: "/assets/projects/x/old.svg" });
+    expect(r.success).toBe(true);
+    expect(r.success && "diagram" in r.data.sections[0]).toBe(false);
+  });
+});
+
+describe("the three real locale files", () => {
+  it.each(["pt", "en", "de"])("%s projectsV2 parses", (lang) => {
+    const file = resolve(__dirname, `../../../public/content/${lang}.json`);
+    const { projectsV2 } = JSON.parse(readFileSync(file, "utf-8"));
+    const r = ProjectsContentSchema.safeParse(projectsV2);
+    expect(r.success).toBe(true);
+  });
+});
+
+describe("project link URLs accept only http(s)", () => {
+  it.each(["javascript:alert(1)", "data:text/html,x"])("rejects %s", (bad) => {
+    expect(GamesProjectSchema.safeParse({ ...validGames, items: [{ ...validGameLink, playUrl: bad }] }).success).toBe(false);
+    expect(GamesProjectSchema.safeParse({ ...validGames, items: [{ ...validGameLink, repo: bad }] }).success).toBe(false);
+    expect(CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: bad } }).success).toBe(false);
+  });
+
+  it("rejects javascript: in a decision spec link", () => {
+    const decisions = [{ ...validDecision, spec: "javascript:alert(1)" }];
+    expect(MetaProjectSchema.safeParse({ ...validMeta, decisions }).success).toBe(false);
+  });
+
+  it("rejects javascript: in a section item href", () => {
+    const items = [{ label: "Docs", value: "Read", href: "javascript:alert(1)" }];
+    expect(parseSection({ items }).success).toBe(false);
+  });
+
+  it("accepts an https URL", () => {
+    expect(
+      CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: "https://github.com/x/y" } }).success,
+    ).toBe(true);
   });
 });

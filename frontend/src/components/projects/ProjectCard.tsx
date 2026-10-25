@@ -7,12 +7,12 @@
  * rc-2 redesign (AC-PC2-R2-06): the card must "sell" in seconds —
  *  - kind chip (i18n via projectsV2.index.kindLabels, code fallback)
  *  - up to 4 tech badges
- *  - headline stat + registry hint for library projects (pip install …)
+ *  - registry hint for library projects (pip install …)
  *  - subtle hover lift on the cover
  *
  * Accessibility (unchanged contract):
- * - The <Link> is the ONLY interactive element in the card — registry/stat
- *   affordances are passive chips, never nested anchors/buttons.
+ * - The <Link> is the ONLY interactive element in the card — the registry
+ *   affordance is a passive chip, never a nested anchor/button.
  * - focus-visible:ring-2 applied directly on the link for keyboard navigation.
  * - aria-label on the link combines title for screen readers.
  */
@@ -39,7 +39,6 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
   const { slug, hero, card, kind } = project;
 
   const kindLabel = kindLabels?.[kind] ?? KIND_FALLBACK_LABELS[kind];
-  const stat = kind === "library" ? project.stat : undefined;
   const installHint = kind === "library" ? project.pypi.installCommand : undefined;
 
   return (
@@ -76,7 +75,7 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         )}
         <span
           data-testid="project-card-kind"
-          className="absolute top-2 right-2 rounded-full bg-background/85 backdrop-blur px-2.5 py-0.5 text-xs font-medium text-foreground border border-border/60"
+          className="absolute top-2 right-2 rounded-full bg-background/85 backdrop-blur px-2.5 py-0.5 text-label text-foreground border border-border/60"
         >
           {kindLabel}
         </span>
@@ -87,11 +86,11 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         <div className="space-y-1">
           <h3
             data-testid="project-card-title"
-            className="text-base font-semibold text-foreground leading-snug group-hover:text-accent transition-colors"
+            className="text-item text-foreground group-hover:text-accent transition-colors"
           >
             {hero.title}
           </h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="text-meta text-muted-foreground line-clamp-2">
             {card.summary}
           </p>
         </div>
@@ -99,31 +98,21 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
         {/* Tech badges (≤ 4) — AC-PC2-R2-06 */}
         <div className="flex flex-wrap gap-1.5" data-testid="project-card-tech">
           {card.tech.slice(0, 4).map((t) => (
-            <Badge key={t} variant="secondary" className="text-xs font-normal">
+            <Badge key={t} variant="secondary" className="text-label font-normal">
               {t}
             </Badge>
           ))}
         </div>
 
-        {/* Library signal row: install hint + headline stat (passive chips) */}
-        {(installHint || stat) && (
-          <div className="flex items-center justify-between gap-2 text-xs">
-            {installHint && (
-              <code
-                data-testid="project-card-install"
-                className="font-mono text-muted-foreground truncate"
-              >
-                $ {installHint}
-              </code>
-            )}
-            {stat && (
-              <span
-                data-testid="project-card-stat"
-                className="shrink-0 font-semibold text-foreground"
-              >
-                {stat.value} {stat.label}
-              </span>
-            )}
+        {/* Library signal row: install hint (passive chip) */}
+        {installHint && (
+          <div className="flex items-center justify-between gap-2 text-meta">
+            <code
+              data-testid="project-card-install"
+              className="font-mono text-muted-foreground truncate"
+            >
+              $ {installHint}
+            </code>
           </div>
         )}
       </div>

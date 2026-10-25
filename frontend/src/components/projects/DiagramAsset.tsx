@@ -36,7 +36,7 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
           aria-hidden="true"
           className="w-full aspect-video rounded-lg bg-muted flex items-center justify-center"
         />
-        <figcaption className="text-xs text-muted-foreground text-center mt-1">
+        <figcaption className="text-meta text-muted-foreground text-center mt-1">
           {alt}
         </figcaption>
       </figure>
@@ -50,7 +50,7 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
         <img
           src={light}
           alt={alt}
-          className="w-full rounded-lg border border-border"
+          className="w-full"
           loading="lazy"
         />
       </figure>
@@ -64,14 +64,14 @@ export function DiagramAsset({ light, dark, alt, className }: DiagramAssetProps)
         src={light}
         alt={alt}
         data-testid="diagram-light"
-        className="w-full rounded-lg border border-border dark:hidden"
+        className="w-full dark:hidden"
         loading="lazy"
       />
       <img
         src={dark}
         alt={alt}
         data-testid="diagram-dark"
-        className="w-full rounded-lg border border-border hidden dark:block"
+        className="w-full hidden dark:block"
         loading="lazy"
       />
     </figure>

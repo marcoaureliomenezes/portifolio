@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { SupportedLanguages } from "@/types/content";
+import { useContent } from "@/hooks/useContent";
 import { track } from "@dadaia/analytics-sdk";
 
 interface LanguageSelectorProps {
@@ -25,6 +26,7 @@ export function LanguageSelector({
   onLanguageChange,
   compact = false,
 }: LanguageSelectorProps) {
+  const label = useContent().content.siteChrome!.language.label;
   const current = LANGUAGE_OPTIONS.find((o) => o.value === language);
 
   // T-AN-D-02: Track language_switch event when the language changes.
@@ -38,8 +40,8 @@ export function LanguageSelector({
     return (
       <Select value={language} onValueChange={handleLanguageChange}>
         <SelectTrigger
-          className="w-12 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-xs px-1"
-          aria-label="Select language"
+          className="w-12 h-6 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-label px-1"
+          aria-label={label}
         >
           <SelectValue>{current?.short ?? language.toUpperCase()}</SelectValue>
         </SelectTrigger>
@@ -48,7 +50,7 @@ export function LanguageSelector({
             <SelectItem
               key={opt.value}
               value={opt.value}
-              className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-xs"
+              className="text-header-text hover:bg-header-text/10 focus:bg-header-text/10 text-label"
             >
               {opt.label}
             </SelectItem>
@@ -61,8 +63,8 @@ export function LanguageSelector({
   return (
     <Select value={language} onValueChange={handleLanguageChange}>
       <SelectTrigger
-        className="w-28 h-8 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-sm"
-        aria-label="Select language"
+        className="w-28 h-8 bg-transparent border-header-text/30 text-header-text hover:bg-header-text/10 text-label"
+        aria-label={label}
       >
         <SelectValue placeholder="Language" />
       </SelectTrigger>

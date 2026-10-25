@@ -1,0 +1,2 @@
+dadaia-workspace init w --harness claude >/dev/null
+cd w;echo '{"tool_name":"Bash","tool_input":{"command":"dadaia doctor"}}'|.dadaia/.venv/bin/python -m dadaia_workspace.hooks.pre_gate|jq -r .reason|sed 3d

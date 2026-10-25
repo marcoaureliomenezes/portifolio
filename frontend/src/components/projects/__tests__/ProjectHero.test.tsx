@@ -72,3 +72,29 @@ describe("ProjectHero — rendering", () => {
     expect(placeholder?.className).toContain("aspect-video");
   });
 });
+
+describe("ProjectHero — un-boxed", () => {
+  const tokens = (el: Element) => el.className.toString().split(/\s+/);
+
+  it("has no wrapper carrying rounded + border, a shadow or a gradient outside the cover block and the tech pills", () => {
+    const { container } = render(<ProjectHero project={mockCaseStudy} />);
+    const outside = [...container.querySelectorAll("*")].filter(
+      (el) => !el.closest("[data-testid='hero-cover-placeholder'], [aria-label='Technologies']"),
+    );
+    const boxed = outside.filter((el) => {
+      const t = tokens(el);
+      return t.some((c) => /^rounded/.test(c)) && t.some((c) => /^border(-|$)/.test(c));
+    });
+    expect(boxed).toHaveLength(0);
+    expect(outside.filter((el) => tokens(el).some((c) => /(^|:)shadow/.test(c)))).toHaveLength(0);
+    expect(outside.filter((el) => tokens(el).some((c) => /gradient|^from-|^to-/.test(c)))).toHaveLength(0);
+  });
+
+  it("h1 uses the title / title-sm type steps", () => {
+    render(<ProjectHero project={mockCaseStudy} />);
+    const t = screen.getByRole("heading", { level: 1 }).className.split(/\s+/);
+    expect(t).toContain("text-title-sm");
+    expect(t).toContain("md:text-title");
+    expect(t).not.toContain("md:text-4xl");
+  });
+});

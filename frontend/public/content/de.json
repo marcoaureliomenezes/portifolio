@@ -60,7 +60,13 @@
     "certifications": 11,
     "clouds": 4
   },
-  "navProjects": "Personal Projects",
+  "siteChrome": {
+    "nav": { "label": "Hauptnavigation", "resume": "Lebenslauf", "projects": "Projekte" },
+    "theme": { "toLight": "Zum hellen Design wechseln", "toDark": "Zum dunklen Design wechseln" },
+    "language": { "label": "Sprache auswählen" },
+    "breadcrumb": { "label": "Navigationspfad", "projects": "Projekte" },
+    "backToProjects": "Zurück zu den Projekten"
+  },
   "heroCTAs": {
     "downloadCv": "Lebenslauf herunterladen",
     "seeExperience": "Erfahrung ansehen",
@@ -570,11 +576,30 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Ein lokal-first, spezifikationsgesteuerter Workspace, der KI-Agenten aktuellen Kontext, einen dokumentgesteuerten Lebenszyklus und Anti-Slop-Grenzen gibt."
+          "tagline": "Ein lokal-first, spezifikationsgesteuerter Workspace, der KI-Agenten aktuellen Kontext, einen dokumentgesteuerten Lebenszyklus und Anti-Slop-Grenzen gibt.",
+          "media": {
+            "type": "video",
+            "alt": "Ein Terminal führt dadaia-workspace init für ein Verzeichnis namens demo mit dem Harness claude aus und gibt Harness: claude aus. Das Auflisten von demo zeigt .agents, AGENTS.md, .claude und .dadaia. Ein doctor in demo gibt Exit 0 aus.",
+            "caption": "Ein Befehl erstellt einen Workspace, und doctor endet mit Code 0.",
+            "desktop": {
+              "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+              "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+              "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+              "width": 1280,
+              "height": 720
+            },
+            "phone": {
+              "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+              "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+              "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+              "width": 720,
+              "height": 900
+            }
+          }
         },
         "card": {
-          "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Lokal-first Python-CLI (PyPI): ein Ordner pro Workspace, sechs Agent-Harnesses, fünf Agentenrollen und ein dokumentgesteuerter Lebenszyklus vom Backlog bis zum Release.",
+          "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+          "summary": "Lokal-first-CLI auf PyPI: ein Ordner pro Workspace, sechs Agent-Harnesses und ein von Dokumenten getragener Lebenszyklus.",
           "tech": [
             "Python",
             "Claude Code",
@@ -584,57 +609,96 @@
           ]
         },
         "seo": {
-          "title": "dadaia-workspace — Marco Menezes",
-          "description": "dadaia-workspace — Python-Bibliothek auf PyPI für Spec-driven Development mit kollaborativen KI-Agenten."
+          "title": "dadaia-workspace, ein spezifikationsgesteuerter Workspace für KI-Agenten — Marco Menezes",
+          "description": "dadaia-workspace ist eine lokal-first CLI auf PyPI, die KI-Agenten aktuellen Kontext, einen dokumentgesteuerten Lebenszyklus und Anti-Slop-Grenzen über sechs Harnesses hinweg gibt."
         },
-        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
-        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
-        "diagramAlt": "Architekturdiagramm von dadaia-workspace: KI-Agenten, Projektkontexte und SDD-Fluss.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.5.0",
+          "version": "0.4.7",
           "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
-        },
-        "stat": {
-          "label": "Agentenrollen",
-          "value": "5"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "Was ist das",
-            "body": "dadaia-workspace ist eine Open-Source-CLI (PyPI) für die Entwicklung mit KI-Agenten. Ein Workspace ist ein Ordner: Deine Projekte liegen darin als Repositories, und die Governance (`AGENTS.md`, Skills, Hooks) liegt außerhalb jedes Repos. Die Arbeit wird durch Dokumente gesteuert — Backlog, SPEC, PLAN und Job-Dateien — nicht durch eine Runtime. Fünf Agentenrollen teilen sich diese Dokumente: Product Engineer, Senior- und Junior-Software-Engineer, Code Reviewer und Researcher."
+            "id": "demand-to-merge",
+            "title": "Von der Nachfrage zum Merge",
+            "body": "Ein ausgewähltes Set durchläuft einen Grill, dann SPEC, PLAN und TASKS. Eine Aufgabe wird jeweils reserviert und erst nach dem APPROVED des Reviewers abgehakt, danach führt der Abschluss Feature in develop zusammen.",
+            "media": {
+              "type": "svg",
+              "alt": "Von der Nachfrage zum Merge: ausgewähltes Set, Grill, SPEC PLAN TASKS, jeweils eine reservierte Aufgabe, abgehakt erst nach APPROVED, dann Abschluss mit dem Merge des Features in develop",
+              "caption": "Jeder Schritt wartet auf den vorherigen.",
+              "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+              "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+            }
+          },
+          {
+            "id": "gate-refuses",
+            "title": "Das Gate verweigert",
+            "body": "Das Pre-Gate blockiert einen dadaia-Lauf außerhalb des Workspace-venv. Seine Verweigerung nennt den blockierten Befehl und trägt eine Korrekturzeile.",
+            "media": {
+              "type": "video",
+              "alt": "Ein Terminal erstellt einen Workspace namens w und schickt dem Pre-Gate dann einen Bash-Aufruf für dadaia doctor. Das Gate gibt eine VENV-GUARD-Verweigerung aus, die den blockierten Befehl dadaia doctor nennt und eine Korrekturzeile, .dadaia/.venv/bin/dadaia doctor.",
+              "caption": "Ein blockierter Befehl, eine Korrekturzeile.",
+              "desktop": {
+                "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+                "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+                "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          },
+          {
+            "id": "six-harnesses",
+            "title": "Sechs Harnesses",
+            "body": "Das Gesetz in AGENTS.md wird einmal geschrieben und von Claude Code, Codex, Kimi Code, Cursor, Devin und GitHub Copilot gelesen. Ein Harness unterscheidet sich nur in der Serialisierung: Ereignisnamen, Hook-Datei und Antwortform.",
+            "media": {
+              "type": "svg",
+              "alt": "Ein Gesetz, AGENTS.md, projiziert in sechs Harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin und GitHub Copilot.",
+              "caption": "Ein Gesetz, sechs Harnesses.",
+              "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+              "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+            }
+          },
+          {
+            "id": "try",
+            "title": "Ausprobieren",
+            "code": "uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3"
           },
           {
             "id": "why",
-            "title": "Warum es existiert",
-            "body": "Agenten, denen ein ganzes Repository gegeben wird, driften ab: Sie verlieren den Kontext, schreiben, wohin sie wollen, und hinterlassen eigenen Zustand. dadaia-workspace bindet eine Session an ein Projekt, injiziert nur dessen Memory und Release-Zustand und erzwingt die Grenzen mechanisch — ein Pre-Tool-Gate verweigert Schreibzugriffe außerhalb des Scopes, und jede Verweigerung trägt eine Korrekturzeile."
+            "title": "Warum es das gibt",
+            "body": "Eine Agenten-Session braucht den aktuellen Kontext eines Projekts und klare Grenzen. dadaia-workspace bindet eine Session an ein Projekt und injiziert dessen Memory und Release-Zustand, und ein Pre-Tool-Gate blockiert Schreibzugriffe, die die Session nicht machen darf, jede Verweigerung mit einer Korrekturzeile."
           },
           {
-            "id": "how",
-            "title": "Wie es funktioniert",
-            "body": "`uvx dadaia-workspace init <dir> --harness <name>` erstellt den Workspace und projiziert die Agenten in Claude Code, Codex, Kimi Code, Cursor, Devin oder GitHub Copilot. Jede Aufgabe läuft in ihrem eigenen Git-Worktree, und jeder Job landet erst nach einem APPROVED des Reviewers; `worktree pause` und `resume` legen einen Arbeitsbaum als Bundle beiseite und holen ihn zurück. `dadaia export` schreibt die Kontexte des Workspaces in eine Datei (`--hard` fügt die nicht gepushte Arbeit hinzu), und `init --from` baut ihn anderswo wieder auf.",
-            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
-          },
-          {
-            "id": "status",
-            "title": "Aktueller Status",
+            "id": "facts",
+            "title": "Fakten",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.5.0 (PyPI)"
+                "label": "Sprache",
+                "value": "Python ^3.12",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/pyproject.toml"
               },
               {
-                "label": "Agentenrollen",
-                "value": "5"
+                "label": "Lizenz",
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/LICENSE"
               },
               {
                 "label": "Harnesses",
-                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot"
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/README.md"
               },
               {
-                "label": "Letzter Meilenstein",
-                "value": "Portable Workspaces: export, export --hard und init --from"
+                "label": "Agentenrollen",
+                "value": "3: Code-Reviewer, Product Engineer, Software Engineer",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/v0.4.7/dadaia_workspace/public/agents"
               }
             ]
           }
@@ -805,81 +869,135 @@
         "kind": "library",
         "hero": {
           "title": "rand-engine",
-          "tagline": "Hochperformante Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab — Pandas, Spark und DuckDB."
+          "tagline": "Synthetische Daten aus einer deklarativen Spezifikation, für Batch und Streaming.",
+          "media": {
+            "type": "video",
+            "alt": "Ein Terminal führt einen Python-Befehl aus. Er baut einen DataGenerator aus einer Spezifikation mit zwei Spalten, age als Ganzzahl von 18 bis 80 und plan als free oder pro, mit seed 42 und 5 Zeilen, und gibt eine Tabelle mit den Spalten age und plan und 5 Zeilen aus.",
+            "caption": "Eine Spezifikation rein, ein DataFrame mit Seed raus.",
+            "desktop": {
+              "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
+              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
+              "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+              "width": 1280,
+              "height": 720
+            },
+            "phone": {
+              "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
+              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
+              "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
+              "width": 720,
+              "height": 900
+            }
+          }
         },
         "card": {
-          "cover": "/assets/projects/rand-engine/cover.webp",
-          "summary": "Erzeugt realistische synthetische Daten in Sekunden. Native Pandas- und Spark-Unterstützung, 17+ fertige Specs, FK/PK-Constraint-System und reproduzierbares Seeding.",
+          "cover": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+          "summary": "Reproduzierbare DataFrames mit Seed, verwandte Tabellen, Dateien und Event-Streams aus einer deklarativen Spezifikation.",
           "tech": [
             "Python",
-            "Pandas",
-            "PySpark",
-            "DuckDB",
-            "NumPy"
+            "NumPy",
+            "pandas"
           ]
         },
         "seo": {
           "title": "rand-engine — Marco Menezes",
-          "description": "rand-engine — Open-Source-Python-Bibliothek auf PyPI zur Erzeugung synthetischer Daten im großen Maßstab mit Pandas und Spark."
+          "description": "rand-engine — Open-Source-Python-Bibliothek auf PyPI, die reproduzierbare synthetische Daten aus einer deklarativen Spezifikation erzeugt."
         },
-        "diagram": "/assets/projects/rand-engine/architecture-light.svg",
-        "diagramDark": "/assets/projects/rand-engine/architecture-dark.svg",
-        "diagramAlt": "Architekturdiagramm von rand-engine: deklarative Specs, NumPy-Generatoren und Pandas/Spark-Ausgabe.",
         "pypi": {
           "package": "rand-engine",
-          "version": "0.6.4",
+          "version": "0.8.0",
           "installCommand": "pip install rand-engine"
-        },
-        "stat": {
-          "label": "rows/s (Spark)",
-          "value": "5.1M"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "Was ist das",
-            "body": "rand-engine ist eine Open-Source-Python-Bibliothek zur Erzeugung synthetischer Daten im großen Maßstab. Sie unterstützt Pandas (lokal) und Spark (verteilt), mit 17+ fertigen Specs — Kunden, Bestellungen, Produkte, Mitarbeiter und mehr. Veröffentlicht auf PyPI mit 494 automatisierten Tests unter MIT-Lizenz."
+            "id": "related-tables",
+            "title": "Verwandte Tabellen",
+            "body": "Verwandte Tabellen teilen die pk-Spezifikation der Elterntabelle mit dem fk der Kindtabelle, damit die Schlüssel konsistent bleiben. Hier ist orders.customer_id ein fk auf den pk customer_id von customers.",
+            "media": {
+              "type": "svg",
+              "alt": "Zwei Tabellen. Die Tabelle customers hat customer_id, mit pk markiert, und city, mit den Zeilen 1 Rio, 2 Recife und 3 Rio. Die Tabelle orders hat order_id, mit pk markiert, und customer_id, mit fk markiert, mit den Bestellungen 1, 2 und 3, die auf die Kunden 2, 1 und 2 zeigen.",
+              "caption": "orders.customer_id ist ein Fremdschlüssel auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
+              "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
+              "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
+            }
+          },
+          {
+            "id": "event-stream",
+            "title": "Event-Streams",
+            "body": "stream_dict liefert einen unendlichen Generator aus Dicts, den der Aufrufer beendet. Seine event_id ist ein pk, der über Microbatches hinweg weiterläuft, sodass sich die Werte nie wiederholen.",
+            "media": {
+              "type": "svg",
+              "alt": "Ein Generator, gebaut mit DataGenerator(spec, seed=1).size(10).stream_dict(), gibt Datensätze nacheinander aus, mit event_id 1, 2, 3 und 4, jeweils neben einem Feld timestamp_created, und ein Label besagt, dass er nie endet.",
+              "caption": "Jeder Datensatz trägt die nächste event_id, und der Stream endet nie.",
+              "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
+              "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
+            }
+          },
+          {
+            "id": "files-in-parts",
+            "title": "Dateien in Teilen",
+            "body": "Beim Schreiben mit numFiles größer als 1 entsteht ein Ordner mit Teildateien statt einer einzigen Datei. Die pk-Werte wiederholen sich zwischen den Teilen nie.",
+            "media": {
+              "type": "video",
+              "alt": "Ein Terminal führt einen Python-Befehl aus, der 1000 Zeilen einer pk-Spalte namens id mit numFiles gleich 3 in eine CSV-Datei schreibt. Ein zweiter Befehl listet den Ausgabeordner, der drei Dateien enthält, deren Namen part_, id und .csv enthalten.",
+              "caption": "Ein Speichervorgang, drei Teildateien.",
+              "desktop": {
+                "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
+                "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
+                "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
+                "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
+                "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          },
+          {
+            "id": "try",
+            "title": "Ausprobieren",
+            "code": "from rand_engine import DataGenerator\n\nspec = {\n    \"user_id\": {\"method\": \"int_zfilled\", \"kwargs\": {\"length\": 8}},\n    \"age\": {\"method\": \"integers\", \"kwargs\": {\"min\": 18, \"max\": 80}},\n    \"plan\": {\"method\": \"distincts_prop\", \"kwargs\": {\"distincts\": {\"free\": 8, \"pro\": 2}}},\n    \"signup\": {\"method\": \"dates\", \"kwargs\": {\"start\": \"2024-01-01\", \"end\": \"2024-12-31\"}},\n}\n\ndf = DataGenerator(spec, seed=42).size(1_000).get_df()\nprint(df.head())\n"
           },
           {
             "id": "why",
-            "title": "Warum es existiert",
-            "body": "Das Testen von ETL/ELT-Pipelines erfordert realistische Daten, ohne sensible Informationen offenzulegen. Generische Tools wie Faker bieten keine native DataFrame-Unterstützung und keine Schlüssel-Constraints. rand-engine löst das mit einer deklarativen API, die Produktionsvolumen in Sekunden erzeugt."
+            "title": "Warum es das gibt",
+            "body": "Pipelines brauchen Testdaten, mit Nullwerten und Anomalien auf Abruf. Verwandte Tabellen halten ihre pk- und fk-Schlüssel über Batches, Streams und Dateien hinweg konsistent."
           },
           {
-            "id": "how",
-            "title": "Wie es funktioniert",
-            "body": "`pip install rand-engine`. Definiere eine Spezifikation (Schema + Constraints), rufe `.generate(n_rows)` auf und erhalte einen Pandas- oder Spark-DataFrame. Der Parameter `seed` garantiert Reproduzierbarkeit. Nativer Export nach CSV, Parquet und JSON mit Kompression. Performance: ~12K rows/s lokal; 5,1M rows/s auf Databricks Spark."
-          },
-          {
-            "id": "status",
-            "title": "Aktueller Status",
+            "id": "facts",
+            "title": "Fakten",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.6.4 (PyPI)"
+                "label": "Sprache",
+                "value": "Python >=3.10",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
               },
               {
-                "label": "Tests",
-                "value": "494 bestanden"
-              },
-              {
-                "label": "Lokale Performance",
-                "value": "~12K rows/s"
-              },
-              {
-                "label": "Spark-Performance",
-                "value": "5,1M rows/s (Databricks)"
+                "label": "pandas",
+                "value": "^2.2.2",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
               },
               {
                 "label": "Lizenz",
-                "value": "MIT"
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+              },
+              {
+                "label": "Geschwindigkeit (CI-Runner)",
+                "value": "1.000.000 Ganzzahlen in 0,006 s, 10.000.000 in 0,041 s",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/docs/BENCHMARKS.md"
               }
             ]
           }
         ],
         "links": {
           "repo": "https://github.com/marcoaureliomenezes/rand_engine",
-          "pypi": "https://pypi.org/project/rand-engine/"
+          "pypi": "https://pypi.org/project/rand-engine/",
+          "docs": "https://marcoaureliomenezes.github.io/rand_engine/"
         }
       }
     ]
@@ -890,7 +1008,9 @@
     "copyLabel": "Befehl kopieren",
     "copiedLabel": "Kopiert",
     "linkPypi": "PyPI",
-    "linkDocs": "Doku"
+    "linkDocs": "Doku",
+    "howTitle": "So funktioniert es",
+    "factsTitle": "Fakten"
   },
   "featuredProjectsTitle": "Ausgewählte Projekte",
   "seeAllProjects": "Alle Projekte ansehen",

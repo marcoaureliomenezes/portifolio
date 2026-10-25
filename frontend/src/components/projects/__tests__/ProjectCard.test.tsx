@@ -100,3 +100,15 @@ describe("ProjectCard — rendering", () => {
     expect(screen.getByText("Portfólio")).toBeTruthy();
   });
 });
+
+describe("ProjectCard — no stat chip", () => {
+  it("renders no project-card-stat even when the data carries a stat", () => {
+    const withStat = {
+      ...mockCaseStudy,
+      card: { ...mockCaseStudy.card, stat: "5 agent roles" },
+    } as unknown as Project;
+    const { container } = renderCard(withStat);
+    expect(container.querySelector("[data-testid='project-card-stat']")).toBeNull();
+    expect(screen.queryByText("5 agent roles")).toBeNull();
+  });
+});

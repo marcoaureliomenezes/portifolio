@@ -33,7 +33,7 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
   test('SMOKE-02: theme toggle switches dark/light state', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    const toggle = page.locator('[role="switch"][aria-label*="theme"]');
+    const toggle = page.getByRole('banner').getByRole('switch');
     await expect(toggle).toBeVisible();
 
     const initialState = await toggle.getAttribute('aria-checked');

@@ -1,0 +1,13 @@
+{
+  "pin": "dadaia-workspace==0.4.7",
+  "steps": [
+    {
+      "cmd": "dadaia-workspace init demo --harness claude | tail -n 3",
+      "out": "Sessions launch at the workspace root.\nClaude Code: set `instructionFiles: claude-md-and-agents-md` in your user settings (~/.claude/settings.json) so a stray CLAUDE.md in a repo never hides the workspace AGENTS.md.\nProjects live under repos/ — make the first with `dadaia context create <name> --main-repo <slug> --url <url>`."
+    },
+    {
+      "cmd": "ls -A demo",
+      "out": ".agents\nAGENTS.md\n.claude\n.dadaia"
+    }
+  ]
+}

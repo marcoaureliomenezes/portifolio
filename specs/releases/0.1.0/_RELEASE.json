@@ -3,12 +3,10 @@
   "release": "0.1.0",
   "phase": "CLOSURE",
   "defined": {
-    "sha": "c80eff0",
-    "ts": "2026-10-19T22:18:55Z"
+    "ts": "2026-10-24T16:31:47Z"
   },
   "implemented": {
-    "sha": "f669060",
-    "ts": "2026-10-20T00:15:48Z"
+    "ts": "2026-10-24T23:25:53Z"
   },
   "shipped": null,
   "log": [
@@ -130,6 +128,111 @@
       "agent": "dd-product-engineer",
       "kind": "summary",
       "text": "delivered: rc-1 Job 1: develop back-merged from origin/main fcc8682 (e422c86), the verify npm script behind the verify: line (8c18c14), the dadaia-workspace page on the library kind with 0.5.0 copy in en, pt and de (6fce4ec, 9747be3), APPROVED at 9747be3; the wt-rc review REJECTED at d43932c (HIGH: E2E PC-E2E-06 pinned the pip install line), so the first closure commits were reverted (297a04e, 744f3a0, 3d7dd59, 8001f5e), the job reopened with J1.T5 (f669060, PC-E2E-06 asserts the uvx line, APPROVED, revert-RED confirmed on chromium) and CLOSURE was set again at 0507385; AC3.4 claim -> source pin 2059b779e (dadaia-workspace feature/0.5.0, all 15 rows checked by the reviewer), with two accepted LOWs: (a) the version row cites rc-18/SPEC.md:9 and ADR 0068 instead of roadmap Q3, (b) en.json:611 and :637 need claim-table rows at the re-check before the rc-21 prod deploy; LOW: the stale comment at project-detail-library.spec.ts:39 still says pip, to fix at the next touch of the file; memory: QUALITY Gates records the verify and tests lines and that Playwright E2E runs only in CI (ci.yml e2e on PRs to main, ci-weekly.yml full-e2e), outside verify, QUALITY Test architecture names frontend/tests/e2e, ARCHITECTURE drops its scaffold future-tense lines and records the content tree, atom dadaia-workspace-page added, 76 uncovered packages reviewed and left for the Level 3b first pass (dadaia-workspace 0.6.0, operator ruling; release.py drift exits 1 on them by that ruling); verdict.py stats 0.1.0-rc1: 1 fix-induced bugs n/a (target <= 20%), 2 first-pass approval 1/3 33% (>= 70%), 4 closure duration n/a (<= 4 h), 6 non-block commits after closure 0 (0), 7 memory drift 0 (0), 9 rebuild-due patches 0 (0), oldest record 2026-10-19T21:17:07Z; carried: AC3.6 stage check (deploy-stage run URL and a fetch of the stage page) runs after the rc-1 PR merges into develop; the develop-to-main prod deploy and the dadaia-workspace homepage repoint are dadaia-workspace rc-21's acts, with the claim-table re-check against feature/0.5.0 (LOW b) before that deploy; to the main thread's intake: 15 full-suite E2E tests fail on chromium at both HEAD and main fcc8682, pre-existing and undiagnosed (pages/layout.spec.ts x6, projects-cluster/i18n-projects.spec.ts x6, layout-shell.spec.ts x2, nav-projects.spec.ts x1), the reviewer MEDIUM (13 inherited npm audit advisories in frontend/package-lock.json, byte-identical to main), the LOW pt/de copy calques, and a SPEC claim that no test pins a value cites its grep; backlog exits: dadaia-workspace-page-050 delivered (0.1.0; AC (7) is dadaia-workspace rc-21's)"
+    },
+    {
+      "ts": "2026-10-24T15:50:07Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-10-24T16:31:47Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-2",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-10-24T23:25:53Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-2",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-10-24T23:33:20Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 3b77e40b1437a9a8a0102885703e615673817c8d..7ec046c3f4a2: 59 reviewed, 6 changed.",
+      "since": "3b77e40b1437a9a8a0102885703e615673817c8d",
+      "until": "7ec046c3f4a2077a5048f1d171b620cf8822888a",
+      "reviewed": [
+        "backend",
+        "frontend/public/assets/projects/portifolio",
+        "frontend/public/assets/projects/redacted-games",
+        "frontend/public/decorators",
+        "frontend/public/images",
+        "frontend/public/images/badges",
+        "frontend/public/lovable-uploads",
+        "frontend/src/assets",
+        "frontend/src/components/portfolio",
+        "frontend/src/components/projects/__tests__",
+        "frontend/src/components/ui",
+        "frontend/tests/e2e/fixtures",
+        "frontend/tests/e2e/setup",
+        "frontend/vendor/analytics-sdk",
+        "frontend/vendor/analytics-sdk/dist",
+        "frontend/vendor/analytics-sdk/src",
+        "img/mobile",
+        "img/web",
+        "scripts",
+        "specs-bkp",
+        "specs-bkp/_archive",
+        "specs-bkp/_archive/2026-05-14",
+        "specs-bkp/_archive/2026-05-14/memory",
+        "specs-bkp/_archive/2026-05-14/security",
+        "specs-bkp/_archive/legacy-features",
+        "specs-bkp/_archive/legacy-features/projects-cluster",
+        "specs-bkp/_archive/legacy-root",
+        "specs-bkp/_archive/releases/content-json-v1",
+        "specs-bkp/_archive/releases/content-json-v1/supporting",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1/supporting",
+        "specs-bkp/_archive/releases/frontend-refactor-v1",
+        "specs-bkp/_archive/releases/infra-bootstrap-v1",
+        "specs-bkp/_archive/releases/portfolio-home-polish-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1/decisions",
+        "specs-bkp/_archive/releases/quality-gate-v1",
+        "specs-bkp/_archive/releases/visual-identity-v1",
+        "specs-bkp/backlog",
+        "specs-bkp/features/aba-arquitetura",
+        "specs-bkp/features/aba-dadaia-workspace",
+        "specs-bkp/features/aba-redacted-games",
+        "specs-bkp/features/cms-lite",
+        "specs-bkp/features/content-json",
+        "specs-bkp/features/infra-retomada",
+        "specs-bkp/features/quality-gate",
+        "specs-bkp/features/visual-identity",
+        "specs-bkp/foundation",
+        "specs-bkp/memory",
+        "specs-bkp/memory/product",
+        "specs-bkp/releases",
+        "specs-bkp/releases/mobile-redesign-v1",
+        "specs-bkp/releases/projects-cluster-v2",
+        "specs-bkp/security",
+        "terraform",
+        "terraform/_legacy",
+        "terraform/envs/prod",
+        "terraform/envs/stage",
+        "terraform/modules/portfolio-static-site"
+      ],
+      "changed": [
+        "dadaia-workspace-page",
+        "rand-engine-page",
+        "library-page",
+        "site-chrome",
+        "content-contract",
+        "scene-media"
+      ]
+    },
+    {
+      "ts": "2026-10-24T23:34:39Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-2 Jobs 1-8 merged on the wt-rc (last job HEAD 8ce4c64, CLOSURE at aea11d4): FR1 one SiteLayout header and main#main-content on every route, Resume and Projects with a phone nav row, siteChrome strings and <html lang> per locale, dark first paint, type-step tokens and --header-h; FR2 projects.ts as the one project schema (media, code, item href, hero.media; stat and section diagram gone), flat Block sections, the library page order with copy buttons, games and Portfolio Architecture restyled with content unchanged; FR3 capture.sh and record.mjs, hash-named cuts under budgets, the Media player with in-view mount and the reduced-motion still, the contentAssets contract test; FR4 rand-engine pinned to PyPI 0.8.0 at tag 0.8.0 (hero spec-to-dataframe, related tables, event stream, files in parts, Try it, facts from the tag); FR5 dadaia-workspace pinned to PyPI 0.4.7 at tag v0.4.7 (hero init-workspace, demand to merge, the gate refuses, six harnesses, Try it pinned @0.4.7, facts from the tag, no docs link since that URL answers 404); bugs registered and resolved in the rc: content-schema-export-is-empty, content-urls-accept-script-schemes, content-schema-rejects-committed-content, content-validation-never-runs, media-terminal-final-line-dropped, media-resize-keeps-old-cut, media-empty-box-layout-shift (0 open); rulings recorded here and in the commit bodies only, the SPEC, PLAN and job files staying closed: R-S J7.T6 added, scenes side by side per the mockup, rendered in LibraryProjectTemplate only; R-W J7.T2's write set gained a test fixture; R-A and R-A2 J8.T8 and J8.T9 added from the operator's bug batch; R-M2 and R-M3 PC-E2E-14 compares the localized purpose line and retries; R-T2 the operator removed the MetaProjectTemplate Card assert; R-F the DiagramCard assert moved to the content label; the main thread corrected the shell column from 760 to 960 px per SPEC.md:56; validate:content was deleted by the content-validation-never-runs fix, so the DoD lines naming it (PLAN.md:38, job3.md:3, job7.md:3, job8.md:3) are stale and verify's locale-parse test replaces them; test:run delta measured at 7ec046c on the local tree: contentAssets.test.ts alone 206 cases in 0.84 s, the whole test:run 45 files and 606 tests in 13.76 s; memory: atoms dadaia-workspace-page rewritten, rand-engine-page, library-page, site-chrome, content-contract and scene-media added, QUALITY Gates E2E line fixed (smoke on PRs to develop and main, full suite weekly), ARCHITECTURE Structure names projects.ts, 59 uncovered drift directories left for the first-pass audit; verdict.py stats 0.1.0-rc2: 1 fix-induced bugs 4/8 50% (target <= 20%), 2 first-pass approval 6/14 43% (>= 70%), 4 closure duration n/a (<= 4 h), 6 non-block commits after closure 0 (0), 7 memory drift 0 (0), 9 rebuild-due patches 0 (0), oldest record 2026-10-24T15:41:24Z; carried: AC4.7 and AC5.5 stage evidence (deploy-stage run URL, one fetch of each page, curl -I of one video asset) after the rc-2 PR merges into develop; the dadaia-workspace upstream re-check of the portfolio claim table; 124 intake lines to the main thread's intake report, in categories: pre-existing E2E reds and language-switch flakes, npm audit advisories in frontend dependencies, media pipeline LOWs (failure-path cleanup, cast privacy grep, webm bitexact, README gaps), test hygiene (own-hook mocks, live-content reads, Windows path handling in contentAssets.test.ts), schema LOWs (HttpUrl host char, cvUrl whitespace, the unused case-study kind, optional siteChrome), the SVG budget decided twice (ci.yml and the contract test), stale comments and doc lines (job DoD validate:content, the repo AGENTS.md Spec Structure, claims.md line refs), pt/de wording nits and content items for the screenshot pass, and dadaia-workspace upstream items (the drop-orphan worktree bug registered there, a commit-shape row for a doctor law refresh); backlog exits: library-pages-in-motion delivered (0.1.0; the Blog nav item waits for the first post, rc-4)"
     }
   ]
 }

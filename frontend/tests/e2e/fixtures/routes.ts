@@ -1,6 +1,6 @@
 /**
  * Canonical route constants for E2E tests.
- * Keep in sync with frontend/src/routes.ts.
+ * Keep in sync with the routes in frontend/src/App.tsx.
  */
 export const ROUTES = {
   home: "/",

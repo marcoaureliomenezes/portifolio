@@ -4,7 +4,7 @@
  * Replaces ProjectsIndexPlaceholder in App.tsx.
  * Renders the /projetos index: a grid of 3 ProjectCards in fixed order.
  *
- * Grid: grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+ * Grid: grid-cols-1 md:grid-cols-2
  * CLS = 0: aspect-ratio is enforced inside ProjectCard via aspect-video on the cover area.
  *
  * No filters/search — out of scope (Phase C spec).
@@ -25,10 +25,10 @@ export function ProjectsIndexPage() {
   const { index, list } = projectsV2;
 
   return (
-    <main className="container mx-auto px-4 pb-12 space-y-8 max-w-4xl">
+    <div className="space-y-8">
       {/* Page heading — uses index.title from i18n content */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-primary">{index.title}</h1>
+        <h1 className="text-title-sm md:text-title text-primary">{index.title}</h1>
         {index.description && (
           <p className="text-muted-foreground">{index.description}</p>
         )}
@@ -37,7 +37,7 @@ export function ProjectsIndexPage() {
       {/* Project grid — fixed order: dadaia-workspace, portifolio, tauan-games, rand-engine */}
       <div
         data-testid="projects-grid"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         {list.map((project) => (
           <ProjectCard
@@ -47,6 +47,6 @@ export function ProjectsIndexPage() {
           />
         ))}
       </div>
-    </main>
+    </div>
   );
 }

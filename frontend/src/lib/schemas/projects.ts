@@ -7,13 +7,14 @@
  * - Zero z.any() — all shapes explicit.
  * - z.discriminatedUnion("kind", [...]) with 3 variants.
  * - sections / stack / costs / decisions are z.array(z.object({...})).min(1).
- * - This file is ONLY imported in:
- *   (a) frontend/scripts/validate-content.mjs (Node, build-time), and
- *   (b) frontend/src/hooks/useContent.ts (inside if(import.meta.env.DEV) guard).
+ * - This file is ONLY imported in frontend/src/hooks/useContent.ts (inside
+ *   if(import.meta.env.DEV) guard).
  * Vite tree-shakes Zod from the production bundle (AC-PC-02).
  */
 
 import { z } from "zod";
+
+export const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
 
 // ---------------------------------------------------------------------------
 // Shared sub-schemas
@@ -34,21 +35,49 @@ const ProjectSeoSchema = z.object({
   description: z.string().min(1),
 });
 
+const CutSchema = z.object({
+  webm: z.string().min(1),
+  mp4: z.string().min(1),
+  poster: z.string().min(1),
+  width: z.number(),
+  height: z.number(),
+});
+
+export const MediaSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("video"),
+    alt: z.string().min(1),
+    caption: z.string().optional(),
+    desktop: CutSchema,
+    phone: CutSchema,
+  }),
+  z.object({
+    type: z.literal("svg"),
+    alt: z.string().min(1),
+    caption: z.string().optional(),
+    light: z.string().min(1),
+    dark: z.string().min(1),
+  }),
+]);
+
 const ProjectHeroSchema = z.object({
   title: z.string().min(1),
   tagline: z.string().min(1),
+  media: MediaSchema.optional(),
 });
 
 const ProjectSectionItemSchema = z.object({
   label: z.string().min(1),
   value: z.string(),
+  href: HttpUrl.optional(),
 });
 
 export const ProjectSectionDataSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   body: z.string().optional(),
-  diagram: z.string().optional(),
+  media: MediaSchema.optional(),
+  code: z.string().optional(),
   items: z.array(ProjectSectionItemSchema).optional(),
 });
 
@@ -65,7 +94,7 @@ export const CostRowSchema = z.object({
 export const ArchDecisionSchema = z.object({
   title: z.string().min(1),
   rationale: z.string().min(1),
-  spec: z.string().min(1),
+  spec: HttpUrl,
 });
 
 export const GameLinkSchema = z.object({
@@ -74,8 +103,8 @@ export const GameLinkSchema = z.object({
   engine: z.string().min(1),
   cover: z.string().min(1),
   body: z.string().min(1),
-  repo: z.string().url(),
-  playUrl: z.string().url(),
+  repo: HttpUrl,
+  playUrl: HttpUrl,
 });
 
 // ---------------------------------------------------------------------------
@@ -98,7 +127,7 @@ export const CaseStudyProjectSchema = ProjectBaseSchema.extend({
   kind: z.literal("case-study"),
   sections: z.array(ProjectSectionDataSchema).min(1),
   cta: z.object({
-    github: z.string().url(),
+    github: HttpUrl,
     githubLabel: z.string().optional(),
   }),
 });
@@ -110,9 +139,9 @@ export const MetaProjectSchema = ProjectBaseSchema.extend({
   costs: z.array(CostRowSchema),
   decisions: z.array(ArchDecisionSchema).min(1),
   links: z.object({
-    repo: z.string().url(),
-    terraform: z.string().url(),
-    specs: z.string().url(),
+    repo: HttpUrl,
+    terraform: HttpUrl,
+    specs: HttpUrl,
   }),
 });
 
@@ -130,16 +159,10 @@ export const LibraryProjectSchema = ProjectBaseSchema.extend({
     version: z.string().min(1),
     installCommand: z.string().min(1),
   }),
-  stat: z
-    .object({
-      label: z.string().min(1),
-      value: z.string().min(1),
-    })
-    .optional(),
   links: z.object({
-    repo: z.string().url(),
-    pypi: z.string().url(),
-    docs: z.string().url().optional(),
+    repo: HttpUrl,
+    pypi: HttpUrl,
+    docs: HttpUrl.optional(),
   }),
 });
 

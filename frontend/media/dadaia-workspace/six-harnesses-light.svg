@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" width="360" height="280" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" role="img" aria-label="One law, AGENTS.md, projected into six harnesses">
+<style>
+.l{stroke:#f38525;fill:none;stroke-width:2}
+.b{fill:#fafafa;stroke:#f38525;stroke-width:2}
+text{fill:#282c34;font-size:13px;text-anchor:middle}
+.a{animation:lit 8s infinite backwards}
+@keyframes lit{0%{stroke:#b8bcc4}8%,80%{stroke:#f38525}92%,100%{stroke:#b8bcc4}}
+@media (prefers-reduced-motion: reduce){.a{animation:none}}
+</style>
+<rect width="360" height="280" fill="#fafafa"/>
+<rect class="b" x="95" y="16" width="170" height="48" rx="6"/>
+<text x="180" y="36" style="font-weight:700">one law</text>
+<text x="180" y="54">AGENTS.md</text>
+<path class="l" d="M180 64V252"/>
+<path class="l a" style="animation-delay:0s" d="M180 116H170"/>
+<rect class="b a" style="animation-delay:0s" x="20" y="96" width="150" height="40" rx="6"/>
+<text x="95" y="121">Claude Code</text>
+<path class="l a" style="animation-delay:1s" d="M180 116H190"/>
+<rect class="b a" style="animation-delay:1s" x="190" y="96" width="150" height="40" rx="6"/>
+<text x="265" y="121">Codex</text>
+<path class="l a" style="animation-delay:2s" d="M180 184H170"/>
+<rect class="b a" style="animation-delay:2s" x="20" y="164" width="150" height="40" rx="6"/>
+<text x="95" y="189">Kimi Code</text>
+<path class="l a" style="animation-delay:3s" d="M180 184H190"/>
+<rect class="b a" style="animation-delay:3s" x="190" y="164" width="150" height="40" rx="6"/>
+<text x="265" y="189">Cursor</text>
+<path class="l a" style="animation-delay:4s" d="M180 252H170"/>
+<rect class="b a" style="animation-delay:4s" x="20" y="232" width="150" height="40" rx="6"/>
+<text x="95" y="257">Devin</text>
+<path class="l a" style="animation-delay:5s" d="M180 252H190"/>
+<rect class="b a" style="animation-delay:5s" x="190" y="232" width="150" height="40" rx="6"/>
+<text x="265" y="257">GitHub Copilot</text>
+</svg>

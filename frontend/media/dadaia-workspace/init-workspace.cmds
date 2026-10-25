@@ -1,0 +1,3 @@
+dadaia-workspace init demo --harness claude | grep Harness
+ls -A demo
+cd demo && dadaia-workspace doctor; echo exit $?

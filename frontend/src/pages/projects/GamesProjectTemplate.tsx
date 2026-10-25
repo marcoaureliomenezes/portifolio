@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { useContent } from "@/hooks/useContent";
 import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectHero } from "@/components/projects/ProjectHero";
 import { GameCard } from "@/components/projects/GameCard";
@@ -22,13 +23,11 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
     description: project.seo.description,
   });
 
+  const { content } = useContent();
   const { slug, items } = project;
 
   return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={project.seo.title}
-    >
+    <div className="space-y-10">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
@@ -50,18 +49,18 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
             <CardContent className="py-12 flex flex-col items-center text-center gap-4">
               <h2
                 id={`${slug}-empty-heading`}
-                className="text-lg font-semibold text-muted-foreground"
+                className="text-item text-muted-foreground"
               >
-                Em breve
+                {content.gamesComingSoon}
               </h2>
-              <p className="text-sm text-muted-foreground max-w-md">
-                Os jogos estao sendo preparados. Confira o repositorio no GitHub.
+              <p className="text-meta text-muted-foreground max-w-md">
+                {content.gamesComingSoonDesc}
               </p>
               <a
                 href="https://github.com/marcoaureliomenezes/tauan-games"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary underline text-sm"
+                className="text-primary underline text-meta"
               >
                 github.com/marcoaureliomenezes/tauan-games
               </a>
@@ -69,6 +68,6 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
           </Card>
         </section>
       )}
-    </main>
+    </div>
   );
 }

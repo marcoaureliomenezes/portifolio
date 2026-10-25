@@ -42,11 +42,13 @@ test.describe('i18n — Projects cluster routes', () => {
     await switchLanguage(page, 'English');
 
     // Then: titles are non-empty and changed (EN != PT)
-    const enTitles = await page.locator('[data-testid="project-card-title"]').allInnerTexts();
+    const titles = page.locator('[data-testid="project-card-title"]');
+    // At least some titles changed (PT !== EN for at least 1 card); retries until the re-render lands
+    await expect
+      .poll(async () => (await titles.allInnerTexts()).some((t, i) => t !== ptTitles[i]))
+      .toBe(true);
+    const enTitles = await titles.allInnerTexts();
     expect(enTitles.every((t) => t.trim().length > 0)).toBe(true);
-    // At least some titles changed (PT !== EN for at least 1 card)
-    const someChanged = ptTitles.some((pt, i) => pt !== enTitles[i]);
-    expect(someChanged).toBe(true);
   });
 
   test('PC-E2E-05: /projetos DE fallback — never PT, never empty', async ({ page }) => {
@@ -60,12 +62,14 @@ test.describe('i18n — Projects cluster routes', () => {
     await switchLanguage(page, 'Deutsch');
 
     // Then: titles are non-empty (DE or EN fallback, never empty)
-    const deTitles = await page.locator('[data-testid="project-card-title"]').allInnerTexts();
-    expect(deTitles.every((t) => t.trim().length > 0)).toBe(true);
+    const titles = page.locator('[data-testid="project-card-title"]');
 
-    // Then: DE titles do NOT equal PT titles (fallback is EN, not PT — quality-bar §i18n)
-    const isStillPT = deTitles.every((de, i) => de === ptTitles[i]);
-    expect(isStillPT).toBe(false);
+    // Then: DE titles do NOT equal PT titles (fallback is EN, not PT — quality-bar §i18n); retries until the re-render lands
+    await expect
+      .poll(async () => (await titles.allInnerTexts()).every((de, i) => de === ptTitles[i]))
+      .toBe(false);
+    const deTitles = await titles.allInnerTexts();
+    expect(deTitles.every((t) => t.trim().length > 0)).toBe(true);
   });
 
   test('PC-E2E-18: language switch on /projetos does not blank-render cards', async ({ page }) => {
@@ -98,21 +102,20 @@ test.describe('i18n — Projects cluster routes', () => {
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
     const ptTitle = await page.title();
-    const ptH1 = await page.locator('h1').first().innerText();
+    const purpose = page.locator('h1 + p').first();
+    const ptPurpose = await purpose.innerText();
 
     // When: switch to EN
     await switchLanguage(page, 'English');
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
     // Then: document.title changed
-    const enTitle = await page.title();
-    expect(enTitle.trim().length).toBeGreaterThan(0);
-    expect(enTitle).not.toBe(ptTitle);
+    await expect(page).not.toHaveTitle(ptTitle);
+    expect((await page.title()).trim().length).toBeGreaterThan(0);
 
-    // Then: h1 changed (hero title is i18n)
-    const enH1 = await page.locator('h1').first().innerText();
-    expect(enH1.trim().length).toBeGreaterThan(0);
-    expect(enH1).not.toBe(ptH1);
+    // Then: the purpose line under the h1 changed (the h1 is the product name in every locale)
+    await expect(purpose).not.toHaveText(ptPurpose);
+    expect((await purpose.innerText()).trim().length).toBeGreaterThan(0);
   });
 
   test('PC-E2E-15: portifolio detail — EN costs and decisions sections non-empty', async ({ page }) => {

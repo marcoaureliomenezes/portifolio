@@ -23,6 +23,15 @@ export default {
 				sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
 				mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace']
 			},
+			fontSize: {
+				label: ['0.75rem', { lineHeight: '1rem' }],
+				meta: ['0.8125rem', { lineHeight: '1.25rem' }],
+				body: ['1rem', { lineHeight: '1.625rem' }],
+				item: ['1.0625rem', { lineHeight: '1.5rem', fontWeight: '600' }],
+				hero: ['1.25rem', { lineHeight: '1.75rem', fontWeight: '700' }],
+				title: ['2rem', { lineHeight: '2.5rem', fontWeight: '700' }],
+				'title-sm': ['1.75rem', { lineHeight: '2.25rem', fontWeight: '700' }]
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -57,16 +66,6 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
 				},
 				header: {
 					bg: 'hsl(var(--header-bg))',

@@ -254,7 +254,7 @@ test('BADGE-06: screenshot evidence — Senior card PT dark mode', async ({ page
   await page.goto(ROUTES.home);
 
   // Enable dark mode via the theme toggle
-  const themeToggle = page.locator('[aria-label*="dark"], [aria-label*="Dark"], [aria-label*="tema"], [aria-label*="theme"]').first();
+  const themeToggle = page.getByRole('banner').getByRole('switch');
   if (await themeToggle.isVisible().catch(() => false)) {
     await themeToggle.click();
   } else {

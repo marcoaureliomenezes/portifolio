@@ -13,7 +13,7 @@
  * Tests:
  *   PC-E2E-06: /projetos/dadaia-workspace renders Library template with h1 and sections
  *   PC-E2E-22: document.title is project-specific SEO title (not generic)
- *   PC-E2E-10: theme-aware diagram imgs present with non-empty alt
+ *   PC-E2E-10: scenes (video or light/dark svg pair) follow the How it works heading
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
@@ -58,36 +58,32 @@ test.describe('Detail page — dadaia-workspace (kind: library)', () => {
     expect(title.toLowerCase()).not.toBe('projetos');
   });
 
-  test('PC-E2E-10: theme-aware diagram img pair with non-empty alt (dadaia-workspace)', async ({ page }) => {
-    // Given: /projetos/dadaia-workspace (has diagram + diagramDark fields)
+  test('PC-E2E-10: "How it works" is followed by scenes, each a video or a light/dark svg pair (dadaia-workspace)', async ({ page }) => {
+    // Given: /projetos/dadaia-workspace (locale pinned to pt-BR by the config)
     await page.goto(ROUTES.dadaiaWorkspace);
     await page.waitForLoadState('networkidle');
 
-    // Then: NO <picture>/<source media=prefers-color-scheme> — variant switching
-    // is class-based via html.dark (AC-PC2-R2-04)
-    await expect(page.locator('source[media*="prefers-color-scheme"]')).toHaveCount(0);
+    // Then: the "How it works" heading is present (libraryPage.howTitle)
+    await expect(page.getByRole('heading', { name: /como funciona/i }).first()).toBeVisible();
 
-    // Then: light variant visible by default-dark? Theme default is dark — the
-    // dark variant must be the visible one when html has class "dark".
-    const lightImg = page.locator('[data-testid="diagram-light"]').first();
-    const darkImg = page.locator('[data-testid="diagram-dark"]').first();
-    await expect(lightImg).toHaveCount(1);
-    await expect(darkImg).toHaveCount(1);
+    // Then: media mounts lazily, so bring every section into view first
+    const sections = page.locator('[data-testid="project-section"]');
+    const total = await sections.count();
+    for (let i = 0; i < total; i++) await sections.nth(i).scrollIntoViewIfNeeded();
 
-    const htmlIsDark = await page.evaluate(() =>
-      document.documentElement.classList.contains('dark'),
-    );
-    if (htmlIsDark) {
-      await expect(darkImg).toBeVisible();
-      await expect(lightImg).toBeHidden();
-    } else {
-      await expect(lightImg).toBeVisible();
-      await expect(darkImg).toBeHidden();
+    // Then: sections that carry a video or the svg pair are the scenes; there is at least one
+    const scenes = sections.filter({
+      has: page.locator('video, [data-testid="diagram-light"]'),
+    });
+    expect(await scenes.count()).toBeGreaterThan(0);
+
+    // Then: every svg scene holds both variants, with a non-empty alt on the light one
+    const lights = scenes.locator('[data-testid="diagram-light"]');
+    const svgCount = await lights.count();
+    for (let i = 0; i < svgCount; i++) {
+      expect(((await lights.nth(i).getAttribute('alt')) ?? '').trim().length).toBeGreaterThan(0);
     }
-
-    // Then: non-empty alt on the visible variant
-    const alt = await (htmlIsDark ? darkImg : lightImg).getAttribute('alt');
-    expect((alt ?? '').trim().length).toBeGreaterThan(0);
+    await expect(scenes.locator('[data-testid="diagram-dark"]')).toHaveCount(svgCount);
   });
 
   test('PC-E2E-09: unknown slug renders NotFound without URL change', async ({ page }) => {
@@ -102,4 +98,26 @@ test.describe('Detail page — dadaia-workspace (kind: library)', () => {
     const heading = page.locator('h1').first();
     await expect(heading).toBeVisible();
   });
+});
+
+test.describe('Scene layout (rand-engine, en)', () => {
+  test.use({ locale: 'en-US' });
+
+  for (const [width, sideBySide] of [[1440, true], [390, false]] as const) {
+    test(`PC-E2E-30: at ${width}px a scene's media starts ${sideBySide ? 'right of' : 'below'} its title`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(ROUTES.randEngine);
+      await page.waitForLoadState('networkidle');
+
+      const scene = page.locator('[data-testid="project-section"]').filter({ has: page.locator('h3') }).first();
+      await scene.scrollIntoViewIfNeeded();
+      const media = scene.locator('video, img').locator('visible=true').first();
+      await expect(media).toBeVisible();
+
+      const title = (await scene.locator('h3').boundingBox())!;
+      const box = (await media.boundingBox())!;
+      if (sideBySide) expect(box.x).toBeGreaterThanOrEqual(title.x + title.width);
+      else expect(box.y).toBeGreaterThanOrEqual(title.y + title.height);
+    });
+  }
 });

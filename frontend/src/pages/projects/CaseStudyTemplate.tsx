@@ -26,10 +26,7 @@ export function CaseStudyTemplate({ project }: { project: CaseStudyProject }) {
   const { slug, cta } = project;
 
   return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={project.seo.title}
-    >
+    <div className="space-y-10">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
@@ -65,6 +62,6 @@ export function CaseStudyTemplate({ project }: { project: CaseStudyProject }) {
           </CardContent>
         </Card>
       </section>
-    </main>
+    </div>
   );
 }
