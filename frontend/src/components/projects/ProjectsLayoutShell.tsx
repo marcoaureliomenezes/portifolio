@@ -27,10 +27,10 @@ export function ProjectsLayoutShell() {
   );
 
   return (
-    <div className="mx-auto max-w-[960px] px-5 md:px-6 pb-12 flex flex-col min-h-screen">
+    <div className="pb-12 flex flex-col min-h-screen">
       {/* ── Breadcrumb chrome ────────────────────────────────────── */}
       <nav
-        aria-label={chrome?.breadcrumb.label}
+        aria-label={chrome.breadcrumb.label}
         data-testid="breadcrumb"
         className="pt-6 pb-2"
       >
@@ -41,11 +41,11 @@ export function ProjectsLayoutShell() {
                 to="/projetos"
                 className="hover:text-primary transition-colors underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
               >
-                {chrome?.breadcrumb.projects}
+                {chrome.breadcrumb.projects}
               </Link>
             ) : (
               <span className="text-foreground">
-                {chrome?.breadcrumb.projects}
+                {chrome.breadcrumb.projects}
               </span>
             )}
           </li>
@@ -73,10 +73,10 @@ export function ProjectsLayoutShell() {
             data-testid="back-link"
             data-role="back"
             className="inline-flex items-center gap-1.5 text-meta text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
-            aria-label={chrome?.backToProjects}
+            aria-label={chrome.backToProjects}
           >
             <ChevronLeft className="h-4 w-4" />
-            {chrome?.backToProjects}
+            {chrome.backToProjects}
           </Link>
         </div>
       )}
