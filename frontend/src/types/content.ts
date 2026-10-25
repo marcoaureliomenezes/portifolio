@@ -180,7 +180,7 @@ export interface ContentData {
   schema_version?: string;
   published_at?: string;
   /** Contact/CV data (T-RD-10) — admin-editable. */
-  profile?: Profile;
+  profile: Profile;
   resumeTitle: string;
   skillsTitle: string;
   experienceTitle: string;
