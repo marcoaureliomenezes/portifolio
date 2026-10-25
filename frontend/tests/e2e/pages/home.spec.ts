@@ -20,5 +20,9 @@ test.describe('Home page', () => {
 
     // No JavaScript errors cause a blank page
     await expect(page.locator('body')).not.toBeEmpty();
+
+    // The featured strip shows still posters, never video
+    await expect(page.locator('#projetos-destaque')).toBeVisible();
+    await expect(page.locator('#projetos-destaque video')).toHaveCount(0);
   });
 });

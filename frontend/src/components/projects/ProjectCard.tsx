@@ -1,45 +1,21 @@
 /**
- * ProjectCard.tsx — T-PC-C-02 / T-PC2-R2-07 (redesign)
- *
- * Renders a clickable card for a single project from the discriminated union.
- * Wraps all content in a React Router <Link> to /projetos/:slug.
- *
- * rc-2 redesign (AC-PC2-R2-06): the card must "sell" in seconds —
- *  - kind chip (i18n via projectsV2.index.kindLabels, code fallback)
- *  - up to 4 tech badges
- *  - registry hint for library projects (pip install …)
- *  - subtle hover lift on the cover
- *
- * Accessibility (unchanged contract):
- * - The <Link> is the ONLY interactive element in the card — the registry
- *   affordance is a passive chip, never a nested anchor/button.
- * - focus-visible:ring-2 applied directly on the link for keyboard navigation.
- * - aria-label on the link combines title for screen readers.
+ * ProjectCard.tsx — a project card of four elements: still poster, name,
+ * purpose, and a PyPI version line for libraries. The whole card is one
+ * <Link> to /projetos/:slug, the only interactive element.
  */
 
 import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
 import type { Project } from "@/types/content";
 import { track } from "@dadaia/analytics-sdk";
 
-const KIND_FALLBACK_LABELS: Record<Project["kind"], string> = {
-  "case-study": "Case study",
-  meta: "Infra",
-  games: "Games",
-  library: "Python · PyPI",
-};
+const COVER_SIZE = { width: 1280, height: 720 };
 
-interface ProjectCardProps {
-  project: Project;
-  /** i18n kind labels from projectsV2.index.kindLabels (optional). */
-  kindLabels?: Partial<Record<Project["kind"], string>>;
-}
-
-export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
-  const { slug, hero, card, kind } = project;
-
-  const kindLabel = kindLabels?.[kind] ?? KIND_FALLBACK_LABELS[kind];
-  const installHint = kind === "library" ? project.pypi.installCommand : undefined;
+export function ProjectCard({ project }: { project: Project }) {
+  const { slug, hero, card } = project;
+  const media = hero.media?.type === "video" ? hero.media : undefined;
+  const poster = media
+    ? { src: media.desktop.poster, width: media.desktop.width, height: media.desktop.height, alt: media.alt }
+    : card.cover && { src: card.cover, ...COVER_SIZE, alt: hero.title };
 
   return (
     <Link
@@ -48,72 +24,28 @@ export function ProjectCard({ project, kindLabels }: ProjectCardProps) {
       data-testid="project-card"
       onClick={() => track("project_cta", { project: hero.title })}
       className={[
-        "group block rounded-xl border border-border/40 bg-card shadow-sm",
-        "overflow-hidden transition-all duration-200",
-        "hover:shadow-md hover:-translate-y-0.5",
+        "block rounded-xl border border-border/40 bg-card shadow-sm overflow-hidden",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
       ].join(" ")}
     >
-      {/* Cover area with kind chip overlay */}
       <div
         data-testid="card-cover-placeholder"
         className={[
-          "relative w-full aspect-video overflow-hidden",
-          card.cover
-            ? "bg-muted"
-            : "bg-gradient-to-br from-primary/20 to-accent/20",
+          "w-full aspect-video overflow-hidden",
+          poster ? "bg-muted" : "bg-gradient-to-br from-primary/20 to-accent/20",
         ].join(" ")}
-        aria-hidden="true"
       >
-        {card.cover && (
-          <img
-            src={card.cover}
-            alt=""
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            loading="lazy"
-          />
+        {poster && (
+          <img {...poster} className="w-full h-full object-cover" loading="lazy" />
         )}
-        <span
-          data-testid="project-card-kind"
-          className="absolute top-2 right-2 rounded-full bg-background/85 backdrop-blur px-2.5 py-0.5 text-label text-foreground border border-border/60"
-        >
-          {kindLabel}
-        </span>
       </div>
-
-      {/* Card body */}
-      <div className="p-4 space-y-3">
-        <div className="space-y-1">
-          <h3
-            data-testid="project-card-title"
-            className="text-item text-foreground group-hover:text-accent transition-colors"
-          >
-            {hero.title}
-          </h3>
-          <p className="text-meta text-muted-foreground line-clamp-2">
-            {card.summary}
-          </p>
-        </div>
-
-        {/* Tech badges (≤ 4) — AC-PC2-R2-06 */}
-        <div className="flex flex-wrap gap-1.5" data-testid="project-card-tech">
-          {card.tech.slice(0, 4).map((t) => (
-            <Badge key={t} variant="secondary" className="text-label font-normal">
-              {t}
-            </Badge>
-          ))}
-        </div>
-
-        {/* Library signal row: install hint (passive chip) */}
-        {installHint && (
-          <div className="flex items-center justify-between gap-2 text-meta">
-            <code
-              data-testid="project-card-install"
-              className="font-mono text-muted-foreground truncate"
-            >
-              $ {installHint}
-            </code>
-          </div>
+      <div className="p-4 space-y-1">
+        <h3 data-testid="project-card-title" className="text-item text-foreground">
+          {hero.title}
+        </h3>
+        <p className="text-meta text-muted-foreground line-clamp-2">{card.summary}</p>
+        {project.kind === "library" && (
+          <p className="font-mono text-meta text-muted-foreground">PyPI {project.pypi.version}</p>
         )}
       </div>
     </Link>

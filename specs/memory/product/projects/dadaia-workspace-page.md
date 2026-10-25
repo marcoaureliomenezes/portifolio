@@ -46,7 +46,7 @@ command to try it and a facts table whose rows each link their source file at th
   code reviewer, product engineer, software engineer, its public agents folder).
 - The meta row links the GitHub repo and the PyPI page; the item has no docs link, because the
   library's docs URL answers 404.
-- The card on `/projetos` uses the hero's desktop poster as its cover.
+- Its card on `/projetos` and on the home shows the hero's desktop poster ([[resume-home]]).
 - The three locale files carry the same keys, media paths and facts rows; text, `alt` and
   `caption` are translated. The `h1` is the product name in every locale; the purpose line is
   localized.

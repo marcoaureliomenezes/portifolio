@@ -57,12 +57,12 @@ export function GamesProjectTemplate({ project }: { project: GamesProject }) {
                 {content.gamesComingSoonDesc}
               </p>
               <a
-                href="https://github.com/marcoaureliomenezes/tauan-games"
+                href={content.profile.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary underline text-meta"
               >
-                github.com/marcoaureliomenezes/tauan-games
+                {content.profile.githubUrl.replace(/^https?:\/\//, "")}
               </a>
             </CardContent>
           </Card>

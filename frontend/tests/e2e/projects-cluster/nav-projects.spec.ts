@@ -1,14 +1,19 @@
 /**
- * E2E — the one header's nav and the Hero CTA reach /projetos
+ * E2E — the one header's nav reaches /projetos
  *
  *   PC-E2E-17: desktop header has Resume and Projects links, active state, Projects navigates
  *   PC-E2E-19: phone header shows the same links in a visible row, no menu button
- *   PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos
+ *   PC-E2E-20: the header Projects link navigates to /projetos
  */
+import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
-test.describe('Navigation to /projetos from header and hero', () => {
+const projectsName: string = JSON.parse(
+  readFileSync('public/content/pt.json', 'utf8'),
+).siteChrome.nav.projects;
+
+test.describe('Navigation to /projetos from the header', () => {
   test('PC-E2E-17: desktop header nav has Resume and Projects links and Projects navigates', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ROUTES.home);
@@ -52,27 +57,12 @@ test.describe('Navigation to /projetos from header and hero', () => {
     await expect(projLink).toHaveAttribute('aria-current', 'page');
   });
 
-  test('PC-E2E-20: Hero 3rd CTA "Ver projetos" navigates to /projetos', async ({ page }) => {
-    // Given: home page
+  test('PC-E2E-20: header Projects link navigates to /projetos', async ({ page }) => {
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
-    // Then: Hero section has a 3rd CTA with text matching i18n key projects.cta.seeProjects
-    // Default PT locale: "Ver projetos"
-    // We search by text pattern rather than hardcoded string to be i18n-resilient
-    const heroCTA = page.locator('#hero-heading').locator('..').locator('a[href="/projetos"], button + a[href="/projetos"]');
-    // Alternative: look for the CTA by its data-testid
-    const heroCTAByTestId = page.locator('[data-testid="hero-cta-projects"]');
-    const heroCTAByText = page.getByRole('link', { name: /ver projetos|see projects|projekte/i });
+    await page.getByRole('banner').getByRole('link', { name: projectsName }).click();
 
-    // Try test-id first, fall back to text match
-    const ctaEl = await heroCTAByTestId.count() > 0 ? heroCTAByTestId : heroCTAByText;
-    await expect(ctaEl.first()).toBeVisible();
-
-    // When: user clicks the Hero CTA
-    await ctaEl.first().click();
-
-    // Then: URL becomes /projetos
     await expect(page).toHaveURL('/projetos');
   });
 });

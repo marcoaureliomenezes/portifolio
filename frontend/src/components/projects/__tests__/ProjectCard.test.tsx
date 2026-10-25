@@ -112,3 +112,79 @@ describe("ProjectCard — no stat chip", () => {
     expect(screen.queryByText("5 agent roles")).toBeNull();
   });
 });
+
+const cut = {
+  webm: "/m/a.webm",
+  mp4: "/m/a.mp4",
+  poster: "/m/a-poster.webp",
+  width: 1280,
+  height: 720,
+};
+
+const mockLibrary = {
+  slug: "rand-engine",
+  kind: "library",
+  hero: {
+    title: "rand-engine",
+    tagline: "Synthetic data",
+    media: { type: "video", alt: "rand-engine demo", desktop: cut, phone: cut },
+  },
+  card: {
+    summary: "Generate realistic data fast.",
+    tech: ["Python", "Spark", "Pandas"],
+    cover: "/covers/ignored.webp",
+  },
+  seo: { title: "t", description: "d" },
+  sections: [],
+  pypi: { package: "rand-engine", version: "0.8.0", installCommand: "pip install rand-engine" },
+  links: { repo: "https://x.test", pypi: "https://y.test" },
+} as unknown as Project;
+
+describe("ProjectCard — four elements", () => {
+  it("renders the video poster as one still img with size and alt", () => {
+    const { container } = renderCard(mockLibrary);
+    const imgs = container.querySelectorAll("img");
+    expect(imgs.length).toBe(1);
+    const img = imgs[0];
+    expect(img.getAttribute("src")).toBe("/m/a-poster.webp");
+    expect(img.getAttribute("width")).toBe("1280");
+    expect(img.getAttribute("height")).toBe("720");
+    expect(img.getAttribute("alt")).toBe("rand-engine demo");
+    expect(img.getAttribute("loading")).toBe("lazy");
+  });
+
+  it("falls back to card.cover with width, height and alt when there is no video", () => {
+    const meta = {
+      ...mockMeta,
+      card: { ...mockMeta.card, cover: "/covers/p.webp" },
+    } as unknown as Project;
+    const { container } = renderCard(meta);
+    const img = container.querySelector("img");
+    expect(img?.getAttribute("src")).toBe("/covers/p.webp");
+    expect(img?.getAttribute("width")).toBe("1280");
+    expect(img?.getAttribute("height")).toBe("720");
+    expect(img?.getAttribute("alt")).toBe("Portfólio");
+  });
+
+  it("shows name, one line and PyPI version for a library item", () => {
+    renderCard(mockLibrary);
+    expect(screen.getByTestId("project-card-title").textContent).toBe("rand-engine");
+    expect(screen.getByText("Generate realistic data fast.")).toBeTruthy();
+    expect(screen.getByText("PyPI 0.8.0")).toBeTruthy();
+  });
+
+  it("shows no PyPI line for a non-library item", () => {
+    renderCard(mockCaseStudy);
+    expect(screen.queryByText(/^PyPI /)).toBeNull();
+  });
+
+  it("renders no kind chip, tech badges, install hint or video", () => {
+    const { container } = renderCard(mockLibrary);
+    expect(container.querySelector("[data-testid='project-card-kind']")).toBeNull();
+    expect(container.querySelector("[data-testid='project-card-tech']")).toBeNull();
+    expect(container.querySelector("[data-testid='project-card-install']")).toBeNull();
+    expect(screen.queryByText("Python")).toBeNull();
+    expect(screen.queryByText(/pip install/)).toBeNull();
+    expect(container.querySelector("video")).toBeNull();
+  });
+});

@@ -10,6 +10,8 @@
  *  - Engine labels match (Three.js, Phaser — from QA contract C-09)
  *  - shadcn Card primitives rendered
  */
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -63,7 +65,13 @@ const mockProject: GamesProject = {
   ],
 };
 
+/** The committed locale file the app fetches: the required profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "profile">;
+
 const enContent = {
+  profile: { ...committed.profile, githubUrl: "https://git.example/owner" },
   gamesComingSoon: "Coming soon in English",
   gamesComingSoonDesc: "Games will be listed here in English.",
 } as unknown as ContentData;
@@ -192,5 +200,11 @@ describe("GamesProjectTemplate", () => {
     expect(screen.getByText("Games will be listed here in English.")).toBeInTheDocument();
     expect(container.textContent).not.toContain("Em breve");
     expect(container.textContent).not.toContain("sendo preparados");
+  });
+
+  it("empty state links the profile's GitHub URL, shown without its scheme", () => {
+    renderTemplate({ ...mockProject, items: [] });
+    const link = screen.getByRole("link", { name: "git.example/owner" });
+    expect(link).toHaveAttribute("href", "https://git.example/owner");
   });
 });

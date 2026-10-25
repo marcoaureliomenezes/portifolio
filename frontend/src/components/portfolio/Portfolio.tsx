@@ -11,17 +11,17 @@ import { SkillsSection } from "./SkillsSection";
  * All content is consumed via useContent(); no prop-drilling of language.
  * Each child component owns its own interactive state (collapsibles, etc.).
  *
- * T-RD-06 order (recruiter scan: who → what → where → proof):
- * Hero → Featured Projects → Experience → Skills → Certifications → Education
+ * Order: Hero → Experience → Projects → Skills → Certifications → Education.
+ * The column width comes from SiteLayout.
  */
 export function Portfolio() {
   const { content, language } = useContent();
 
   return (
-    <div className="container mx-auto px-4 pb-8 space-y-6 max-w-5xl">
+    <div className="pb-8 space-y-14 md:space-y-20">
       <HeroSection content={content} locale={language} />
+      <ExperienceSection content={content} locale={language} />
       <FeaturedProjects content={content} />
-      <ExperienceSection content={content} />
       <SkillsSection content={content} />
       <CertificationsSection content={content} />
       <EducationSection content={content} />

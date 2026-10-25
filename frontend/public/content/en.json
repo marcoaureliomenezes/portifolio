@@ -13,27 +13,15 @@
   "experienceTitle": "Professional Experience",
   "educationTitle": "Education",
   "certificationsTitle": "Certifications",
-  "seeMore": "See more",
-  "seeLess": "See less",
   "responsibilities": "Responsibilities:",
   "technologies": "Technologies:",
-  "validUntil": "Valid until",
-  "viewCredential": "View credential",
-  "issuerLabel": "Issuer",
-  "certSingular": "certification",
-  "certPlural": "certifications",
-  "careerProgression": "Career progression",
-  "roleSingular": "role",
-  "rolePlural": "roles",
-  "viewLarger": "View larger",
   "gamesComingSoon": "Coming soon",
   "gamesComingSoonDesc": "Games will be listed here soon.",
   "notFoundMessage": "Oops! Page not found",
   "returnHome": "Return to Home",
   "heroStatsSuffix": {
     "years": "years",
-    "certs": "certs",
-    "clouds": "clouds"
+    "certs": "certifications"
   },
   "archPage": {
     "infraDiagramTitle": "Infrastructure Diagram",
@@ -55,38 +43,28 @@
     "viewEmail": "Email"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": {
-    "years": 6,
-    "certifications": 11,
-    "clouds": 4
-  },
   "siteChrome": {
     "nav": { "label": "Main navigation", "resume": "Resume", "projects": "Projects" },
     "theme": { "toLight": "Switch to light theme", "toDark": "Switch to dark theme" },
     "language": { "label": "Select language" },
     "breadcrumb": { "label": "Breadcrumb", "projects": "Projects" },
-    "backToProjects": "Back to projects"
+    "backToProjects": "Back to projects",
+    "footer": {
+      "label": "Site footer",
+      "owner": "Marco Menezes",
+      "email": "Email",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    }
   },
   "heroCTAs": {
-    "downloadCv": "Download CV",
-    "seeExperience": "See experience",
-    "seeProjects": "Personal Projects"
+    "downloadCv": "Download CV"
   },
   "resume": {
     "short": "From Mechatronics Engineering labs to leading AI-augmented data pipeline migrations at one of Brazil's largest banks. The path isn't obvious — and that's precisely the point. Most engineers learn data tools. I started with control theory, physics, and embedded systems, which gave me something most data engineers don't have...",
     "full": "I come from Mechatronics Engineering — calculus, physics, control systems, electronics. That's not a detour from data engineering; it's the foundation for how I think about every system I build: analytically, with attention to constraints, trade-offs, and fundamentals.\n\nI started my career as a Data Engineer Jr building pipelines in a fully on-premises Cloudera environment — PySpark, Hive, Shell scripting, Linux. Getting close to the infrastructure layer built a deep instinct for how data actually moves, and where systems break.\n\nIn 2022, everything shifted to Azure and Databricks. I started by helping with migrations and over time I was leading them — pipeline by pipeline, mapping datasets, creating Data Domains, making the architectural decisions that only surface when you move from one paradigm to another. Each migration required optimization, not just translation. To stay grounded in what I was building, I studied cloud architecture intensely and earned multiple certifications along the way. For me, a certification is confirmation I've mastered something, not a badge to collect.\n\nThe AI chapter started in 2023 with GitHub Copilot in personal projects. By 2024, it was integrated into my daily workflow at work. In 2025, I was selected for an internal AI pilot program introducing Devin and Windsurf to our team — and was recognized for adapting faster than most. Today I'm leading large-scale migrations of SAS and PowerCenter pipelines to Databricks, applying AI-augmented development at scale — not as a shortcut, but as a force multiplier for engineering judgment.\n\nOn the personal side, I build with Claude Code and Codex: multi-agent systems, spec-driven development, context engineering. The reason is simple — I want to understand where this is going, and I want to build things that are genuinely useful to people, while sharpening skills that will matter for years.\n\nA few things that define how I work: I always ask what the trade-offs are between approaches before committing. When a problem feels complex, I break it into parts with clear boundaries, solve each one, and reassemble. I use analogies to make the abstract concrete. If a project requires me to learn something new, I see that as the most interesting part — not a cost.\n\nI believe the engineers who will matter most in the next decade are the ones who understand both the craft and the tools well enough to use one to make the other better. That's the direction I'm moving.\n\nOutside work: I play guitar and sing, read whenever I can, and put my family at the center of everything."
   },
   "skills": [
-    {
-      "title": "Languages",
-      "icon": "🌍",
-      "skills": [
-        "Portuguese (Native)",
-        "English (Native or Bilingual)",
-        "German (Full Professional)"
-      ],
-      "id": "languages"
-    },
     {
       "title": "Programming Languages",
       "icon": "💻",
@@ -110,6 +88,18 @@
       "id": "cloud-providers"
     },
     {
+      "title": "Data platforms",
+      "icon": "🏗️",
+      "skills": [
+        "Hadoop",
+        "Hive",
+        "Spark",
+        "Kafka",
+        "Control-M"
+      ],
+      "id": "on-premises-data-technologies"
+    },
+    {
       "title": "AI / Modern Tooling",
       "icon": "🤖",
       "skills": [
@@ -128,18 +118,6 @@
       "id": "ai-modern-tooling"
     },
     {
-      "title": "On-premises Data Technologies",
-      "icon": "🏗️",
-      "skills": [
-        "Hadoop",
-        "Hive",
-        "Spark",
-        "Kafka",
-        "Control-M"
-      ],
-      "id": "on-premises-data-technologies"
-    },
-    {
       "title": "DevOps Technologies",
       "icon": "🔧",
       "skills": [
@@ -152,6 +130,16 @@
         "ServiceNow"
       ],
       "id": "devops-technologies"
+    },
+    {
+      "title": "Languages",
+      "icon": "🌍",
+      "skills": [
+        "Portuguese (Native)",
+        "English (Native or Bilingual)",
+        "German (Full Professional)"
+      ],
+      "id": "languages"
     }
   ],
   "experiences": [
@@ -172,13 +160,6 @@
             "Dissemination of AI tooling practices (GitHub Copilot, Claude Code, Codex) across technical teams in the domain.",
             "Architecture and implementation of streaming pipelines for transactional data replication from IBM DB2 to Amazon Aurora via Kafka/MSK CDC.",
             "Developed Databricks pipelines (medallion architecture) in the Accounts & Fees and Finance business domains."
-          ],
-          "achievements": [
-            "AWS Certified Solutions Architect – Associate",
-            "AWS Certified Data Engineer Associate",
-            "AWS Certified Cloud Practitioner",
-            "AWS Certified AI Practitioner",
-            "Databricks Apache Spark Developer"
           ],
           "skills": [
             "Data Architecture",
@@ -219,11 +200,6 @@
             "Developed pipelines using Databricks (Python, SQL, Scala) and BMC Control-M for orchestration.",
             "Implemented Data Mesh and Medallion architecture for internal systems."
           ],
-          "achievements": [
-            "Databricks Data Engineer Associate",
-            "Microsoft DP-203: Azure Data Engineer Associate",
-            "Microsoft AZ-900, DP-900, SC-900, AI-900"
-          ],
           "skills": [
             "Python",
             "SQL",
@@ -249,9 +225,6 @@
             "Automated file watchers and file transfers using Shell scripting with BMC Control-M orchestration.",
             "Worked in Scrum/Kanban with CI/CD practices."
           ],
-          "achievements": [
-            "Advanced Data Engineer certification in the Santander Data Master program (cash award + additional benefits)"
-          ],
           "skills": [
             "Python",
             "SQL",
@@ -276,7 +249,7 @@
       "fullName": "Trie Engenharia",
       "location": "Belo Horizonte, MG - Brazil (Remote)",
       "totalPeriod": "11-2020 to 05-2021",
-      "type": "minor",
+      "type": "main",
       "roles": [
         {
           "title": "Data Analyst Jr",
@@ -416,17 +389,17 @@
   },
   "certifications": [
     {
-      "name": "AWS Data Engineer",
+      "name": "AWS AI Practitioner",
       "issuer": "Amazon Web Services",
       "category": "AWS",
-      "date": "December 2024",
-      "validity": "December 2027",
-      "level": "Associate",
-      "icon": "images/badges/aws_data_engineer_associate.png",
-      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
-      "description": "Advanced AWS data engineering certification covering pipelines, ETL, storage, and data analysis at scale. Includes services like Glue, Redshift, Kinesis, EMR, and Lake Formation.",
+      "date": "2025",
+      "validity": "2028",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "#",
+      "description": "Foundational certification covering AI and machine learning concepts on AWS, including generative AI, responsible AI, and AWS AI/ML services.",
       "priority": 1,
-      "id": "aws-aws-data-engineer"
+      "id": "aws-aws-ai-practitioner"
     },
     {
       "name": "AWS Solutions Architect",
@@ -442,33 +415,33 @@
       "id": "aws-aws-solutions-architect"
     },
     {
-      "name": "AWS AI Practitioner",
-      "issuer": "Amazon Web Services",
-      "category": "AWS",
-      "date": "2025",
-      "validity": "2028",
-      "level": "Foundational",
-      "icon": "images/badges/aws_practitioner.png",
+      "name": "Curso de Alemão",
+      "issuer": "Instituto de Idiomas",
+      "category": "Languages",
+      "date": "2024",
+      "validity": "Does not expire",
+      "level": "B1",
+      "icon": "",
       "link": "#",
-      "description": "Foundational certification covering AI and machine learning concepts on AWS, including generative AI, responsible AI, and AWS AI/ML services.",
+      "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 3,
-      "id": "aws-aws-ai-practitioner"
+      "id": "languages-curso-de-alemao-nivel-b1"
     },
     {
-      "name": "AWS Cloud Practitioner",
+      "name": "AWS Data Engineer",
       "issuer": "Amazon Web Services",
       "category": "AWS",
-      "date": "July 2024",
-      "validity": "July 2027",
-      "level": "Foundational",
-      "icon": "images/badges/aws_practitioner.png",
-      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
-      "description": "Foundational certification covering AWS Cloud basics, core services, security, architecture, and cost optimization best practices.",
+      "date": "December 2024",
+      "validity": "December 2027",
+      "level": "Associate",
+      "icon": "images/badges/aws_data_engineer_associate.png",
+      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
+      "description": "Advanced AWS data engineering certification covering pipelines, ETL, storage, and data analysis at scale. Includes services like Glue, Redshift, Kinesis, EMR, and Lake Formation.",
       "priority": 4,
-      "id": "aws-aws-cloud-practitioner"
+      "id": "aws-aws-data-engineer"
     },
     {
-      "name": "Spark Data Engineer Associate",
+      "name": "Spark Data Engineer",
       "issuer": "Databricks",
       "category": "Databricks",
       "date": "September 2024",
@@ -481,7 +454,7 @@
       "id": "databricks-spark-data-engineer-associate"
     },
     {
-      "name": "Spark Developer Associate",
+      "name": "Spark Developer",
       "issuer": "Databricks",
       "category": "Databricks",
       "date": "August 2024",
@@ -494,33 +467,20 @@
       "id": "databricks-spark-developer-associate"
     },
     {
-      "name": "Azure Data Engineer Associate",
-      "issuer": "Microsoft",
-      "category": "Azure",
-      "date": "March 2023",
-      "validity": "March 2025 (expired)",
-      "level": "Associate",
-      "icon": "images/dp-203.png",
-      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
-      "description": "Data engineering certification on Azure, covering Azure Data Factory, Synapse Analytics, Data Lake Storage, and streaming services.",
-      "priority": 9,
-      "id": "azure-azure-data-engineer-associate"
-    },
-    {
-      "name": "Azure Fundamentals",
-      "issuer": "Microsoft",
-      "category": "Azure",
-      "date": "January 2023",
-      "validity": "Does not expire",
-      "level": "Fundamentals",
-      "icon": "images/az-900.png",
-      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
-      "description": "Microsoft Azure fundamental certification covering cloud computing concepts, core services, and pricing models.",
+      "name": "AWS Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "July 2024",
+      "validity": "July 2027",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
+      "description": "Foundational certification covering AWS Cloud basics, core services, security, architecture, and cost optimization best practices.",
       "priority": 7,
-      "id": "azure-azure-fundamentals"
+      "id": "aws-aws-cloud-practitioner"
     },
     {
-      "name": "Apache Airflow Fundamentals",
+      "name": "Apache Airflow",
       "issuer": "Astronomer",
       "category": "Others",
       "date": "June 2024",
@@ -533,6 +493,32 @@
       "id": "others-apache-airflow-fundamentals"
     },
     {
+      "name": "Azure Data Engineer",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "March 2023",
+      "validity": "March 2025 (expired)",
+      "level": "Associate",
+      "icon": "images/dp-203.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
+      "description": "Data engineering certification on Azure, covering Azure Data Factory, Synapse Analytics, Data Lake Storage, and streaming services.",
+      "priority": 9,
+      "id": "azure-azure-data-engineer-associate"
+    },
+    {
+      "name": "Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "January 2023",
+      "validity": "Does not expire",
+      "level": "Fundamentals",
+      "icon": "images/az-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
+      "description": "Microsoft Azure fundamental certification covering cloud computing concepts, core services, and pricing models.",
+      "priority": 10,
+      "id": "azure-azure-fundamentals"
+    },
+    {
       "name": "Santander Data Engineer",
       "issuer": "Santander Brazil",
       "category": "Data Master",
@@ -542,21 +528,8 @@
       "icon": "images/badges/santander-dea.svg",
       "link": "#",
       "description": "Advanced internal data engineering certification from Santander Brazil. Top 10 ranking after technical case and comprehensive exam covering Big Data, Cloud, and distributed architectures.",
-      "priority": 10,
-      "id": "data-master-santander-data-engineer"
-    },
-    {
-      "name": "Curso de Alemão Nível B1",
-      "issuer": "Instituto de Idiomas",
-      "category": "Languages",
-      "date": "2024",
-      "validity": "Does not expire",
-      "level": "B1",
-      "icon": "",
-      "link": "#",
-      "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 11,
-      "id": "languages-curso-de-alemao-nivel-b1"
+      "id": "data-master-santander-data-engineer"
     }
   ],
   "projectsV2": {
@@ -1013,11 +986,11 @@
     "factsTitle": "Facts"
   },
   "featuredProjectsTitle": "Featured Projects",
-  "seeAllProjects": "See all projects",
-  "nowPanel": {
-    "title": "now",
-    "currentRole": "current role",
-    "latestCert": "latest certification",
-    "latestProject": "latest project"
-  }
+  "seeAllProjects": "All →",
+  "earlierLabel": "Earlier",
+  "detailsOpen": "Details +",
+  "detailsClose": "Details −",
+  "storyOpen": "Read the story",
+  "storyClose": "Hide the story",
+  "impactLabel": "Impact"
 }

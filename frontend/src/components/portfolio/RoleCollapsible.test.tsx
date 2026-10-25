@@ -10,10 +10,12 @@
  * that React state updates are processed correctly.
  */
 
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { track } from "@dadaia/analytics-sdk";
 import { RoleCollapsible } from "./RoleCollapsible";
+import { PROSE } from "@/lib/layout";
 import type { Position, ContentData } from "@/types/content";
 
 const mockRole: Position = {
@@ -23,10 +25,30 @@ const mockRole: Position = {
   technologies: "Python, Spark, AWS",
 };
 
-const mockLabels: Pick<ContentData, "responsibilities" | "technologies"> = {
+vi.mock("@dadaia/analytics-sdk", () => ({ track: vi.fn() }));
+
+type Labels = Pick<
+  ContentData,
+  "responsibilities" | "technologies" | "detailsOpen" | "detailsClose" | "impactLabel"
+>;
+
+const mockLabels: Labels = {
   responsibilities: "Responsabilidades:",
   technologies: "Tecnologias:",
+  detailsOpen: "Detalhes +",
+  detailsClose: "Detalhes −",
+  impactLabel: "Impacto",
 };
+
+const highlightRole: Position = {
+  ...mockRole,
+  highlightProject: {
+    title: "Migration Project",
+    body: "Solo AI-augmented migration.",
+  },
+};
+
+beforeEach(() => vi.clearAllMocks());
 
 describe("RoleCollapsible", () => {
   it("renders the role title", () => {
@@ -178,5 +200,104 @@ describe("RoleCollapsible", () => {
     expect(screen.getByText("Migration Project")).toBeInTheDocument();
     expect(screen.getByText("SLA: 12 months → 2 months")).toBeInTheDocument();
     expect(screen.getByLabelText("Impacto")).toBeInTheDocument();
+  });
+
+  it("renders the role as an article with the title in an h4", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const article = screen.getByTestId("role");
+    expect(article.tagName).toBe("ARTICLE");
+    expect(
+      within(article).getByRole("heading", { level: 4, name: "Software Engineer" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the summary unclamped, in the prose width, open or closed", async () => {
+    const user = userEvent.setup();
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+
+    const summary = screen.getByText("Built pipelines");
+    expect(summary.className).toContain(PROSE);
+    expect(summary.className).not.toContain("line-clamp");
+
+    await user.click(screen.getByRole("button", { name: "Detalhes +" }));
+    expect(screen.getByText("Built pipelines").className).not.toContain("line-clamp");
+  });
+
+  it("names its one button from detailsOpen, then detailsClose", async () => {
+    const user = userEvent.setup();
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+
+    const button = screen.getByRole("button", { name: "Detalhes +" });
+    expect(screen.getAllByRole("button")).toHaveLength(1);
+    expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(button.textContent).toBe("Detalhes +");
+
+    await user.click(button);
+    expect(screen.getByRole("button", { name: "Detalhes −" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    expect(button.textContent).toBe("Detalhes −");
+  });
+
+  it("the role article is frameless: no background, border or radius classes", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const article = screen.getByTestId("role");
+    expect(article.className).not.toMatch(/\bbg-card\b/);
+    expect(article.className).not.toMatch(/\bborder/);
+    expect(article.className).not.toMatch(/\brounded/);
+  });
+
+  it("the Details button holds only its label, no icon child", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const button = screen.getByRole("button");
+    expect(button.childElementCount).toBe(0);
+    expect(button.textContent).toBe("Detalhes +");
+  });
+
+  it("does not put the title or the summary inside the button", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const button = screen.getByRole("button");
+    expect(within(button).queryByText("Software Engineer")).not.toBeInTheDocument();
+    expect(within(button).queryByText("Built pipelines")).not.toBeInTheDocument();
+  });
+
+  it("aria-controls points to the region holding the remaining responsibilities", async () => {
+    const user = userEvent.setup();
+    render(<RoleCollapsible role={highlightRole} labels={mockLabels} />);
+
+    const button = screen.getByRole("button");
+    await user.click(button);
+
+    const region = document.getElementById(button.getAttribute("aria-controls") ?? "");
+    expect(region).not.toBeNull();
+    expect(within(region as HTMLElement).getByText("Led migrations")).toBeInTheDocument();
+    expect(within(region as HTMLElement).getByText("Migration Project")).toBeInTheDocument();
+    expect(within(region as HTMLElement).queryByText("Built pipelines")).not.toBeInTheDocument();
+  });
+
+  it("tracks section_expand then section_collapse with the role title", async () => {
+    const user = userEvent.setup();
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+
+    await user.click(screen.getByRole("button"));
+    expect(track).toHaveBeenLastCalledWith("section_expand", { section: "Software Engineer" });
+    await user.click(screen.getByRole("button"));
+    expect(track).toHaveBeenLastCalledWith("section_collapse", { section: "Software Engineer" });
+  });
+
+  it.each([
+    ["en", "Impact"],
+    ["de", "Wirkung"],
+  ])("labels the highlight impact badge in %s from impactLabel", (_lang, word) => {
+    render(
+      <RoleCollapsible
+        role={highlightRole}
+        labels={{ ...mockLabels, impactLabel: word }}
+        defaultOpen
+      />,
+    );
+    expect(screen.getByLabelText(word)).toBeInTheDocument();
+    expect(screen.queryByLabelText("Impacto")).not.toBeInTheDocument();
   });
 });

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -26,6 +28,11 @@ vi.mock("@/components/Header", () => ({
   Header: () => <header>header</header>,
 }));
 
+/** The committed locale file the app fetches: the required chrome and profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "siteChrome" | "profile">;
+
 const CHROME = {
   pt: { projects: "Projetos", back: "Voltar para projetos" },
   en: { projects: "Projects", back: "Back to projects" },
@@ -41,9 +48,11 @@ function ChromeProvider({
 }) {
   const content = {
     siteChrome: {
+      ...committed.siteChrome,
       breadcrumb: { label: "Breadcrumb", projects: CHROME[lang].projects },
       backToProjects: CHROME[lang].back,
     },
+    profile: committed.profile,
   } as unknown as ContentData;
   return (
     <LanguageContext.Provider
@@ -208,4 +217,16 @@ describe("ProjectsLayoutShell — siteChrome labels and order", () => {
       page.compareDocumentPosition(back) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
+});
+
+describe("ProjectsLayoutShell — width", () => {
+  it.each(["/projetos", "/projetos/x"])(
+    "%s: the shell root sets no width of its own (the layout owns the column)",
+    (path) => {
+      renderShell(path);
+      const root = screen.getByTestId("breadcrumb").parentElement as HTMLElement;
+      expect(root.className).not.toContain("max-w-[960px]");
+      expect(root.className.split(/\s+/)).not.toContain("mx-auto");
+    },
+  );
 });

@@ -10,7 +10,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import { SENIOR_ROLE_PATTERN, expandSeniorRole } from '../fixtures/experience-helpers';
+import { SENIOR_ROLE_PATTERN, expandSeniorRole, roleDetailsButton } from '../fixtures/experience-helpers';
 
 test.describe('RoleCollapsible smoke — T-FE-QUAL-08', () => {
   test.beforeEach(async ({ page }) => {
@@ -19,14 +19,9 @@ test.describe('RoleCollapsible smoke — T-FE-QUAL-08', () => {
   });
 
   test('ROLE-01: experience section is present and contains collapsible triggers', async ({ page }) => {
-    const section = page.locator('#experiencia');
-    await expect(section).toBeVisible();
+    await expect(page.locator('#experiencia')).toBeVisible();
 
-    const seniorTrigger = section
-      .locator('button, [role="button"]')
-      .filter({ hasText: SENIOR_ROLE_PATTERN })
-      .filter({ visible: true })
-      .first();
+    const seniorTrigger = roleDetailsButton(page, SENIOR_ROLE_PATTERN);
     await expect(seniorTrigger).toBeVisible();
   });
 
@@ -39,12 +34,7 @@ test.describe('RoleCollapsible smoke — T-FE-QUAL-08', () => {
     const contentArea = await expandSeniorRole(page);
     await expect(contentArea).toBeVisible();
 
-    const section = page.locator('#experiencia');
-    const seniorTrigger = section
-      .locator('button, [role="button"]')
-      .filter({ hasText: SENIOR_ROLE_PATTERN })
-      .filter({ visible: true })
-      .first();
+    const seniorTrigger = roleDetailsButton(page, SENIOR_ROLE_PATTERN);
     await seniorTrigger.click();
     await expect(contentArea).not.toBeVisible();
   });

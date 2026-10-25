@@ -50,6 +50,7 @@ function g() {
 let a = !1;
 function y(e) {
   try {
+    if (!e.endpoint) return;
     l(e), u(), a || (g(), a = !0);
   } catch {
   }

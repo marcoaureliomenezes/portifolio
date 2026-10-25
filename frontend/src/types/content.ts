@@ -129,23 +129,13 @@ export type ProjectsContentV2 = z.infer<typeof ProjectsContentSchema>;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface HeroStats {
-  years: number;
-  certifications: number;
-  clouds: number;
-}
-
 export interface HeroCTAs {
   downloadCv: string;
-  seeExperience: string;
-  /** 3rd CTA label linking to /projetos — T-PC-C-05. */
-  seeProjects?: string;
 }
 
 export interface HeroStatsSuffix {
   years: string;
   certs: string;
-  clouds: string;
 }
 
 /** Labels for the library project template (T-PC2-R2-04). */
@@ -180,38 +170,22 @@ export interface ContentData {
   schema_version?: string;
   published_at?: string;
   /** Contact/CV data (T-RD-10) — admin-editable. */
-  profile?: Profile;
+  profile: Profile;
   resumeTitle: string;
   skillsTitle: string;
   experienceTitle: string;
   educationTitle: string;
   certificationsTitle: string;
-  seeMore: string;
-  seeLess: string;
   responsibilities: string;
   technologies: string;
-  validUntil: string;
-  viewCredential: string;
-  /** Label for the issuer field in CertificationCard (T-FE-QUAL-06). */
-  issuerLabel: string;
-  /** Singular/plural for certification count in CertificationCategoryGroup (T-FE-QUAL-06). */
-  certSingular: string;
-  certPlural: string;
-  /** Career progression section label in ExperienceCard (T-FE-QUAL-06). */
-  careerProgression: string;
-  /** Singular/plural for role count in ExperienceCard (T-FE-QUAL-06). */
-  roleSingular: string;
-  rolePlural: string;
-  /** Avatar hover label. */
-  viewLarger: string;
   /** Games empty-state labels (T-FE-QUAL-06). */
   gamesComingSoon: string;
   gamesComingSoonDesc: string;
   /** NotFound page labels (T-FE-QUAL-06). */
   notFoundMessage: string;
   returnHome: string;
-  /** Suffixes for hero stats line (T-FE-QUAL-06). Falls back to en values when absent. */
-  heroStatsSuffix?: HeroStatsSuffix;
+  /** Words of the hero stat line. */
+  heroStatsSuffix: HeroStatsSuffix;
   /** Architecture / infra section labels (T-FE-QUAL-06). */
   archPage?: ArchPageLabels;
   /** Library template labels (T-PC2-R2-04). Falls back to PT literals when absent. */
@@ -219,19 +193,17 @@ export interface ContentData {
   /** Featured-projects strip labels (T-RD-04). */
   featuredProjectsTitle?: string;
   seeAllProjects?: string;
-  /** Hero "now" panel labels (T-RD-05). */
-  nowPanel?: {
-    title: string;
-    currentRole: string;
-    latestCert: string;
-    latestProject: string;
-  };
+  /** Home labels (rc-3): earlier-roles divider, role details and story toggles, impact caption. */
+  earlierLabel: string;
+  detailsOpen: string;
+  detailsClose: string;
+  storyOpen: string;
+  storyClose: string;
+  impactLabel: string;
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
   heroTagline?: string;
-  /** Inline stats line under the tagline (T-FE-WAVE3). */
-  heroStats?: HeroStats;
   /** CTA labels for Hero (T-FE-WAVE3). */
   heroCTAs?: HeroCTAs;
   skills: SkillCategory[];
@@ -239,12 +211,13 @@ export interface ContentData {
   education: Education;
   certifications: Certification[];
   /** Site chrome labels: header nav, theme toggle, language selector, breadcrumb, back link. */
-  siteChrome?: {
+  siteChrome: {
     nav: { label: string; resume: string; projects: string };
     theme: { toLight: string; toDark: string };
     language: { label: string };
     breadcrumb: { label: string; projects: string };
     backToProjects: string;
+    footer: { label: string; owner: string; email: string; linkedin: string; github: string };
   };
   /**
    * Open-list shape for projects-cluster-v1 (T-PC-A-01).

@@ -15,23 +15,21 @@ Portfólio profissional `marco-menezes.com` (Marco Aurélio — Data/AI Engineer
 Specs vivem sob `specs/`. Carregar nesta ordem antes de qualquer mudança:
 
 1. `specs/constitution.md` — princípios
-2. `specs/SPEC.md` — escopo Portfólio 2.0 (P0 + roadmap)
-3. `specs/foundation/SPEC.md` — Git flow, branch protection, OIDC, CT-01..CT-04
-4. `specs/memory/architecture.md` — decomposição alvo + esqueleto Go P1
-5. `specs/features/<feature>/SPEC.md` — feature específica
-6. `specs/PLAN.md` + `specs/TASKS.md` — sequência e tarefas atômicas
+2. `specs/releases/` — SPEC do candidato vigente (escopo Portfólio 2.0, P0 + roadmap)
+3. `specs/memory/ARCHITECTURE.md` — arquitetura e estrutura
+4. `specs/releases/` — PLAN e jobs (sequência e tarefas atômicas) do candidato vigente
 
 Approval marker: `**Status:** Aprovado` no header da spec é requisito para implementação.
 
 ## Repo-Specific Stop Conditions
 
-- **Sem credenciais AWS locais** (`specs/foundation/SPEC.md §10`): proibido `terraform apply/plan/import` local, `aws iam *` local, `aws s3 cp` para prod local. Toda interação AWS via GitHub Actions OIDC; bootstrap único em AWS CloudShell.
+- **Sem credenciais AWS locais**: proibido `terraform apply/plan/import` local, `aws iam *` local, `aws s3 cp` para prod local. Toda interação AWS via GitHub Actions OIDC; bootstrap único em AWS CloudShell.
 - **Specs só pelo product-engineer**: nenhum outro agente modifica `specs/` (workspace rule).
 - **Game code não se aplica aqui** (este repo não tem código de jogo).
 
 ## Key Paths
 
-- `frontend/` — React 18 + Vite 7 + Tailwind + shadcn (refator em andamento — vide `specs/memory/tech-stack.md` §2 KEEP/REMOVE)
+- `frontend/` — React 18 + Vite 7 + Tailwind + shadcn (refator em andamento — vide `specs/memory/ARCHITECTURE.md`, `## Tech Stack`)
 - `backend/` — Flask local apenas (servidor de dev). Backend de produção: Go serverless (Lambda + API Gateway) — P1.
 - `terraform/modules/portfolio-static-site/` — módulo compartilhado da topologia AWS
 - `terraform/envs/{stage,prod}/` — chamadas do módulo por ambiente
