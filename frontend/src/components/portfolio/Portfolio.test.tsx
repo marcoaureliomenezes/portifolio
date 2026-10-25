@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
@@ -8,7 +10,13 @@ vi.mock("@/hooks/useInView", () => ({
   useInView: () => ({ ref: vi.fn(), inView: true }),
 }));
 
+/** The committed locale file the app fetches: the required profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "profile">;
+
 const content: ContentData = {
+  profile: committed.profile,
   resumeTitle: "Resume",
   skillsTitle: "Skills",
   experienceTitle: "Professional Experience",
