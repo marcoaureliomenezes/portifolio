@@ -148,7 +148,7 @@ test('T-LAY-04: hero heading visible on mobile, top > 60 px (below the fixed hea
   await expect(heroHeading).toBeVisible();
 
   // getBoundingClientRect().top should be below the 64 px mobile header
-  // (Portfolio adds pt-16 = 64 px top padding; the H1 sits inside the section).
+  // (SiteLayout's main padding, var(--header-h), is the offset; the H1 sits inside the section).
   const heroTop = await heroHeading.evaluate((el) => {
     return el.getBoundingClientRect().top;
   });
@@ -216,7 +216,7 @@ test('T-LAY-06: #certificacoes visible on mobile, no child overflows viewport wi
   const certSection = page.locator('#certificacoes');
   await certSection.scrollIntoViewIfNeeded();
 
-  // The section must be visible (MobileCollapsibleSection renders it)
+  // The section must be visible
   await expect(certSection).toBeVisible();
 
   // No child element should overflow the viewport horizontally
@@ -242,3 +242,20 @@ test('T-LAY-06: #certificacoes visible on mobile, no child overflows viewport wi
 
   await ctx.close();
 });
+
+// ---------------------------------------------------------------------------
+// Test 7 — Exactly one contentinfo landmark (the site footer) on every route
+// ---------------------------------------------------------------------------
+for (const path of ['/', '/projetos', '/projetos/dadaia-workspace', '/rota-inexistente']) {
+  test(`T-LAY-07: exactly one contentinfo landmark on ${path}`, async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: DESKTOP });
+    const page = await ctx.newPage();
+
+    await page.goto(BASE + path);
+    await page.waitForLoadState('networkidle');
+
+    await expect(page.getByRole('contentinfo')).toHaveCount(1);
+
+    await ctx.close();
+  });
+}
