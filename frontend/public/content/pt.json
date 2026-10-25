@@ -689,7 +689,7 @@
           "tagline": "Como este site é construído, hospedado e mantido."
         },
         "card": {
-          "cover": "/assets/projects/portifolio/cover.svg",
+          "cover": "/assets/projects/portifolio/cover-541d649e.svg",
           "summary": "Site de portfólio construído com React + Vite, hospedado na AWS com S3 + CloudFront + Route53, com pipeline CI/CD via GitHub Actions + OIDC.",
           "tech": [
             "React",
@@ -703,7 +703,7 @@
           "title": "Arquitetura deste portfólio — Marco Menezes",
           "description": "Stack, infra terraform, custos mensais e decisões arquiteturais do site marco-menezes.com."
         },
-        "diagram": "/assets/projects/portifolio/architecture-light.svg",
+        "diagram": "/assets/projects/portifolio/architecture-light-9b79dad0.svg",
         "diagramAlt": "Diagrama de infraestrutura do portfólio: S3, CloudFront, Route53, GitHub Actions CI/CD.",
         "sections": [
           {
@@ -792,7 +792,7 @@
           "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
           "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
         },
-        "diagramDark": "/assets/projects/portifolio/architecture-dark.svg"
+        "diagramDark": "/assets/projects/portifolio/architecture-dark-3631bf6d.svg"
       },
       {
         "slug": "tauan-games",
@@ -802,7 +802,7 @@
           "tagline": "Jogos feitos em casa com meu filho Tauan."
         },
         "card": {
-          "cover": "/assets/projects/tauan-games/cover.svg",
+          "cover": "/assets/projects/tauan-games/cover-96c63ff3.svg",
           "summary": "Dois jogos de browser construídos com Three.js e Phaser junto com meu filho Tauan — um shooter aéreo e uma recriação do jogo do dinossauro.",
           "tech": [
             "Three.js",
@@ -821,7 +821,7 @@
             "slug": "aero-fighters",
             "title": "Aero Fighters",
             "engine": "Three.js",
-            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover-8145e44e.svg",
             "body": "Shooter aéreo desenvolvido com Three.js. Nasceu do desejo de criar algo jogável junto com o Tauan, explorando física básica, sprites e controles de teclado no browser.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
@@ -830,7 +830,7 @@
             "slug": "tauan-trex",
             "title": "tauan-trex",
             "engine": "Phaser",
-            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover-815faa2e.svg",
             "body": "Recriação do clássico jogo do dinossauro do Chrome com Phaser, personalizado com elementos criados pelo Tauan. Projeto de fim de semana para aprender eventos de teclado e animação.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
