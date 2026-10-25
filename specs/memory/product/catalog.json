@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T17:34:08Z",
+  "generated_at": "2026-10-25T17:41:10Z",
   "features": [
     {
       "rank": 1,
@@ -15,7 +15,7 @@
         "i18n",
         "assets"
       ],
-      "token_estimate": 786,
+      "token_estimate": 855,
       "depends_on": [
         "scene-media",
         "library-page",
@@ -33,11 +33,85 @@
         "frontend/src/lib/contentSchemaExport.test.ts",
         "frontend/src/lib/contentAssets.test.ts",
         "frontend/src/lib/homeParity.test.ts",
-        "frontend/src/lib/resumeContent.test.ts"
+        "frontend/src/lib/resumeContent.test.ts",
+        "frontend/public/assets/projects/**",
+        "frontend/public/images/**",
+        "frontend/public/decorators/**",
+        "frontend/public/lovable-uploads/**"
       ]
     },
     {
       "rank": 2,
+      "slug": "deploy-infrastructure",
+      "title": "Deploy infrastructure",
+      "area": "infra",
+      "tldr": "One Terraform module serves the built site from a private S3 bucket through CloudFront, per env (stage, prod), applied and deployed by GitHub Actions over OIDC.",
+      "summary": "terraform/modules/portfolio-static-site is the one topology, called by envs/stage and envs/prod; the terraform workflow plans on PRs and applies on push, the deploy workflow syncs dist/ and invalidates CloudFront; a one-time script creates the OIDC provider and a temporary bootstrap role.",
+      "path": "specs/memory/product/infra/deploy-infrastructure.md",
+      "tags": [
+        "infrastructure",
+        "deploy",
+        "aws"
+      ],
+      "token_estimate": 444,
+      "depends_on": [
+        "site-chrome"
+      ],
+      "sources": [
+        "terraform/**",
+        "scripts/bootstrap-oidc.sh",
+        "scripts/setup-deployment.sh",
+        "scripts/terraform_manager.sh",
+        "scripts/check_infrastructure.sh"
+      ]
+    },
+    {
+      "rank": 3,
+      "slug": "local-servers",
+      "title": "Local Flask servers",
+      "area": "infra",
+      "tldr": "backend/ holds Flask servers that serve frontend/dist on localhost; scripts start them; nothing in CI, deploy or the frontend uses them.",
+      "summary": "Three Flask scripts serve the built frontend with an index.html fallback on ports 8000 or 8001, started by hand or by build_and_serve.sh and server_manager.sh; production is the static site, and Vite's own dev and preview servers cover local work.",
+      "path": "specs/memory/product/infra/local-servers.md",
+      "tags": [
+        "dev-tooling",
+        "backend"
+      ],
+      "token_estimate": 213,
+      "depends_on": [
+        "deploy-infrastructure"
+      ],
+      "sources": [
+        "backend/**",
+        "scripts/build_and_serve.sh",
+        "scripts/build_frontend.sh",
+        "scripts/server_manager.sh"
+      ]
+    },
+    {
+      "rank": 4,
+      "slug": "legacy-specs",
+      "title": "Legacy specs and screenshots",
+      "area": "legacy",
+      "tldr": "specs-bkp/ is the pre-canon specs tree kept by specs init and img/ holds site screenshots; both are reading material only, unread by the site and its gates.",
+      "summary": "specs-bkp/ holds the specs tree as it stood before the current specs/ canon, the input the first-pass audit reads to fill memory; img/ holds phone and desktop screenshots of the site. No build, test, workflow or runtime path reads either.",
+      "path": "specs/memory/product/legacy/legacy-specs.md",
+      "tags": [
+        "legacy",
+        "specs"
+      ],
+      "token_estimate": 182,
+      "depends_on": [
+        "resume-home",
+        "site-chrome"
+      ],
+      "sources": [
+        "specs-bkp/**",
+        "img/**"
+      ]
+    },
+    {
+      "rank": 5,
       "slug": "scene-media",
       "title": "Scene media pipeline and player",
       "area": "media",
@@ -70,7 +144,7 @@
       ]
     },
     {
-      "rank": 3,
+      "rank": 6,
       "slug": "dadaia-workspace-page",
       "title": "dadaia-workspace project page",
       "area": "projects",
@@ -99,7 +173,7 @@
       ]
     },
     {
-      "rank": 4,
+      "rank": 7,
       "slug": "library-page",
       "title": "Library project page layout",
       "area": "projects",
@@ -129,7 +203,7 @@
       ]
     },
     {
-      "rank": 5,
+      "rank": 8,
       "slug": "rand-engine-page",
       "title": "rand-engine project page",
       "area": "projects",
@@ -158,7 +232,30 @@
       ]
     },
     {
-      "rank": 6,
+      "rank": 9,
+      "slug": "e2e-suite",
+      "title": "End-to-end suite",
+      "area": "quality",
+      "tldr": "Playwright runs nine smoke specs on every PR and the full suite weekly, against a local server on port 8080 with the pt-BR locale.",
+      "summary": "playwright.config.ts picks the smoke set under E2E_SMOKE, else every spec under tests/e2e; CI runs Chromium against vite preview of the built dist, locally five browser projects against the dev server.",
+      "path": "specs/memory/product/quality/e2e-suite.md",
+      "tags": [
+        "quality-assurance",
+        "e2e"
+      ],
+      "token_estimate": 239,
+      "depends_on": [
+        "resume-home",
+        "site-chrome"
+      ],
+      "sources": [
+        "frontend/playwright.config.ts",
+        "frontend/tests/e2e/fixtures/routes.ts",
+        "frontend/tests/e2e/setup/.gitkeep"
+      ]
+    },
+    {
+      "rank": 10,
       "slug": "resume-home",
       "title": "Resume home",
       "area": "resume",
@@ -194,7 +291,30 @@
       ]
     },
     {
-      "rank": 7,
+      "rank": 11,
+      "slug": "analytics-sdk",
+      "title": "Analytics SDK",
+      "area": "site",
+      "tldr": "A vendored dependency-free SDK queues anonymous events per tab session and sends them by sendBeacon when the page hides.",
+      "summary": "frontend/vendor/analytics-sdk is installed as @dadaia/analytics-sdk; main.tsx calls init with the build's VITE_ANALYTICS_ENDPOINT, and the site's track calls record page views, CV downloads, theme and language switches, role disclosures and project actions.",
+      "path": "specs/memory/product/site/analytics-sdk.md",
+      "tags": [
+        "analytics",
+        "privacy"
+      ],
+      "token_estimate": 277,
+      "depends_on": [
+        "site-chrome",
+        "resume-home",
+        "library-page"
+      ],
+      "sources": [
+        "frontend/vendor/analytics-sdk/**",
+        "frontend/src/main.tsx"
+      ]
+    },
+    {
+      "rank": 12,
       "slug": "site-chrome",
       "title": "Shared site chrome",
       "area": "site",

@@ -20,6 +20,10 @@ sources:
   - frontend/src/lib/contentAssets.test.ts
   - frontend/src/lib/homeParity.test.ts
   - frontend/src/lib/resumeContent.test.ts
+  - frontend/public/assets/projects/**
+  - frontend/public/images/**
+  - frontend/public/decorators/**
+  - frontend/public/lovable-uploads/**
 ---
 
 ## What it does
@@ -69,6 +73,11 @@ asset they point to. A break fails `verify`.
   SVG 50 KB; mp4 runs 8 to 12 s; no video has an audio track; each cut has its pixel size; an
   SVG's `viewBox` is at most 360 wide with every `font-size` at least 12, and an animated SVG
   carries a `prefers-reduced-motion: reduce` rule.
+
+- Static files under `public/` outside the asset rules: each certification's `icon` names a
+  file under `public/images/` (9 of its 15 files), which the site does not render; the other 6
+  images, the two SVGs in `public/decorators/` and the three PNGs in `public/lovable-uploads/`
+  have no reader in code, content or tests.
 
 ## Boundaries
 
