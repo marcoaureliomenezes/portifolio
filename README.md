@@ -38,7 +38,7 @@ portifolio/
 # Frontend
 cd frontend/
 npm install
-npm run dev        # Vite HMR em localhost:5173
+npm run dev        # Vite HMR em localhost:8080
 npm run build      # Build de producao em dist/
 npm run preview    # Servidor local da build
 ```
@@ -51,7 +51,7 @@ npm run preview    # Servidor local da build
 
 | Trigger | Workflow | O que faz |
 |---|---|---|
-| Todo PR para `develop` ou `main` | `ci.yml` | Lint, type-check, build, unit tests |
+| Todo PR para `develop` ou `main` | `ci.yml` | Lint, type-check, unit tests, i18n parity, build, E2E smoke, Lighthouse |
 | Push em `develop` | `deploy.yml` | Build + deploy para stage S3 + CloudFront invalidation |
 | Push em `main` | `deploy.yml` | Build + deploy para prod (environment gate) |
 | Push em `develop` (arquivos `terraform/**`) | `terraform.yml` | `terraform apply` em stage |
@@ -74,16 +74,14 @@ Gerenciada via Terraform em `terraform/envs/{stage,prod}/`.
 - **IAM**: role OIDC por env (`github-actions-portfolio-{stage,prod}-deploy`)
 
 O `terraform apply` e executado **exclusivamente via GitHub Actions** (workflow `terraform.yml`).
-Para o bootstrap inicial do OIDC provider, use `scripts/bootstrap-oidc.sh` (Fluxo A via CloudShell ou Fluxo B com `INFRA_SPECIALIST_MODE=1` — vide `specs/features/infra-retomada/SPEC.md §5`).
+Para o bootstrap inicial do OIDC provider, use `scripts/bootstrap-oidc.sh` (Fluxo A via CloudShell ou Fluxo B com `INFRA_SPECIALIST_MODE=1`).
 
 ---
 
 ## Specs e Documentacao
 
-- [Spec principal](./specs/SPEC.md) — visao geral do produto
-- [Foundation](./specs/foundation/SPEC.md) — principios, governanca, seguranca
-- [TASKS](./specs/TASKS.md) — backlog atomico com estado de progresso
-- [Infra-retomada](./specs/features/infra-retomada/SPEC.md) — detalhe da pipeline CI/CD
+- [Spec principal](./specs/releases/) — SPEC, PLAN e jobs de cada candidato
+- [Constitution](./specs/constitution.md) — principios do projeto
 
 ---
 
