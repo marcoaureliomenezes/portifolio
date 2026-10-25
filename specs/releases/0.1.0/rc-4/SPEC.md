@@ -1,6 +1,7 @@
 # SPEC — Release: 0.1.0
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-10-25, operator: "Approve, deploy-only (Recommended)"
 **Release ID:** 0.1.0
 **Owner:** dd-product-engineer
 **Opened:** 2026-10-25
@@ -36,7 +37,7 @@ Operator rulings (grill 2026-10-25, verbatim answers):
 - Default share image → "Generated from the site (Recommended)". One committed 1200×630 image in the site's style: dark background, one amber accent, the owner's public name and title. Every head without its own image uses it; a post's front-matter `image` overrides it.
 - Summary → "Confirm (Recommended)":
   - a build-time Node script over Vite's `dist` writes real HTML per post and per project page, with no new runtime dependency;
-  - a CloudFront Function appends `/index.html` to extensionless routes, applied by CI to stage and prod;
+  - a CloudFront Function appends `/index.html` to extensionless routes, applied by CI to stage and prod (superseded at approval, below);
   - deploy stops the immutable cache on HTML and `rss.xml` (widened by the ruling below);
   - `marked` is the one build-only devDependency;
   - front matter is validated with zod;
@@ -45,6 +46,7 @@ Operator rulings (grill 2026-10-25, verbatim answers):
   - project-page heads are in pt;
   - tags filter the index at `/blog?tag=x`;
   - the two nav asserts move under a ruling named in their `test(...)` commit.
+- Approval → "Approve, deploy-only (Recommended)" (2026-10-25). The Terraform workflow failed on all 8 runs since 2026-05-15 (main-thread reading) and the apply role may lack CloudFront permissions, so no Function: deploy serves each route as an extensionless object (AC1.1), with no Terraform or IAM change.
 - Denylisted names → "Public on portfolio (Recommended)". This is already met: the content ships both names today (main-thread ruling 2026-10-25, §3).
 
 Main-thread pick of the rc-3 carried intake (lightest), in scope:
@@ -68,7 +70,7 @@ Main-thread rulings on this SPEC's draft (2026-10-25), each accepted as written 
 - No CI E2E test over a published post this rc (§3).
 - Absolute URLs use the production origin (§4).
 - The `resume-home` tldr is narrowed in text (Closure).
-- Consumer pre-mortem (`dd-researcher`, 2026-10-25), rulings B1–B8 landed in AC4.5, AC6.1, AC7.1, AC7.3, AC5.2, AC3.1, §5 and Closure. B9–B14 (deploy sync filters, the test fetch mock, the Blog flag's default, the Makefile help, the Function's association and role, the Lighthouse URLs) are PLAN-level.
+- Consumer pre-mortem (`dd-researcher`, 2026-10-25), rulings B1–B8 landed in AC4.5, AC6.1, AC7.1, AC7.3, AC5.2, AC3.1, §5 and Closure. B9–B14 (deploy sync filters, the test fetch mock, the Blog flag's default, the Makefile help, the Lighthouse URLs) are PLAN-level; B13, the Function, is void after approval.
 
 ## 2. Measurable Goals
 
@@ -92,6 +94,7 @@ Main-thread rulings on this SPEC's draft (2026-10-25), each accepted as written 
 - The other hard-coded hero strings and the `featuredProjectsTitle` fallback. The `resume-home` tldr is narrowed instead (Closure).
 - `SkillsSection.test.tsx` keeps its runtime-composed skill name until the dadaia-workspace library offers a per-repo denylist scope.
 - To the backlog: the npm-audit dependency bump, the vendored-SDK build script, the `specs-bkp/` deletion (after the first pass and the library upgrade).
+- To the backlog: the red Terraform pipeline (8 failed runs since 2026-05-15).
 - Any new gate, CI job, `verify:` step, merge check or `lighthouserc.json` change.
 
 ## 4. Requirements
@@ -116,15 +119,9 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 
 ### FR1 — hosting serves each route's own HTML, never cached a year
 
-- **AC1.1** One CloudFront Function (viewer request), in `terraform/modules/portfolio-static-site`, rewrites a path:
-  - an extensionless path other than `/` gets `/index.html` appended, with one trailing slash dropped first: `/projetos/rand-engine` and `/projetos/rand-engine/` both read `projetos/rand-engine/index.html`;
-  - `/` and any path with a file extension pass unchanged;
-  - a path with no file falls through to today's 403/404 answer: the root document with 200.
-
-  `terraform.yml` applies it to stage, then to prod, unchanged. Test: none local, since no AWS credential is allowed on a developer machine; the PR's Terraform plan shows the change. Check on stage after the rc PR merges into develop and both workflows succeed (`curl`, no credential):
-  - each of the 4 project routes, with and without the trailing slash, answers 200 `text/html` with that project's pt `seo.title` in `<title>`;
-  - `/` answers 200 with the root document;
-  - `/nope` answers 200 with the root document;
+- **AC1.1** Both deploy jobs (stage and prod), after the syncs, upload each prerendered route's `index.html` (`dist/blog/<slug>/index.html`, `dist/projetos/<slug>/index.html`) as an extensionless object, key `blog/<slug>` or `projetos/<slug>`, with `Content-Type: text/html; charset=utf-8` and `Cache-Control: no-cache`. No Terraform and no IAM change: the deploy role's `PutObject` suffices (`iam.tf`). A removed post's key is deleted by the sync's `--delete` and not re-uploaded. During a deploy a route briefly falls back to the SPA shell (the existing 403→`/index.html` mapping), which renders the same page client-side; so does a trailing-slash path. Test: none local (no AWS credential on a developer machine); the reviewer diffs the two copies. Check on stage after the rc PR merges into develop, `curl`, no credential (no post ships this rc, so no `/blog/<slug>`):
+  - each of the 4 `/projetos/<slug>` routes answers 200 `text/html`, `no-cache`, with that project's pt `seo.title` in `<title>`;
+  - `/` and `/nope` answer 200 with the root document;
   - one hashed `/assets/` file answers 200.
 - **AC1.2** Both deploy jobs (stage and prod) carry one rule, with `--delete` kept:
   - `dist/assets/**` is uploaded with `public, max-age=31536000, immutable`. This is Vite's hashed output plus the hash-named media under `assets/projects/**`;
@@ -235,7 +232,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 
 - One static head for every route: posts and project pages get their own (AC3.1, AC3.2).
 - The empty large share card (AC3.3, AC5.2).
-- CloudFront answering every extensionless route with the root document (AC1.1).
+- The SPA shell as the only answer to a project route (AC1.1).
 - The one-year immutable cache on every file but the root `index.html`, and the 6 plain-named SVGs under `assets/` (AC1.2).
 - The header's "never a Blog link" and PC-E2E-17's fixed count of 2 (AC6.2).
 - The optional `seeAllProjects` and its pt fallback (AC7.1).
@@ -251,7 +248,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 - Memory:
   - a `blog` atom: the post contract, the build script, pages, feed and nav flag;
   - `site-chrome` loses "the header carries no Blog link" and gains the conditional link;
-  - `deploy-infrastructure` gains the Function, the cache rule, `.github/workflows/deploy.yml` and `scripts/build_frontend.sh` (read by `Makefile` `build`), and loses `_legacy` and the two terraform scripts;
+  - `deploy-infrastructure` gains the extensionless route upload, the cache rule, `.github/workflows/deploy.yml` and `scripts/build_frontend.sh` (read by `Makefile` `build`), and loses `_legacy` and the two terraform scripts;
   - `content-contract` loses `decorators`/`lovable-uploads` and the unread images, states `seeAllProjects` required, and extends the hash-name rule to every file under `public/assets/`;
   - `local-servers` is deleted with its units;
   - `legacy-specs` loses `img/**`;
@@ -263,7 +260,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 
 | risk | answer |
 |---|---|
-| A broken rewrite breaks every route, and only stage can prove it. | AC1.1's stage checks run before any promote to prod. Prod applies only on the promote PR. |
+| A wrong key or content type serves a route badly, and only stage can prove it. | AC1.1's stage checks run before any promote to prod. Deploy reaches prod only on the promote PR. |
 | Without AC1.2, per-route HTML and the feed are cached a year (`deploy.yml:80,127`). | FR1 lands in wave 2, with the first job that emits HTML. The two deploy copies change in one commit, and the 6 renames ride with them. |
 | A plain-named file under `assets/` would be served stale for a year after an edit. | AC1.2 holds every file under `public/assets/` to the hash-name rule in `verify`. |
 | The prerendered body flashes blank until the locale loads (`createRoot`). | Accepted for v1 (§3). Crawlers read full HTML for posts only; project pages are prerendered heads over the root body. |
