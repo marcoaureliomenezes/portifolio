@@ -37,7 +37,7 @@ Operator rulings (grill 2026-10-25, verbatim answers):
 - Summary → "Confirm (Recommended)":
   - a build-time Node script over Vite's `dist` writes real HTML per post and per project page, with no new runtime dependency;
   - a CloudFront Function appends `/index.html` to extensionless routes, applied by CI to stage and prod;
-  - deploy stops the immutable cache on HTML and `rss.xml`;
+  - deploy stops the immutable cache on HTML and `rss.xml` (widened by the ruling below);
   - `marked` is the one build-only devDependency;
   - front matter is validated with zod;
   - clips play muted and looped, with controls and no autoplay;
@@ -57,6 +57,17 @@ Main-thread pick of the rc-3 carried intake (lightest), in scope:
 - the README structure line.
 
 The rest goes to §3.
+
+Main-thread rulings on this SPEC's draft (2026-10-25), each accepted as written here:
+
+- The cache rule is structural: `assets/**` immutable, every other file `no-cache` (AC1.2). This replaces an exclusion list. The locale JSON is already fetched with `cache: "no-cache"` (`LanguageContext.tsx:42`), so it is never stale; no bug.
+- Raw HTML in a post renders escaped, and link schemes are limited (AC2.3).
+- A clip's poster sits beside it and sizes it (AC2.4).
+- The language tag is the uppercased `lang` code (AC4.2).
+- Blog strings sit under `siteChrome` (AC4.5).
+- No CI E2E test over a published post this rc (§3).
+- Absolute URLs use the production origin (§4).
+- The `resume-home` tldr is narrowed in text (Closure).
 
 ## 2. Measurable Goals
 
@@ -114,12 +125,13 @@ The site origin in every absolute URL is the production origin, `https://marco-m
   - `/` answers 200 with the root document;
   - `/nope` answers 200 with the root document;
   - one hashed `/assets/` file answers 200.
-- **AC1.2** Both deploy jobs (stage and prod) upload with `no-cache, no-store, must-revalidate`:
-  - every `.html` file;
-  - `blog/rss.xml`;
-  - the blog index data that the blog pages fetch under a fixed name, since a new post must reach a returning visitor.
+- **AC1.2** Both deploy jobs (stage and prod) carry one rule, with `--delete` kept:
+  - `dist/assets/**` is uploaded with `public, max-age=31536000, immutable`. This is Vite's hashed output plus the hash-named media under `assets/projects/**`;
+  - every other file is uploaded with `no-cache`. This covers the root and per-route HTML, `blog/rss.xml`, the blog index data, post media and `cv.pdf`.
 
-  Every other file keeps today's one-year immutable rule, and `--delete` is kept. The two jobs carry the same rule. Test: none local; the reviewer diffs the two copies. Check on stage after deploy: `curl -sI` shows `no-cache` on a project route and on `/blog/rss.xml`, and `immutable` on a hashed asset.
+  Every file under `assets/` is content-hashed (`<name>-<first 8 hex of its sha256>.<ext>`), as `scene-media` already requires of the scene media. Today 6 SVGs under `public/assets/projects/` (the games and portifolio covers and the two architecture diagrams) carry plain names. They are renamed to hash names, with their references in the three locales following. The asset contract test's naming rule (`contentAssets.test.ts`) then holds for every file under `public/assets/`. Test: unit (the naming rule, hardened in its home); the reviewer diffs the two deploy copies. Check on stage after deploy, with `curl -I`:
+  - one hashed asset shows `immutable`;
+  - one project page, `/blog/rss.xml` and `/cv.pdf` show `no-cache`.
 
 ### FR2 — the post contract and the build script
 
@@ -140,7 +152,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
   - a code block is a plain escaped `<pre><code>`.
 
   Test: integration (fixture lines with `<script>`, `javascript:` and a fence, literal output expected). The reviewer greps the built JS for `marked`: 0 hits.
-- **AC2.4** Post media is copied to the post's output folder, each file named `<name>-<first 8 hex of its sha256>.<ext>`, because those files keep the immutable cache:
+- **AC2.4** Post media is copied to the post's output folder under its own name; AC1.2 serves it `no-cache`:
   - `![alt](a.png|jpg|webp|svg)` becomes an `<img>` with `alt`, `width` and `height` read from the file;
   - `![alt](clip.mp4|webm)` becomes `<video muted loop playsinline controls preload="none">`, with no `autoplay`, `aria-label` set to the alt, and the poster image of the same base name beside it, whose size gives the width and height (the lesson of `media-empty-box-layout-shift`);
   - an empty alt, a missing file or a clip without a poster fails the build.
@@ -228,6 +240,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 - One static head for every route: posts and project pages get their own (AC3.1, AC3.2).
 - The empty large share card (AC3.3, AC5.2).
 - CloudFront answering every extensionless route with the root document (AC1.1).
+- The one-year immutable cache on every file but the root `index.html`, and the 6 plain-named SVGs under `assets/` (AC1.2).
 - The header's "never a Blog link" and PC-E2E-17's fixed count of 2 (AC6.2).
 - The optional `seeAllProjects` and its pt fallback (AC7.1).
 - The hero test's `lg:`-only selector (AC7.2).
@@ -243,7 +256,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
   - a `blog` atom: the post contract, the build script, pages, feed and nav flag;
   - `site-chrome` loses "the header carries no Blog link" and gains the conditional link;
   - `deploy-infrastructure` gains the Function and the cache rule, and loses `_legacy` and the two scripts;
-  - `content-contract` loses `decorators`/`lovable-uploads` and the unread images, and states `seeAllProjects` required;
+  - `content-contract` loses `decorators`/`lovable-uploads` and the unread images, states `seeAllProjects` required, and extends the hash-name rule to every file under `public/assets/`;
   - `local-servers` leaves, `build_frontend.sh` moving to an atom that covers it;
   - `e2e-suite` loses `tests/e2e/setup`;
   - the `resume-home` tldr is narrowed to "numbers derived from content, labels from the locale";
@@ -254,15 +267,14 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 | risk | answer |
 |---|---|
 | A broken rewrite breaks every route, and only stage can prove it. | AC1.1's stage checks run before any promote to prod. Prod applies only on the promote PR. |
-| Without AC1.2, per-route HTML and the feed are cached a year (`deploy.yml:80,127`). | FR1 lands in wave 2, with the first job that emits HTML. The two deploy copies change in one commit. |
-| Unhashed post media under the immutable rule would be served stale for a year after an edit. | AC2.4 names every copied file by its content hash. |
+| Without AC1.2, per-route HTML and the feed are cached a year (`deploy.yml:80,127`). | FR1 lands in wave 2, with the first job that emits HTML. The two deploy copies change in one commit, and the 6 renames ride with them. |
+| A plain-named file under `assets/` would be served stale for a year after an edit. | AC1.2 holds every file under `public/assets/` to the hash-name rule in `verify`. |
 | The prerendered body flashes blank until the locale loads (`createRoot`). | Accepted for v1 (§3); crawlers read the full HTML. |
 | A post's language differs from the UI locale. | `<article lang>` carries the post's, and `<html lang>` follows the UI after mount (AC3.1, AC4.4). |
 | `smoke-e2e-encodes-the-pre-rc2-header`: a smoke spec bound to the header broke CI after merge. | No smoke spec counts nav links. The smoke set grows by zero, and PC-E2E-17 is full-suite only (AC6.2). |
 | The content schema carries a resolved fix chain (4 records). | Posts never enter it; `v1.json` stays byte-equal. |
 | The build script adds time to `verify` (its last step is `build`). | AC2.6 measures it against the build before the change. The `verify:` text is unchanged. |
 | AC7.3 deletes files that the `Makefile` and the repo `AGENTS.md` name. | The same job edits both consumers. The reviewer's grep is the check. |
-| Locale JSON, `cv.pdf` and other unhashed files outside AC1.2 keep the immutable rule today. | Out of this SPEC; raised to the main thread in this SPEC's handoff. |
 
 ## 6. Open questions
 
