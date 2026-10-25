@@ -1,6 +1,6 @@
 # PLAN — Release 0.1.0, rc-3
 
-**Status:** Draft
+**Status:** Approved
 **Owner:** dd-sw-engineer-sr
 
 Paths are relative to the repo root (the `portifolio` tree; the app is under `frontend/`). Tree: the rc-3 `wt-rc`, base `f34f33c` (`feature/0.1.0`), SPEC at `d2da14b`. Measurements are from the as-is review of the base build (`vite preview`, Chromium, reduced motion, dark, every role closed).
