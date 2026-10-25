@@ -6,13 +6,14 @@ import { describe, expect, it, vi } from "vitest";
 import { Portfolio } from "./Portfolio";
 import type { ContentData } from "@/types/content";
 
-/** The committed locale file the app fetches: the required profile. */
+/** The committed locale file the app fetches: the required profile and the projects list. */
 const committed = JSON.parse(
   readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
-) as Pick<ContentData, "profile">;
+) as Pick<ContentData, "profile" | "projectsV2">;
 
 const content: ContentData = {
   profile: committed.profile,
+  projectsV2: committed.projectsV2,
   resumeTitle: "Resume",
   skillsTitle: "Skills",
   experienceTitle: "Professional Experience",
