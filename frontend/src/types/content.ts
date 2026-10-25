@@ -219,6 +219,13 @@ export interface ContentData {
   /** Featured-projects strip labels (T-RD-04). */
   featuredProjectsTitle?: string;
   seeAllProjects?: string;
+  /** Home labels (rc-3): earlier-roles divider, role details and story toggles, impact caption. */
+  earlierLabel: string;
+  detailsOpen: string;
+  detailsClose: string;
+  storyOpen: string;
+  storyClose: string;
+  impactLabel: string;
   /** Hero "now" panel labels (T-RD-05). */
   nowPanel?: {
     title: string;
@@ -239,12 +246,13 @@ export interface ContentData {
   education: Education;
   certifications: Certification[];
   /** Site chrome labels: header nav, theme toggle, language selector, breadcrumb, back link. */
-  siteChrome?: {
+  siteChrome: {
     nav: { label: string; resume: string; projects: string };
     theme: { toLight: string; toDark: string };
     language: { label: string };
     breadcrumb: { label: string; projects: string };
     backToProjects: string;
+    footer: { label: string; owner: string; email: string; linkedin: string; github: string };
   };
   /**
    * Open-list shape for projects-cluster-v1 (T-PC-A-01).
