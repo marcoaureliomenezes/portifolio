@@ -1,7 +1,7 @@
 import type { SupportedLanguages } from "@/types/content";
 
 const PRESENT_KEYWORDS = new Set(["presente", "present", "heute"]);
-const SEPARATORS = [" a ", " to ", " bis "];
+const SEPARATOR = / (?:a|to|bis) /;
 
 type YearMonth = { month: number; year: number };
 
@@ -12,11 +12,9 @@ function parseDatePart(s: string): YearMonth | null {
 }
 
 function parseSpan(raw: string) {
-  const sep = SEPARATORS.find(s => raw.includes(s));
-  if (!sep) return null;
-  const [startStr, endStr] = raw.split(sep);
+  const [startStr, endStr] = raw.replace(/\s*\([^)]*\)\s*$/, "").split(SEPARATOR);
   const start = parseDatePart(startStr);
-  return start ? { start, end: endStr.trim() } : null;
+  return start && endStr !== undefined ? { start, end: endStr.trim() } : null;
 }
 
 function fmtMonth(d: YearMonth, lang: SupportedLanguages): string {
@@ -40,7 +38,7 @@ function fmtDuration(start: YearMonth, end: YearMonth, lang: SupportedLanguages)
  * the source's own word. Returns the input unchanged when it does not parse.
  */
 export function formatPeriod(raw: string, lang: SupportedLanguages): string {
-  const span = parseSpan(raw.replace(/\s*\([^)]*\)\s*$/, "").trim());
+  const span = parseSpan(raw);
   if (!span) return raw;
 
   const { start, end: endStr } = span;
