@@ -161,9 +161,9 @@ describe("ProjectCard — four elements", () => {
     const { container } = renderCard(meta);
     const img = container.querySelector("img");
     expect(img?.getAttribute("src")).toBe("/covers/p.webp");
-    expect(img?.getAttribute("width")).toBeTruthy();
-    expect(img?.getAttribute("height")).toBeTruthy();
-    expect(img?.getAttribute("alt")).toBeTruthy();
+    expect(img?.getAttribute("width")).toBe("1280");
+    expect(img?.getAttribute("height")).toBe("720");
+    expect(img?.getAttribute("alt")).toBe("Portfólio");
   });
 
   it("shows name, one line and PyPI version for a library item", () => {
@@ -171,7 +171,6 @@ describe("ProjectCard — four elements", () => {
     expect(screen.getByTestId("project-card-title").textContent).toBe("rand-engine");
     expect(screen.getByText("Generate realistic data fast.")).toBeTruthy();
     expect(screen.getByText("PyPI 0.8.0")).toBeTruthy();
-    expect(screen.getByTestId("project-card").getAttribute("data-testid")).toBe("project-card");
   });
 
   it("shows no PyPI line for a non-library item", () => {

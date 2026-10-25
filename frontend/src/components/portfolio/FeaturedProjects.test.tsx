@@ -78,6 +78,17 @@ describe("FeaturedProjects", () => {
     expect(link).toHaveTextContent("See all projects");
   });
 
+  it("renders the see-all link as its text alone, with no icon", () => {
+    render(
+      <MemoryRouter>
+        <FeaturedProjects content={content} />
+      </MemoryRouter>,
+    );
+    const link = screen.getByTestId("see-all-projects");
+    expect(link.textContent).toBe("See all projects");
+    expect(link.querySelector("svg")).toBeNull();
+  });
+
   it("lays the cards on two columns inside #projetos-destaque", () => {
     const { container } = render(
       <MemoryRouter>
