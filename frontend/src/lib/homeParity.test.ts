@@ -36,6 +36,14 @@ describe("check-i18n-parity on a copy of the locale files", () => {
   it.each([
     ["earlierLabel", ["earlierLabel"]],
     ["siteChrome.footer.owner", ["siteChrome", "footer", "owner"]],
+    ["siteChrome.nav.blog", ["siteChrome", "nav", "blog"]],
+    ["siteChrome.blog.title", ["siteChrome", "blog", "title"]],
+    ["siteChrome.blog.intro", ["siteChrome", "blog", "intro"]],
+    ["siteChrome.blog.empty", ["siteChrome", "blog", "empty"]],
+    ["siteChrome.blog.tagsLabel", ["siteChrome", "blog", "tagsLabel"]],
+    ["siteChrome.blog.filteredBy", ["siteChrome", "blog", "filteredBy"]],
+    ["siteChrome.blog.allPosts", ["siteChrome", "blog", "allPosts"]],
+    ["siteChrome.blog.back", ["siteChrome", "blog", "back"]],
   ])("fails naming %s and de when the de copy lacks it", (name, path) => {
     removeKey("de", path);
     const { status, out } = runParity();
