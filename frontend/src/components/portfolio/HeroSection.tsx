@@ -23,7 +23,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   // T-RD-10: profile/CV come from content (admin-editable). locale kept for future per-locale CVs.
   void locale;
   const profile = content.profile;
-  const cvUrl = profile?.cvUrl ?? "/cv.pdf";
+  const cvUrl = profile.cvUrl;
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -88,7 +88,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
       <div className="flex items-center justify-start gap-6 mt-5">
         {/* T-RD-02: monochrome socials — accent only on hover (single-accent system) */}
         <a
-          href={profile?.linkedinUrl ?? "#"}
+          href={profile.linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
@@ -97,7 +97,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           <FaLinkedin className="w-6 h-6" />
         </a>
         <a
-          href={profile?.githubUrl ?? "#"}
+          href={profile.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
@@ -106,7 +106,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           <FaGithub className="w-6 h-6" />
         </a>
         <a
-          href={profile?.instagramUrl ?? "#"}
+          href={profile.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"

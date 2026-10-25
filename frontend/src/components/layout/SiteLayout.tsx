@@ -22,41 +22,39 @@ export function SiteLayout() {
           <Outlet />
         </div>
       </main>
-      {profile && (
-        <footer
-          aria-label={footer.label}
-          className="border-t border-border py-8 text-sm text-muted-foreground"
+      <footer
+        aria-label={footer.label}
+        className="border-t border-border py-8 text-sm text-muted-foreground"
+      >
+        <div
+          className={`${COLUMN} flex flex-wrap items-center justify-between gap-4`}
         >
-          <div
-            className={`${COLUMN} flex flex-wrap items-center justify-between gap-4`}
-          >
-            <p>
-              © {new Date().getFullYear()} {footer.owner}
-            </p>
-            <nav className="flex gap-4">
-              <a className={link} href={`mailto:${profile.email}`}>
-                {footer.email}
-              </a>
-              <a
-                className={link}
-                href={profile.linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {footer.linkedin}
-              </a>
-              <a
-                className={link}
-                href={profile.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {footer.github}
-              </a>
-            </nav>
-          </div>
-        </footer>
-      )}
+          <p>
+            © {new Date().getFullYear()} {footer.owner}
+          </p>
+          <nav className="flex gap-4">
+            <a className={link} href={`mailto:${profile.email}`}>
+              {footer.email}
+            </a>
+            <a
+              className={link}
+              href={profile.linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {footer.linkedin}
+            </a>
+            <a
+              className={link}
+              href={profile.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {footer.github}
+            </a>
+          </nav>
+        </div>
+      </footer>
     </div>
   );
 }
