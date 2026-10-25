@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { HeroSection } from "./HeroSection";
 import type { ContentData } from "@/types/content";
@@ -100,24 +100,21 @@ describe("HeroSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders exactly 2 CTAs: primary 'See projects' link + secondary 'Download CV' link", () => {
+  it("renders exactly one CTA: the 'Download CV' link; no projects CTA", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
-    expect(screen.getByRole("link", { name: /Personal Projects/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Baixar CV/i })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Personal Projects/i })).not.toBeInTheDocument();
+    expect(screen.queryByTestId("hero-cta-projects")).not.toBeInTheDocument();
     // 'See experience' button must be gone
     expect(screen.queryByRole("button", { name: /Ver experiência/i })).not.toBeInTheDocument();
+    const ctas = document.querySelectorAll("a[href='/cv.pdf'][download]");
+    expect(ctas).toHaveLength(1);
   });
 
   it("falls back to resumeTitle when heroTagline is absent", () => {
     const { heroTagline: _omit, ...rest } = baseContent;
     renderWithRouter(<HeroSection content={rest as ContentData} />);
     expect(screen.getByText("Resumo")).toBeInTheDocument();
-  });
-
-  it("'Personal Projects' CTA links to /projetos (T-PHP-03)", () => {
-    renderWithRouter(<HeroSection content={baseContent} />);
-    const link = screen.getByRole("link", { name: /Personal Projects/i });
-    expect(link).toHaveAttribute("href", "/projetos");
   });
 
   // T-FE-QUAL-10 — locale-keyed CV URL routing
@@ -154,11 +151,33 @@ describe("HeroSection", () => {
   });
 });
 
-// ── heroStatsSuffix i18n ──────────────────────────────────────────────────
+// ── one column, story toggle, derived stat line (AC3.1, AC3.2) ────────────
 
-const withSuffix: ContentData = {
+const period = (totalPeriod: string, type: "main" | "minor") => ({
+  company: "C",
+  fullName: "C",
+  location: "BH",
+  totalPeriod,
+  type,
+  roles: [],
+});
+
+const derived: ContentData = {
   ...baseContent,
-  heroStatsSuffix: { years: "anos", certs: "certs", clouds: "nuvens" },
+  heroStats: { years: 99, certifications: 99, clouds: 9 },
+  heroStatsSuffix: { years: "years", certs: "certifications", clouds: "unused" },
+  experiences: [
+    period("05-2021 a Presente", "main"),
+    period("11-2020 a 05-2021", "main"),
+    period("01-2015 a 01-2016", "minor"),
+  ],
+  certifications: Array.from({ length: 11 }, (_, i) => ({
+    name: `Cert ${i}`, issuer: "I", category: "c", date: "", validity: "", level: "", icon: "", link: "", description: "", priority: i + 1,
+  })),
+  skills: [
+    { id: "other", title: "Other", icon: "x", skills: ["Zed"] },
+    { id: "cloud-providers", title: "Clouds", icon: "x", skills: ["AWS", "Azure", "Databricks"] },
+  ],
 };
 
 function byFullText(expected: string) {
@@ -166,48 +185,77 @@ function byFullText(expected: string) {
     element !== null && (element.textContent ?? "").trim() === expected;
 }
 
-describe("HeroSection — heroStatsSuffix i18n", () => {
-  it("renders heroStatsSuffix.years from content instead of hardcoded '+ years'", () => {
-    const content = {
-      ...baseContent,
-      heroStatsSuffix: { years: "anos", certs: "certs", clouds: "nuvens" },
+const STAT = "5+ years · 11 certifications · AWS · Azure · Databricks";
+
+describe("HeroSection — one column and story toggle (AC3.1)", () => {
+  it("is one section labelled by hero-heading with no second column or $ now panel", () => {
+    const { container } = renderWithRouter(<HeroSection content={derived} />);
+    const sections = container.querySelectorAll("section[aria-labelledby='hero-heading']");
+    expect(sections).toHaveLength(1);
+    expect(screen.queryByText(/\$ now/)).not.toBeInTheDocument();
+    expect(sections[0].querySelector("[class*='grid-cols-2'], [class*='lg:grid-cols'], [class*='md:grid-cols']")).toBeNull();
+  });
+
+  it("hides resume.full while closed, shows resume.short, and the toggle reads storyOpen", () => {
+    renderWithRouter(<HeroSection content={derived} />);
+    expect(screen.getByText("Resumo curto.")).toBeInTheDocument();
+    expect(screen.queryByText("Resumo completo expandido.")).not.toBeInTheDocument();
+    const toggle = screen.getByRole("button", { name: "Ler a história" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("one click expands only resume.full, keeps resume.short, and relabels the toggle storyClose", () => {
+    renderWithRouter(<HeroSection content={derived} />);
+    fireEvent.click(screen.getByRole("button", { name: "Ler a história" }));
+    const toggle = screen.getByRole("button", { name: "Ocultar a história" });
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("Resumo completo expandido.")).toBeInTheDocument();
+    expect(screen.getByText("Resumo curto.")).toBeInTheDocument();
+    fireEvent.click(toggle);
+    expect(screen.queryByText("Resumo completo expandido.")).not.toBeInTheDocument();
+  });
+
+  it("keeps the stat line, Download CV and the three socials outside the toggle, visible while closed", () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2026-10-15T12:00:00Z"));
+    renderWithRouter(<HeroSection content={derived} />);
+    expect(screen.getByText(byFullText(STAT))).toBeVisible();
+    expect(document.querySelector("a[href='/cv.pdf'][download]")).toBeVisible();
+    for (const name of [/LinkedIn/i, /GitHub/i, /Instagram/i]) {
+      expect(screen.getByRole("link", { name })).toBeVisible();
+    }
+    vi.useRealTimers();
+  });
+});
+
+describe("HeroSection — derived stat line (AC3.2)", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("reads '5+ years · 11 certifications · AWS · Azure · Databricks' at 2026-10-15", () => {
+    vi.setSystemTime(new Date("2026-10-15T12:00:00Z"));
+    renderWithRouter(<HeroSection content={derived} />);
+    expect(screen.getByText(byFullText("5+ years · 11 certifications · AWS · Azure · Databricks"))).toBeInTheDocument();
+  });
+
+  it("reads '6+' at 2026-11-15, from the earliest main start (minor roles ignored)", () => {
+    vi.setSystemTime(new Date("2026-11-15T12:00:00Z"));
+    renderWithRouter(<HeroSection content={derived} />);
+    expect(screen.getByText(byFullText("6+ years · 11 certifications · AWS · Azure · Databricks"))).toBeInTheDocument();
+  });
+
+  it("takes the words from heroStatsSuffix and the clouds from the cloud-providers row", () => {
+    vi.setSystemTime(new Date("2026-10-15T12:00:00Z"));
+    const content: ContentData = {
+      ...derived,
+      heroStatsSuffix: { years: "anos", certs: "certificações", clouds: "unused" },
+      skills: [{ id: "cloud-providers", title: "Nuvens", icon: "x", skills: ["GCP"] }],
     };
-    render(
-      <MemoryRouter>
-        <HeroSection content={content} />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText(byFullText("5+ anos"))).toBeInTheDocument();
-  });
-
-  it("renders heroStatsSuffix.certs from content", () => {
-    render(
-      <MemoryRouter>
-        <HeroSection content={withSuffix} />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText(byFullText("11 certs"))).toBeInTheDocument();
-  });
-
-  it("renders heroStatsSuffix.clouds from content", () => {
-    render(
-      <MemoryRouter>
-        <HeroSection content={withSuffix} />
-      </MemoryRouter>,
-    );
-    expect(screen.getByText(byFullText("4 nuvens"))).toBeInTheDocument();
-  });
-
-  it("falls back gracefully when heroStatsSuffix is absent", () => {
-    const { heroStatsSuffix: _omit, ...rest } = baseContent as ContentData & {
-      heroStatsSuffix?: unknown;
-    };
-    // Should not throw — fallback suffix from en content
-    const { container } = render(
-      <MemoryRouter>
-        <HeroSection content={rest as ContentData} />
-      </MemoryRouter>,
-    );
-    expect(container).toBeTruthy();
+    renderWithRouter(<HeroSection content={content} />);
+    expect(screen.getByText(byFullText("5+ anos · 11 certificações · GCP"))).toBeInTheDocument();
   });
 });
