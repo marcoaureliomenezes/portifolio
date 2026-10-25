@@ -88,7 +88,7 @@ describe("ExperienceCard", () => {
   it("renders skill badges after expanding a role", async () => {
     const user = userEvent.setup();
     render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="en" />);
-    await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
+    await user.click(screen.getByRole("button", { name: /Details/ }));
     const badges = screen.getAllByTestId("skill-badge");
     expect(badges).toHaveLength(4);
     expect(screen.getByText("Python")).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe("ExperienceCard", () => {
   it("renders highlight block after expanding when highlightProject is set", async () => {
     const user = userEvent.setup();
     render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} locale="pt" />);
-    await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
+    await user.click(screen.getByRole("button", { name: /Details/ }));
     expect(screen.getByText("Migração SAS → Azure")).toBeInTheDocument();
     expect(screen.getByText("Redução SLA: 12 meses → 2 meses")).toBeInTheDocument();
     expect(screen.getByLabelText("Impacto")).toBeInTheDocument();
