@@ -1,102 +1,89 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { CertificationsSection } from "./CertificationsSection";
 import type { ContentData, Certification } from "@/types/content";
 
-const baseContent: ContentData = {
-  resumeTitle: "Resumo",
-  skillsTitle: "Habilidades",
-  experienceTitle: "Experiência",
-  educationTitle: "Educação",
+const baseContent = {
   certificationsTitle: "Certificações",
-  seeMore: "Ver mais",
-  seeLess: "Ver menos",
-  responsibilities: "Responsabilidades:",
-  technologies: "Tecnologias:",
-  validUntil: "Válido até",
-  viewCredential: "Ver credencial",
-  issuerLabel: "Emissor",
-  certSingular: "certificado",
-  certPlural: "certificados",
-  careerProgression: "Progressão de carreira",
-  roleSingular: "cargo",
-  rolePlural: "cargos",
-  viewLarger: "Ver maior",
-  gamesComingSoon: "Em construção",
-  gamesComingSoonDesc: "Os jogos serão listados aqui em breve.",
-  notFoundMessage: "Oops! Página não encontrada",
-  returnHome: "Voltar ao início",
-  earlierLabel: "Anteriormente",
-  detailsOpen: "Detalhes +",
-  detailsClose: "Detalhes −",
-  storyOpen: "Ler a história",
-  storyClose: "Ocultar a história",
-  impactLabel: "Impacto",
-  header: { title: "Data Engineer", location: "BH", viewEmail: "Email" },
-  resume: { short: "Resumo curto.", full: "Resumo completo." },
-  skills: [],
-  experiences: [],
-  education: { degreeLevel: "", degreeField: "", institution: "", location: "", period: "", courseworkLabel: "", coursework: "", thesisLabel: "", thesis: "" },
-  certifications: [],
-  siteChrome: {
-    nav: { label: "Principal", resume: "Resumo", projects: "Projetos" },
-    theme: { toLight: "Tema claro", toDark: "Tema escuro" },
-    language: { label: "Idioma" },
-    breadcrumb: { label: "Trilha", projects: "Projetos" },
-    backToProjects: "Voltar aos projetos",
-    footer: {
-      label: "Rodapé do site",
-      owner: "Marco Menezes",
-      email: "E-mail",
-      linkedin: "LinkedIn",
-      github: "GitHub",
-    },
-  },
+  certifications: [] as Certification[],
 };
 
-const mockCert: Certification = {
+const cert = (over: Partial<Certification>): Certification => ({
+  id: "c",
   name: "AWS Solutions Architect",
   issuer: "Amazon Web Services",
   category: "AWS",
-  date: "2023-06",
-  validity: "2026-06",
+  date: "Jan 2025",
+  validity: "",
   level: "Associate",
   icon: "",
   link: "https://example.com/cert",
-  description: "A".repeat(101),
+  description: "",
   priority: 1,
-};
+  ...over,
+});
 
-describe("CertificationsSection — i18n", () => {
-  it("renders singular certSingular when a category has 1 cert", () => {
-    render(
-      <CertificationsSection
-        content={{
-          ...baseContent,
-          certifications: [{ ...mockCert, category: "GCP" }],
-          certSingular: "certificado",
-          certPlural: "certificados",
-        } as unknown as ContentData}
-      />,
-    );
-    expect(screen.getByText(/1 certificado/)).toBeInTheDocument();
-    expect(screen.queryByText(/certificados/)).not.toBeInTheDocument();
+const renderWith = (certifications: Certification[]) =>
+  render(
+    <CertificationsSection
+      content={{ ...baseContent, certifications } as unknown as ContentData}
+    />,
+  );
+
+describe("CertificationsSection — flat list", () => {
+  const certs = [
+    cert({ id: "a", name: "AWS Solutions Architect", level: "Associate" }),
+    cert({ id: "b", name: "Spark Developer", issuer: "Databricks", category: "Databricks", date: "Aug 2024", level: "Associate", link: "#" }),
+    cert({ id: "c", name: "Azure Fundamentals", issuer: "Microsoft", category: "Azure", date: "Jan 2023", level: "Foundational" }),
+  ];
+
+  it("keeps section#certificacoes and its heading", () => {
+    const { container } = renderWith(certs);
+    expect(container.querySelector("section#certificacoes")).not.toBeNull();
+    expect(container.querySelector("h2#certificacoes-heading")).toHaveTextContent("Certificações");
   });
 
-  it("renders plural certPlural when a category has many", () => {
-    render(
+  it("renders one ul of entries in content order", () => {
+    const { container } = renderWith(certs);
+    const lists = container.querySelectorAll("ul");
+    expect(lists).toHaveLength(1);
+    const items = within(lists[0] as HTMLElement).getAllByRole("listitem");
+    expect(items).toHaveLength(3);
+    expect(items[0]).toHaveTextContent("AWS Solutions Architect · Associate");
+    expect(items[1]).toHaveTextContent("Spark Developer · Associate");
+    expect(items[2]).toHaveTextContent("Azure Fundamentals · Foundational");
+  });
+
+  it("shows a mono issuer · date line, fields verbatim", () => {
+    renderWith(certs);
+    const line = screen.getByText("Databricks · Aug 2024");
+    expect(line.className).toMatch(/font-mono/);
+  });
+
+  it("has no grouping, badge images or cards", () => {
+    const { container } = renderWith(certs);
+    expect(container.querySelectorAll("img")).toHaveLength(0);
+    expect(container.querySelectorAll("h3")).toHaveLength(0);
+    expect(container.querySelector("[data-testid^='cert-grid']")).toBeNull();
+    expect(container.querySelector(".bg-card, .rounded-xl")).toBeNull();
+  });
+
+  it("links the credential only when link is not #", () => {
+    const { container } = renderWith(certs);
+    const hrefs = Array.from(container.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(hrefs).toEqual(["https://example.com/cert", "https://example.com/cert"]);
+    expect(container.querySelector("a")).toHaveAttribute("target", "_blank");
+    expect(container.querySelector("a")).toHaveAttribute("rel", "noopener noreferrer");
+  });
+});
+
+describe("CertificationsSection — i18n", () => {
+  it("titles the section from certificationsTitle", () => {
+    const { container } = render(
       <CertificationsSection
-        content={{
-          ...baseContent,
-          certifications: [
-            { ...mockCert, category: "GCP" },
-            { ...mockCert, category: "GCP", name: "Other Cert" },
-          ],
-          certSingular: "certificado",
-          certPlural: "certificados",
-        } as unknown as ContentData}
+        content={{ ...baseContent, certificationsTitle: "Certifications", certifications: [cert({})] } as unknown as ContentData}
       />,
     );
-    expect(screen.getByText(/2 certificados/)).toBeInTheDocument();
+    expect(container.querySelector("h2#certificacoes-heading")).toHaveTextContent("Certifications");
   });
 });
