@@ -17,8 +17,13 @@
  *    inspection — DOM attribute is implementation-stable)
  */
 
+import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+
+const projectsName: string = JSON.parse(
+  readFileSync('public/content/pt.json', 'utf8'),
+).siteChrome.nav.projects;
 
 test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
   test('SMOKE-01: home loads without JS crash', async ({ page }) => {
@@ -80,15 +85,13 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(page.locator('header')).toBeVisible();
   });
 
-  test('SMOKE-05: projects CTA navigates to /projetos', async ({ page }) => {
+  test('SMOKE-05: header Projects link navigates to /projetos', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    // Hero CTA "Ver projetos" / "See projects" — data-testid="hero-cta-projects"
-    const projectsBtn = page.getByTestId('hero-cta-projects');
-    await expect(projectsBtn).toBeVisible();
-    await projectsBtn.click();
+    const projectsLink = page.getByRole('banner').getByRole('link', { name: projectsName });
+    await expect(projectsLink).toBeVisible();
+    await projectsLink.click();
 
-    // Must navigate to the projects index
     await expect(page).toHaveURL(/\/projetos/);
   });
 
