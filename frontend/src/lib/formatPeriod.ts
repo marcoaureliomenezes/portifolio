@@ -50,3 +50,31 @@ export function formatPeriod(raw: string): string {
   const duration = fmtDuration(start, end);
   return duration ? `${fmtDate(start)} – ${endLabel} · ${duration}` : `${fmtDate(start)} – ${endLabel}`;
 }
+
+function parseSpan(raw: string) {
+  const sep = SEPARATORS.find(s => raw.includes(s));
+  if (!sep) return null;
+  const [startStr, endStr] = raw.split(sep);
+  const start = parseDatePart(startStr);
+  return start ? { start, end: endStr.trim() } : null;
+}
+
+/** "04-2015 a 07-2018" to "2015–18"; the input unchanged when it does not parse or has an open end. */
+export function yearRange(raw: string): string {
+  const span = parseSpan(raw);
+  const end = span && parseDatePart(span.end);
+  if (!span || !end) return raw;
+  const from = span.start.year;
+  return end.year === from ? `${from}` : `${from}–${String(end.year % 100).padStart(2, "0")}`;
+}
+
+/** Whole years from the earliest parsable start to `now`; 0 when no period parses. */
+export function yearsSince(periods: string[], now = new Date()): number {
+  const starts = periods.flatMap(p => {
+    const span = parseSpan(p);
+    return span ? [span.start.year * 12 + span.start.month - 1] : [];
+  });
+  if (starts.length === 0) return 0;
+  const nowMonths = now.getFullYear() * 12 + now.getMonth();
+  return Math.max(0, Math.floor((nowMonths - Math.min(...starts)) / 12));
+}
