@@ -1,86 +1,53 @@
-import { Award } from "lucide-react";
-import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
-import { CertificationCard } from "./CertificationCard";
-import type { ContentData, Certification } from "@/types/content";
+import { SectionHeading } from "./SectionHeading";
+import type { ContentData } from "@/types/content";
 
 /**
- * Certifications — T-RD-07 (AC-RD-05).
+ * CertificationsSection: the certifications of the home page as one flat list.
  *
- * Was: per-category collapsibles, each cert a full-width row → 1,828px (33% of
- * the page) for 11 certs. Now: flat provider captions + responsive tile grid
- * (2-col md / 3-col lg). No nested collapsibles — the section-level disclosure
- * (MobileCollapsibleSection) is the only fold.
+ * Input: `content.certificationsTitle` and `content.certifications`, in content order.
+ * Output: `section#certificacoes` with its heading and one `ul`; each entry shows
+ * `<name> · <level>` and an `<issuer> · <date>` line. The name links to the
+ * credential only when `link` is not `#`.
+ * Side effects: none.
  */
-
-// Provider logos (absolute paths — D-3). Falls back to a text caption.
-const PROVIDER_ICONS: Record<string, string> = {
-  AWS: "/images/aws_icon.png",
-  Azure: "/images/azure_icon.png",
-  Databricks: "/images/databricks_icon.png",
-};
-
 interface CertificationsSectionProps {
   content: ContentData;
 }
 
-function groupByCategory(certifications: Certification[]): Record<string, Certification[]> {
-  return certifications.reduce<Record<string, Certification[]>>((acc, cert) => {
-    if (!acc[cert.category]) acc[cert.category] = [];
-    acc[cert.category].push(cert);
-    return acc;
-  }, {});
-}
-
 export function CertificationsSection({ content }: CertificationsSectionProps) {
-  const byCategory = groupByCategory(content.certifications);
-
   return (
     <section
       id="certificacoes"
       aria-labelledby="certificacoes-heading"
       className="motion-safe:animate-fade-up"
     >
-      <MobileCollapsibleSection
-        title={content.certificationsTitle}
-        icon={Award}
-        headingId="certificacoes-heading"
-      >
-        <div className="space-y-4">
-          {Object.entries(byCategory).map(([category, certs]) => (
-            <div key={category}>
-              {/* Slim provider caption — replaces the old collapsible pill */}
-              <div className="flex items-center gap-2 mb-2">
-                {PROVIDER_ICONS[category] ? (
-                  <img
-                    src={PROVIDER_ICONS[category]}
-                    alt={category}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-5 object-contain"
-                  />
-                ) : (
-                  <h3 className="text-sm font-semibold text-foreground">
-                    {category}
-                  </h3>
-                )}
-                <span className="font-mono text-xs text-muted-foreground">
-                  {certs.length}{" "}
-                  {certs.length !== 1 ? content.certPlural : content.certSingular}
-                </span>
-              </div>
-
-              <div
-                data-testid={`cert-grid-${category}`}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"
-              >
-                {certs.map((cert) => (
-                  <CertificationCard key={cert.name} cert={cert} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </MobileCollapsibleSection>
+      <SectionHeading id="certificacoes-heading">
+        {content.certificationsTitle}
+      </SectionHeading>
+      <ul className="mt-4 space-y-3">
+        {content.certifications.map((cert) => (
+          <li key={cert.id}>
+            <p className="text-sm text-foreground">
+              {cert.link !== "#" ? (
+                <a
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-4"
+                >
+                  {cert.name}
+                </a>
+              ) : (
+                cert.name
+              )}{" "}
+              · {cert.level}
+            </p>
+            <p className="font-mono text-xs text-muted-foreground">
+              {cert.issuer} · {cert.date}
+            </p>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
