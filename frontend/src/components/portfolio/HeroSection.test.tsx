@@ -187,12 +187,17 @@ function byFullText(expected: string) {
 const STAT = "5+ years · 11 certifications · AWS · Azure · Databricks";
 
 describe("HeroSection — one column and story toggle (AC3.1)", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("is one section labelled by hero-heading with no second column or $ now panel", () => {
     const { container } = renderWithRouter(<HeroSection content={derived} />);
     const sections = container.querySelectorAll("section[aria-labelledby='hero-heading']");
     expect(sections).toHaveLength(1);
     expect(screen.queryByText(/\$ now/)).not.toBeInTheDocument();
-    expect(sections[0].querySelector("[class*='grid-cols-2'], [class*='lg:grid-cols'], [class*='md:grid-cols']")).toBeNull();
+    // a second column needs a breakpoint layout class; one column carries none
+    expect(sections[0].querySelector("[class*='lg:']")).toBeNull();
   });
 
   it("hides resume.full while closed, shows resume.short, and the toggle reads storyOpen", () => {
@@ -223,7 +228,6 @@ describe("HeroSection — one column and story toggle (AC3.1)", () => {
     for (const name of [/LinkedIn/i, /GitHub/i, /Instagram/i]) {
       expect(screen.getByRole("link", { name })).toBeVisible();
     }
-    vi.useRealTimers();
   });
 });
 

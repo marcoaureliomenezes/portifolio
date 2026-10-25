@@ -72,6 +72,25 @@ const FOOTER = {
   de: { label: "Fußzeile", owner: "Marco Menezes", email: "E-Mail", linkedin: "LinkedIn", github: "GitHub" },
 };
 
+const DEAD_KEYS = [
+  "nowPanel",
+  "heroStats",
+  "clouds",
+  "seeProjects",
+  "seeExperience",
+  "careerProgression",
+  "roleSingular",
+  "rolePlural",
+  "certSingular",
+  "certPlural",
+  "viewCredential",
+  "validUntil",
+  "issuerLabel",
+  "seeMore",
+  "seeLess",
+  "viewLarger",
+];
+
 const hasKey = (v: unknown, key: string): boolean =>
   Array.isArray(v)
     ? v.some((x) => hasKey(x, key))
@@ -108,5 +127,9 @@ describe.each(LOCALES)("resume content — %s", (l) => {
 
   it("holds no achievements key at any depth", () => {
     expect(hasKey(d, "achievements")).toBe(false);
+  });
+
+  it.each(DEAD_KEYS)("holds no %s key at any depth", (key) => {
+    expect(hasKey(d, key)).toBe(false);
   });
 });

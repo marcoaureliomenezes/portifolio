@@ -1,14 +1,10 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import { Portfolio } from "./Portfolio";
 import type { ContentData } from "@/types/content";
-
-vi.mock("@/hooks/useInView", () => ({
-  useInView: () => ({ ref: vi.fn(), inView: true }),
-}));
 
 /** The committed locale file the app fetches: the required profile. */
 const committed = JSON.parse(
@@ -51,7 +47,19 @@ const content: ContentData = {
   heroStats: { years: 5, certifications: 11, clouds: 4 },
   heroCTAs: { downloadCv: "Download CV", seeExperience: "See experience", seeProjects: "See projects" },
   skills: [],
-  experiences: [],
+  experiences: [
+    {
+      company: "A",
+      fullName: "A Inc",
+      location: "BH",
+      totalPeriod: "01-2020 a Presente",
+      type: "main",
+      roles: [
+        { title: "R1", period: "01-2020 a 01-2021", responsibilities: ["Did a thing."] },
+        { title: "R2", period: "01-2021 a Presente", responsibilities: ["Did another."] },
+      ],
+    },
+  ],
   education: {
     degreeLevel: "Bachelor",
     degreeField: "Control and Automation / Mechatronics Engineering",
@@ -85,22 +93,47 @@ vi.mock("@/hooks/useContent", () => ({
   useContent: () => ({ content, language: "en" }),
 }));
 
+function renderHome() {
+  return render(
+    <MemoryRouter>
+      <Portfolio />
+    </MemoryRouter>,
+  );
+}
+
+const SECTIONS = [
+  "section[aria-labelledby=hero-heading]",
+  "#experiencia",
+  "#projetos-destaque",
+  "#habilidades",
+  "#certificacoes",
+  "#educacao",
+];
+
 describe("Portfolio", () => {
-  it("renders Professional Experience before Education (mobile-redesign-v1 section order)", () => {
-    render(
-      <MemoryRouter>
-        <Portfolio />
-      </MemoryRouter>,
-    );
-    expect(screen.getAllByRole("heading", { name: "Education" }).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole("heading", { name: "Professional Experience" }).length).toBeGreaterThan(0);
-    const education = document.getElementById("educacao");
-    const experience = document.getElementById("experiencia");
-    expect(education).not.toBeNull();
-    expect(experience).not.toBeNull();
-    // Experience must appear BEFORE Education in DOM order
-    expect(
-      experience!.compareDocumentPosition(education!) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+  it("renders Hero, Experience, Projects, Skills, Certifications, Education in that order", () => {
+    const { container } = renderHome();
+    const found = SECTIONS.map((selector) => container.querySelector(selector));
+    expect(found.every((el) => el !== null)).toBe(true);
+    const order = [...container.querySelectorAll(SECTIONS.join(","))];
+    expect(order).toEqual(found);
+  });
+
+  it("is not wrapped in its own width: the column comes from the layout", () => {
+    const { container } = renderHome();
+    expect(container.querySelector(".max-w-5xl")).toBeNull();
+  });
+
+  it("with every role closed, the only disclosures are the story toggle and one Details button per role", () => {
+    const { container } = renderHome();
+    const controls = [...container.querySelectorAll("[aria-expanded]")];
+    expect(controls.map((el) => el.textContent)).toEqual([
+      "Ler a história",
+      "Detalhes +",
+      "Detalhes +",
+    ]);
+    expect(controls.every((el) => el.getAttribute("aria-expanded") === "false")).toBe(true);
+    fireEvent.click(controls[1]);
+    expect(controls[1]).toHaveAttribute("aria-expanded", "true");
   });
 });
