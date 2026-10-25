@@ -38,6 +38,12 @@ const baseContent: ContentData = {
   gamesComingSoonDesc: "Os jogos serão listados aqui em breve.",
   notFoundMessage: "Oops! Página não encontrada",
   returnHome: "Voltar ao início",
+  earlierLabel: "Anteriormente",
+  detailsOpen: "Detalhes +",
+  detailsClose: "Detalhes −",
+  storyOpen: "Ler a história",
+  storyClose: "Ocultar a história",
+  impactLabel: "Impacto",
   header: { title: "Data Engineer", location: "BH", viewEmail: "Email" },
   resume: { short: "Resumo curto.", full: "Resumo completo expandido." },
   heroTagline: "Data Engineering at Scale with AI Augmented Capabilities",
@@ -47,6 +53,20 @@ const baseContent: ContentData = {
   experiences: [],
   education: { degreeLevel: "", degreeField: "", institution: "", location: "", period: "", courseworkLabel: "", coursework: "", thesisLabel: "", thesis: "" },
   certifications: [],
+  siteChrome: {
+    nav: { label: "Principal", resume: "Resumo", projects: "Projetos" },
+    theme: { toLight: "Tema claro", toDark: "Tema escuro" },
+    language: { label: "Idioma" },
+    breadcrumb: { label: "Trilha", projects: "Projetos" },
+    backToProjects: "Voltar aos projetos",
+    footer: {
+      label: "Rodapé do site",
+      owner: "Marco Menezes",
+      email: "E-mail",
+      linkedin: "LinkedIn",
+      github: "GitHub",
+    },
+  },
 };
 
 describe("HeroSection", () => {
@@ -131,5 +151,63 @@ describe("HeroSection", () => {
     expect(linkedin).toHaveAttribute("target", "_blank");
     expect(github).toHaveAttribute("target", "_blank");
     expect(instagram).toHaveAttribute("target", "_blank");
+  });
+});
+
+// ── heroStatsSuffix i18n ──────────────────────────────────────────────────
+
+const withSuffix: ContentData = {
+  ...baseContent,
+  heroStatsSuffix: { years: "anos", certs: "certs", clouds: "nuvens" },
+};
+
+function byFullText(expected: string) {
+  return (_: string, element: Element | null) =>
+    element !== null && (element.textContent ?? "").trim() === expected;
+}
+
+describe("HeroSection — heroStatsSuffix i18n", () => {
+  it("renders heroStatsSuffix.years from content instead of hardcoded '+ years'", () => {
+    const content = {
+      ...baseContent,
+      heroStatsSuffix: { years: "anos", certs: "certs", clouds: "nuvens" },
+    };
+    render(
+      <MemoryRouter>
+        <HeroSection content={content} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText(byFullText("5+ anos"))).toBeInTheDocument();
+  });
+
+  it("renders heroStatsSuffix.certs from content", () => {
+    render(
+      <MemoryRouter>
+        <HeroSection content={withSuffix} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText(byFullText("11 certs"))).toBeInTheDocument();
+  });
+
+  it("renders heroStatsSuffix.clouds from content", () => {
+    render(
+      <MemoryRouter>
+        <HeroSection content={withSuffix} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText(byFullText("4 nuvens"))).toBeInTheDocument();
+  });
+
+  it("falls back gracefully when heroStatsSuffix is absent", () => {
+    const { heroStatsSuffix: _omit, ...rest } = baseContent as ContentData & {
+      heroStatsSuffix?: unknown;
+    };
+    // Should not throw — fallback suffix from en content
+    const { container } = render(
+      <MemoryRouter>
+        <HeroSection content={rest as ContentData} />
+      </MemoryRouter>,
+    );
+    expect(container).toBeTruthy();
   });
 });

@@ -51,3 +51,18 @@ describe("CertificationCard (tile)", () => {
     expect(img?.getAttribute("alt")).toBe("");
   });
 });
+
+describe("CertificationCard — i18n", () => {
+  // T-RD-07: tile contract — name/level/date come from the cert itself;
+  // the tile carries no label props (the old viewCredential button is gone:
+  // the whole tile IS the credential link).
+  it("renders cert name and level from cert prop", () => {
+    render(
+      <CertificationCard
+        cert={{ ...baseCert, name: "GCP Associate", level: "Associate" }}
+      />,
+    );
+    expect(screen.getByText("GCP Associate")).toBeInTheDocument();
+    expect(screen.getByText("Associate")).toBeInTheDocument();
+  });
+});

@@ -31,6 +31,12 @@ const content: ContentData = {
   gamesComingSoonDesc: "Coming soon.",
   notFoundMessage: "Not found",
   returnHome: "Home",
+  earlierLabel: "Anteriormente",
+  detailsOpen: "Detalhes +",
+  detailsClose: "Detalhes −",
+  storyOpen: "Ler a história",
+  storyClose: "Ocultar a história",
+  impactLabel: "Impacto",
   header: { title: "Data Engineer", location: "BH", viewEmail: "Email" },
   resume: { short: "Short resume.", full: "Full resume." },
   heroTagline: "Data Engineering at Scale with AI Augmented Capabilities",
@@ -51,6 +57,20 @@ const content: ContentData = {
     thesisLink: "https://www.monografias.ufop.br/handle/35400000/1342",
   },
   certifications: [],
+  siteChrome: {
+    nav: { label: "Principal", resume: "Resumo", projects: "Projetos" },
+    theme: { toLight: "Tema claro", toDark: "Tema escuro" },
+    language: { label: "Idioma" },
+    breadcrumb: { label: "Trilha", projects: "Projetos" },
+    backToProjects: "Voltar aos projetos",
+    footer: {
+      label: "Rodapé do site",
+      owner: "Marco Menezes",
+      email: "E-mail",
+      linkedin: "LinkedIn",
+      github: "GitHub",
+    },
+  },
 };
 
 vi.mock("@/hooks/useContent", () => ({

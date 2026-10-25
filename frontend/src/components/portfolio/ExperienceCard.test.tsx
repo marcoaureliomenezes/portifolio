@@ -117,3 +117,89 @@ describe("ExperienceCard", () => {
     expect(screen.queryByLabelText("Impacto")).not.toBeInTheDocument();
   });
 });
+
+// ── ExperienceCard — i18n ─────────────────────────────────────────────────
+
+const multiRoleExperience: Experience = {
+  company: "Acme Corp",
+  fullName: "Acme Corp",
+  location: "São Paulo",
+  totalPeriod: "2020–present",
+  type: "main",
+  roles: [
+    { title: "Senior Engineer", period: "2022–present" },
+    { title: "Mid Engineer", period: "2020–2022" },
+  ],
+};
+
+describe("ExperienceCard — i18n", () => {
+  it("renders careerProgression label from labels prop (not hardcoded)", () => {
+    // Use a custom string — if the component had it hardcoded, this would fail
+    render(
+      <ExperienceCard
+        experience={multiRoleExperience}
+        labels={{
+          responsibilities: "Responsabilidades:",
+          technologies: "Tecnologias:",
+          careerProgression: "Trajeto profissional",
+          roleSingular: "cargo",
+          rolePlural: "cargos",
+        }}
+      />,
+    );
+    expect(screen.getByText(/Trajeto profissional/)).toBeInTheDocument();
+  });
+
+  it("does NOT render hardcoded 'Progressão de carreira' when custom label supplied", () => {
+    render(
+      <ExperienceCard
+        experience={multiRoleExperience}
+        labels={{
+          responsibilities: "Responsabilidades:",
+          technologies: "Tecnologias:",
+          careerProgression: "Career progression",
+          roleSingular: "position",
+          rolePlural: "positions",
+        }}
+      />,
+    );
+    // Hardcoded 'Progressão de carreira' must NOT appear
+    expect(screen.queryByText(/Progressão de carreira/i)).not.toBeInTheDocument();
+  });
+
+  it("renders plural rolePlural when roles.length > 1", () => {
+    render(
+      <ExperienceCard
+        experience={multiRoleExperience}
+        labels={{
+          responsibilities: "Responsabilidades:",
+          technologies: "Tecnologias:",
+          careerProgression: "Career progression",
+          roleSingular: "position",
+          rolePlural: "positions",
+        }}
+      />,
+    );
+    expect(screen.getByText(/2 positions/)).toBeInTheDocument();
+  });
+
+  it("renders singular roleSingular when roles.length === 1", () => {
+    const singleRole: Experience = {
+      ...multiRoleExperience,
+      roles: [{ title: "Senior Engineer", period: "2022–present" }],
+    };
+    render(
+      <ExperienceCard
+        experience={singleRole}
+        labels={{
+          responsibilities: "Responsabilidades:",
+          technologies: "Tecnologias:",
+          careerProgression: "Career progression",
+          roleSingular: "position",
+          rolePlural: "positions",
+        }}
+      />,
+    );
+    expect(screen.getByText(/1 position/)).toBeInTheDocument();
+  });
+});
