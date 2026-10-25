@@ -11,6 +11,8 @@
  *  6. Page content is within a <main> landmark
  */
 
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -57,9 +59,16 @@ const mockProjects: Project[] = [
   },
 ];
 
+/** The committed locale file the app fetches: the required chrome and profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "siteChrome" | "profile">;
+
 vi.mock("@/hooks/useContent", () => ({
   useContent: () => ({
     content: {
+      siteChrome: committed.siteChrome,
+      profile: committed.profile,
       projectsV2: {
         index: { title: "Projetos", description: "Galeria de projetos." },
         list: mockProjects,
@@ -81,9 +90,11 @@ function renderPage() {
 function renderInLayout() {
   const content = {
     siteChrome: {
+      ...committed.siteChrome,
       breadcrumb: { label: "Breadcrumb", projects: "Projetos" },
       backToProjects: "Voltar para projetos",
     },
+    profile: committed.profile,
   } as unknown as ContentData;
   return render(
     <LanguageContext.Provider
