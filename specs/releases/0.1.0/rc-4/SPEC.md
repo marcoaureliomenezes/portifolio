@@ -68,6 +68,7 @@ Main-thread rulings on this SPEC's draft (2026-10-25), each accepted as written 
 - No CI E2E test over a published post this rc (§3).
 - Absolute URLs use the production origin (§4).
 - The `resume-home` tldr is narrowed in text (Closure).
+- Consumer pre-mortem (`dd-researcher`, 2026-10-25), rulings B1–B8 landed in AC4.5, AC6.1, AC7.1, AC7.3, AC5.2, AC3.1, §5 and Closure. B9–B14 (deploy sync filters, the test fetch mock, the Blog flag's default, the Makefile help, the Function's association and role, the Lighthouse URLs) are PLAN-level.
 
 ## 2. Measurable Goals
 
@@ -78,7 +79,7 @@ Main-thread rulings on this SPEC's draft (2026-10-25), each accepted as written 
 | 3 | stage serves `/projetos/<slug>` from its own HTML file | no | yes, all 4 | AC1.1 |
 | 4 | per-route HTML or feed cached a year in browsers | — | 0 files | AC1.2 |
 | 5 | Blog link on the committed content | absent | absent (no published post) | AC6.1 |
-| 6 | files and folders with no reader (§4 FR7 list) | 10 | 0 | AC7.3 |
+| 6 | files and folders with no reader (AC7.3 list) | 19 | 0 | AC7.3 |
 
 ## 3. Non-goals
 
@@ -166,12 +167,12 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 - **AC3.1** Each published post gets `dist/blog/<slug>/index.html`, made from `dist/index.html`. Its head:
   - `<title>` and `og:title` are the post title;
   - `meta description` and `og:description` are its description;
-  - `og:image` is the absolute URL of its `image`, else of the default share image;
-  - `<html lang>` is the post's `lang`.
+  - `og:image` and `twitter:image` are the absolute URL of its `image`, else of the default share image;
+  - `<html lang>` and `og:locale` are the post's language (`pt-BR`/`pt_BR`, `en`/`en_US`, `de`/`de_DE`).
 
   Its body puts the rendered post in an `<article lang>` inside `#root`, with the built scripts kept. Test: integration (fixture, literals).
-- **AC3.2** Each of the 4 project pages gets `dist/projetos/<slug>/index.html`, whose head carries title, description, `og:title` and `og:description` from `pt.json`'s `project.seo` (the default locale), plus the default share image. Its body is the root document's. `useDocumentSeo` stays the runtime reader of the same fields. Test: integration (the committed `pt.json`, the 4 literal titles).
-- **AC3.3** The root `index.html` head adds the default share image as `og:image` (absolute) and one `<link rel="alternate" type="application/rss+xml">` to `/blog/rss.xml`. Test: integration.
+- **AC3.2** Each of the 4 project pages gets `dist/projetos/<slug>/index.html`, whose head carries title, description, `og:title` and `og:description` from `pt.json`'s `project.seo` (the default locale), plus the default share image as `og:image` and `twitter:image`; `<html lang>` and `og:locale` stay pt. Its body is the root document's. `useDocumentSeo` stays the runtime reader of the same fields. Test: integration (the committed `pt.json`, the 4 literal titles).
+- **AC3.3** The root `index.html` head adds the default share image as `og:image` and `twitter:image` (absolute) and one `<link rel="alternate" type="application/rss+xml">` to `/blog/rss.xml`. Test: integration.
 
 ### FR4 — the blog pages
 
@@ -186,7 +187,7 @@ The site origin in every absolute URL is the production origin, `https://marco-m
   The list is the same in pt, en and de; a post is never hidden by the visitor's locale. Test: unit (two fixture posts in two languages, rendered in each locale, literals).
 - **AC4.3** `/blog?tag=x` lists only the posts tagged `x`, and an unknown tag lists none. Each tag on the index and the post page links to it, and the filter shows a link back to `/blog`. Test: unit.
 - **AC4.4** `/blog/:slug` shows the post's title, date, language tag, tags and the body the build rendered, in an `<article lang>`. `useDocumentSeo` sets its title and description. An unknown slug renders the 404 page. Test: unit.
-- **AC4.5** Every blog UI string, the nav label included, sits under `siteChrome` in the three locales. The existing parity check therefore covers it, and `homeParity`/`resumeContent` see each key read by `src/**`. Test: unit plus `check:i18n-projects`.
+- **AC4.5** Every blog UI string, the nav label included, sits under `siteChrome` in the three locales, and each key joins `CHROME_I18N_KEYS` in `scripts/check-i18n-parity.mjs`, the parity check's explicit list. Test: integration (`check:i18n-projects` on a copy missing one blog key).
 
 ### FR5 — the RSS feed and the share image
 
@@ -199,11 +200,11 @@ The site origin in every absolute URL is the production origin, `https://marco-m
   - `dc:language`.
 
   Test: integration (parse the fixture's feed, literals).
-- **AC5.2** The default share image is one 1200×630 PNG under `public/`, committed once, in the site's style: dark background, one amber accent, the owner's public name and title. No generator script is kept; the commit body says how it was made. Test: integration (the file's pixel size; every head of AC3.1-AC3.3 names it unless overridden). Visual: the operator views it.
+- **AC5.2** The default share image is one 1200×630 PNG under `public/assets/`, content-hash-named (AC1.2), committed once, in the site's style: dark background, one amber accent, the owner's public name and title. No generator script is kept; the commit body says how it was made. Test: integration (the file's pixel size; every head of AC3.1-AC3.3 names it unless overridden). Visual: the operator views it.
 
 ### FR6 — the Blog link
 
-- **AC6.1** The header shows Blog after Projects, with `aria-current` on `/blog*`, exactly when the build publishes at least one post. A build-time constant carries that fact, read from the build script's own published-post list (one decider). On the committed content the link is absent. Test: unit (both partitions).
+- **AC6.1** The header shows Blog after Projects, with `aria-current` on `/blog*`, exactly when the build publishes at least one post. A build-time constant carries that fact, read from the build script's own published-post list (one decider). On the committed content the link is absent. `siteChrome.nav.blog` is required in the type and carried by all three locales; the typed literals `HeroSection.test.tsx:11` and `Portfolio.test.tsx:14` carry it in the same merge, under test ruling R-F (type commit, then `test(` commit), as for `seeAllProjects` (AC7.1). Test: unit (both partitions).
 - **AC6.2** Test ruling **R-M** (main thread, grill 2026-10-25, on the operator's "Confirm"), named in each `test(...)` commit:
   - `Header.test.tsx:97` narrows its no-Blog-link assert to the no-published-post partition; its anchor and menu-button asserts stay;
   - PC-E2E-17's count at `nav-projects.spec.ts:24` becomes Resume and Projects, plus Blog exactly when the blog index data lists a post.
@@ -212,19 +213,14 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 
 ### FR7 — rc-3 carried items
 
-- **AC7.1** `seeAllProjects` is required in `ContentData`; `FeaturedProjects` reads it with no fallback, and "Ver todos os projetos" leaves `src/**`. Test: unit (typecheck, `FeaturedProjects.test`).
+- **AC7.1** `seeAllProjects` is required in `ContentData`; `FeaturedProjects` reads it with no fallback, and "Ver todos os projetos" leaves `src/**`. The typed literals `HeroSection.test.tsx:11` and `Portfolio.test.tsx:14` carry it under R-F. The requirement is TypeScript-only; `v1.json` stays byte-equal. Test: unit (typecheck, `FeaturedProjects.test`).
 - **AC7.2** The hero one-column assert (`HeroSection.test.tsx:188`) selects the union of its earlier and current selectors: `[class*='grid-cols-2'], [class*='md:grid-cols'], [class*='lg:grid-cols'], [class*='lg:']`. This tightens it, so no ruling is needed. Test: unit; the reviewer adds `md:grid-cols-2` to the hero and sees it red.
-- **AC7.3** These leave the repo, with no reader in code, CI, tests or content:
-  - `terraform/_legacy/`;
-  - the `terraform/` root `README.md`, `terraform.tfvars` and `terraform.tfvars.example`;
-  - `scripts/terraform_manager.sh` and `scripts/check_infrastructure.sh`;
-  - `backend/`;
-  - `scripts/build_and_serve.sh` and `scripts/server_manager.sh`;
-  - the 6 files under `public/images/` that no content, code or test names;
-  - `public/decorators/`;
-  - `public/lovable-uploads/`;
-  - `tests/e2e/setup/`;
-  - `img/`.
+- **AC7.3** These 19 entries leave the repo, each with no reader in code, CI, tests or content (paths from the repo root):
+  - `terraform/_legacy/`, `terraform/README.md`, `terraform/terraform.tfvars`, `terraform/terraform.tfvars.example` (4);
+  - `scripts/terraform_manager.sh`, `scripts/check_infrastructure.sh`, `scripts/build_and_serve.sh`, `scripts/server_manager.sh` (4);
+  - `backend/` (1);
+  - under `frontend/public/images/`: `ai-900.png`, `aws_icon.png`, `azure_icon.png`, `databricks_icon.png`, `dp-900.png`, `sc-900.png` (6);
+  - `frontend/public/decorators/`, `frontend/public/lovable-uploads/`, `frontend/tests/e2e/setup/`, `img/` (4).
 
   Their consumers change in the same job:
   - the `Makefile` targets that call `server_manager.sh` (`dev`, `stop`, `test-build`, and `clean`'s stop line) go;
@@ -255,9 +251,10 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 - Memory:
   - a `blog` atom: the post contract, the build script, pages, feed and nav flag;
   - `site-chrome` loses "the header carries no Blog link" and gains the conditional link;
-  - `deploy-infrastructure` gains the Function and the cache rule, and loses `_legacy` and the two scripts;
+  - `deploy-infrastructure` gains the Function, the cache rule, `.github/workflows/deploy.yml` and `scripts/build_frontend.sh` (read by `Makefile` `build`), and loses `_legacy` and the two terraform scripts;
   - `content-contract` loses `decorators`/`lovable-uploads` and the unread images, states `seeAllProjects` required, and extends the hash-name rule to every file under `public/assets/`;
-  - `local-servers` leaves, `build_frontend.sh` moving to an atom that covers it;
+  - `local-servers` is deleted with its units;
+  - `legacy-specs` loses `img/**`;
   - `e2e-suite` loses `tests/e2e/setup`;
   - the `resume-home` tldr is narrowed to "numbers derived from content, labels from the locale";
   - `memory.py drift` lists no uncovered unit.
@@ -269,12 +266,13 @@ The site origin in every absolute URL is the production origin, `https://marco-m
 | A broken rewrite breaks every route, and only stage can prove it. | AC1.1's stage checks run before any promote to prod. Prod applies only on the promote PR. |
 | Without AC1.2, per-route HTML and the feed are cached a year (`deploy.yml:80,127`). | FR1 lands in wave 2, with the first job that emits HTML. The two deploy copies change in one commit, and the 6 renames ride with them. |
 | A plain-named file under `assets/` would be served stale for a year after an edit. | AC1.2 holds every file under `public/assets/` to the hash-name rule in `verify`. |
-| The prerendered body flashes blank until the locale loads (`createRoot`). | Accepted for v1 (§3); crawlers read the full HTML. |
+| The prerendered body flashes blank until the locale loads (`createRoot`). | Accepted for v1 (§3). Crawlers read full HTML for posts only; project pages are prerendered heads over the root body. |
 | A post's language differs from the UI locale. | `<article lang>` carries the post's, and `<html lang>` follows the UI after mount (AC3.1, AC4.4). |
 | `smoke-e2e-encodes-the-pre-rc2-header`: a smoke spec bound to the header broke CI after merge. | No smoke spec counts nav links. The smoke set grows by zero, and PC-E2E-17 is full-suite only (AC6.2). |
 | The content schema carries a resolved fix chain (4 records). | Posts never enter it; `v1.json` stays byte-equal. |
 | The build script adds time to `verify` (its last step is `build`). | AC2.6 measures it against the build before the change. The `verify:` text is unchanged. |
 | AC7.3 deletes files that the `Makefile` and the repo `AGENTS.md` name. | The same job edits both consumers. The reviewer's grep is the check. |
+| `WT merge` refuses an implementation commit touching the repo `tests:` globs (`frontend/src/*.test.ts(x)`, `frontend/src/test-setup.ts`, `frontend/tests/*`). | Every task touching them is a `test(` commit in its own tree, the `tests/e2e/setup/` deletion and the R-F literals included. |
 
 ## 6. Open questions
 
