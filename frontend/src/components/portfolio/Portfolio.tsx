@@ -21,7 +21,7 @@ export function Portfolio() {
     <div className="container mx-auto px-4 pb-8 space-y-6 max-w-5xl">
       <HeroSection content={content} locale={language} />
       <FeaturedProjects content={content} />
-      <ExperienceSection content={content} />
+      <ExperienceSection content={content} locale={language} />
       <SkillsSection content={content} />
       <CertificationsSection content={content} />
       <EducationSection content={content} />
