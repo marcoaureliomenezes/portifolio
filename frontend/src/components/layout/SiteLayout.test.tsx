@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+import { LanguageContext, LanguageProvider } from "@/contexts/LanguageContext";
+import type { ContentData } from "@/types/content";
 import { SiteLayout } from "./SiteLayout";
 
 // Boundary stub: the header's own contract lives in Header.test.tsx.
@@ -31,6 +32,15 @@ function contentOf(locale: Locale) {
   };
 }
 
+/** Provider-less context value: only the required chrome and profile, read from the committed file. */
+const { siteChrome, profile } = contentOf("pt");
+const stubValue = {
+  language: "pt" as const,
+  setLanguage: () => undefined,
+  content: { siteChrome, profile } as unknown as ContentData,
+  isLoading: false,
+};
+
 function renderAt(path: string, locale?: Locale) {
   const routes = (
     <Routes>
@@ -50,7 +60,9 @@ function renderAt(path: string, locale?: Locale) {
       {locale ? (
         <LanguageProvider initialLanguage={locale}>{routes}</LanguageProvider>
       ) : (
-        routes
+        <LanguageContext.Provider value={stubValue}>
+          {routes}
+        </LanguageContext.Provider>
       )}
     </MemoryRouter>,
   );
