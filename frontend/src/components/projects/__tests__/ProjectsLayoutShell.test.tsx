@@ -209,3 +209,15 @@ describe("ProjectsLayoutShell — siteChrome labels and order", () => {
     ).toBeTruthy();
   });
 });
+
+describe("ProjectsLayoutShell — width", () => {
+  it.each(["/projetos", "/projetos/x"])(
+    "%s: the shell root sets no width of its own (the layout owns the column)",
+    (path) => {
+      renderShell(path);
+      const root = screen.getByTestId("breadcrumb").parentElement as HTMLElement;
+      expect(root.className).not.toContain("max-w-[960px]");
+      expect(root.className.split(/\s+/)).not.toContain("mx-auto");
+    },
+  );
+});
