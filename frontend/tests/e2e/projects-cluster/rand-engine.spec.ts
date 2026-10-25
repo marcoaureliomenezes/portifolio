@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
-const { pypi } = JSON.parse(
+const { pypi, hero } = JSON.parse(
   readFileSync(fileURLToPath(new URL('../../../public/content/en.json', import.meta.url)), 'utf8'),
 ).projectsV2.list.find((p: { slug: string }) => p.slug === 'rand-engine');
 
@@ -25,11 +25,9 @@ test.describe('rand-engine — library project smoke', () => {
     await expect(card).toHaveCount(1);
     await expect(card).toBeVisible();
 
-    // Library card signal: kind chip + install hint visible without clicking
-    await expect(card.locator('[data-testid="project-card-kind"]')).toBeVisible();
-    await expect(card.locator('[data-testid="project-card-install"]')).toContainText(
-      pypi.installCommand,
-    );
+    // Library card signal: still poster + PyPI version visible without clicking
+    await expect(card.locator(`img[src="${hero.media.desktop.poster}"]`)).toBeVisible();
+    await expect(card).toContainText(`PyPI ${pypi.version}`);
   });
 
   test('RE-E2E-02: detail page renders Library template without 404', async ({ page }) => {
