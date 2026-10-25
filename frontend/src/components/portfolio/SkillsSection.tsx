@@ -1,5 +1,5 @@
-import { MobileCollapsibleSection } from "./MobileCollapsibleSection";
-import { SkillCategoryCard } from "./SkillCategoryCard";
+import { Fragment } from "react";
+import { SectionHeading } from "./SectionHeading";
 import type { ContentData } from "@/types/content";
 
 interface SkillsSectionProps {
@@ -7,23 +7,23 @@ interface SkillsSectionProps {
 }
 
 export function SkillsSection({ content }: SkillsSectionProps) {
-
-  const cards = content.skills.map((skillCategory, idx) => (
-    <SkillCategoryCard key={idx} skillCategory={skillCategory} />
-  ));
-
   return (
     <section
       id="habilidades"
       aria-labelledby="habilidades-heading"
       className="motion-safe:animate-fade-up"
     >
-      <MobileCollapsibleSection
-        title={content.skillsTitle}
-        headingId="habilidades-heading"
-      >
-        <div className="space-y-4">{cards}</div>
-      </MobileCollapsibleSection>
+      <SectionHeading id="habilidades-heading">{content.skillsTitle}</SectionHeading>
+      <dl>
+        {content.skills.map((category) => (
+          <Fragment key={category.id}>
+            <dt data-id={category.id} className="font-bold text-foreground">
+              {category.title}
+            </dt>
+            <dd>{category.skills.join(" · ")}</dd>
+          </Fragment>
+        ))}
+      </dl>
     </section>
   );
 }
