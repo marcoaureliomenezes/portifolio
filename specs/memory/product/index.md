@@ -25,7 +25,7 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `content-contract` | Content contract | projects.ts is the one project schema, every link is http(s), v1.json is its input-mode export, and verify parses the three locales and checks every asset. |
+| `content-contract` | Content contract | projects.ts is the one project schema, links are http(s), v1.json its input-mode export; verify parses the locales, checks key parity and every asset. |
 
 ### media
 
@@ -41,11 +41,17 @@ The product vision is not documented yet. Describe the project's core purpose he
 | `library-page` | Library project page layout | The one library page layout - purpose, install line, hero loop, side-by-side scenes, Try it, Why it exists, facts pinned to a tag. |
 | `rand-engine-page` | rand-engine project page | The library page for rand-engine, pinned to PyPI 0.8.0 and tag 0.8.0, with a hero loop, three scenes, a runnable Try it and facts from the tag. |
 
+### resume
+
+| slug | title | tldr |
+|------|-------|------|
+| `resume-home` | Resume home | The home is a frameless resume - hero, experience, two projects, skills, certifications, education - every number and word read from content. |
+
 ### site
 
 | slug | title | tldr |
 |------|-------|------|
-| `site-chrome` | Shared site chrome | One header on every route, one type scale, a 960 px project column with 680 px prose, localized chrome strings and <html lang>. |
+| `site-chrome` | Shared site chrome | One header and one footer on every route, one 960 px column with 680 px prose, one type scale, localized chrome strings and <html lang>. |
 
 ## Capability map
 

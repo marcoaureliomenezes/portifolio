@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-24T23:35:45Z",
+  "generated_at": "2026-10-25T17:34:08Z",
   "features": [
     {
       "rank": 1,
       "slug": "content-contract",
       "title": "Content contract",
       "area": "content",
-      "tldr": "projects.ts is the one project schema, every link is http(s), v1.json is its input-mode export, and verify parses the three locales and checks every asset.",
+      "tldr": "projects.ts is the one project schema, links are http(s), v1.json its input-mode export; verify parses the locales, checks key parity and every asset.",
       "summary": "The site's content JSON has one machine contract built on the one project schema; verify's unit tests parse the three locale files against it, keep the exported JSON Schema equal to a fresh export, and hold every rule on the files under public/assets.",
       "path": "specs/memory/product/content/content-contract.md",
       "tags": [
@@ -15,11 +15,12 @@
         "i18n",
         "assets"
       ],
-      "token_estimate": 572,
+      "token_estimate": 786,
       "depends_on": [
         "scene-media",
         "library-page",
-        "site-chrome"
+        "site-chrome",
+        "resume-home"
       ],
       "sources": [
         "frontend/src/lib/schemas/projects.ts",
@@ -30,7 +31,9 @@
         "frontend/scripts/check-i18n-parity.mjs",
         "frontend/public/content/schema/v1.json",
         "frontend/src/lib/contentSchemaExport.test.ts",
-        "frontend/src/lib/contentAssets.test.ts"
+        "frontend/src/lib/contentAssets.test.ts",
+        "frontend/src/lib/homeParity.test.ts",
+        "frontend/src/lib/resumeContent.test.ts"
       ]
     },
     {
@@ -79,8 +82,9 @@
         "content",
         "library"
       ],
-      "token_estimate": 487,
+      "token_estimate": 490,
       "depends_on": [
+        "resume-home",
         "scene-media",
         "library-page",
         "content-contract"
@@ -137,8 +141,9 @@
         "content",
         "library"
       ],
-      "token_estimate": 516,
+      "token_estimate": 518,
       "depends_on": [
+        "resume-home",
         "scene-media",
         "library-page",
         "content-contract"
@@ -154,11 +159,47 @@
     },
     {
       "rank": 6,
+      "slug": "resume-home",
+      "title": "Resume home",
+      "area": "resume",
+      "tldr": "The home is a frameless resume - hero, experience, two projects, skills, certifications, education - every number and word read from content.",
+      "summary": "Portfolio renders Hero, Experience, Projects, Skills, Certifications and Education in one column with no section card or fold; the hero's stat line is derived from content, role periods are localized by one parser, and the only disclosures are the story toggle and each role's Details control.",
+      "path": "specs/memory/product/resume/resume-home.md",
+      "tags": [
+        "resume",
+        "home",
+        "i18n"
+      ],
+      "token_estimate": 782,
+      "depends_on": [
+        "site-chrome",
+        "content-contract",
+        "rand-engine-page",
+        "dadaia-workspace-page"
+      ],
+      "sources": [
+        "frontend/src/components/portfolio/*",
+        "frontend/src/components/projects/ProjectCard.tsx",
+        "frontend/src/components/projects/__tests__/ProjectCard.test.tsx",
+        "frontend/src/components/ui/disclosure.tsx",
+        "frontend/src/lib/formatPeriod.ts",
+        "frontend/src/lib/formatPeriod.test.ts",
+        "frontend/src/lib/resumeContent.test.ts",
+        "frontend/src/lib/homeParity.test.ts",
+        "frontend/src/assets/profile.webp",
+        "frontend/public/content/*.json",
+        "frontend/tests/e2e/fixtures/experience-helpers.ts",
+        "frontend/tests/e2e/pages/home.spec.ts",
+        "frontend/tests/e2e/pages/role-collapsible.spec.ts"
+      ]
+    },
+    {
+      "rank": 7,
       "slug": "site-chrome",
       "title": "Shared site chrome",
       "area": "site",
-      "tldr": "One header on every route, one type scale, a 960 px project column with 680 px prose, localized chrome strings and <html lang>.",
-      "summary": "A layout route renders the one header and the one main landmark for every page; the project routes add a breadcrumb and back link in a 960 px column; chrome text, theme first paint and the document language follow the visitor's locale and stored theme.",
+      "tldr": "One header and one footer on every route, one 960 px column with 680 px prose, one type scale, localized chrome strings and <html lang>.",
+      "summary": "A layout route renders the one header, the one main landmark in the site's 960 px column and the one footer for every page; the project routes add a breadcrumb and back link; chrome text, theme first paint and the document language follow the visitor's locale and stored theme.",
       "path": "specs/memory/product/site/site-chrome.md",
       "tags": [
         "site",
@@ -166,8 +207,9 @@
         "i18n",
         "design-tokens"
       ],
-      "token_estimate": 482,
+      "token_estimate": 678,
       "depends_on": [
+        "resume-home",
         "library-page",
         "content-contract"
       ],
@@ -177,6 +219,8 @@
         "frontend/src/components/header/*",
         "frontend/src/components/layout/*",
         "frontend/src/components/projects/ProjectsLayoutShell.tsx",
+        "frontend/src/components/projects/__tests__/ProjectsLayoutShell.test.tsx",
+        "frontend/src/lib/layout.ts",
         "frontend/src/contexts/LanguageContext.tsx",
         "frontend/src/hooks/useTheme.ts",
         "frontend/src/pages/NotFound.tsx",

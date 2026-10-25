@@ -48,7 +48,7 @@ file at the pinned tag.
   (the range its pyproject declares), License (MIT) and Speed on the CI runner (1,000,000
   integers in 0.006 s, 10,000,000 in 0.041 s, from its benchmarks page).
 - The meta row links the GitHub repo, the PyPI page and the docs root.
-- The card on `/projetos` uses the hero's desktop poster as its cover.
+- Its card on `/projetos` and on the home shows the hero's desktop poster ([[resume-home]]).
 - The three locale files carry the same keys, media paths and facts rows; text, `alt` and
   `caption` are translated.
 - The E2E spec reads the expected version from the content item, never from a literal.
