@@ -230,12 +230,14 @@ describe("RoleCollapsible", () => {
     const button = screen.getByRole("button", { name: "Detalhes +" });
     expect(screen.getAllByRole("button")).toHaveLength(1);
     expect(button).toHaveAttribute("aria-expanded", "false");
+    expect(button.textContent).toBe("Detalhes +");
 
     await user.click(button);
     expect(screen.getByRole("button", { name: "Detalhes −" })).toHaveAttribute(
       "aria-expanded",
       "true",
     );
+    expect(button.textContent).toBe("Detalhes −");
   });
 
   it("the role article is frameless: no background, border or radius classes", () => {
@@ -246,21 +248,11 @@ describe("RoleCollapsible", () => {
     expect(article.className).not.toMatch(/\brounded/);
   });
 
-  it("the Details control carries no chevron icon", () => {
+  it("the Details button holds only its label, no icon child", () => {
     render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
     const button = screen.getByRole("button");
-    expect(within(button).queryByTestId("disclosure-chevron")).not.toBeInTheDocument();
-  });
-
-  it("the Details button text is detailsOpen while closed and detailsClose while open", async () => {
-    const user = userEvent.setup();
-    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
-
-    const button = screen.getByRole("button");
+    expect(button.childElementCount).toBe(0);
     expect(button.textContent).toBe("Detalhes +");
-
-    await user.click(button);
-    expect(button.textContent).toBe("Detalhes −");
   });
 
   it("does not put the title or the summary inside the button", () => {

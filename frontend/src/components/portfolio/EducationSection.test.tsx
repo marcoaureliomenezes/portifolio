@@ -35,6 +35,11 @@ describe("EducationSection — one entry", () => {
     const link = container.querySelector("a")!;
     expect(link).toHaveAttribute("href", "https://example.com/thesis");
     expect(link).toHaveTextContent("Temperature Controllers for Electric Showers");
+    expect(container.querySelector("h3")!.textContent).toBe("B.Eng. Control and Automation Engineering");
+    expect(container.textContent).toContain("Coursework: Python, C/C++, embedded systems");
+    expect(container.textContent).toContain("Thesis: Temperature Controllers for Electric Showers");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("has no frame and no location chip", () => {
