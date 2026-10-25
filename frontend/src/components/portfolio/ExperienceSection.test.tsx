@@ -28,19 +28,19 @@ const CASES: Record<
   en: {
     label: "Earlier",
     titles: ["Adjunct Instructor", "Laboratory Assistant", "Summer Internship"],
-    periods: ["04-2015 to 07-2018", "08-2016 to 08-2017", "01-2015 to 02-2015"],
+    periods: ["04-2015 to 07-2018 (3y 4m)", "08-2016 to 08-2017 (1y)", "01-2015 to 02-2015 (2m)"],
     line: "Adjunct Instructor, Colégio Técnico Inconfidentes Álvares Maciel (2015–18) · Laboratory Assistant, Universidade Federal de Ouro Preto (2016–17) · Summer Internship, Analógica Instrumentação e Controle (2015)",
   },
   pt: {
     label: "Anteriormente",
     titles: ["Professor Auxiliar", "Assistente de Laboratório", "Estagiário de Verão"],
-    periods: ["04-2015 a 07-2018", "08-2016 a 08-2017", "01-2015 a 02-2015"],
+    periods: ["04-2015 a 07-2018 (3a 4m)", "08-2016 a 08-2017 (1a)", "01-2015 a 02-2015 (2m)"],
     line: "Professor Auxiliar, Colégio Técnico Inconfidentes Álvares Maciel (2015–18) · Assistente de Laboratório, Universidade Federal de Ouro Preto (2016–17) · Estagiário de Verão, Analógica Instrumentação e Controle (2015)",
   },
   de: {
     label: "Früher",
     titles: ["Dozent", "Laboratory Assistant", "Sommerpraktikant"],
-    periods: ["04/2015 bis 07/2018", "08/2016 bis 08/2017", "01/2015 bis 02/2015"],
+    periods: ["04/2015 bis 07/2018 (3 J. 4 M.)", "08/2016 bis 08/2017 (1 J.)", "01/2015 bis 02/2015 (2 M.)"],
     line: "Dozent, Colégio Técnico Inconfidentes Álvares Maciel (2015–18) · Laboratory Assistant, Universidade Federal de Ouro Preto (2016–17) · Sommerpraktikant, Analógica Instrumentação e Controle (2015)",
   },
 };
