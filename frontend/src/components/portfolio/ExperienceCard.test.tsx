@@ -13,9 +13,15 @@ import { describe, it, expect } from "vitest";
 import { ExperienceCard } from "./ExperienceCard";
 import type { Experience, ContentData } from "@/types/content";
 
-const mockLabels: Pick<ContentData, "responsibilities" | "technologies"> = {
+const mockLabels: Pick<
+  ContentData,
+  "responsibilities" | "technologies" | "detailsOpen" | "detailsClose" | "impactLabel"
+> = {
   responsibilities: "Responsibilities",
   technologies: "Technologies",
+  detailsOpen: "Details +",
+  detailsClose: "Details −",
+  impactLabel: "Impacto",
 };
 
 const singleRoleWithSkills: Experience = {
@@ -98,7 +104,7 @@ describe("ExperienceCard", () => {
 
   it("renders highlight block after expanding when highlightProject is set", async () => {
     const user = userEvent.setup();
-    render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} locale="en" />);
+    render(<ExperienceCard experience={singleRoleWithHighlight} labels={mockLabels} locale="pt" />);
     await user.click(screen.getByRole("button", { name: /Senior Data Engineer/i }));
     expect(screen.getByText("Migração SAS → Azure")).toBeInTheDocument();
     expect(screen.getByText("Redução SLA: 12 meses → 2 meses")).toBeInTheDocument();
@@ -106,7 +112,7 @@ describe("ExperienceCard", () => {
   });
 
   it("does not render highlight block when highlightProject is absent", () => {
-    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="en" />);
+    render(<ExperienceCard experience={singleRoleWithSkills} labels={mockLabels} locale="pt" />);
     // No ⚡ Impacto badge should appear
     expect(screen.queryByLabelText("Impacto")).not.toBeInTheDocument();
   });
@@ -131,7 +137,7 @@ describe("ExperienceCard — i18n", () => {
     render(
       <ExperienceCard
         experience={multiRoleExperience}
-        labels={{ responsibilities: "Responsabilidades:", technologies: "Tecnologias:" }}
+        labels={{ ...mockLabels, responsibilities: "Responsabilidades:", technologies: "Tecnologias:" }}
         locale="en"
       />,
     );
