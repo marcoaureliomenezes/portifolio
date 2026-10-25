@@ -1,20 +1,4 @@
-/**
- * Shared helpers for `#experiencia` section tests.
- *
- * Why this exists:
- *   `ExperienceSection.tsx` renders the same content TWICE — once inside a
- *   desktop Card (`hidden md:block`) and once inside a MobileCollapsibleSection
- *   (`md:hidden`). The mobile variant is itself a closed Collapsible that must
- *   be expanded before any role trigger is visible.
- *
- *   Naïve `page.locator('button').filter({ hasText: /Senior/ }).first()` calls
- *   pick the first DOM match regardless of CSS visibility — on mobile viewports
- *   the visible Senior trigger sits AFTER the (hidden) desktop one in DOM order,
- *   so `.first()` selects a `display:none` element and `toBeVisible()` times out.
- *
- *   Helpers below filter by `visible: true` and auto-expand the mobile section,
- *   so specs work identically on desktop and mobile projects.
- */
+/** Shared helpers for `#experiencia` section tests. */
 import { expect, type Locator, type Page } from '@playwright/test';
 
 /** Matches the "Senior Data Engineer" role title across PT, EN, DE. */
@@ -22,6 +6,15 @@ export const SENIOR_ROLE_PATTERN = /Engenheiro de Dados Sênior|Senior Data Engi
 
 /** Matches the experience section title across PT, EN, DE. */
 const SECTION_TITLE_PATTERN = /Experiência Profissional|Professional Experience|Berufserfahrung/;
+
+/** The "Details" button of the role whose article text matches `rolePattern`. */
+export function roleDetailsButton(page: Page, rolePattern: RegExp): Locator {
+  return page
+    .locator('#experiencia [data-testid="role"]')
+    .filter({ hasText: rolePattern })
+    .getByRole('button', { name: /^(Details|Detalhes)/ })
+    .first();
+}
 
 /**
  * Expand the Senior Santander role collapsible regardless of viewport.
@@ -50,11 +43,7 @@ export async function expandSeniorRole(
     }
   }
 
-  const seniorTrigger = section
-    .locator('button, [role="button"]')
-    .filter({ hasText: seniorPattern })
-    .filter({ visible: true })
-    .first();
+  const seniorTrigger = roleDetailsButton(page, seniorPattern);
   await expect(seniorTrigger).toBeVisible();
 
   // Open the collapsible if it's not already open. CollapsibleTrigger exposes
