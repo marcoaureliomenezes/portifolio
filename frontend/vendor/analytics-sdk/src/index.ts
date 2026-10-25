@@ -20,6 +20,7 @@ let listenersRegistered = false;
  */
 export function init(config: { site_id: string; endpoint: string }): void {
   try {
+    if (!config.endpoint) return; // no endpoint: stay uninitialised, track/flush no-op
     setConfig(config);
     // Eagerly create session_id and persist it to sessionStorage
     getOrCreateSessionId();
