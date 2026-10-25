@@ -38,10 +38,6 @@ terraform/**/*.tfstate.backup
 *.tfplan
 *.tfplan.*
 
-# Runtime PID files
-.flask.pid
-**/.flask.pid
-
 # Python bytecode
 __pycache__/
 *.pyc
