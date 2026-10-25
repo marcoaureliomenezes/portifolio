@@ -16,7 +16,7 @@ interface HeroSectionProps {
 export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
   const tagline = content.heroTagline ?? content.resumeTitle;
   const ctas = content.heroCTAs ?? { downloadCv: "Download CV" };
-  const suffix = content.heroStatsSuffix ?? { years: "years", certs: "certs" };
+  const suffix = content.heroStatsSuffix;
   const years = yearsSince(content.experiences.filter(e => e.type === "main").map(e => e.totalPeriod));
   const clouds = content.skills.find(s => s.id === "cloud-providers")?.skills.join(" · ");
   const stat = [`${years}+ ${suffix.years}`, `${content.certifications.length} ${suffix.certs}`, clouds].filter(Boolean).join(" · ");
