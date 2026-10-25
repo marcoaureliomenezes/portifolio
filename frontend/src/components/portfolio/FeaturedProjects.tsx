@@ -1,14 +1,8 @@
 /**
- * FeaturedProjects — T-RD-04 (AC-RD-01)
- *
- * The recruiter-facing showcase strip on the home page, directly under the
- * hero. Renders 2 curated ProjectCards (the two PyPI libraries) and a
- * "see all" link to /projetos.
- *
- * Reuses the /projetos ProjectCard untouched — same card, new stage.
+ * FeaturedProjects — the curated project cards (in FEATURED_SLUGS order) with
+ * a "see all" link to /projetos. Renders nothing when none of them is listed.
  */
 
-import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { SectionHeading } from "@/components/portfolio/SectionHeading";
@@ -48,7 +42,6 @@ export function FeaturedProjects({ content }: FeaturedProjectsProps) {
           className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
         >
           {seeAll}
-          <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </Link>
       </div>
 
