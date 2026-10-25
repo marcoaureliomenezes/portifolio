@@ -1,13 +1,14 @@
 # PLAN — Release 0.1.0, rc-4
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-10-25, operator: "Approve, deploy-only (Recommended)"
 **Owner:** dd-sw-engineer-sr
 
-Paths are relative to the repo root (the `portifolio` tree; the app is under `frontend/`). Tree: the rc-4 `wt-rc`, base `899de01` (`feature/0.1.0`), SPEC at `128e88b`. Facts below are read from the tree, `gh run` and the AWS CLI reference named where used; no build, terraform or AWS call was run (no `node_modules` in this tree, no credential on this machine).
+Paths are relative to the repo root (the `portifolio` tree; the app is under `frontend/`). Tree: the rc-4 `wt-rc`, base `899de01` (`feature/0.1.0`), SPEC at `070f595` (Approved). Facts below are read from the tree, `gh run` and the AWS CLI reference named where used; no build, terraform or AWS call was run (no `node_modules` in this tree, no credential on this machine).
 
 ## 1. As-is review
 
-Ledger slice (`bugs.py status`: 0 open, 10 resolved; `_archive/bugs_histo.jsonl` empty). Units touched and their records: the content schema chain (`content-schema-export-is-empty`, `content-schema-rejects-committed-content`, `content-urls-accept-script-schemes`, `content-validation-never-runs`) is read, never edited: posts get their own contract and reuse `HttpUrl`, whose bug is the lesson for the post link rule. `Media.tsx` (`media-resize-keeps-old-cut`, `media-empty-box-layout-shift`, REBUILT once in `e1bc71f`, no child bug) is not reused: a build-time string cannot call its hook, and the post `<video>` carries the sized poster that fixed the second bug. The smoke set (`smoke-e2e-encodes-the-pre-rc2-header`, `29c45a8`) is why no smoke spec counts nav links and the smoke set grows by zero. `main.tsx` (`analytics-beacons-the-page-without-an-endpoint`) is not touched. `Header.tsx`, `App.tsx`, `index.html`, `useDocumentSeo.ts`, `LanguageContext.tsx`, `deploy.yml`, `cloudfront.tf`: 0 records, feature commits only. No REBUILD is due by ledger; the one REBUILD below is the demand's (the cache rule changes the file's fundamental behaviour). Order: DELETE, REBUILD, UPDATE, KEEP, ADD.
+Ledger slice (`bugs.py status`: 0 open, 10 resolved; `_archive/bugs_histo.jsonl` empty). Units touched and their records: the content schema chain (`content-schema-export-is-empty`, `content-schema-rejects-committed-content`, `content-urls-accept-script-schemes`, `content-validation-never-runs`) is read, never edited: posts get their own contract and reuse `HttpUrl`, whose bug is the lesson for the post link rule. `Media.tsx` (`media-resize-keeps-old-cut`, `media-empty-box-layout-shift`, REBUILT once in `e1bc71f`, no child bug) is not reused: a build-time string cannot call its hook, and the post `<video>` carries the sized poster that fixed the second bug. The smoke set (`smoke-e2e-encodes-the-pre-rc2-header`, `29c45a8`) is why no smoke spec counts nav links and the smoke set grows by zero. `main.tsx` (`analytics-beacons-the-page-without-an-endpoint`) is not touched. `Header.tsx`, `App.tsx`, `index.html`, `useDocumentSeo.ts`, `LanguageContext.tsx`, `deploy.yml`: 0 records, feature commits only. No REBUILD is due by ledger; the one REBUILD below is the demand's (the cache rule changes the file's fundamental behaviour). Order: DELETE, REBUILD, UPDATE, KEEP, ADD.
 
 | unit | today | bugs | verdict | why |
 |---|---|---|---|---|
@@ -16,8 +17,7 @@ Ledger slice (`bugs.py status`: 0 open, 10 resolved; `_archive/bugs_histo.jsonl`
 | `scripts/build_and_serve.sh`, `scripts/server_manager.sh`, `backend/` | the Flask dev server, read by `Makefile` and the repo `AGENTS.md:33,54` | 0 | DELETE | AC7.3; consumers in J1.T3 |
 | six `frontend/public/images/` files, `public/decorators/`, `public/lovable-uploads/`, `frontend/tests/e2e/setup/`, `img/` | no reader in code, CI, tests or content (grep, 0 hits outside `specs/`) | 0 | DELETE | AC7.3 (J1.T1, J1.T2); `setup/` is a `test(` commit |
 | `Makefile` targets `dev`, `stop`, `test-build`, `clean`'s stop line, `.PHONY`, `help` | call the deleted scripts | 0 | UPDATE | J1.T3 (pre-mortem B12) |
-| `.github/workflows/deploy.yml:76-85` (stage) and `:123-132` (prod), two copies | `sync --exclude "index.html"` with a one-year immutable header, then a no-cache copy of the root `index.html` | 0 | REBUILD | the demand turns an exclusion list into a path rule: `assets/**` immutable, everything else `no-cache` (J2.T3). Repro where the copies could diverge: edit one job only and prod serves the stale HTML a year while stage does not; the reviewer diffs both |
-| `terraform/modules/portfolio-static-site/cloudfront.tf:23,28-45,48-57` | `default_root_object` for `/` only, no function, 403 and 404 answer the root document with 200 | 0 | UPDATE | one `viewer-request` association; the error responses stay (J2.T2) |
+| `.github/workflows/deploy.yml:76-85` (stage) and `:123-132` (prod), two copies | `sync --exclude "index.html"` with a one-year immutable header, then a no-cache copy of the root `index.html`; prerendered routes would have no object of their own | 0 | REBUILD | the demand turns an exclusion list into a path rule, `assets/**` immutable and everything else `no-cache` (J2.T1), and adds one extensionless object per prerendered route (J2.T2). Repro where the copies could diverge: edit one job only and prod serves the stale HTML a year while stage does not; the reviewer diffs both |
 | `frontend/index.html:6-19` | one static head for every route, no `og:image`, no RSS link | 0 | UPDATE | `og:image`, `twitter:image`, one alternate link (J5.T3); it is the build's template |
 | `frontend/package.json` `build`, `vite.config.ts` | `vite build`; no `define` | 0 | UPDATE | `build` runs the script, `marked` devDependency (J4.T4); one `define` (J7.T3) |
 | `src/App.tsx:36-48` | routes `/`, `/projetos`, `/projetos/:slug`, `*` | 0 | UPDATE | `/blog`, `/blog/:slug` lazy, outside `ProjectsLayoutShell` (J6.T4) |
@@ -34,13 +34,12 @@ Ledger slice (`bugs.py status`: 0 open, 10 resolved; `_archive/bugs_histo.jsonl`
 | `contentAssets.test.ts:71`, `homeParity.test.ts`, `src/test-setup.ts:28-29` | hash rule for two slugs; parity table without blog keys; fetch mock answers only the three locale files | 0 | UPDATE | hardened in their homes (J3.T1, J3.T3); the mock answers `/blog/index.json` (J6.T1, B10) |
 | `src/hooks/useDocumentSeo.ts`, `src/components/projects/Media.tsx`, `src/contexts/LanguageContext.tsx`, `lib/schemas/projects.ts`, `scripts/content-schema.mjs`, `v1.json`, `.github/workflows/{ci,terraform}.yml`, `playwright.config.ts`, `lighthouserc.json`, `src/lib/layout.ts`, `SectionHeading.tsx` | the runtime head reader; the project media; the locale loader; the content contract; the gates | 8 across them | KEEP | read, reused or run; none grows (`HttpUrl`, `PROSE`, `COLUMN`, `SectionHeading` are consumed, never copied) |
 | `scripts/blog-posts.mjs`, `scripts/build-blog.mjs`, `scripts/image-size.mjs` | do not exist | — | ADD | the post reader, the renderer and writer, the image reader: no unit carries a content kind outside `public/` (J4, J5) |
-| `terraform/modules/portfolio-static-site/viewer-request.js` | does not exist | — | ADD | no unit rewrites a path before S3 (J2.T2) |
 | `src/lib/blogIndex.ts`, `src/components/blog/PostMeta.tsx`, `src/pages/blog/{BlogIndexPage,BlogPostPage}.tsx` | do not exist | — | ADD | the two pages and the shared meta line (J6) |
 | `public/assets/share-<hash>.png`, `tests/fixtures/blog/**` | do not exist | — | ADD | the default share card; the proving posts (J5.T3, J4.T1) |
 
 Duplicated deciders, with a repro where the copies diverge:
 
-- Cache class: `deploy.yml:76-85` against `:123-132` (above). J2.T3 writes the same two steps in both and the reviewer diffs them.
+- Cache class: `deploy.yml:76-85` against `:123-132` (above). J2.T1 and J2.T2 write the same steps in both and the reviewer diffs them.
 - Prose width: `layout.ts:6` against the three literals (`LibraryProjectTemplate.tsx:47,82`, `ProjectSections.tsx:27`): change `PROSE` and four places stay at 680. J1.T4 makes `PROSE` the one source.
 - Published posts: `vite.config.ts` (the Blog flag) and the script (index, feed, pages) would each need "which folders are published and not draft". Repro: a draft counted by one and not the other shows a Blog link over an empty index. `readPosts` in `blog-posts.mjs` is the one decider (J4.T2); both import it.
 - Origin: the static tags of `frontend/index.html` and the script's `SITE` both hold `https://marco-menezes.com`; HTML cannot import. J5.T1 asserts the tags start with the exported `SITE`.
@@ -57,7 +56,7 @@ Duplicated deciders, with a repro where the copies diverge:
 | an image's size | `scripts/image-size.mjs` | `build-blog.mjs`, the share-image test | none |
 | which link targets a post may carry | `HttpUrl` (`lib/schemas/projects.ts`) plus `/` and `#` forms in `build-blog.mjs` | the post renderer | none |
 | a file's cache class | its path: under `assets/` or not (`deploy.yml`) | the stage checks | the `index.html` exclusion |
-| which route maps to which object | `viewer-request.js` | the stage checks | none |
+| which S3 key serves a prerendered route | the route-upload step of `deploy.yml` (key = path under `dist/` without `/index.html`) | the stage checks | none |
 | blog UI strings | `siteChrome.blog` and `siteChrome.nav.blog` in the locale files | the pages, the Header | none |
 | key parity of those strings | `CHROME_I18N_KEYS` in `check-i18n-parity.mjs` | `homeParity.test.ts` | none |
 | column and prose width | `lib/layout.ts` `COLUMN`, `PROSE` | the blog pages, the project templates | three 680 px literals |
@@ -68,12 +67,12 @@ Duplicated deciders, with a repro where the copies diverge:
 
 ### 2.1 Waves, write sets, order
 
-- **Waves.** Wave 1: Jobs 1 to 4, no edges (disjoint `W:` sets, proved by `release.py check`). Wave 2: Jobs 5 to 7, each waiting on Job 3 (keys, types, hash rule) and Job 4 (the script). Hosting (Job 2) feeds no wave-2 job: it is checked on stage. The SPEC ranks FR1 and FR2 as the foundation and FR3 to FR7 as parallel features; FR7 has no edge to FR2, so it rides wave 1, and FR3 to FR6 split into Jobs 5 to 7 on disjoint files. The eight-agent cap is never reached (a job's tasks run one at a time unless their `W:` sets are disjoint).
+- **Waves.** Wave 1: Jobs 1 to 4, no edges (disjoint `W:` sets, proved by `release.py check`). Wave 2: Jobs 5 to 7, each waiting on Job 3 (keys, types, hash rule) and Job 4 (the script). Deploy (Job 2) feeds no wave-2 job: it is checked on stage. The SPEC ranks FR1 and FR2 as the foundation and FR3 to FR7 as parallel features; FR7 has no edge to FR2, so it rides wave 1, and FR3 to FR6 split into Jobs 5 to 7 on disjoint files. The eight-agent cap is never reached (a job's tasks run one at a time unless their `W:` sets are disjoint).
 - **DELETE first.** Job 1 holds every deletion of AC7.3 and is Job 1 on purpose; its consumers follow in the same job. DELETE and REBUILD tasks precede ADD tasks inside each job.
 - **Shared files, one writer per wave.** The three locale files, `types/content.ts`, `HeroSection.test.tsx`, `Portfolio.test.tsx`: Job 3 only. `scripts/build-blog.mjs` and `package.json`: Job 4 in wave 1, Job 5 in wave 2. `vite.config.ts`, `Header.tsx`: Job 7 only. `App.tsx`, `test-setup.ts`: Job 6 only.
 - **Merge gate.** The repo `tests:` globs are `frontend/src/*.test.ts(x)`, `frontend/src/test-setup.ts` and `frontend/tests/*`. A task touching them is a `test(<id>)` commit in its own tree and a source commit never touches them, `frontend/tests/e2e/setup/.gitkeep` and the fixture folder included. R-F (a type change plus its typed literals) is two commits in one task tree and one merge: a `feat` commit for the type, then a `test` commit for the literals (J3.T5).
 - **Rulings the `test(...)` commits cite.** **R-M** (SPEC AC6.2): `Header.test.tsx:97` and `nav-projects.spec.ts:24`, J7.T1 and J7.T2. **R-F** (SPEC §5, AC6.1, AC7.1): J3.T5. A hardening in the test's home needs no ruling (J3.T1, J3.T3, J3.T7). No other assert is moved, narrowed or removed in rc-4; each job's hand-back carries the diff-read.
-- **RED first.** Each behaviour has a RED test task before its source task: J2.T1/T2, J3.T1/T2, J3.T3/T4, J4 (T1/T2, T3/T4, T5/T6, T7/T8), J5.T1 and T2 before T3 to T5, J6.T1/T3 and T2/T4, J7.T1 and T2 before T3. Without a RED by nature: the deletions, the PROSE swap, the README and ignore edits (nothing to assert), and the `seeAllProjects` fallback (J3.T6: unreachable once the key is required; evidence is the typecheck and a grep).
+- **RED first.** Each behaviour has a RED test task before its source task: J3.T1/T2, J3.T3/T4, J4 (T1/T2, T3/T4, T5/T6, T7/T8), J5.T1 and T2 before T3 to T5, J6.T1/T3 and T2/T4, J7.T1 and T2 before T3. Without a RED by nature: the deletions, the PROSE swap, the README and ignore edits (nothing to assert), and the `seeAllProjects` fallback (J3.T6: unreachable once the key is required; evidence is the typecheck and a grep).
 - **Fixtures.** A stub that renders `SiteLayout` or reads content carries the committed `siteChrome` and `profile` read from `public/content/pt.json`; no partial stub. No email address and no games-project name is typed anywhere, and a denylisted term never appears as a literal.
 
 ### 2.2 Shared contracts the jobs read
@@ -101,7 +100,7 @@ Inputs: the posts folder; `dist/index.html` as the template; `public/content/pt.
 
 **The Blog link.** `vite.config.ts` defines `__BLOG_PUBLISHED__` as `command === "build" && readPosts("content/blog").length > 0`; under `vite dev`, Vitest and local Playwright nothing defines it and the Header reads it as false (`typeof __BLOG_PUBLISHED__ !== "undefined" && __BLOG_PUBLISHED__`). So the flag defaults off wherever the build script has not run (pre-mortem hit 48, B11). The proving post is never in `content/blog/`: it is `tests/fixtures/blog/proving-post`, and committed content ships no published post.
 
-**The Function.** `viewer-request.js` (`cloudfront-js-2.0`): drop one trailing slash; the path `/` or a last segment holding a `.` returns the request unchanged; else append `/index.html`. Associated as `viewer-request` on `default_cache_behavior`. A path with no file still falls to the 403/404 error responses, which answer the root document with 200.
+**Route objects.** No Function, no Terraform, no IAM change. For each `dist/{blog,projetos}/<slug>/index.html` the deploy uploads the S3 key `blog/<slug>` or `projetos/<slug>` with `text/html; charset=utf-8` and `no-cache` (J2.T2). A path with no object still falls to the existing 403/404 error responses, which answer the root document with 200.
 
 **Blog strings** (J3.T4 writes them; `siteChrome.nav.blog` and `siteChrome.blog.*`):
 
@@ -130,20 +129,20 @@ Post dates render with `Intl.DateTimeFormat(language, { dateStyle: "long", timeZ
 - **A red outside the diff** is listed by name as suspected pre-existing and proven at the merge base before it is called so.
 - **Schema.** No job changes `content-schema.mjs` or `projects.ts`; Job 3 runs `schema:check` to prove `v1.json` stays byte-equal.
 
-### 2.5 Hosting: the cache rule, the Function, and the closure check
+### 2.5 Hosting: the cache rule, the route objects, and the closure check
 
-**Deploy filters (B9).** AWS CLI reference, `aws s3` (https://docs.aws.amazon.com/cli/latest/reference/s3/index.html, "Use of Exclude and Include Filters"): filters are evaluated against the source directory, a later filter takes precedence over an earlier one, `*` matches everything, and with only `--include` nothing changes because everything is included by default. `aws s3 sync` (https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html, `--delete`): "Files that exist in the destination but not in the source are deleted during sync. Note that files excluded by filters are excluded from deletion." Hence `--exclude "*" --include "assets/*"` uploads and deletes inside `assets/` only, and `--exclude "assets/*"` uploads and deletes outside it only. The two sets are disjoint and together cover the bucket, so neither `--delete` touches the other's objects, and an unpublished post's HTML goes with the second. A sync copies a local file when its size differs, it is newer than the object, or the object is absent; the artifact is built in the same run, after the earlier deploy, so files that change header class (`cv.pdf`, the locale JSON, favicons) are re-uploaded once; the stage `curl -I` below proves it. Assets go first so a new page never points at a missing asset.
+**Deploy filters (B9).** AWS CLI reference, `aws s3` (https://docs.aws.amazon.com/cli/latest/reference/s3/index.html, "Use of Exclude and Include Filters"): filters are evaluated against the source directory, a later filter takes precedence over an earlier one, `*` matches everything, and with only `--include` nothing changes because everything is included by default. `aws s3 sync` (https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html, `--delete`): "Files that exist in the destination but not in the source are deleted during sync. Note that files excluded by filters are excluded from deletion." Hence `--exclude "*" --include "assets/*"` uploads and deletes inside `assets/` only, and `--exclude "assets/*"` uploads and deletes outside it only. The two sets are disjoint and together cover the bucket, so neither `--delete` touches the other's objects, and an unpublished post's files go with the second. A sync copies a local file when its size differs, it is newer than the object, or the object is absent; the artifact is built in the same run, after the earlier deploy, so files that change header class (`cv.pdf`, the locale JSON, favicons) are re-uploaded once; the stage `curl -I` below proves it. Assets go first so a new page never points at a missing asset.
 
-**The role that applies the Function (B13).** `terraform.yml` applies stage on a push to develop (`terraform-stage-apply`, role `secrets.AWS_ROLE_ARN_STAGE`, line 116) and prod on a push to main (`terraform-prod-apply`, `secrets.AWS_ROLE_ARN`, line 216), in `terraform/envs/{stage,prod}`; `deploy.yml` assumes the same two secrets. `iam.tf` creates `github-actions-portfolio-<env>-deploy` with `sts:AssumeRoleWithWebIdentity` for any ref of the repo and an inline policy of S3 list/get/put/delete on the site bucket, `cloudfront:CreateInvalidation` on the distribution, and the state bucket: no `cloudfront:CreateFunction`, `PublishFunction`, `UpdateDistribution` or `GetDistribution`. The secret values are outside the repo, so which role they name cannot be read here. The `Terraform` workflow's run history (`gh run list`) shows its last success on 2026-05-14; the develop push of 2026-05-23 (run 26322291160) failed at `Terraform Apply`, and the PR plan of 2026-05-24 (run 26351151593) failed; their logs are gone (HTTP 410). If the secret is that deploy role, the apply cannot create the Function, and a role cannot grant itself the permission through the same apply: an operator act, outside every agent's reach. The PLAN adds no `iam.tf` change; the question goes to the main thread (handoff, open question 1), and the first signal is the rc PR's own Terraform plan.
+**Route objects (AC1.1).** The second sync has no local file named `projetos/<slug>` (it is a folder), so it deletes that key each deploy; the route-upload step then puts it back (J2.T2). The deploy role's `PutObject` (`iam.tf`) covers it; no Terraform runs and nothing else changes. The Terraform workflow's red history (last success 2026-05-14) is therefore not on this rc's path; the red pipeline is a backlog item (SPEC §3).
 
-**Closure check, after the rc PR merges into develop** (AC1.1, AC1.2; no credential, no local terraform): wait for the `Deploy` and `Terraform` workflows to succeed, then with `host=https://stage.marco-menezes.com`:
+**Closure check, after the rc PR merges into develop** (AC1.1, AC1.2; `curl`, no credential, no local AWS): wait for the `Deploy` workflow to succeed, then with `host=https://stage.marco-menezes.com`:
 
-- for each slug of `jq -r '.projectsV2.list[].slug' frontend/public/content/pt.json`, with and without a trailing slash, `curl -si $host/projetos/<slug>` answers 200, `text/html`, and the pt `seo.title` of that project (read with `jq`) is in `<title>`;
-- `/` answers 200 with `<title>marco-menezes</title>`; `/nope` answers 200 with the same document;
+- for each slug of `jq -r '.projectsV2.list[].slug' frontend/public/content/pt.json`, `curl -si $host/projetos/<slug>` answers 200, `text/html`, `cache-control: no-cache`, and the pt `seo.title` of that project (read with `jq`) is in `<title>`;
+- `/` and `/nope` answer 200 with the root document (`<title>marco-menezes</title>`);
 - one hashed file read from the home page (`curl -s $host/ | grep -o '/assets/[^"]*\.js' | head -1`) answers 200 and `curl -sI` shows `immutable`;
-- `curl -sI` of `/projetos/<one slug>`, `/blog/rss.xml`, `/blog/index.json` and `/cv.pdf` shows `cache-control: no-cache`.
+- `curl -sI` of `/blog/rss.xml`, `/blog/index.json` and `/cv.pdf` shows `cache-control: no-cache`.
 
-The evidence (the deploy run, each result) is collected as rc-2's AC4.7 was. Prod is applied only on the promote PR.
+No post ships this rc, so no `/blog/<slug>` is checked. The evidence (the deploy run, each result) is collected as rc-2's AC4.7 was. Prod deploys only on the promote PR.
 
 ### 2.6 Pre-mortem answers (each H and M hit of the consumer sweep, with the main-thread rulings)
 
@@ -158,13 +157,13 @@ The evidence (the deploy run, each result) is collected as rc-2's AC4.7 was. Pro
 | 12, 13, 14 `seeAllProjects` type, fallback, two typed literals (H) | J3.T5 (R-F pair), J3.T6 |
 | 17 `seeAllProjects` required only in TypeScript (M) | J3 runs `schema:check`; the atom states it at closure (pe) |
 | 18, 19, 20 `PROSE` sites (H) | J1.T4 |
-| 23 the `index.html`-only exclude (H) | J2.T3, the path rule of §2.5 |
-| 24 widen the no-cache copy, name the index data (H) | J2.T3; the fixed name is `blog/index.json` (§2.2) |
+| 23 the `index.html`-only exclude (H) | J2.T1, the path rule of §2.5 |
+| 24 widen the no-cache copy, name the index data (H) | J2.T1; the fixed name is `blog/index.json` (§2.2) |
 | 25 `--delete` with excluded HTML (M, B9) | §2.5, two AWS CLI reference pages cited |
 | 28, 29, 31 one cache rule, six unhashed SVGs, share-image name (M, B5) | J3.T1, J3.T2; the share image is `share-<hash>.png` under `assets/` (J5.T3) |
-| 33 the association (H, B13) | J2.T2 in `default_cache_behavior` |
-| 37 the applying role (M, B13) | §2.5; open question 1 |
-| 34 the 403/404 mapping | kept; AC1.1's fall-through relies on it |
+| 33 the association (H, B13) | void: no Function, no Terraform (SPEC approval); the route objects are J2.T2 |
+| 37 the applying role (M, B13) | void: nothing is applied; the deploy role's `PutObject` covers the route upload |
+| 34 the 403/404 mapping | kept and relied on: a path with no object, a trailing slash and the delete-to-upload gap fall to the root document |
 | 36 a missing hashed asset answers the root document | intake (main-thread ruling), not rc-4 |
 | 38 Lighthouse `/projetos/` URLs under `vite preview` (M, B14) | J5's DoD `curl`s each project URL and the unknown route on the preview; the Lighthouse job is the net; `lighthouserc.json` unchanged |
 | 39, 40 the two nav asserts (H) | J7.T1, J7.T2 (R-M) |
@@ -181,14 +180,14 @@ The evidence (the deploy run, each result) is collected as rc-2's AC4.7 was. Pro
 
 ### 2.7 PLAN-stage ADR check
 
-`specs/ADRs/decisions.jsonl` holds no record that rc-4 contradicts. No choice passes the threshold (one-way door, architecturally significant, two genuine options): the build-time script over Vite's output was the as-is review's lightest of three, the Function is ruled by the SPEC, and every file name and key here is reversible in one job. None proposed.
+`specs/ADRs/decisions.jsonl` holds no record that rc-4 contradicts. No choice passes the threshold (one-way door, architecturally significant, two genuine options): the build-time script over Vite's output was the as-is review's lightest of three, the route objects are ruled by the SPEC, and every file name and key here is reversible in one job. None proposed.
 
 ### 2.8 Acceptance map
 
 | AC | tasks |
 |---|---|
-| AC1.1 | J2.T1, J2.T2 (stage check at closure) |
-| AC1.2 | J2.T3, J3.T1, J3.T2, J5.T3 (stage check at closure) |
+| AC1.1 | J2.T2 (dry-run listing; stage check at closure) |
+| AC1.2 | J2.T1, J3.T1, J3.T2, J5.T3 (stage check at closure) |
 | AC2.1 | J4.T1, J4.T2 |
 | AC2.2 | J4.T1, J4.T2 |
 | AC2.3 | J4.T3, J4.T4 |
@@ -221,7 +220,7 @@ Closure work outside the jobs (the SPEC's Closure section): the `backlog.py exit
 | job | waits on | wave | `W:` |
 |---|---|---|---|
 | Job 1 | — | 1 | `frontend/tests/e2e/setup/.gitkeep`, `terraform/_legacy`, `terraform/README.md`, `terraform/terraform.tfvars`, `terraform/terraform.tfvars.example`, `scripts/terraform_manager.sh`, `scripts/check_infrastructure.sh`, `scripts/build_and_serve.sh`, `scripts/server_manager.sh`, `backend`, `frontend/public/images/ai-900.png`, `frontend/public/images/aws_icon.png`, `frontend/public/images/azure_icon.png`, `frontend/public/images/databricks_icon.png`, `frontend/public/images/dp-900.png`, `frontend/public/images/sc-900.png`, `frontend/public/decorators`, `frontend/public/lovable-uploads`, `img`, `Makefile`, `AGENTS.md`, `.gitignore`, `terraform/.gitignore`, `frontend/src/pages/projects/LibraryProjectTemplate.tsx`, `frontend/src/components/projects/ProjectSections.tsx`, `README.md` |
-| Job 2 | — | 1 | `frontend/src/lib/cloudfrontRewrite.test.ts`, `terraform/modules/portfolio-static-site/viewer-request.js`, `terraform/modules/portfolio-static-site/cloudfront.tf`, `.github/workflows/deploy.yml` |
+| Job 2 | — | 1 | `.github/workflows/deploy.yml` |
 | Job 3 | — | 1 | `frontend/src/lib/contentAssets.test.ts`, `frontend/public/assets/projects/*/*.svg`, `frontend/public/content/pt.json`, `frontend/public/content/en.json`, `frontend/public/content/de.json`, `frontend/src/lib/homeParity.test.ts`, `frontend/scripts/check-i18n-parity.mjs`, `frontend/src/types/content.ts`, `frontend/src/components/portfolio/Portfolio.test.tsx`, `frontend/src/components/portfolio/HeroSection.test.tsx`, `frontend/src/components/portfolio/FeaturedProjects.tsx` |
 | Job 4 | — | 1 | `frontend/src/lib/blogPosts.test.ts`, `frontend/tests/fixtures/blog/proving-post/index.md`, `frontend/tests/fixtures/blog/proving-post/shot.png`, `frontend/tests/fixtures/blog/proving-post/clip.mp4`, `frontend/tests/fixtures/blog/proving-post/clip.png`, `frontend/tests/fixtures/blog/second-post/index.md`, `frontend/tests/fixtures/blog/draft-post/index.md`, `frontend/scripts/blog-posts.mjs`, `frontend/src/lib/buildBlog.test.ts`, `frontend/scripts/build-blog.mjs`, `frontend/package.json`, `frontend/package-lock.json`, `frontend/src/lib/imageSize.test.ts`, `frontend/scripts/image-size.mjs` |
 | Job 5 | Job 3, Job 4 | 2 | `frontend/src/lib/blogPages.test.ts`, `frontend/src/lib/blogFeed.test.ts`, `frontend/index.html`, `frontend/public/assets/share-*.png`, `frontend/scripts/build-blog.mjs` |
