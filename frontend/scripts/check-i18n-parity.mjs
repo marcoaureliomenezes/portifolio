@@ -33,7 +33,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = resolve(__dirname, "../public/content");
+const DATA_DIR = process.env.CONTENT_DIR || resolve(__dirname, "../public/content");
 const LOCALES = ["pt", "en", "de"];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -69,6 +69,12 @@ function flattenLeaves(value, prefix = "") {
 const CHROME_I18N_KEYS = new Set([
   "nav.label", "nav.resume", "nav.projects", "theme.toLight", "theme.toDark",
   "language.label", "breadcrumb.label", "breadcrumb.projects", "backToProjects",
+  "footer.label", "footer.owner", "footer.email", "footer.linkedin", "footer.github",
+]);
+
+/** Top-level keys of each locale file that the home page reads. */
+const HOME_I18N_KEYS = new Set([
+  "earlierLabel", "detailsOpen", "detailsClose", "storyOpen", "storyClose", "impactLabel", "seeAllProjects",
 ]);
 
 // ── I18n-bearing field identification ─────────────────────────────────────
@@ -569,7 +575,7 @@ for (const locale of LOCALES) {
     loadedLocales.push({ locale, data: null });
     continue;
   }
-  loadedLocales.push({ locale, data: raw.projectsV2, chrome: raw.siteChrome });
+  loadedLocales.push({ locale, data: raw.projectsV2, chrome: raw.siteChrome, root: raw });
 }
 
 if (loadedLocales.some(({ data }) => data === null)) {
@@ -646,6 +652,17 @@ const allData = loadedLocales.map(({ data }) => data);
   const { errors } = checkObjectParity(chromes, CHROME_I18N_KEYS, LOCALES, "siteChrome");
   if (errors.length > 0) {
     console.error("[check-i18n-parity] Parity errors in siteChrome:");
+    errors.forEach((e) => console.error(`  ${e}`));
+    hasErrors = true;
+  }
+}
+
+// ── 5. home keys parity (top-level of each locale file) ────────────────────
+{
+  const roots = loadedLocales.map(({ root }) => root);
+  const { errors } = checkObjectParity(roots, HOME_I18N_KEYS, LOCALES, "");
+  if (errors.length > 0) {
+    console.error("[check-i18n-parity] Parity errors in home keys:");
     errors.forEach((e) => console.error(`  ${e}`));
     hasErrors = true;
   }
