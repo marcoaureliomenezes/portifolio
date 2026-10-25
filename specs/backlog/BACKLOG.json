@@ -2,17 +2,6 @@
   "schema": "backlog-v1",
   "active": [
     {
-      "id": "resume-refinement",
-      "title": "A lighter, better-organized resume home",
-      "opened": "2026-10-24",
-      "status": "idea",
-      "description": "Operator words: \"I like minimalism\"; \"The frames that a person reading it views are not good. Many information. It's a bit not organized.\"; \"I don't want a huge change here. But we need to do a refinement \u2026 about position of topics inside the website\". Rulings: the home stays the resume, refined (\"Home = resume, refined\"); section order Hero \u2192 Experience \u2192 Projects (2\u20133 featured) \u2192 Skills \u2192 Certifications \u2192 Education (\"After Experience\"); the three pre-data roles (Adjunct Instructor 2015\u201318, Laboratory Assistant UFOP 2016\u201317, Summer Internship Anal\u00f3gica 2015) collapse into one \"Earlier\" line (\"Collapse into one line\"); Skills and Certifications become compact lists; the hero \"$ now\" panel is removed; the hero stat \"4 clouds\" is corrected (Skills lists three cloud providers); the compact hero headline of the 2026-06-11 operator ruling is kept. Target: the candidate after library-pages-in-motion, on its shared base.",
-      "provenance": "operator demand 2026-10-24 (grill session confirmed by the operator)",
-      "relates": [
-        "library-pages-in-motion"
-      ]
-    },
-    {
       "id": "blog-v1",
       "title": "A personal blog",
       "opened": "2026-10-24",
