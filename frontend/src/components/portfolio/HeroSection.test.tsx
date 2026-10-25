@@ -88,8 +88,7 @@ describe("HeroSection", () => {
   it("uses the compact headline scale and always wraps — never truncates (T-RD-02 + operator feedback)", () => {
     renderWithRouter(<HeroSection content={baseContent} />);
     const heading = screen.getByRole("heading", { level: 1 });
-    expect(heading).toHaveClass("text-lg");
-    expect(heading).toHaveClass("md:text-xl");
+    expect(heading).toHaveClass("text-hero");
     expect(heading.className).not.toMatch(/whitespace-nowrap|text-ellipsis|bg-clip-text/);
   });
 
