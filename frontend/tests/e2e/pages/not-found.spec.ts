@@ -21,7 +21,7 @@ test.describe('404 / NotFound page', () => {
 
     await expect(page.getByText(NOT_FOUND_MESSAGE)).toBeVisible();
 
-    const homeLink = page.locator('a[href="/"]');
+    const homeLink = page.getByRole('main').locator('a[href="/"]');
     await expect(homeLink).toBeVisible();
   });
 });

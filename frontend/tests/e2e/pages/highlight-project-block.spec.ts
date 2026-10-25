@@ -293,9 +293,7 @@ test('HP-08: screenshot evidence — HighlightProjectBlock visible in Senior car
   await page.goto(ROUTES.home);
 
   // Enable dark mode
-  const themeToggle = page
-    .locator('[aria-label*="dark"], [aria-label*="Dark"], [aria-label*="tema"], [aria-label*="theme"]')
-    .first();
+  const themeToggle = page.getByRole('banner').getByRole('switch');
   if (await themeToggle.isVisible().catch(() => false)) {
     await themeToggle.click();
   } else {
