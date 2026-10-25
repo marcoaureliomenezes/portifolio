@@ -26,8 +26,10 @@ portifolio/
 │       ├── deploy.yml     # Deploy frontend (push develop/main)
 │       └── terraform.yml  # Plan (PR) + Apply (push)
 ├── scripts/
-│   └── bootstrap-oidc.sh  # Bootstrap OIDC inicial (uma unica vez — nao Developer)
-└── specs/             # SDD: constitution, foundation, features, TASKS
+│   ├── bootstrap-oidc.sh  # Bootstrap OIDC inicial (uma unica vez — nao Developer)
+│   ├── build_frontend.sh
+│   └── setup-deployment.sh
+└── specs/             # SDD: constitution.md, memory/, releases/, backlog/, bugs/, audits/, ADRs/
 ```
 
 ---
