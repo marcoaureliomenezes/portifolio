@@ -238,6 +238,31 @@ describe("RoleCollapsible", () => {
     );
   });
 
+  it("the role article is frameless: no background, border or radius classes", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const article = screen.getByTestId("role");
+    expect(article.className).not.toMatch(/\bbg-card\b/);
+    expect(article.className).not.toMatch(/\bborder/);
+    expect(article.className).not.toMatch(/\brounded/);
+  });
+
+  it("the Details control carries no chevron icon", () => {
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+    const button = screen.getByRole("button");
+    expect(within(button).queryByTestId("disclosure-chevron")).not.toBeInTheDocument();
+  });
+
+  it("the Details button text is detailsOpen while closed and detailsClose while open", async () => {
+    const user = userEvent.setup();
+    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
+
+    const button = screen.getByRole("button");
+    expect(button.textContent).toBe("Detalhes +");
+
+    await user.click(button);
+    expect(button.textContent).toBe("Detalhes −");
+  });
+
   it("does not put the title or the summary inside the button", () => {
     render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
     const button = screen.getByRole("button");
