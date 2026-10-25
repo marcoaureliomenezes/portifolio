@@ -10,6 +10,8 @@
  *  - Copy button is present and accessible
  *  - Page order, copy buttons and flat sections inside the real route mirror
  */
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { render, screen, cleanup, fireEvent, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -193,8 +195,15 @@ const richProject: LibraryProject = {
   ],
 };
 
+/** The committed locale file the app fetches: the required chrome and profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "siteChrome" | "profile">;
+
 const content = {
+  profile: committed.profile,
   siteChrome: {
+    ...committed.siteChrome,
     breadcrumb: { label: "Breadcrumb", projects: "Projects" },
     backToProjects: "Back to projects",
   },
