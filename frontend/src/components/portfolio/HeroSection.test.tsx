@@ -21,19 +21,8 @@ const baseContent: ContentData = {
   experienceTitle: "Experiência",
   educationTitle: "Educação",
   certificationsTitle: "Certificações",
-  seeMore: "Ver mais",
-  seeLess: "Ver menos",
   responsibilities: "Responsabilidades:",
   technologies: "Tecnologias:",
-  validUntil: "Válido até",
-  viewCredential: "Ver credencial",
-  issuerLabel: "Emissor",
-  certSingular: "certificado",
-  certPlural: "certificados",
-  careerProgression: "Progressão de carreira",
-  roleSingular: "cargo",
-  rolePlural: "cargos",
-  viewLarger: "Ver maior",
   gamesComingSoon: "Em construção",
   gamesComingSoonDesc: "Os jogos serão listados aqui em breve.",
   notFoundMessage: "Oops! Página não encontrada",
@@ -47,8 +36,8 @@ const baseContent: ContentData = {
   header: { title: "Data Engineer", location: "BH", viewEmail: "Email" },
   resume: { short: "Resumo curto.", full: "Resumo completo expandido." },
   heroTagline: "Data Engineering at Scale with AI Augmented Capabilities",
-  heroStats: { years: 5, certifications: 11, clouds: 4 },
-  heroCTAs: { downloadCv: "Baixar CV", seeExperience: "Ver experiência", seeProjects: "Personal Projects" },
+  heroStatsSuffix: { years: "anos", certs: "certificados" },
+  heroCTAs: { downloadCv: "Baixar CV" },
   skills: [],
   experiences: [],
   education: { degreeLevel: "", degreeField: "", institution: "", location: "", period: "", courseworkLabel: "", coursework: "", thesisLabel: "", thesis: "" },
@@ -163,8 +152,7 @@ const period = (totalPeriod: string, type: "main" | "minor") => ({
 
 const derived: ContentData = {
   ...baseContent,
-  heroStats: { years: 99, certifications: 99, clouds: 9 },
-  heroStatsSuffix: { years: "years", certs: "certifications", clouds: "unused" },
+  heroStatsSuffix: { years: "years", certs: "certifications" },
   experiences: [
     period("05-2021 a Presente", "main"),
     period("11-2020 a 05-2021", "main"),
@@ -255,7 +243,7 @@ describe("HeroSection — derived stat line (AC3.2)", () => {
     vi.setSystemTime(new Date("2026-10-15T12:00:00Z"));
     const content: ContentData = {
       ...derived,
-      heroStatsSuffix: { years: "anos", certs: "certificações", clouds: "unused" },
+      heroStatsSuffix: { years: "anos", certs: "certificações" },
       skills: [{ id: "cloud-providers", title: "Nuvens", icon: "x", skills: ["GCP"] }],
     };
     renderWithRouter(<HeroSection content={content} />);

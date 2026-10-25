@@ -216,7 +216,7 @@ describe("useContent", () => {
     await waitFor(() => {
       expect(result.current.label("resumeTitle")).toBe("Resume");
       expect(result.current.label("skillsTitle")).toBe("Skills");
-      expect(result.current.label("seeMore")).toBe("See more");
+      expect(result.current.label("storyOpen")).toBe("Read the story");
     });
   });
 
