@@ -7,8 +7,7 @@ import { COLUMN } from "@/lib/layout";
 export function SiteLayout() {
   const { content } = useContent();
   const { profile } = content;
-  // The context stub (no provider) carries no chrome; the app never renders without one.
-  const footer = content.siteChrome?.footer;
+  const { footer } = content.siteChrome;
   const link = "underline-offset-4 hover:underline";
 
   return (
@@ -23,7 +22,7 @@ export function SiteLayout() {
           <Outlet />
         </div>
       </main>
-      {footer && profile && (
+      {profile && (
         <footer
           aria-label={footer.label}
           className="border-t border-border py-8 text-sm text-muted-foreground"
