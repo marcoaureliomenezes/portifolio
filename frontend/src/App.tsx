@@ -27,6 +27,18 @@ const ProjectsIndexPage = lazy(() =>
   })),
 );
 
+const BlogIndexPage = lazy(() =>
+  import("./pages/blog/BlogIndexPage").then((m) => ({
+    default: m.BlogIndexPage,
+  })),
+);
+
+const BlogPostPage = lazy(() =>
+  import("./pages/blog/BlogPostPage").then((m) => ({
+    default: m.BlogPostPage,
+  })),
+);
+
 const App = () => {
   // T-AN-D-02: Track initial page_view on app mount.
   useEffect(() => {
@@ -48,6 +60,9 @@ const App = () => {
                 {/* Dynamic detail: dispatches to CaseStudy | Meta | Games template */}
                 <Route path="/projetos/:slug" element={<ProjectDetailPage />} />
               </Route>
+
+              <Route path="/blog" element={<BlogIndexPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
 
               <Route path="*" element={<NotFound />} />
             </Route>
