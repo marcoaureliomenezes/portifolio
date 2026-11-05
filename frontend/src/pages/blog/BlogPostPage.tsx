@@ -10,10 +10,12 @@ import NotFound from "@/pages/NotFound";
 export function BlogPostPage() {
   const { slug = "" } = useParams();
   const { content } = useContent();
-  const post = useBlogIndex().find((p) => p.slug === slug);
-  // undefined: pending; null: failed; string: the fragment.
+  const index = useBlogIndex();
+  const post = index?.find((p) => p.slug === slug);
+  // undefined: pending; html null: failed.
   const [body, setBody] = useState<{ slug: string; html: string | null }>();
   useEffect(() => {
+    if (!post) return;
     let live = true;
     fetch(`/blog/${encodeURIComponent(slug)}/body.html`)
       .then((res) => (res.ok ? res.text() : null))
@@ -22,12 +24,13 @@ export function BlogPostPage() {
     return () => {
       live = false;
     };
-  }, [slug]);
+  }, [post, slug]);
   useDocumentSeo({ title: post?.title ?? "", description: post?.description ?? "" });
 
+  if (!index) return null;
+  if (!post) return <NotFound />;
   if (body?.slug !== slug) return null;
   if (body.html === null) return <NotFound />;
-  if (!post) return null;
 
   return (
     <div className={`${PROSE} space-y-6`}>

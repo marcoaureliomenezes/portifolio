@@ -8,8 +8,9 @@ export function BlogIndexPage() {
   const { content } = useContent();
   const blog = content.siteChrome.blog;
   const tag = useSearchParams()[0].get("tag");
-  const posts = useBlogIndex()
-    .filter((p) => !tag || p.tags.includes(tag))
+  const loaded = useBlogIndex();
+  const posts = loaded
+    ?.filter((p) => !tag || p.tags.includes(tag))
     .sort((a, b) => b.date.localeCompare(a.date));
   useDocumentSeo({ title: blog.title, description: blog.intro });
 
@@ -18,7 +19,7 @@ export function BlogIndexPage() {
       <div className="space-y-2">
         <h1 className="text-title-sm md:text-title text-primary">{blog.title}</h1>
         <p className="text-muted-foreground">{blog.intro}</p>
-        {tag && (
+        {posts && tag && (
           <p className="text-sm">
             {blog.filteredBy} <strong>{tag}</strong> ·{" "}
             <Link to="/blog" className="underline">
@@ -27,7 +28,7 @@ export function BlogIndexPage() {
           </p>
         )}
       </div>
-      {posts.length === 0 ? (
+      {!posts ? null : posts.length === 0 ? (
         <p className="text-muted-foreground">{blog.empty}</p>
       ) : (
         <ul className="space-y-6">

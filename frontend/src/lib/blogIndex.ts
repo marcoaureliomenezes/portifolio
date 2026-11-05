@@ -10,9 +10,9 @@ export interface BlogPost {
   tags: string[];
 }
 
-/** The published posts from /blog/index.json; `[]` on any failure. */
-export function useBlogIndex(): BlogPost[] {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+/** The published posts from /blog/index.json: `null` while loading, `[]` on any failure. */
+export function useBlogIndex(): BlogPost[] | null {
+  const [posts, setPosts] = useState<BlogPost[] | null>(null);
   useEffect(() => {
     let live = true;
     fetch("/blog/index.json", { cache: "no-cache" })
