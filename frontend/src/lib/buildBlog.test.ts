@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -16,6 +16,7 @@ type Run = { status: number; stdout: string; stderr: string; dist: string };
 /** Runs the CLI from frontend/ against a fresh temp dist. */
 function build(posts: string): Run {
   const dist = mkdtempSync(join(tmp, "dist-"));
+  copyFileSync(join(frontend, "index.html"), join(dist, "index.html"));
   try {
     const stdout = execFileSync(process.execPath, ["scripts/build-blog.mjs", "--posts", posts, "--dist", dist], {
       cwd: frontend,
@@ -178,7 +179,7 @@ describe("build-blog media", () => {
     const dir = postWith("extra-file", "![a](shot.png)", { "shot.png": fixture("shot.png"), "extra.txt": "x" });
     const out = build(dir);
     expect(out.status).toBe(0);
-    expect(readdirSync(join(out.dist, "blog/extra-file")).sort()).toEqual(["body.html", "shot.png"]);
+    expect(readdirSync(join(out.dist, "blog/extra-file")).sort()).toEqual(["body.html", "index.html", "shot.png"]);
   });
 
   it("picks the poster among webp, png, jpg in that order and reads its size", () => {
