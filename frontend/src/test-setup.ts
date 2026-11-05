@@ -35,6 +35,14 @@ globalThis.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
       }),
     );
   }
+  if (url === '/blog/index.json') {
+    return Promise.resolve(
+      new Response('[]', {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+  }
   if (!realFetch) {
     return Promise.reject(new Error(`No fetch available for ${url}`));
   }
