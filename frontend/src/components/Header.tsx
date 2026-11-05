@@ -31,6 +31,11 @@ export const Header = () => {
           <NavLink to="/projetos" className={linkClass}>
             {nav.projects}
           </NavLink>
+          {typeof __BLOG_PUBLISHED__ !== "undefined" && __BLOG_PUBLISHED__ && (
+            <NavLink to="/blog" className={linkClass}>
+              {nav.blog}
+            </NavLink>
+          )}
         </nav>
       </div>
     </header>
