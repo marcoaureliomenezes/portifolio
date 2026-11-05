@@ -192,7 +192,7 @@ export interface ContentData {
   libraryPage?: LibraryPageLabels;
   /** Featured-projects strip labels (T-RD-04). */
   featuredProjectsTitle?: string;
-  seeAllProjects?: string;
+  seeAllProjects: string;
   /** Home labels (rc-3): earlier-roles divider, role details and story toggles, impact caption. */
   earlierLabel: string;
   detailsOpen: string;
@@ -212,11 +212,20 @@ export interface ContentData {
   certifications: Certification[];
   /** Site chrome labels: header nav, theme toggle, language selector, breadcrumb, back link. */
   siteChrome: {
-    nav: { label: string; resume: string; projects: string };
+    nav: { label: string; resume: string; projects: string; blog: string };
     theme: { toLight: string; toDark: string };
     language: { label: string };
     breadcrumb: { label: string; projects: string };
     backToProjects: string;
+    blog: {
+      title: string;
+      intro: string;
+      empty: string;
+      tagsLabel: string;
+      filteredBy: string;
+      allPosts: string;
+      back: string;
+    };
     footer: { label: string; owner: string; email: string; linkedin: string; github: string };
   };
   /**
