@@ -180,7 +180,11 @@ describe("HeroSection — one column and story toggle (AC3.1)", () => {
     expect(sections).toHaveLength(1);
     expect(screen.queryByText(/\$ now/)).not.toBeInTheDocument();
     // a second column needs a breakpoint layout class; one column carries none
-    expect(sections[0].querySelector("[class*='lg:']")).toBeNull();
+    expect(
+      sections[0].querySelector(
+        "[class*='grid-cols-2'], [class*='md:grid-cols'], [class*='lg:grid-cols'], [class*='lg:']",
+      ),
+    ).toBeNull();
   });
 
   it("hides resume.full while closed, shows resume.short, and the toggle reads storyOpen", () => {
