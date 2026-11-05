@@ -44,11 +44,20 @@
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
   "siteChrome": {
-    "nav": { "label": "Navegação principal", "resume": "Currículo", "projects": "Projetos" },
+    "nav": { "label": "Navegação principal", "resume": "Currículo", "projects": "Projetos", "blog": "Blog" },
     "theme": { "toLight": "Mudar para tema claro", "toDark": "Mudar para tema escuro" },
     "language": { "label": "Selecionar idioma" },
     "breadcrumb": { "label": "Breadcrumb", "projects": "Projetos" },
     "backToProjects": "Voltar para projetos",
+    "blog": {
+      "title": "Blog",
+      "intro": "Notas sobre engenharia de dados e as ferramentas que construo.",
+      "empty": "Nenhum post ainda.",
+      "tagsLabel": "Tags",
+      "filteredBy": "Posts com a tag",
+      "allPosts": "Todos os posts",
+      "back": "Voltar ao blog"
+    },
     "footer": {
       "label": "Rodapé do site",
       "owner": "Marco Menezes",

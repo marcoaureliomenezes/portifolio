@@ -44,11 +44,20 @@
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
   "siteChrome": {
-    "nav": { "label": "Main navigation", "resume": "Resume", "projects": "Projects" },
+    "nav": { "label": "Main navigation", "resume": "Resume", "projects": "Projects", "blog": "Blog" },
     "theme": { "toLight": "Switch to light theme", "toDark": "Switch to dark theme" },
     "language": { "label": "Select language" },
     "breadcrumb": { "label": "Breadcrumb", "projects": "Projects" },
     "backToProjects": "Back to projects",
+    "blog": {
+      "title": "Blog",
+      "intro": "Notes on data engineering and the tools I build.",
+      "empty": "No posts yet.",
+      "tagsLabel": "Tags",
+      "filteredBy": "Posts tagged",
+      "allPosts": "All posts",
+      "back": "Back to the blog"
+    },
     "footer": {
       "label": "Site footer",
       "owner": "Marco Menezes",
