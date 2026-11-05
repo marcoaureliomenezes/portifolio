@@ -30,14 +30,31 @@ function build(posts: string): Run {
 }
 
 /** One temp post with the given body under a fresh posts folder. */
-function postWith(slug: string, body: string) {
+function postWith(slug: string, body: string, files: Record<string, Buffer | string> = {}) {
   const dir = mkdtempSync(join(tmp, "p-"));
   mkdirSync(join(dir, slug));
   writeFileSync(
     join(dir, slug, "index.md"),
     `---\ntitle: T\ndescription: D\ndate: 2026-01-01\nlang: en\ntags: a\n---\n${body}\n`,
   );
+  for (const [name, data] of Object.entries(files)) writeFileSync(join(dir, slug, name), data);
   return dir;
+}
+
+const proving = join(fixtures, "proving-post");
+const fixture = (name: string) => readFileSync(join(proving, name));
+const MP4 = "clip.mp4";
+
+/** A 30-byte webp header of a VP8X file, 8 x 6. */
+function webp8x6() {
+  const h = Buffer.alloc(30);
+  h.write("RIFF", 0, "latin1");
+  h.writeUInt32LE(22, 4);
+  h.write("WEBPVP8X", 8, "latin1");
+  h.writeUInt32LE(10, 16);
+  h.writeUIntLE(7, 24, 3);
+  h.writeUIntLE(5, 27, 3);
+  return h;
 }
 
 describe("build-blog over the fixtures", () => {
@@ -129,5 +146,72 @@ describe("importing build-blog", () => {
     );
     expect(out).toBe("");
     expect(readdirSync(cwd)).toEqual([]);
+  });
+});
+
+describe("build-blog media", () => {
+  const run = build(fixtures);
+  const html = readFileSync(join(run.dist, "blog/proving-post/body.html"), "utf8");
+  const copied = (slug: string, name: string) => join(run.dist, "blog", slug, name);
+
+  it("renders an image with absolute source and the size read from the file", () => {
+    expect(html).toContain('<img src="/blog/proving-post/shot.png" alt="alt text" width="3" height="2">');
+  });
+
+  it("renders a clip as a muted looping video with its poster and size", () => {
+    expect(html).toContain(
+      '<video aria-label="clip alt" width="4" height="3" poster="/blog/proving-post/clip.png" muted loop playsinline controls preload="none"><source src="/blog/proving-post/clip.mp4" type="video/mp4"></video>',
+    );
+  });
+
+  it("never emits autoplay", () => {
+    expect(html).not.toContain("autoplay");
+  });
+
+  it("copies the referenced files, the poster and the front-matter image byte for byte", () => {
+    for (const name of ["shot.png", "clip.png", MP4]) {
+      expect(readFileSync(copied("proving-post", name)).equals(fixture(name))).toBe(true);
+    }
+  });
+
+  it("copies neither index.md nor an unreferenced file", () => {
+    const dir = postWith("extra-file", "![a](shot.png)", { "shot.png": fixture("shot.png"), "extra.txt": "x" });
+    const out = build(dir);
+    expect(out.status).toBe(0);
+    expect(readdirSync(join(out.dist, "blog/extra-file")).sort()).toEqual(["body.html", "shot.png"]);
+  });
+
+  it("picks the poster among webp, png, jpg in that order and reads its size", () => {
+    const body = `![c](${MP4})`;
+    const all = { [MP4]: "v", "clip.png": fixture("clip.png"), "clip.jpg": "j", "clip.webp": webp8x6() };
+    const withWebp = build(postWith("poster-order", body, all));
+    expect(readFileSync(join(withWebp.dist, "blog/poster-order/body.html"), "utf8")).toContain(
+      'width="8" height="6" poster="/blog/poster-order/clip.webp"',
+    );
+    const { "clip.webp": _w, ...noWebp } = all;
+    const withPng = build(postWith("poster-order", body, noWebp));
+    expect(readFileSync(join(withPng.dist, "blog/poster-order/body.html"), "utf8")).toContain(
+      'width="4" height="3" poster="/blog/poster-order/clip.png"',
+    );
+  });
+
+  it("serves a webm clip with its own type", () => {
+    const out = build(postWith("webm-clip", "![c](clip.webm)", { "clip.webm": "v", "clip.png": fixture("clip.png") }));
+    expect(readFileSync(join(out.dist, "blog/webm-clip/body.html"), "utf8")).toContain(
+      '<source src="/blog/webm-clip/clip.webm" type="video/webm">',
+    );
+  });
+
+  it.each([
+    ["an empty alt", "![](shot.png)", { "shot.png": fixture("shot.png") }, "media-fail: image: alt must not be empty"],
+    ["a missing file", "![a](shot.png)", {}, "media-fail: image: shot.png: no such file"],
+    ["a clip without a poster", `![a](${MP4})`, { [MP4]: "v" }, `media-fail: video: ${MP4}: no poster beside it`],
+    ["a bad extension", "![a](shot.gif)", { "shot.gif": "g" }, "media-fail: image: shot.gif: no such file"],
+    ["a target outside the folder", "![a](../shot.png)", {}, "media-fail: image: ../shot.png: no such file"],
+  ])("fails the build on %s", (_name, body, files, message) => {
+    const out = build(postWith("media-fail", body, files));
+    expect(out.status).toBe(1);
+    expect(out.stdout).toBe("");
+    expect(out.stderr).toContain(message);
   });
 });
