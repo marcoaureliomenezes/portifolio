@@ -23,7 +23,8 @@ async function switchLanguage(page: import('@playwright/test').Page, lang: 'Engl
   const selectTrigger = page.locator('[role="combobox"]').first();
   await selectTrigger.click();
   await page.getByRole('option', { name: lang }).click();
-  await page.waitForLoadState('networkidle');
+  // The switch does not navigate: wait for the trigger to show the chosen language
+  await expect(selectTrigger).toContainText(lang === 'English' ? /EN/i : /DE/i);
 }
 
 test.describe('i18n — Projects cluster routes', () => {
@@ -80,7 +81,7 @@ test.describe('i18n — Projects cluster routes', () => {
     // When: switch language
     await switchLanguage(page, 'English');
 
-    // Then: cards are immediately visible after networkidle (no blank flash persists)
+    // Then: cards are visible after the switch (no blank flash persists)
     const cards = page.locator('[data-testid="project-card"]');
     await expect(cards).toHaveCount(4);
     for (let i = 0; i < 3; i++) {
