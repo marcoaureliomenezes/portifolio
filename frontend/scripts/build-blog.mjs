@@ -6,13 +6,16 @@
  * throws `<slug>: link: "<href>" is not http(s), site-relative or #`.
  */
 
-import { copyFileSync, mkdirSync, statSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
 import { HttpUrl } from "../src/lib/schemas/projects.ts";
 import { readPosts } from "./blog-posts.mjs";
 import { imageSize } from "./image-size.mjs";
+
+export const SITE = "https://marco-menezes.com";
+const LANGS = { pt: ["pt-BR", "pt_BR"], en: ["en", "en_US"], de: ["de", "de_DE"] };
 
 const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const escape = (s) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
@@ -30,7 +33,7 @@ const isFile = (path) => {
 };
 
 /** Renders one post's Markdown in folder dir to an HTML fragment; the files it references go in `files`. */
-export function renderBody(slug, markdown, dir, files = new Set()) {
+function renderBody(slug, markdown, dir, files) {
   const media = (href) => {
     const ext = extname(href).toLowerCase();
     if (!/^[\w.-]+$/.test(href) || !isFile(join(dir, href)) || !(IMAGES.includes(ext) || ext in CLIPS)) {
@@ -68,20 +71,57 @@ export function renderBody(slug, markdown, dir, files = new Set()) {
   return marked.parse(markdown);
 }
 
-/** Writes index.json and one body.html per published post under <dist>/blog. */
-export function buildBlog(postsDir, dist) {
+/** Replaces each head tag of the template, which must hold it exactly once; values are escaped. */
+function setHead(html, { title, description, lang, locale, image }) {
+  const one = (name, re, to) => {
+    if ((html.match(new RegExp(re.source, "g")) ?? []).length !== 1) throw new Error(`template: ${name} must match exactly once`);
+    html = html.replace(re, () => to);
+  };
+  one("title", /<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`);
+  one("html lang", /<html lang="[^"]*">/, `<html lang="${escape(lang)}">`);
+  for (const [attr, key, value] of [
+    ["name", "description", description],
+    ["property", "og:title", title],
+    ["property", "og:description", description],
+    ["property", "og:locale", locale],
+    ["property", "og:image", image],
+    ["name", "twitter:image", image],
+  ]) {
+    one(key, new RegExp(`<meta ${attr}="${key}" content="[^"]*"`), `<meta ${attr}="${key}" content="${escape(value)}"`);
+  }
+  return html;
+}
+
+/** Writes index.json, one body.html and one index.html per published post under <dist>/blog, and one page per project under <dist>/projetos. */
+function buildBlog(postsDir, dist) {
   const posts = readPosts(postsDir);
   const blog = join(dist, "blog");
   mkdirSync(blog, { recursive: true });
   const index = posts.map(({ slug, title, description, date, lang, tags }) => ({ slug, title, description, date, lang, tags }));
   writeFileSync(join(blog, "index.json"), `${JSON.stringify(index)}\n`);
-  for (const { slug, body, image } of posts) {
+  const template = readFileSync(join(dist, "index.html"), "utf8");
+  for (const { slug, body, image, title, description, lang } of posts) {
     const dir = join(postsDir, slug);
     const files = new Set(image ? [image] : []);
     const html = renderBody(slug, body, dir, files);
     mkdirSync(join(blog, slug), { recursive: true });
     writeFileSync(join(blog, slug, "body.html"), html);
+    const [htmlLang, locale] = LANGS[lang];
+    const head = setHead(template, {
+      title, description, lang: htmlLang, locale,
+      image: image ? `${SITE}/blog/${slug}/${image}` : template.match(/property="og:image" content="([^"]*)"/)[1],
+    });
+    writeFileSync(join(blog, slug, "index.html"), head.replace('<div id="root"></div>', () => `<div id="root"><article lang="${lang}">${html}</article></div>`));
     for (const name of files) copyFileSync(join(dir, name), join(blog, slug, name));
+  }
+  const pt = JSON.parse(readFileSync("public/content/pt.json", "utf8"));
+  for (const { slug, seo } of pt.projectsV2.list) {
+    mkdirSync(join(dist, "projetos", slug), { recursive: true });
+    const page = setHead(template, {
+      title: seo.title, description: seo.description,
+      lang: "pt-BR", locale: "pt_BR", image: template.match(/property="og:image" content="([^"]*)"/)[1],
+    });
+    writeFileSync(join(dist, "projetos", slug, "index.html"), page);
   }
 }
 
