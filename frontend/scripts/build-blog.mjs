@@ -92,13 +92,42 @@ function setHead(html, { title, description, lang, locale, image }) {
   return html;
 }
 
-/** Writes index.json, one body.html and one index.html per published post under <dist>/blog, and one page per project under <dist>/projetos. */
+/** One RSS item of a published post: link and guid are the same absolute URL. */
+function feedItem({ slug, title, description, date, lang, tags }) {
+  const link = escape(`${SITE}/blog/${slug}`);
+  return `<item>
+<title>${escape(title)}</title>
+<link>${link}</link>
+<guid>${link}</guid>
+<pubDate>${new Date(`${date}T00:00:00Z`).toUTCString()}</pubDate>
+<description>${escape(description)}</description>
+${tags.map((tag) => `<category>${escape(tag)}</category>`).join("\n")}
+<dc:language>${escape(lang)}</dc:language>
+</item>`;
+}
+
+/** Writes index.json, one body.html and one index.html per published post under <dist>/blog, one page per project under <dist>/projetos, and blog/rss.xml. */
 function buildBlog(postsDir, dist) {
+  const pt = JSON.parse(readFileSync("public/content/pt.json", "utf8"));
   const posts = readPosts(postsDir);
   const blog = join(dist, "blog");
   mkdirSync(blog, { recursive: true });
   const index = posts.map(({ slug, title, description, date, lang, tags }) => ({ slug, title, description, date, lang, tags }));
   writeFileSync(join(blog, "index.json"), `${JSON.stringify(index)}\n`);
+  const { footer, blog: chrome } = pt.siteChrome;
+  writeFileSync(
+    join(blog, "rss.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+<title>${escape(`${footer.owner} — ${chrome.title}`)}</title>
+<link>${escape(`${SITE}/blog`)}</link>
+<description>${escape(chrome.intro)}</description>
+${posts.map(feedItem).join("\n")}
+</channel>
+</rss>
+`,
+  );
   const template = readFileSync(join(dist, "index.html"), "utf8");
   for (const { slug, body, image, title, description, lang } of posts) {
     const dir = join(postsDir, slug);
@@ -114,7 +143,6 @@ function buildBlog(postsDir, dist) {
     writeFileSync(join(blog, slug, "index.html"), head.replace('<div id="root"></div>', () => `<div id="root"><article lang="${lang}">${html}</article></div>`));
     for (const name of files) copyFileSync(join(dir, name), join(blog, slug, name));
   }
-  const pt = JSON.parse(readFileSync("public/content/pt.json", "utf8"));
   for (const { slug, seo } of pt.projectsV2.list) {
     mkdirSync(join(dist, "projetos", slug), { recursive: true });
     const page = setHead(template, {
