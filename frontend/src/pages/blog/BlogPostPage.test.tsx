@@ -131,4 +131,37 @@ describe("BlogPostPage", () => {
     expect((await screen.findByRole("heading", { level: 1 })).textContent).toBe("404");
     expect(screen.queryByRole("article")).toBeNull();
   });
+
+  it("an unknown slug renders the 404 page when the host answers 200 text/html app HTML for every path", async () => {
+    const base = globalThis.fetch;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+      input === "/blog/index.json"
+        ? Promise.resolve(new Response(JSON.stringify(POSTS)))
+        : typeof input === "string" && input.endsWith("/body.html")
+          ? Promise.resolve(
+              new Response("<!doctype html><html><body><div id=root></div></body></html>", {
+                headers: { "Content-Type": "text/html" },
+              }),
+            )
+          : base(input, init),
+    );
+    renderAt("/blog/no-such-post");
+    expect((await screen.findByRole("heading", { level: 1 })).textContent).toBe("404");
+    expect(screen.queryByRole("article")).toBeNull();
+  });
+
+  it("renders no 404 content while the index is still pending", async () => {
+    const base = globalThis.fetch;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+      input === "/blog/index.json"
+        ? new Promise<Response>(() => undefined)
+        : typeof input === "string" && input.endsWith("/body.html")
+          ? Promise.resolve(new Response("", { status: 404 }))
+          : base(input, init),
+    );
+    renderAt("/blog/newer-post");
+    await new Promise((r) => setTimeout(r, 50));
+    expect(screen.queryByText("404")).toBeNull();
+    expect(screen.queryByRole("article")).toBeNull();
+  });
 });

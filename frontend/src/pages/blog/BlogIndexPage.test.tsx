@@ -137,4 +137,16 @@ describe("BlogIndexPage", () => {
     expect(await screen.findByText("Nenhum post ainda.")).toBeTruthy();
     expect(postHrefs()).toEqual([]);
   });
+
+  it("never shows the empty message while the index is pending, then lists the posts", async () => {
+    let resolve!: (r: Response) => void;
+    serveIndex(() => new Promise<Response>((r) => (resolve = r)));
+    renderAt("/blog");
+    await new Promise((r) => setTimeout(r, 50));
+    expect(screen.queryByText("Nenhum post ainda.")).toBeNull();
+    resolve(new Response(JSON.stringify(POSTS)));
+    await screen.findByRole("link", { name: "Newer post" });
+    expect(screen.queryByText("Nenhum post ainda.")).toBeNull();
+    expect(postHrefs()).toEqual(["/blog/newer-post", "/blog/older-post"]);
+  });
 });
