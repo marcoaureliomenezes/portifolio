@@ -26,7 +26,7 @@ export function FeaturedProjects({ content }: FeaturedProjectsProps) {
   if (!featured.length) return null;
 
   const title = content.featuredProjectsTitle ?? "Projetos em Destaque";
-  const seeAll = content.seeAllProjects ?? "Ver todos os projetos";
+  const seeAll = content.seeAllProjects;
 
   return (
     <section
