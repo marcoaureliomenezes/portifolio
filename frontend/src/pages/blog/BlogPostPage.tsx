@@ -40,7 +40,7 @@ export function BlogPostPage() {
       <h1 className="text-title-sm md:text-title text-primary">{post.title}</h1>
       <PostMeta post={post} />
       {/* Safe: build-blog.mjs escapes raw HTML and limits link schemes (AC2.3). */}
-      <article lang={post.lang} dangerouslySetInnerHTML={{ __html: body.html }} />
+      <article className="prose dark:prose-invert max-w-none" lang={post.lang} dangerouslySetInnerHTML={{ __html: body.html }} />
     </div>
   );
 }
