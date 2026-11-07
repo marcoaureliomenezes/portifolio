@@ -544,13 +544,7 @@
   "projectsV2": {
     "index": {
       "title": "Projetos",
-      "description": "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho.",
-      "kindLabels": {
-        "case-study": "Estudo de caso",
-        "meta": "Infraestrutura",
-        "games": "Games",
-        "library": "Python · PyPI"
-      }
+      "description": "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho."
     },
     "list": [
       {

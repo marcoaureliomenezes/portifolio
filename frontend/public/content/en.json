@@ -544,13 +544,7 @@
   "projectsV2": {
     "index": {
       "title": "Projects",
-      "description": "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son.",
-      "kindLabels": {
-        "case-study": "Case study",
-        "meta": "Infrastructure",
-        "games": "Games",
-        "library": "Python · PyPI"
-      }
+      "description": "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son."
     },
     "list": [
       {

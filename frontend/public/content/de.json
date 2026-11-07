@@ -544,13 +544,7 @@
   "projectsV2": {
     "index": {
       "title": "Projekte",
-      "description": "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn.",
-      "kindLabels": {
-        "case-study": "Fallstudie",
-        "meta": "Infrastruktur",
-        "games": "Games",
-        "library": "Python · PyPI"
-      }
+      "description": "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn."
     },
     "list": [
       {
