@@ -6,12 +6,12 @@
  * throws `<slug>: link: "<href>" is not http(s), site-relative or #`.
  */
 
-import { copyFileSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
 import { HttpUrl } from "../src/lib/schemas/projects.ts";
-import { readPosts } from "./blog-posts.mjs";
+import { CLIPS, IMAGES, isMedia, readPosts } from "./blog-posts.mjs";
 import { imageSize } from "./image-size.mjs";
 
 export const SITE = "https://marco-menezes.com";
@@ -21,22 +21,13 @@ const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&
 const escape = (s) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
 const allowed = (href) => HttpUrl.safeParse(href).success || /^\/(?!\/)/.test(href) || href.startsWith("#");
 
-const IMAGES = [".png", ".jpg", ".webp", ".svg"];
-const CLIPS = { ".mp4": "video/mp4", ".webm": "video/webm" };
 const POSTERS = [".webp", ".png", ".jpg"];
-const isFile = (path) => {
-  try {
-    return statSync(path).isFile();
-  } catch {
-    return false;
-  }
-};
 
 /** Renders one post's Markdown in folder dir to an HTML fragment; the files it references go in `files`. */
 function renderBody(slug, markdown, dir, files) {
   const media = (href) => {
     const ext = extname(href).toLowerCase();
-    if (!/^[\w.-]+$/.test(href) || !isFile(join(dir, href)) || !(IMAGES.includes(ext) || ext in CLIPS)) {
+    if (!isMedia(dir, href, [...IMAGES, ...Object.keys(CLIPS)])) {
       throw new Error(`${slug}: image: ${href}: no such file`);
     }
     files.add(href);
@@ -56,7 +47,7 @@ function renderBody(slug, markdown, dir, files) {
           return `<img src="${src(href)}" alt="${alt}" width="${width}" height="${height}">`;
         }
         const base = href.slice(0, -ext.length);
-        const poster = POSTERS.map((e) => base + e).find((name) => isFile(join(dir, name)));
+        const poster = POSTERS.map((e) => base + e).find((name) => isMedia(dir, name, POSTERS));
         if (!poster) throw new Error(`${slug}: video: ${href}: no poster beside it`);
         files.add(poster);
         const { width, height } = imageSize(join(dir, poster));

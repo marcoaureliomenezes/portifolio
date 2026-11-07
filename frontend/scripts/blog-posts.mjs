@@ -2,12 +2,21 @@
  * blog-posts.mjs — the post reader (PLAN §2.2, J4.T2).
  *
  * The one decider of "published": every post folder is validated, drafts
- * included, then drafts are dropped. Imports zod and node:fs only, so the
+ * included, then drafts are dropped. Imports zod and node built-ins only, so the
  * Vite config can load it.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { extname } from "node:path";
 import { z } from "zod";
+
+export const IMAGES = [".png", ".jpg", ".webp", ".svg"];
+export const CLIPS = { ".mp4": "video/mp4", ".webm": "video/webm" };
+
+/** True when `name` is a plain file of `folder` with an extension in `exts`: the one rule for post media. */
+export function isMedia(folder, name, exts) {
+  return /^[\w.-]+$/.test(name) && exts.includes(extname(name).toLowerCase()) && statSync(`${folder}/${name}`, { throwIfNoEntry: false })?.isFile() === true;
+}
 
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const TAGS = /^(?:[a-z0-9]+(?:-[a-z0-9]+)*(?:\s*,\s*[a-z0-9]+(?:-[a-z0-9]+)*)*)?$/;
@@ -35,7 +44,7 @@ const Front = z.strictObject({
     .string(required("must be a comma list of slugs"))
     .regex(TAGS, "must be a comma list of slugs")
     .transform((s) => (s === "" ? [] : s.split(/\s*,\s*/))),
-  image: z.string().regex(/^[\w.-]+$/, "no such file in the post folder").optional(),
+  image: z.string().optional(),
   draft: z
     .enum(["true", "false"], { error: () => "must be true or false" })
     .transform((v) => v === "true")
@@ -68,7 +77,7 @@ function readPost(slug, folder) {
     fail(issue.path[0], issue.message);
   }
   const d = parsed.data;
-  if (d.image !== undefined && statSync(`${folder}/${d.image}`, { throwIfNoEntry: false })?.isFile() !== true) {
+  if (d.image !== undefined && !isMedia(folder, d.image, IMAGES)) {
     fail("image", "no such file in the post folder");
   }
 
