@@ -143,7 +143,7 @@ describe("BlogIndexPage", () => {
     let resolve!: (r: Response) => void;
     serveIndex(() => new Promise<Response>((r) => (resolve = r)));
     renderAt("/blog");
-    await new Promise((r) => setTimeout(r, 50));
+    await vi.waitFor(() => expect(resolve).toBeTypeOf("function"));
     expect(screen.queryByText("Nenhum post ainda.")).toBeNull();
     resolve(new Response(JSON.stringify(POSTS)));
     await screen.findByRole("link", { name: "Newer post" });

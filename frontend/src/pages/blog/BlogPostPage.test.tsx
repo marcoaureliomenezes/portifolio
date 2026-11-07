@@ -151,16 +151,17 @@ describe("BlogPostPage", () => {
   });
 
   it("renders no 404 content while the index is still pending", async () => {
+    let requested = false;
     const base = globalThis.fetch;
     vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
       input === "/blog/index.json"
-        ? new Promise<Response>(() => undefined)
+        ? ((requested = true), new Promise<Response>(() => undefined))
         : typeof input === "string" && input.endsWith("/body.html")
           ? Promise.resolve(new Response("", { status: 404 }))
           : base(input, init),
     );
     renderAt("/blog/newer-post");
-    await new Promise((r) => setTimeout(r, 50));
+    await vi.waitFor(() => expect(requested).toBe(true));
     expect(screen.queryByText("404")).toBeNull();
     expect(screen.queryByRole("article")).toBeNull();
   });
