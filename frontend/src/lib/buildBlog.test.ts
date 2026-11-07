@@ -182,6 +182,27 @@ describe("build-blog media", () => {
     expect(readdirSync(join(out.dist, "blog/extra-file")).sort()).toEqual(["body.html", "index.html", "shot.png"]);
   });
 
+  it("copies the front-matter image when the body never references it", () => {
+    const dir = postWith("cover-only", "text", { "cover.png": fixture("shot.png") });
+    const md = join(dir, "cover-only", "index.md");
+    writeFileSync(md, readFileSync(md, "utf8").replace("tags: a\n", "tags: a\nimage: cover.png\n"));
+    const out = build(dir);
+    expect(out.status).toBe(0);
+    expect(readFileSync(join(out.dist, "blog/cover-only/cover.png")).equals(fixture("shot.png"))).toBe(true);
+    expect(readFileSync(join(out.dist, "blog/cover-only/index.html"), "utf8")).toContain(
+      'property="og:image" content="https://marco-menezes.com/blog/cover-only/cover.png"',
+    );
+  });
+
+  it("copies no file from outside the post folder", () => {
+    const dir = postWith("escape", "![a](../shot.png)");
+    writeFileSync(join(dir, "shot.png"), fixture("shot.png"));
+    const out = build(dir);
+    expect(out.status).toBe(1);
+    expect(existsSync(join(out.dist, "blog/shot.png"))).toBe(false);
+    expect(existsSync(join(out.dist, "blog/escape/shot.png"))).toBe(false);
+  });
+
   it("picks the poster among webp, png, jpg in that order and reads its size", () => {
     const body = `![c](${MP4})`;
     const all = { [MP4]: "v", "clip.png": fixture("clip.png"), "clip.jpg": "j", "clip.webp": webp8x6() };
