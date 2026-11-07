@@ -129,6 +129,7 @@ ${posts.map(feedItem).join("\n")}
 `,
   );
   const template = readFileSync(join(dist, "index.html"), "utf8");
+  const defaultImage = template.match(/property="og:image" content="([^"]*)"/)?.[1] ?? "";
   for (const { slug, body, image, title, description, lang } of posts) {
     const dir = join(postsDir, slug);
     const files = new Set(image ? [image] : []);
@@ -138,7 +139,7 @@ ${posts.map(feedItem).join("\n")}
     const [htmlLang, locale] = LANGS[lang];
     const head = setHead(template, {
       title, description, lang: htmlLang, locale,
-      image: image ? `${SITE}/blog/${slug}/${image}` : template.match(/property="og:image" content="([^"]*)"/)[1],
+      image: image ? `${SITE}/blog/${slug}/${image}` : defaultImage,
     });
     writeFileSync(join(blog, slug, "index.html"), head.replace('<div id="root"></div>', () => `<div id="root"><article lang="${lang}">${html}</article></div>`));
     for (const name of files) copyFileSync(join(dir, name), join(blog, slug, name));
@@ -147,7 +148,7 @@ ${posts.map(feedItem).join("\n")}
     mkdirSync(join(dist, "projetos", slug), { recursive: true });
     const page = setHead(template, {
       title: seo.title, description: seo.description,
-      lang: "pt-BR", locale: "pt_BR", image: template.match(/property="og:image" content="([^"]*)"/)[1],
+      lang: "pt-BR", locale: "pt_BR", image: defaultImage,
     });
     writeFileSync(join(dist, "projetos", slug, "index.html"), page);
   }
