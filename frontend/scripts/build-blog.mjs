@@ -10,7 +10,7 @@ import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
-import { HttpUrl } from "../src/lib/schemas/projects.ts";
+import { HttpUrl, SiteRelativeUrl } from "../src/lib/schemas/projects.ts";
 import { CLIPS, IMAGES, isMedia, readPosts } from "./blog-posts.mjs";
 import { imageSize } from "./image-size.mjs";
 
@@ -19,7 +19,7 @@ const LANGS = { pt: ["pt-BR", "pt_BR"], en: ["en", "en_US"], de: ["de", "de_DE"]
 
 const ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const escape = (s) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
-const allowed = (href) => HttpUrl.safeParse(href).success || /^\/(?!\/)/.test(href) || href.startsWith("#");
+const allowed = (href) => HttpUrl.safeParse(href).success || SiteRelativeUrl.safeParse(href).success || href.startsWith("#");
 
 const POSTERS = [".webp", ".png", ".jpg"];
 
