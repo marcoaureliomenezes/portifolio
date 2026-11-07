@@ -9,6 +9,7 @@ import { afterAll, describe, expect, it } from "vitest";
 const frontend = resolve(__dirname, "../..");
 const fixtures = join(frontend, "tests/fixtures/blog");
 const rootHtml = join(frontend, "index.html");
+const projectSlug: string = JSON.parse(readFileSync(join(frontend, "public/content/pt.json"), "utf8")).projectsV2.list[0].slug;
 const tmp = mkdtempSync(join(tmpdir(), "blog-feed-"));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
@@ -110,7 +111,7 @@ describe("the share image", () => {
     const og = (p: string) => readFileSync(join(dist, p), "utf8").match(/property="og:image" content="([^"]*)"/)?.[1];
     expect(image).toMatch(/^https:\/\/marco-menezes\.com\/assets\/share-[0-9a-f]{8}\.png$/);
     expect(og("blog/second-post/index.html")).toBe(image);
-    expect(og("projetos/portifolio/index.html")).toBe(image);
+    expect(og(`projetos/${projectSlug}/index.html`)).toBe(image);
     expect(og("blog/proving-post/index.html")).toBe("https://marco-menezes.com/blog/proving-post/shot.png");
   });
 });
