@@ -124,11 +124,13 @@ describe("build-blog with no post", () => {
 
 describe("build-blog link rule", () => {
   it.each([
-    ["javascript:alert(1)"],
-    ["mailto:a" + "@" + "b.co"],
-    ["page.html"],
-  ])("fails the build on the link %s", (href) => {
-    const run = build(postWith("bad-link", `[x](${href})`));
+    ["javascript:alert(1)", "javascript:alert(1)"],
+    ["mailto:a" + "@" + "b.co", "mailto:a" + "@" + "b.co"],
+    ["page.html", "page.html"],
+    ["/\\evil.example/path", "/\\evil.example/path"],
+    ["/\t/evil.example", "</\t/evil.example>"],
+  ])("fails the build on the link %j", (href, destination) => {
+    const run = build(postWith("bad-link", `[x](${destination})`));
     expect(run.status).toBe(1);
     expect(run.stdout).toBe("");
     expect(run.stderr).toBe(`bad-link: link: "${href}" is not http(s), site-relative or #\n`);
