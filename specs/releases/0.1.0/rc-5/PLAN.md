@@ -1,6 +1,7 @@
 # PLAN — Release 0.1.0, rc-5
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-11-07, operator: "Aprovo (Recommended)"
 **Owner:** dd-sw-engineer-sr
 
 Paths are relative to the repo root (the app is under `frontend/`). Tree: the rc-5 `wt-rc`, SPEC at `5c1dccc` (Draft; AC5.6 and AC5.7 arrive by the SPEC amendment in flight). Facts are read at `25d1dd5` from the as-is handoff `2026-11-07T154000Z`, the grill handoff `2026-11-07T160500Z` and the consumer pre-mortem. The repo `verify:` line (`npm --prefix frontend run verify`) is unchanged.
