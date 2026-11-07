@@ -6,6 +6,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 test.describe('Language switch', () => {
   // Hero heading now shows `heroTagline` (T-FE-WAVE5). Localized strings:
@@ -61,5 +62,18 @@ test.describe('Language switch', () => {
     await expect(heroHeading).toContainText('Berufserfahrung');
     await expect(heroHeading).not.toContainText('Experiência Profissional');
     await expect(heroHeading).not.toContainText('Professional Experience');
+  });
+
+  test('J4.T1: switchLanguage returns only after the new locale content shows', async ({ page }) => {
+    await page.route('**/content/en.json', async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await route.continue();
+    });
+    await page.goto(ROUTES.home);
+    await expect(page.locator('header nav a').first()).toHaveText('Currículo');
+
+    await switchLanguage(page, 'English');
+
+    expect(await page.locator('header nav a').first().textContent()).toBe('Resume');
   });
 });
