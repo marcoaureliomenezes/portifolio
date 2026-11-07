@@ -171,7 +171,7 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
   - unit, a walk over the published schema: every object key matches `^[A-Za-z_][A-Za-z0-9_]*$`, no `anyOf` remains, and every `oneOf` sits directly under `items` with a `const` discriminator on each branch;
   - integration, once, in the job's hand-back: the panel's generator over the published schema reports 0 read-only fields and 0 errors;
   - the three locales parse, and the existing media and certification tests stay green.
-- **AC3.5** The schema declares as a property every top-level key that the three locales carry, required exactly where `src/types/content.ts` requires it. `.catchall` and the root `additionalProperties` are gone, so an unknown top-level key is stripped like an unknown key anywhere else. Test: unit. The root `properties` keys equal the union of the locales' top-level keys, and `required` equals the type's required keys.
+- **AC3.5** The schema declares as a property every top-level key that the three locales carry, required where `src/types/content.ts` requires it, plus `schema_version`, `published_at` and `projectsV2`, which the type marks optional and the content contract requires. `.catchall` and the root `additionalProperties` are gone, so an unknown top-level key is stripped like an unknown key anywhere else. Test: unit. The root `properties` keys equal the union of the locales' top-level keys, and `required` equals the type's required keys plus those three, named in the test.
 
 ### FR4 — version literals rendered from `pypi.version`
 
