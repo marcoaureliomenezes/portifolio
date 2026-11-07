@@ -14,7 +14,7 @@
 
 | record | fix (HEAD) | what it changed | overfitting check | verdict |
 |---|---|---|---|---|
-| `layout-shell-title-read-races-the-language-switch` | `8a9e766` | two E2E waits: PC-E2E-35 waits for the title, and `i18n-projects.spec.ts`'s switch waits for the trigger text | no assert loosened. The fix patched 2 of the 13 copies of "open the combobox, click the option", and none of them waits for the loaded locale. `910d269` and `8ce4c64` fixed the same race earlier, so this is its third occurrence. | **REBUILD**: confirmed as `e2e-language-switch-races-the-locale-load`, rebuilt in its hotfix lane (§5) |
+| `layout-shell-title-read-races-the-language-switch` | `8a9e766` | two E2E waits: PC-E2E-35 waits for the title, and `i18n-projects.spec.ts`'s switch waits for the trigger text | no assert loosened. The fix patched 2 of the 13 copies of "open the combobox, click the option", and none of them waits for the loaded locale. `910d269` and `8ce4c64` fixed the same race earlier, so this is its third occurrence. | **REBUILD** by de-duplication: AC5.7 (candidate scope; the registration review ruled the proposed bug record not a bug) |
 | `cv-url-rule-admits-a-control-character-after-the-slash` (hotfix) | `56128c4` | one `SiteRelativeUrl` rule replaces the inline `cvUrl` regex | one rule replaces one inline copy. No branch, and no assert changed. Its sibling `HttpUrl` still runs two validators (`.url()` and `.regex()`), and only the pattern is emitted. That is the `b3b14ff` shape, and AC3.2 rebuilds it under the operator's point (7). | KEEP |
 | `blog-link-rule-admits-protocol-relative-redirects` | `75cd824` | the link rule delegates to `SiteRelativeUrl` | it deletes a second same-origin decider and adds none | KEEP |
 | `blog-media-rule-has-two-copies-and-admits-markdown` | `cbd5fc2` | `isMedia` in the post reader is the one media check, and the build calls it | two copies become one, net 0. The image-name regex moved into `isMedia` without being loosened. | KEEP |
@@ -24,7 +24,7 @@
 | `blog-link-errors-carry-the-marked-report-suffix` | `e7c1c63` | the build calls marked's unwrapped lexer and parser | one call is replaced, net 0 | KEEP |
 | `blog-tags-label-unread` | `e48d354` | `PostMeta` renders `siteChrome.blog.tagsLabel` before the tag links | the fix adds one branch (`post.tags.length > 0`, `PostMeta.tsx:16`), and no test holds its empty partition. AC5.1 adds that partition. | KEEP |
 
-`8a9e766` is the only REBUILD; its bug is confirmed. `bugs.py stats`: 12 resolved and no REBUILD due.
+`8a9e766` is the only REBUILD; AC5.7 carries it. `bugs.py stats`: 12 resolved and no REBUILD due.
 
 ## 1. Problem
 
@@ -66,7 +66,7 @@ Operator rulings (main-thread grill handoff `2026-11-07T160500Z`, verbatim answe
 
 Main-thread rulings and agent defaults (same handoff):
 
-- Point (9) is met by hotfix lanes, not by this candidate's scope (§5).
+- Point (9): two bugs take hotfix lanes (§5). The registration review (verdict `2026-11-07T171152Z`) ruled the other two not bugs, a product change and a REBUILD demand, so they are candidate scope under point (9): AC5.6 and AC5.7.
 - The site-wide schema key is written by one explicit `aws s3 cp`, as the sibling static site's deploy does.
 - The gap between the rc-5 promote and the switch is accepted. The build-time readers (`build-blog.mjs:102`, `check-i18n-parity.mjs:36`) keep the repo JSON.
 - `media/*/pin.txt` stays. `kindLabels` is deleted as dead content: no reader and no assert.
@@ -94,7 +94,7 @@ Glossary:
 
 ## 3. Non-goals
 
-- The four confirmed bugs. They are fixed in hotfix lanes, not here (§5).
+- The two confirmed bugs. They are fixed in hotfix lanes, not here (§5).
 - After the switch, heads and RSS read the repo JSON as a frozen seed. That edge belongs to the panel's 0.2.0 scope (point 11).
 - The panel's seed. A note for 0.2.0 rc-2: the seed carries every key AC3.5 declares, the 25 label keys included, or the sync fails the target.
 - A Sanity fetch in the build. A slug or SEO change still needs a commit and a deploy (agent default).
@@ -183,13 +183,15 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 - **AC4.2** In each locale, each library project holds its version only in `pypi.version`. The Try-it pin and every facts-link tag read `{version}` or `{tag}`. Test: unit. Each library block's serialized JSON in each locale holds `pypi.version`'s value exactly once.
 - **AC4.3** At today's versions, the rendered pages are unchanged. The rendered install commands, the pin and the 8 facts links equal today's literals, and `media/*/pin.txt` is byte-equal. Every test of a rendered command or link asserts the rendered value, never the raw content: the second library page's E2E install-command compare (`tests/e2e/projects-cluster/`) moves to it under a named ruling. Test: unit (render with the committed content, literals expected); the reviewer diffs `pin.txt`.
 
-### FR5 — rows carried from rc-4
+### FR5 — rows carried from rc-4 and point (9)
 
 - **AC5.1** A post with no tags shows its date and language tag, and no tags label. Test: unit. This is the missing partition of `PostMeta.tsx:16`, and the reviewer drops the guard and sees it go red.
 - **AC5.2** The post reader (`scripts/blog-posts.mjs`) is the one order decider. The blog index renders the posts in the order the index data holds them, and the second sort (`BlogIndexPage.tsx:14`) is deleted. Test: unit, existing: `buildBlog.test.ts:70`, `blogFeed.test.ts:53` and `BlogIndexPage.test.tsx:74` stay green. The reviewer greps `sort(` under `src/pages/blog/` and finds 0 hits.
 - **AC5.3** The docstrings state only their unit's contract. `projects.ts:2-12` loses its task, SPEC and constraint ids and its false "only imported by `useContent.ts`" claim. The `.catchall` comment of `content-schema.mjs` and the `export-content-schema.mjs` header follow FR3. Test: none, since these are docs; the reviewer reads them.
 - **AC5.4** In a post body, an image `alt` and a link `href` holding `&` and `"` render escaped as `&amp;` and `&quot;`. Test: integration, the build script over a fixture with literal output.
 - **AC5.5** The repo `verify:` line exits 0, unchanged, on every job merge and on the rc PR head. Test: the existing suite plus this rc's tests.
+- **AC5.6** Post body headings sit under the page title. A Markdown `#` in a post body renders `<h2>`, and each level shifts down one, capped at `<h6>`, so the post page keeps one `h1`, its title. This is a product change with the operator's words on point (9). It replaces today's `#` → `<h1>` rendering, and the assert at `buildBlog.test.ts:99` moves under this AC. Test: unit, with literal output for `#`, `##` and `######`.
+- **AC5.7** One E2E language switch. One helper in `tests/e2e/fixtures/` switches the language and returns only once the new locale's content is loaded: `LanguageContext.tsx:224` sets the content after the fetch, while `:243` flips the language at once. Every inline copy of "open the combobox, click the option" goes, and every spec calls the helper. The as-is review counts about 13 copies, and the registration review found that 3 of the 5 cited copies already wait. Ledger evidence: `910d269`, `8ce4c64` and `8a9e766` were each a wait fix on one copy. This is a REBUILD by de-duplication. Test: E2E, the full suite passes. The structural check is a grep for an inline switch outside the helper, which finds 0.
 
 ### Replaces
 
@@ -203,6 +205,8 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 - `.catchall` on the content root, and with it the tolerance of unknown top-level keys (AC3.5).
 - The 9 hand-typed version literals per locale outside `pypi.version`: one Try-it pin and 8 facts-link tags (AC4.2).
 - Each deploy role's `:*` trust wildcard (AC2.2).
+- The `#` → `<h1>` rendering of a post body heading, and its assert at `buildBlog.test.ts:99` (AC5.6).
+- The inline E2E language-switch copies (AC5.7).
 - Two rc-4 statements, broken on purpose: `rc-4/SPEC.md:269`, "`v1.json` stays byte-equal" (AC3.1); and `:126-127`, AC1.2's one upload rule for every file, which gains the `content/*` and `schema/*` exclusions and the schema `cp` (AC2.3).
 
 ### Closure
@@ -211,19 +215,18 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 - Memory:
   - `content-contract`: the 2020-12 published schema and its path, one regex per URL and email field, `kindLabels` gone, the declared top-level keys, the version placeholders;
   - `deploy-infrastructure`: the SSM parameters, the narrowed trust, the syncs that exclude `content/*` and `schema/*`, the schema upload, and the rebuilt `terraform.yml` with the panel's apply role;
-  - `blog`: one order decider;
+  - `blog`: one order decider, body headings one level under the title;
+  - `e2e-suite`: the one language-switch helper;
   - `library-page`: `pypi.tagPrefix` and the placeholders;
   - ARCHITECTURE Structure: the export path;
   - `memory.py drift` lists no uncovered unit.
 
 ## 5. Constraints and risks
 
-**Hotfix lanes before rc-5 merges** (`specs/bugs/AGENTS.md`, Resolution). Four confirmed bugs live in code the work branch already holds, so each is fixed in its own `wt-hotfix` lane and lands on `feature/0.1.0` before rc-5 merges:
+**Hotfix lanes before rc-5 merges** (`specs/bugs/AGENTS.md`, Resolution). Two confirmed bugs live in code the work branch already holds, so each is fixed in its own `wt-hotfix` lane and lands on `feature/0.1.0` before rc-5 merges:
 
 - `terraform-workflow-cannot-plan-or-apply`;
-- `readme-node-floor-below-what-the-build-needs`;
-- `post-body-heading-renders-a-second-h1`;
-- `e2e-language-switch-races-the-locale-load`.
+- `readme-node-floor-below-what-the-build-needs`.
 
 None of their fixes is an rc-5 AC. **The dependency:** rc-5's Terraform (AC2.1, AC2.2) applies only through the rebuilt `terraform.yml`, a `workflow_dispatch` apply per environment under the `infra` GitHub environment, assuming the panel's apply role for this repo. Operator ruling on 0.2.0, "FR4 vai para o rc-2 (Recommended)": that role, the registry entry and the portfolio E2Es move to the panel's 0.2.0 rc-2. Gate G is met in this order:
 
