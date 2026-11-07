@@ -1,5 +1,5 @@
 /**
- * build-blog.mjs — renders the posts into dist/blog (PLAN §2.2).
+ * build-blog.mjs — renders the posts into dist/blog.
  *
  * CLI: node scripts/build-blog.mjs [--posts <dir>] [--dist <dir>], run from frontend/.
  * Writes <dist>/blog/index.json and <dist>/blog/<slug>/body.html; a bad link
