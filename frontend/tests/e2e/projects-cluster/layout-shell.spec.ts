@@ -18,6 +18,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 test.describe('ProjectsLayoutShell — /projetos/*', () => {
 
@@ -131,9 +132,7 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await page.waitForLoadState('networkidle');
     const titlePT2 = await page.title();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     // The switch does not navigate: wait for the effect to rewrite the title
     await expect(page).not.toHaveTitle(titlePT2);
 

@@ -17,15 +17,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-
-/** Selects a language from the combobox (same mechanism as existing language-switch.spec.ts) */
-async function switchLanguage(page: import('@playwright/test').Page, lang: 'English' | 'Deutsch') {
-  const selectTrigger = page.locator('[role="combobox"]').first();
-  await selectTrigger.click();
-  await page.getByRole('option', { name: lang }).click();
-  // The switch does not navigate: wait for the trigger to show the chosen language
-  await expect(selectTrigger).toContainText(lang === 'English' ? /EN/i : /DE/i);
-}
+import { switchLanguage } from '../fixtures/language';
 
 test.describe('i18n — Projects cluster routes', () => {
   test('PC-E2E-04: /projetos card titles update when switching to EN', async ({ page }) => {

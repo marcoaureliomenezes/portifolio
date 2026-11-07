@@ -48,10 +48,3 @@ export async function expandSeniorRole(
   await expect(contentArea).toBeVisible();
   return contentArea;
 }
-
-/** Switch language via the combobox in the header. */
-export async function switchLanguage(page: Page, optionLabel: string): Promise<void> {
-  const combobox = page.locator('[role="combobox"]').first();
-  await combobox.click();
-  await page.getByRole('option', { name: optionLabel }).click();
-}
