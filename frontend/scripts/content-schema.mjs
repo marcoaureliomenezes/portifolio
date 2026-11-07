@@ -17,7 +17,7 @@
  */
 
 import { z } from "zod";
-import { HttpUrl, ProjectsContentSchema, SiteRelativeUrl } from "../src/lib/schemas/projects.ts";
+import { Email, HttpUrl, ProjectsContentSchema, SiteRelativeUrl } from "../src/lib/schemas/projects.ts";
 
 // ── shared ──────────────────────────────────────────────────────────────────
 
@@ -27,7 +27,7 @@ export const ProfileSchema = z.object({
   linkedinUrl: HttpUrl,
   githubUrl: HttpUrl,
   instagramUrl: HttpUrl,
-  email: z.string().email(),
+  email: Email,
   cvUrl: SiteRelativeUrl,
 });
 

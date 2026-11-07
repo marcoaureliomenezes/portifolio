@@ -14,7 +14,8 @@
 
 import { z } from "zod";
 
-export const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
+export const HttpUrl = z.string().regex(/^https?:\/\/[\w.-]+(:\d+)?([/?#]\S*)?$/); // links render as <a href>: no javascript:/data:, no space or %| in the host
+export const Email = z.string().regex(/^[^@\s]+@[^@\s]+\.[^@\s]+$/);
 // eslint-disable-next-line no-control-regex -- the control range is the point
 export const SiteRelativeUrl = z.string().regex(/^\/(?![\\/\x00-\x20\x7f])/); // same-origin path: no //, /\, whitespace or control after the slash
 

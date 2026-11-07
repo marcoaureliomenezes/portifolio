@@ -15,20 +15,19 @@
       "properties": {
         "linkedinUrl": {
           "type": "string",
-          "pattern": "^https?:\\/\\/"
+          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
         },
         "githubUrl": {
           "type": "string",
-          "pattern": "^https?:\\/\\/"
+          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
         },
         "instagramUrl": {
           "type": "string",
-          "pattern": "^https?:\\/\\/"
+          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
         },
         "email": {
           "type": "string",
-          "format": "email",
-          "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+          "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
         },
         "cvUrl": {
           "type": "string",
@@ -175,7 +174,7 @@
                           },
                           "url": {
                             "type": "string",
-                            "pattern": "^https?:\\/\\/"
+                            "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                           }
                         },
                         "required": [
@@ -250,7 +249,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^https?:\\/\\/"
+                "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
               },
               {
                 "type": "string",
@@ -321,7 +320,7 @@
         },
         "thesisLink": {
           "type": "string",
-          "pattern": "^https?:\\/\\/"
+          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
         }
       },
       "required": [
@@ -764,7 +763,7 @@
                               },
                               "href": {
                                 "type": "string",
-                                "pattern": "^https?:\\/\\/"
+                                "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                               }
                             },
                             "required": [
@@ -785,7 +784,7 @@
                     "properties": {
                       "github": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       },
                       "githubLabel": {
                         "type": "string"
@@ -1149,7 +1148,7 @@
                               },
                               "href": {
                                 "type": "string",
-                                "pattern": "^https?:\\/\\/"
+                                "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                               }
                             },
                             "required": [
@@ -1221,7 +1220,7 @@
                         },
                         "spec": {
                           "type": "string",
-                          "pattern": "^https?:\\/\\/"
+                          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                         }
                       },
                       "required": [
@@ -1236,15 +1235,15 @@
                     "properties": {
                       "repo": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       },
                       "terraform": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       },
                       "specs": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       }
                     },
                     "required": [
@@ -1488,11 +1487,11 @@
                         },
                         "repo": {
                           "type": "string",
-                          "pattern": "^https?:\\/\\/"
+                          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                         },
                         "playUrl": {
                           "type": "string",
-                          "pattern": "^https?:\\/\\/"
+                          "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                         }
                       },
                       "required": [
@@ -1859,7 +1858,7 @@
                               },
                               "href": {
                                 "type": "string",
-                                "pattern": "^https?:\\/\\/"
+                                "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                               }
                             },
                             "required": [
@@ -1902,15 +1901,15 @@
                     "properties": {
                       "repo": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       },
                       "pypi": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       },
                       "docs": {
                         "type": "string",
-                        "pattern": "^https?:\\/\\/"
+                        "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
                       }
                     },
                     "required": [
