@@ -1,15 +1,5 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { configure } from '@testing-library/dom';
-import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
-
-// vitest 5 gave Assertion a second type parameter, which the jest-dom
-// augmentation does not match; re-declare it so the matchers type-check.
-declare module 'vitest' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  interface Assertion<R extends void | Promise<void> = void, T = unknown>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    extends TestingLibraryMatchers<any, T> {}
-}
 
 // T-PC2-R2-09 (AC-PC2-R2-08, deflake): LanguageProvider blocks render until its
 // dynamic locale import resolves. Under full-suite parallelism that import can
