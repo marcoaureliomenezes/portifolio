@@ -20,10 +20,8 @@ sources:
   - frontend/src/lib/contentAssets.test.ts
   - frontend/src/lib/homeParity.test.ts
   - frontend/src/lib/resumeContent.test.ts
-  - frontend/public/assets/projects/**
+  - frontend/public/assets/**
   - frontend/public/images/**
-  - frontend/public/decorators/**
-  - frontend/public/lovable-uploads/**
 ---
 
 ## What it does
@@ -46,20 +44,23 @@ asset they point to. A break fails `verify`.
   published `v1.json` holds it: `header.viewEmail`, `education.location` and each
   certification's `icon` stay because the schema requires them, and the optional
   `projectsV2.index.kindLabels` stays for the schema's outside readers; the site reads none of
-  the four. `profile` is
-  required in both the schema and the type; `siteChrome`, `heroStatsSuffix` (`years`, `certs`)
-  and the home labels are required in the type and pass the schema as tolerated label keys.
+  the four. `siteChrome.blog.tagsLabel` is carried and checked for parity, and no module reads
+  it. `profile` is required in both the schema and the type; `siteChrome`, `heroStatsSuffix`
+  (`years`, `certs`) and the home labels, `seeAllProjects` included, are required in the type
+  and pass the schema as tolerated label keys.
 - Every link field is `HttpUrl` (`^https?://`), so no `javascript:` or `data:` link reaches an
-  `<a href>`; `cvUrl` is a same-origin path. Unknown top-level label keys are tolerated; unknown keys inside
-  a structured object are stripped, never refused.
+  `<a href>`. `SiteRelativeUrl` in `projects.ts` is the one site-relative rule: a path that
+  starts with one `/` not followed by `/`, `\`, whitespace or a control character; `cvUrl` is
+  one, and a post's links are held to the same rule ([[blog]]). Unknown top-level label keys are
+  tolerated; unknown keys inside a structured object are stripped, never refused.
 - `public/content/schema/v1.json` is the JSON Schema export of the contract in input mode
   (`npm run schema:export`); a unit test fails when the committed file differs from a fresh
   export, or when it closes an object with `additionalProperties: false`.
 - A unit test parses `pt.json`, `en.json` and `de.json` against the full contract inside
   `test:run`, so `verify` fails on a malformed locale file.
 - `check:i18n-projects` (in `verify`) checks that the three locales carry the same project keys,
-  the same media `alt` and `caption` presence, every `siteChrome` key (the footer's included)
-  and every home label (`earlierLabel`, `detailsOpen`, `detailsClose`, `storyOpen`,
+  the same media `alt` and `caption` presence, every `siteChrome` key (the footer's, the Blog nav
+  label and the blog pages' strings included) and every home label (`earlierLabel`, `detailsOpen`, `detailsClose`, `storyOpen`,
   `storyClose`, `impactLabel`, `seeAllProjects`), non-blank; `CONTENT_DIR` points it at another
   folder, and a unit test runs it on a copy missing one key.
 - A unit test holds the resume data of each locale: the `main` and `minor` experiences by
@@ -67,17 +68,15 @@ asset they point to. A break fails `verify`.
   order, the home keys present and no unread label key at any depth.
 - `src/lib/contentAssets.test.ts` (in `test:run`) holds the asset rules: every `/assets` path a
   production module, `index.html` or a content file names exists under `public/`; every file
-  under `public/assets/projects/` is referenced by a content file; the two library items' media
-  list, read from the content's own URLs, holds 32 files; each is named
-  `<scene>-<first 8 hex of its sha256>.<ext>`; webm at most 300 KB, mp4 400 KB, poster 60 KB,
-  SVG 50 KB; mp4 runs 8 to 12 s; no video has an audio track; each cut has its pixel size; an
-  SVG's `viewBox` is at most 360 wide with every `font-size` at least 12, and an animated SVG
-  carries a `prefers-reduced-motion: reduce` rule.
-
-- Static files under `public/` outside the asset rules: each certification's `icon` names a
-  file under `public/images/` (9 of its 15 files), which the site does not render; the other 6
-  images, the two SVGs in `public/decorators/` and the three PNGs in `public/lovable-uploads/`
-  have no reader in code, content or tests.
+  under `public/assets/projects/` is referenced by a content file; every file under
+  `public/assets/` is named `<name>-<first 8 hex of its sha256>.<ext>` (webm, mp4, webp, svg or
+  png), so deploy may cache it as immutable; the two library items' media list, read from the
+  content's own URLs, holds 32 files: webm at most 300 KB, mp4 400 KB, poster 60 KB, SVG 50 KB;
+  mp4 runs 8 to 12 s; no video has an audio track; each cut has its pixel size; an SVG's
+  `viewBox` is at most 360 wide with every `font-size` at least 12, and an animated SVG carries a
+  `prefers-reduced-motion: reduce` rule.
+- Each certification's non-empty `icon` names one of the 9 files under `public/images/`, and
+  every one of those files is named; the site renders none of them.
 
 ## Boundaries
 
