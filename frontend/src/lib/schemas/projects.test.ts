@@ -323,13 +323,26 @@ const parseSection = (section: object) =>
 
 describe("project section media, code and href", () => {
   it("keeps a video media with both cuts", () => {
-    const r = parseSection({ media: videoMedia });
-    expect(r.success && r.data.sections[0].media).toEqual(videoMedia);
+    const r = parseSection({ media: [videoMedia] });
+    expect(r.success && r.data.sections[0].media).toEqual([videoMedia]);
   });
 
   it("keeps an svg media with its light/dark pair", () => {
-    const r = parseSection({ media: svgMedia });
-    expect(r.success && r.data.sections[0].media).toEqual(svgMedia);
+    const r = parseSection({ media: [svgMedia] });
+    expect(r.success && r.data.sections[0].media).toEqual([svgMedia]);
+  });
+
+  it("keeps a list of media in order, in a section and in the hero", () => {
+    const media = [videoMedia, svgMedia];
+    const section = parseSection({ media });
+    expect(section.success && section.data.sections[0].media).toEqual(media);
+    const hero = CaseStudyProjectSchema.safeParse({ ...validCaseStudy, hero: { ...validCaseStudy.hero, media } });
+    expect(hero.success && hero.data.hero.media).toEqual(media);
+  });
+
+  it.each([["video", videoMedia], ["svg", svgMedia]])("refuses a bare %s object, in a section and in the hero", (_n, media) => {
+    expect(parseSection({ media }).success).toBe(false);
+    expect(CaseStudyProjectSchema.safeParse({ ...validCaseStudy, hero: { ...validCaseStudy.hero, media } }).success).toBe(false);
   });
 
   it("keeps code and an item href", () => {
@@ -342,9 +355,9 @@ describe("project section media, code and href", () => {
   it("keeps hero.media", () => {
     const r = CaseStudyProjectSchema.safeParse({
       ...validCaseStudy,
-      hero: { ...validCaseStudy.hero, media: videoMedia },
+      hero: { ...validCaseStudy.hero, media: [videoMedia] },
     });
-    expect(r.success && r.data.hero.media).toEqual(videoMedia);
+    expect(r.success && r.data.hero.media).toEqual([videoMedia]);
   });
 
   it.each([
@@ -355,7 +368,7 @@ describe("project section media, code and href", () => {
     ["a media without alt", { ...svgMedia, alt: undefined }],
     ["an unknown media type", { ...svgMedia, type: "gif" }],
   ])("rejects %s", (_name, media) => {
-    expect(parseSection({ media }).success).toBe(false);
+    expect(parseSection({ media: [media] }).success).toBe(false);
   });
 });
 

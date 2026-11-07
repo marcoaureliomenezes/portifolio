@@ -120,8 +120,27 @@ describe("content schema export (site-content.schema.json)", () => {
     const projects: Node[] = contract.properties.projectsV2.properties.list.items.oneOf;
     const withSections = projects.find((p) => p.properties.sections);
     const media = withSections?.properties.sections.items.properties.media;
-    const variants = media?.oneOf.map((v) => v.properties.type.const).sort();
+    const variants = media?.items.oneOf.map((v) => v.properties.type.const).sort();
     expect(variants).toEqual(["svg", "video"]);
+  });
+
+  it("puts every oneOf directly under an items, each branch holding a const", () => {
+    const stray: string[] = [];
+    const walk = (node: unknown, path: string, parent: string) => {
+      if (node === null || typeof node !== "object") return;
+      for (const [k, v] of Object.entries(node)) {
+        if (k === "oneOf" && Array.isArray(v)) {
+          if (parent !== "items") stray.push(`${path}.oneOf`);
+          for (const [i, branch] of v.entries()) {
+            const props = Object.values((branch as { properties?: Record<string, object> }).properties ?? {});
+            if (!props.some((p) => "const" in p)) stray.push(`${path}.oneOf[${i}]`);
+          }
+        }
+        walk(v, `${path}.${k}`, k);
+      }
+    };
+    walk(contract, "$", "");
+    expect(stray).toEqual([]);
   });
 });
 
