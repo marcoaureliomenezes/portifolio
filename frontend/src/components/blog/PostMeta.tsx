@@ -3,7 +3,7 @@ import { useContent } from "@/hooks/useContent";
 import type { BlogPost } from "@/lib/blogIndex";
 
 export function PostMeta({ post }: { post: BlogPost }) {
-  const { language } = useContent();
+  const { language, content } = useContent();
   const date = new Intl.DateTimeFormat(language, { dateStyle: "long", timeZone: "UTC" }).format(
     new Date(`${post.date}T00:00:00Z`),
   );
@@ -13,6 +13,7 @@ export function PostMeta({ post }: { post: BlogPost }) {
       <span lang={post.lang} className="rounded border px-1.5 text-xs">
         {post.lang.toUpperCase()}
       </span>
+      {post.tags.length > 0 && <span>{content.siteChrome.blog.tagsLabel}</span>}
       {post.tags.map((tag) => (
         <Link key={tag} to={`/blog?tag=${encodeURIComponent(tag)}`} className="hover:underline">
           {tag}
