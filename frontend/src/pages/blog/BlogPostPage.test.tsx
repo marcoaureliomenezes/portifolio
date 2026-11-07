@@ -164,4 +164,39 @@ describe("BlogPostPage", () => {
     expect(screen.queryByText("404")).toBeNull();
     expect(screen.queryByRole("article")).toBeNull();
   });
+
+  describe("the document head", () => {
+    function primeHead() {
+      document.title = "Site title";
+      let meta = document.querySelector('meta[name="description"]');
+      if (!meta) {
+        meta = document.createElement("meta");
+        meta.setAttribute("name", "description");
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute("content", "Site description");
+    }
+    const description = () => document.querySelector('meta[name="description"]')!.getAttribute("content");
+
+    it("an unknown slug leaves the title and description as they were", async () => {
+      serveBlog();
+      primeHead();
+      renderAt("/blog/no-such-post");
+      expect((await screen.findByRole("heading", { level: 1 })).textContent).toBe("404");
+      expect(document.title).toBe("Site title");
+      expect(description()).toBe("Site description");
+    });
+
+    it("while the index is pending the title and description stay as they were", async () => {
+      const base = globalThis.fetch;
+      vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+        input === "/blog/index.json" ? new Promise<Response>(() => undefined) : base(input, init),
+      );
+      primeHead();
+      renderAt("/blog/newer-post");
+      await screen.findByText("header");
+      expect(document.title).toBe("Site title");
+      expect(description()).toBe("Site description");
+    });
+  });
 });
