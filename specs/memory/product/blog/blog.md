@@ -75,7 +75,8 @@ pages get their own served heads from the same build.
   `/blog/index.json` (no-cache), and a failed fetch reads as no post. The index lists every
   published post newest first in every locale: the title linked to the post, the description,
   the date in the visitor's locale (`Intl.DateTimeFormat`), the post's `lang` code uppercased in
-  an element carrying that `lang`, and its tags. `/blog?tag=x` lists only the posts tagged `x`
+  an element carrying that `lang`, and its tags after the locale's `siteChrome.blog.tagsLabel`
+  (no label when it has none). `/blog?tag=x` lists only the posts tagged `x`
   (none for an unknown tag) with a link back to `/blog`; every tag links to its filter. The
   empty index shows the locale's `siteChrome.blog.empty` text.
 - `/blog/:slug` shows a back link, the title, the same meta line and the body from

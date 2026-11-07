@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T15:09:12Z",
+  "generated_at": "2026-11-07T15:16:02Z",
   "features": [
     {
       "rank": 1,
@@ -14,7 +14,7 @@
         "content",
         "seo"
       ],
-      "token_estimate": 1106,
+      "token_estimate": 1119,
       "depends_on": [
         "content-contract",
         "site-chrome",
@@ -50,7 +50,7 @@
         "i18n",
         "assets"
       ],
-      "token_estimate": 921,
+      "token_estimate": 905,
       "depends_on": [
         "blog",
         "scene-media",

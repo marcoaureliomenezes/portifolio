@@ -44,8 +44,7 @@ asset they point to. A break fails `verify`.
   published `v1.json` holds it: `header.viewEmail`, `education.location` and each
   certification's `icon` stay because the schema requires them, and the optional
   `projectsV2.index.kindLabels` stays for the schema's outside readers; the site reads none of
-  the four. `siteChrome.blog.tagsLabel` is carried and checked for parity, and no module reads
-  it. `profile` is required in both the schema and the type; `siteChrome`, `heroStatsSuffix`
+  the four. `profile` is required in both the schema and the type; `siteChrome`, `heroStatsSuffix`
   (`years`, `certs`) and the home labels, `seeAllProjects` included, are required in the type
   and pass the schema as tolerated label keys.
 - Every link field is `HttpUrl` (`^https?://`), so no `javascript:` or `data:` link reaches an
