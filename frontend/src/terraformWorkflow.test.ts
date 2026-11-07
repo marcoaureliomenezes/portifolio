@@ -23,5 +23,7 @@ describe("terraform workflow: one dispatched apply on the infra role", () => {
     const apply = lines.findIndex((l) => /^\s*-?\s*(run:\s*)?terraform apply\b/.test(l));
     expect(guard).toBeGreaterThan(-1);
     expect(apply).toBeGreaterThan(guard);
+    expect(lines[guard]).toContain("terraform show -json tfplan |");
+    expect(lines[apply].trim()).toBe("run: terraform apply tfplan");
   });
 });
