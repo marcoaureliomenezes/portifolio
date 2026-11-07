@@ -118,7 +118,7 @@ const ProjectBaseSchema = z.object({
   card: ProjectCardSchema,
   seo: ProjectSeoSchema,
   diagram: z.string().optional(),
-  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. */
+  /** Dark-mode diagram; falls back to `diagram` when absent. */
   diagramDark: z.string().optional(),
   diagramAlt: z.string().optional(),
 });
@@ -150,7 +150,7 @@ export const GamesProjectSchema = ProjectBaseSchema.extend({
   items: z.array(GameLinkSchema).min(1),
 });
 
-/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
+/** Open-source library published on a package registry. */
 export const LibraryProjectSchema = ProjectBaseSchema.extend({
   kind: z.literal("library"),
   sections: z.array(ProjectSectionDataSchema).min(1),
