@@ -1,5 +1,5 @@
 /**
- * blog-posts.mjs — the post reader (PLAN §2.2, J4.T2).
+ * blog-posts.mjs — the post reader.
  *
  * The one decider of "published": every post folder is validated, drafts
  * included, then drafts are dropped. Imports zod and node built-ins only, so the
