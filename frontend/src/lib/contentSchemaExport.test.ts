@@ -1,24 +1,66 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 // @ts-expect-error plain ESM contract, no declaration file
 import { CertificationSchema, ContentDataSchema, EducationSchema, ProfileSchema } from "../../scripts/content-schema.mjs";
 
 const root = resolve(__dirname, "../..");
-const artifact = JSON.parse(
-  readFileSync(resolve(root, "public/content/schema/v1.json"), "utf-8"),
+const schemaFile = resolve(root, "public/schema/site-content.schema.json");
+// an absent file fails the cases that read it, not the whole module
+const contract = existsSync(schemaFile) ? JSON.parse(readFileSync(schemaFile, "utf-8")) : {};
+const locales = ["pt", "en", "de"].map((l) =>
+  JSON.parse(readFileSync(resolve(root, `public/content/${l}.json`), "utf-8")),
 );
-const contract = artifact.definitions.PortfolioContentV1;
 
-describe("content schema export (v1.json)", () => {
-  it("carries the content contract's top-level properties", () => {
-    expect(Object.keys(contract.properties)).toEqual(
-      expect.arrayContaining(["schema_version", "profile", "experiences", "projectsV2"]),
-    );
-    expect(contract.required).toEqual(
-      expect.arrayContaining(["schema_version", "profile", "experiences", "projectsV2"]),
-    );
+// Required by src/types/content.ts, plus three the type marks optional but the contract requires.
+const requiredByType = [
+  "profile", "resumeTitle", "skillsTitle", "experienceTitle", "educationTitle", "certificationsTitle",
+  "responsibilities", "technologies", "gamesComingSoon", "gamesComingSoonDesc", "notFoundMessage",
+  "returnHome", "heroStatsSuffix", "seeAllProjects", "earlierLabel", "detailsOpen", "detailsClose",
+  "storyOpen", "storyClose", "impactLabel", "header", "resume", "skills", "experiences", "education",
+  "certifications", "siteChrome",
+];
+const requiredByContract = [
+  "schema_version", // the contract version stamp; fixtures omit it, the published contract does not
+  "published_at", // the publish stamp the sync checks
+  "projectsV2", // the projects cluster; the page renders from it
+];
+
+describe("content schema export (site-content.schema.json)", () => {
+  it("is a 2020-12 root schema with no wrapper", () => {
+    expect(contract.$schema).toBe("https://json-schema.org/draft/2020-12/schema");
+    expect(JSON.stringify(contract)).not.toContain('"$ref"');
+    expect(contract).not.toHaveProperty("definitions");
+  });
+
+  it("declares the union of the locales' top-level keys", () => {
+    const union = [...new Set(locales.flatMap((d) => Object.keys(d)))].sort();
+    expect(union).toHaveLength(35);
+    expect(Object.keys(contract.properties).sort()).toEqual(union);
+  });
+
+  it("requires exactly the type's required keys plus the contract's three", () => {
+    expect([...contract.required].sort()).toEqual([...requiredByType, ...requiredByContract].sort());
+  });
+
+  it("maps to Studio: valid keys, no anyOf, no kindLabels", () => {
+    const keys: string[] = [];
+    const anyOf: string[] = [];
+    const walk = (node: unknown, path: string) => {
+      if (node === null || typeof node !== "object") return;
+      const rec = node as Record<string, unknown>;
+      if ("anyOf" in rec) anyOf.push(path);
+      if (rec.properties && typeof rec.properties === "object") {
+        for (const k of Object.keys(rec.properties)) keys.push(`${path}/${k}`);
+      }
+      for (const [k, v] of Object.entries(node)) walk(v, `${path}/${k}`);
+    };
+    walk(contract, "");
+    expect(keys.length).toBeGreaterThan(0);
+    expect(keys.filter((k) => !/^[A-Za-z_][A-Za-z0-9_]*$/.test(k.split("/").pop() ?? ""))).toEqual([]);
+    expect(anyOf).toEqual([]);
+    expect(keys.filter((k) => k.endsWith("/kindLabels") || k.includes("/kindLabels/"))).toEqual([]);
   });
 
   it("carries a nested required field", () => {
@@ -45,7 +87,7 @@ describe("content schema export (v1.json)", () => {
   });
 
   it("exports the http(s) constraint on profile links", () => {
-    expect(contract.properties.profile.properties.githubUrl.pattern).toBe("^https?:\\/\\/");
+    expect(contract.properties.profile.properties.githubUrl.pattern).toBe("^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$");
   });
 
   it("keeps certification, thesis and cv links off script schemes", () => {
