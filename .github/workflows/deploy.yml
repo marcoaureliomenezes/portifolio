@@ -90,7 +90,6 @@ jobs:
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
-            --exclude "content/*" \
             --exclude "schema/*" \
             --cache-control "no-cache"
 
@@ -158,7 +157,6 @@ jobs:
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
-            --exclude "content/*" \
             --exclude "schema/*" \
             --cache-control "no-cache"
 
