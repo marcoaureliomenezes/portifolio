@@ -310,6 +310,12 @@
       "candidate": "rc-4",
       "milestone": "implemented",
       "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-07T15:10:21Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-4 Jobs 1-7 merged on the wt-rc (CLOSURE at 0c30205): FR1 deploy syncs dist/assets/** with the immutable cache and every other file no-cache, and uploads each prerendered route as an extensionless no-cache HTML object in both deploy jobs, with no Terraform or IAM change, the six plain-named SVGs under public/assets renamed to hash names and the hash-name rule held over every file under public/assets; FR2 the post contract (one folder per post, zod-checked front matter, drafts unpublished) and build-blog.mjs after vite build, marked a devDependency, raw HTML escaped, link targets limited to http(s), SiteRelativeUrl and # anchors, image and clip rules with read sizes and posters; FR3 each post's and each of the 4 project pages' own served head, the root head with the default share image and the RSS link; FR4 /blog and /blog/:slug with language tags and the tag filter; FR5 blog/rss.xml and the 1200x630 share image; FR6 the Blog link behind a build-time flag read from the post reader, absent on the committed content: the Blog link waits for the operator's first post; FR7 seeAllProjects required, the hero one-column selector widened, the 19 files and folders with no reader deleted with the Makefile server targets, PROSE the one 680 px cap, the README structure line; the cvUrl hotfix synced from the work branch makes SiteRelativeUrl the one site-relative rule, read by cvUrl and the blog link rule; six blog bugs found and fixed inside the rc (blog-link-rule-admits-protocol-relative-redirects, blog-media-rule-has-two-copies-and-admits-markdown, post-page-blanks-the-head-before-the-post-resolves, blog-default-image-read-skips-the-exactly-once-rule, blog-media-poster-test-spawns-three-builds-and-times-out, blog-link-errors-carry-the-marked-report-suffix), 0 open; AC1.1 and AC1.2 stage evidence is collected after the rc PR merges into develop; memory: blog added, local-servers deleted, content-contract, deploy-infrastructure, site-chrome, legacy-specs, e2e-suite and resume-home reconciled, the README blog note; carried: none; backlog exits: blog-v1 (delivered)"
     }
   ]
 }
