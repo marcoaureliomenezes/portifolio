@@ -98,6 +98,7 @@ describe("BlogIndexPage", () => {
     expect(link.getAttribute("href")).toBe("/blog/newer-post");
     const item = link.closest("li, article") as HTMLElement;
     expect(within(item).getByText("About the newer thing")).toBeTruthy();
+    expect(within(item).getByText("Tags")).toBeTruthy();
     expect(within(item).getByRole("link", { name: "notes" }).getAttribute("href")).toBe("/blog?tag=notes");
     expect(within(item).getByRole("link", { name: "python" }).getAttribute("href")).toBe("/blog?tag=python");
     expect(within(item).getByText("PT").getAttribute("lang")).toBe("pt");
