@@ -24,7 +24,7 @@
 | `blog-link-errors-carry-the-marked-report-suffix` | `e7c1c63` | the build calls marked's unwrapped lexer and parser | one call is replaced, net 0 | KEEP |
 | `blog-tags-label-unread` | `e48d354` | `PostMeta` renders `siteChrome.blog.tagsLabel` before the tag links | the fix adds one branch (`post.tags.length > 0`, `PostMeta.tsx:16`), and no test holds its empty partition. AC5.1 adds that partition. | KEEP |
 
-`8a9e766` is the only fix judged REBUILD, and its bug is already confirmed. `bugs.py stats`: 12 resolved and no REBUILD due.
+`8a9e766` is the only REBUILD; its bug is confirmed. `bugs.py stats`: 12 resolved and no REBUILD due.
 
 ## 1. Problem
 
@@ -96,6 +96,7 @@ Glossary:
 
 - The four confirmed bugs. They are fixed in hotfix lanes, not here (§5).
 - After the switch, heads and RSS read the repo JSON as a frozen seed. That edge belongs to the panel's 0.2.0 scope (point 11).
+- The panel's seed. A note for 0.2.0 rc-2: the seed carries every key AC3.5 declares, the 25 label keys included, or the sync fails the target.
 - A Sanity fetch in the build. A slug or SEO change still needs a commit and a deploy (agent default).
 - An https-only URL rule. Narrowing it is a product-contract change, and the operator kept http and https (point 7).
 - Re-reading the facts at a newer tag, or re-recording media. Both stay pinned to their tag (point 4).
@@ -137,14 +138,14 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 
 ### FR2 — the panel finds the site, and the deploy leaves content to the sync
 
-- **AC2.1** The module writes two SSM String parameters per environment in us-east-1, through its `aws.us_east_1` alias: `/static-sites/<site>/<env>/bucket` and `/static-sites/<site>/<env>/distribution-id`. `<env>` is the module's `environment` (`stage`, `prod`). The values come from the module's own bucket and distribution, and no value is typed or printed. Test: integration. For each environment, the plan the rebuilt `terraform.yml` dispatch prints shows the 2 parameter creates and the trust update of AC2.2, with 0 to destroy and 0 to replace. After the apply, the panel's read-only site-admin plan reads the 4 parameters (the panel's 0.2.0 AC4.1).
-- **AC2.2** Each deploy role trusts one subject, by `StringEquals`: the repo's issued `sub_claim_prefix` plus `:environment:stage` for the stage role, and plus `:environment:production` for the prod role. The `:*` wildcard and its `StringLike` are gone. Every workflow job that assumes either role declares that environment. Test: integration. The AC2.1 plan shows each trust updated in place. After the apply, the next stage deploy run is green, and the reviewer reads the subject against the issued prefix.
+- **AC2.1** The module writes two SSM String parameters per environment in us-east-1, through its `aws.us_east_1` alias: `/static-sites/<site>/<env>/bucket` and `/static-sites/<site>/<env>/distribution-id`. `<env>` is the module's `environment` (`stage`, `prod`). The values come from the module's own bucket and distribution, and no value is typed or printed. Test: integration. For each environment, the plan the rebuilt `terraform.yml` dispatch prints shows the 2 parameter creates and the trust update of AC2.2, with 0 to destroy and 0 to replace. After the apply, the panel's read-only site-admin plan reads the 4 parameters (its registry entry, 0.2.0 rc-2).
+- **AC2.2** Each deploy role trusts one subject, by `StringEquals`: the repo's issued `sub_claim_prefix` plus `:environment:stage` for the stage role, and plus `:environment:production` for the prod role. One module local maps the module's `prod` to GitHub's `production`; `stage` maps to itself. The `:*` wildcard and its `StringLike` are gone. Every workflow job that assumes either role declares that environment. Test: integration. The AC2.1 plan shows each trust updated in place. After the apply, the next stage deploy run is green, and the reviewer reads the subject against the issued prefix.
 - **AC2.3** In both deploy jobs (stage and prod):
   - neither sync writes or deletes `content/*` or `schema/*`;
   - one `aws s3 cp` writes the committed published schema (AC3.1) to the key `schema/site-content.schema.json`, with `Content-Type: application/json` and `Cache-Control: no-cache`;
   - the rc-4 cache rule and the route upload stay as they are.
 
-  The old `content/schema/v1.json` object stays in each bucket, since no reader needs it. Test: none local, because no AWS credential lives on a developer machine; the reviewer diffs the two copies. Stage check: `/schema/site-content.schema.json` answers 200 `application/json`, and its `$schema` is 2020-12. `/content/pt.json` still answers 200 with the last uploaded body.
+  The old `content/schema/v1.json` object stays in each bucket, unread. Test: none local (no AWS credential on a developer machine); the reviewer diffs the two copies. Stage check: `/schema/site-content.schema.json` answers 200 `application/json`, and its `$schema` is 2020-12. `/content/pt.json` still answers 200 with the last uploaded body.
 
 ### FR3 — the published schema: one contract that the site, the sync and the Studio read alike
 
@@ -174,13 +175,13 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 
 ### FR4 — version literals rendered from `pypi.version`
 
-- **AC4.1** A library project may carry `pypi.tagPrefix`, a string; when it is absent, the prefix is empty. In a section's `code` and in each item's `href`:
+- **AC4.1** A library project may carry `pypi.tagPrefix`, a string; when it is absent, the prefix is empty. In `pypi.installCommand`, a section's `code` and each item's `href`:
   - the template replaces `{version}` with `pypi.version`;
   - it replaces `{tag}` with `tagPrefix` + `pypi.version`.
 
-  An `href` holding a placeholder passes AC3.2's URL rule. Test: unit. A fixture with both placeholders renders the literal values.
+  Validation reads the raw content; substitution runs only at render. So a placeholder `href` passes AC3.2's URL rule as written: `{` and `}` are admitted in a URL's path and refused in its host. Test: unit. A fixture with both placeholders renders the literal values, and the URL-rule partitions accept `https://h.example/blob/{tag}/x` and refuse `https://{tag}.example/`.
 - **AC4.2** In each locale, each library project holds its version only in `pypi.version`. The Try-it pin and every facts-link tag read `{version}` or `{tag}`. Test: unit. Each library block's serialized JSON in each locale holds `pypi.version`'s value exactly once.
-- **AC4.3** At today's versions, the rendered pages are unchanged. The pin and the 8 facts links render today's literals, and `media/*/pin.txt` is byte-equal. Test: unit (render with the committed content, literals expected); the reviewer diffs `pin.txt`.
+- **AC4.3** At today's versions, the rendered pages are unchanged. The rendered install commands, the pin and the 8 facts links equal today's literals, and `media/*/pin.txt` is byte-equal. Every test of a rendered command or link asserts the rendered value, never the raw content: the second library page's E2E install-command compare (`tests/e2e/projects-cluster/`) moves to it under a named ruling. Test: unit (render with the committed content, literals expected); the reviewer diffs `pin.txt`.
 
 ### FR5 — rows carried from rc-4
 
@@ -202,6 +203,7 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 - `.catchall` on the content root, and with it the tolerance of unknown top-level keys (AC3.5).
 - The 9 hand-typed version literals per locale outside `pypi.version`: one Try-it pin and 8 facts-link tags (AC4.2).
 - Each deploy role's `:*` trust wildcard (AC2.2).
+- Two rc-4 statements, broken on purpose: `rc-4/SPEC.md:269`, "`v1.json` stays byte-equal" (AC3.1); and `:126-127`, AC1.2's one upload rule for every file, which gains the `content/*` and `schema/*` exclusions and the schema `cp` (AC2.3).
 
 ### Closure
 
@@ -223,16 +225,21 @@ Test levels are rc-4's. A stage check runs after the rc PR merges into develop.
 - `post-body-heading-renders-a-second-h1`;
 - `e2e-language-switch-races-the-locale-load`.
 
-None of their fixes is an rc-5 AC. **The dependency:** rc-5's Terraform (AC2.1, AC2.2) applies only through the rebuilt `terraform.yml`, a `workflow_dispatch` apply per environment that assumes the panel's apply role for this repo. That role exists once the operator applies the panel's bootstrap plan. The `infra` GitHub environment named in its subject must exist before the first dispatch.
+None of their fixes is an rc-5 AC. **The dependency:** rc-5's Terraform (AC2.1, AC2.2) applies only through the rebuilt `terraform.yml`, a `workflow_dispatch` apply per environment under the `infra` GitHub environment, assuming the panel's apply role for this repo. Operator ruling on 0.2.0, "FR4 vai para o rc-2 (Recommended)": that role, the registry entry and the portfolio E2Es move to the panel's 0.2.0 rc-2. Gate G is met in this order:
+
+1. this rc-5 merges;
+2. the panel's rc-2 lands the role;
+3. the operator applies the panel's bootstrap and sets the `infra` environment's role-ARN secret, an operator act at that apply;
+4. the rebuilt `terraform.yml` applies rc-5's Terraform.
 
 | risk | answer |
 |---|---|
 | The SSM parameters, the trust and the deploy change reach AWS before the panel's registry entry needs them. | Order of point (10): rc-5 promotes and deploys to prod first. Then the panel's Studio build reads the published schema from the prod bucket. Then seed as draft → prod deploy → publish. |
 | Between the rc-5 promote and the switch, an edit to the repo JSON no longer reaches the site, because the deploy stops uploading `content/*`. | Accepted by the switch ruling. The switch follows rc-5's promote. |
-| Narrowing the trust breaks a job that assumes a role without declaring an environment. | Every `configure-aws-credentials` use in `deploy.yml` and `terraform.yml` declares one (as-is grep: 7 uses, 7 `environment:` lines). The reviewer re-greps after the hotfix lane rebuilds `terraform.yml`. The module's `prod` maps to GitHub's `production` through one local. |
+| Narrowing the trust breaks a job that assumes a role without declaring an environment. | Every `configure-aws-credentials` use in `deploy.yml` and `terraform.yml` declares one (as-is grep: 7 uses, 7 `environment:` lines). The reviewer re-greps after the hotfix lane rebuilds `terraform.yml`. |
 | A major bump changes behaviour: vitest 5 on the jsdom/vite 7 setup, the router v7 future flags, Lighthouse 0.16. | Each major is its own task under `verify:`. The router keeps its imports, all re-exported by v7. AC1.2's Lighthouse run is cited. |
 | The FR3 rebuild moves pinned asserts in `contentSchemaExport.test.ts`: `:10`/`:12` (path and wrapper), `:48` (the pattern literal), and `:76-83` (the media `oneOf` location, if AC3.4 moves it). | Each move is a product-contract change the operator confirmed (points 2, 7, 8). The main thread names the ruling in each `test(` commit. The assert's partition is kept, never loosened. |
-| A placeholder `href` fails a too-strict URL rule, or a strict rule refuses committed content. | AC4.1 requires placeholders to pass. The locale-parse test runs both rules on the committed content. |
+| A strict URL rule refuses committed content. | The locale-parse test runs the rules on the raw committed content, placeholders included (AC4.1). |
 | `WT merge` refuses an implementation commit that touches the repo's `tests:` globs. | Every task touching a test is a `test(` commit in its own tree. |
 
 ## 6. Open questions
