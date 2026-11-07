@@ -62,7 +62,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
           testIds={{ code: "install-command", button: "copy-install" }}
         />
       </header>
-      {hero.media && <Media media={hero.media} />}
+      {hero.media?.map((m, i) => <Media key={i} media={m} />)}
       {scenes.length > 0 && (
         <section aria-labelledby={`${slug}-how-heading`} className="space-y-10">
           <h2 id={`${slug}-how-heading`} className="text-label text-muted-foreground">
@@ -85,7 +85,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
                   </p>
                 )}
               </div>
-              {media && <Media media={media} />}
+              {media?.map((m, i) => <Media key={i} media={m} />)}
             </section>
           ))}
         </section>

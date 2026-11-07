@@ -63,7 +63,7 @@ export const MediaSchema = z.discriminatedUnion("type", [
 const ProjectHeroSchema = z.object({
   title: z.string().min(1),
   tagline: z.string().min(1),
-  media: MediaSchema.optional(),
+  media: z.array(MediaSchema).optional(),
 });
 
 const ProjectSectionItemSchema = z.object({
@@ -76,7 +76,7 @@ export const ProjectSectionDataSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   body: z.string().optional(),
-  media: MediaSchema.optional(),
+  media: z.array(MediaSchema).optional(),
   code: z.string().optional(),
   items: z.array(ProjectSectionItemSchema).optional(),
 });

@@ -233,6 +233,25 @@ function checkOptionalParity(objects, optionalKeys, locales, path) {
 }
 
 /**
+ * Optional-key parity of each `media` list item, index by index.
+ *
+ * @param {Array<Record<string, unknown> | undefined>} owners - The hero or section per locale.
+ * @param {Set<string>} optionalKeys
+ * @param {string[]} locales
+ * @param {string} path - The owner's path.
+ * @returns {string[]} errors
+ */
+function checkMediaListParity(owners, optionalKeys, locales, path) {
+  const lists = owners.map((o) => (isPlainObject(o) && Array.isArray(o.media) ? o.media : []));
+  const errors = [];
+  for (let mi = 0; mi < Math.max(...lists.map((l) => l.length)); mi++) {
+    const items = lists.map((l) => (isPlainObject(l[mi]) ? l[mi] : undefined));
+    errors.push(...checkOptionalParity(items, optionalKeys, locales, `${path}.media[${mi}]`).errors);
+  }
+  return errors;
+}
+
+/**
  * Check i18n parity for a project item across locales.
  *
  * @param {unknown[]} projectsByLocale
@@ -256,8 +275,7 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
   errors.push(...checkObjectParity(seos, SEO_I18N_KEYS, locales, `${basePath}.seo`).errors);
 
   // hero.media — optional alt, present in all locales or in none
-  const heroMedia = heroes.map((h) => (isPlainObject(h) && isPlainObject(h.media) ? h.media : undefined));
-  errors.push(...checkOptionalParity(heroMedia, HERO_MEDIA_I18N_OPTIONAL_KEYS, locales, `${basePath}.hero.media`).errors);
+  errors.push(...checkMediaListParity(heroes, HERO_MEDIA_I18N_OPTIONAL_KEYS, locales, `${basePath}.hero`));
 
   // diagramAlt — optional string; if any locale has it, all must
   const diagramAlts = projectsByLocale.map((p) =>
@@ -296,8 +314,7 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
       // Optional keys (body)
       errors.push(...checkOptionalParity(secObjs, SECTION_I18N_OPTIONAL_KEYS, locales, secPath).errors);
       // Optional media keys (alt, caption)
-      const secMedia = secObjs.map((s) => (isPlainObject(s) && isPlainObject(s.media) ? s.media : undefined));
-      errors.push(...checkOptionalParity(secMedia, SECTION_MEDIA_I18N_OPTIONAL_KEYS, locales, `${secPath}.media`).errors);
+      errors.push(...checkMediaListParity(secObjs, SECTION_MEDIA_I18N_OPTIONAL_KEYS, locales, secPath));
     }
   }
 

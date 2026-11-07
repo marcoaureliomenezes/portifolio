@@ -553,25 +553,27 @@
         "hero": {
           "title": "dadaia-workspace",
           "tagline": "A local-first, spec-driven workspace that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries.",
-          "media": {
-            "type": "video",
-            "alt": "A terminal runs dadaia-workspace init for a directory named demo with the claude harness and prints Harness: claude. Listing demo shows .agents, AGENTS.md, .claude and .dadaia. Running doctor in demo prints exit 0.",
-            "caption": "One command makes a workspace, and doctor exits 0.",
-            "desktop": {
-              "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
-              "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
-              "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
-              "width": 1280,
-              "height": 720
-            },
-            "phone": {
-              "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
-              "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
-              "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
-              "width": 720,
-              "height": 900
+          "media": [
+            {
+              "type": "video",
+              "alt": "A terminal runs dadaia-workspace init for a directory named demo with the claude harness and prints Harness: claude. Listing demo shows .agents, AGENTS.md, .claude and .dadaia. Running doctor in demo prints exit 0.",
+              "caption": "One command makes a workspace, and doctor exits 0.",
+              "desktop": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+                "width": 720,
+                "height": 900
+              }
             }
-          }
+          ]
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
@@ -598,49 +600,55 @@
             "id": "demand-to-merge",
             "title": "Demand to merge",
             "body": "A picked set goes through a grill, then SPEC, PLAN and TASKS. One task is reserved at a time and is checked off only after the reviewer's APPROVED, then closure merges feature into develop.",
-            "media": {
-              "type": "svg",
-              "alt": "Demand to merge: picked set, grill, SPEC PLAN TASKS, one reserved task at a time, checked only after APPROVED, then closure with the feature to develop merge",
-              "caption": "Each step waits for the one before it.",
-              "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
-              "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Demand to merge: picked set, grill, SPEC PLAN TASKS, one reserved task at a time, checked only after APPROVED, then closure with the feature to develop merge",
+                "caption": "Each step waits for the one before it.",
+                "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+                "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+              }
+            ]
           },
           {
             "id": "gate-refuses",
             "title": "The gate refuses",
             "body": "The pre-gate blocks a dadaia run outside the workspace venv. Its refusal names the blocked command and carries one fix line.",
-            "media": {
-              "type": "video",
-              "alt": "A terminal makes a workspace named w, then sends the pre-gate a Bash call for dadaia doctor. The gate prints a VENV GUARD refusal that names the blocked command, dadaia doctor, and one fix line, .dadaia/.venv/bin/dadaia doctor.",
-              "caption": "One blocked command, one fix line.",
-              "desktop": {
-                "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
-                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
-                "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
-                "width": 1280,
-                "height": 720
-              },
-              "phone": {
-                "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
-                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
-                "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
-                "width": 720,
-                "height": 900
+            "media": [
+              {
+                "type": "video",
+                "alt": "A terminal makes a workspace named w, then sends the pre-gate a Bash call for dadaia doctor. The gate prints a VENV GUARD refusal that names the blocked command, dadaia doctor, and one fix line, .dadaia/.venv/bin/dadaia doctor.",
+                "caption": "One blocked command, one fix line.",
+                "desktop": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+                  "width": 720,
+                  "height": 900
+                }
               }
-            }
+            ]
           },
           {
             "id": "six-harnesses",
             "title": "Six harnesses",
             "body": "The law in AGENTS.md is authored once and read by Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot. A harness differs only in serialization: event names, hook file and answer shape.",
-            "media": {
-              "type": "svg",
-              "alt": "One law, AGENTS.md, projected into six harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot.",
-              "caption": "One law, six harnesses.",
-              "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
-              "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "One law, AGENTS.md, projected into six harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot.",
+                "caption": "One law, six harnesses.",
+                "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+                "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+              }
+            ]
           },
           {
             "id": "try",
@@ -846,25 +854,27 @@
         "hero": {
           "title": "rand-engine",
           "tagline": "Synthetic data from a declarative spec, for batch and streaming.",
-          "media": {
-            "type": "video",
-            "alt": "A terminal runs one Python command. It builds a DataGenerator from a two-column spec, age as an integer from 18 to 80 and plan as free or pro, with seed 42 and 5 rows, and prints a table with the columns age and plan and 5 rows.",
-            "caption": "A spec in, a seeded DataFrame out.",
-            "desktop": {
-              "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
-              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
-              "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
-              "width": 1280,
-              "height": 720
-            },
-            "phone": {
-              "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
-              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
-              "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
-              "width": 720,
-              "height": 900
+          "media": [
+            {
+              "type": "video",
+              "alt": "A terminal runs one Python command. It builds a DataGenerator from a two-column spec, age as an integer from 18 to 80 and plan as free or pro, with seed 42 and 5 rows, and prints a table with the columns age and plan and 5 rows.",
+              "caption": "A spec in, a seeded DataFrame out.",
+              "desktop": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
+                "width": 720,
+                "height": 900
+              }
             }
-          }
+          ]
         },
         "card": {
           "cover": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
@@ -889,49 +899,55 @@
             "id": "related-tables",
             "title": "Related tables",
             "body": "Related tables share the parent's pk spec with the child's fk, so keys stay consistent. Here orders.customer_id is an fk to the customer_id pk of customers.",
-            "media": {
-              "type": "svg",
-              "alt": "Two tables. The customers table has customer_id, marked pk, and city, with rows 1 Rio, 2 Recife and 3 Rio. The orders table has order_id, marked pk, and customer_id, marked fk, with orders 1, 2 and 3 pointing at customers 2, 1 and 2.",
-              "caption": "orders.customer_id is a foreign key to customers.customer_id. The rows drawn are illustrative.",
-              "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
-              "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Two tables. The customers table has customer_id, marked pk, and city, with rows 1 Rio, 2 Recife and 3 Rio. The orders table has order_id, marked pk, and customer_id, marked fk, with orders 1, 2 and 3 pointing at customers 2, 1 and 2.",
+                "caption": "orders.customer_id is a foreign key to customers.customer_id. The rows drawn are illustrative.",
+                "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
+                "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
+              }
+            ]
           },
           {
             "id": "event-stream",
             "title": "Event streams",
             "body": "stream_dict yields an infinite generator of dicts, and the caller stops it. Its event_id is a pk that continues across microbatches, so its values never repeat.",
-            "media": {
-              "type": "svg",
-              "alt": "A generator built with DataGenerator(spec, seed=1).size(10).stream_dict() emits records one after another, with event_id 1, 2, 3 and 4, each beside a timestamp_created field, and a label says that it never ends.",
-              "caption": "Each record carries the next event_id, and the stream never ends.",
-              "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
-              "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "A generator built with DataGenerator(spec, seed=1).size(10).stream_dict() emits records one after another, with event_id 1, 2, 3 and 4, each beside a timestamp_created field, and a label says that it never ends.",
+                "caption": "Each record carries the next event_id, and the stream never ends.",
+                "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
+                "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
+              }
+            ]
           },
           {
             "id": "files-in-parts",
             "title": "Files in parts",
             "body": "Writing with numFiles above 1 saves a folder of part files instead of one file. The pk values never repeat between parts.",
-            "media": {
-              "type": "video",
-              "alt": "A terminal runs one Python command that writes 1000 rows of a pk column named id to a CSV file with numFiles set to 3. A second command lists the output folder, which holds three files named part_, an id and .csv.",
-              "caption": "One save, three part files.",
-              "desktop": {
-                "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
-                "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
-                "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
-                "width": 1280,
-                "height": 720
-              },
-              "phone": {
-                "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
-                "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
-                "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
-                "width": 720,
-                "height": 900
+            "media": [
+              {
+                "type": "video",
+                "alt": "A terminal runs one Python command that writes 1000 rows of a pk column named id to a CSV file with numFiles set to 3. A second command lists the output folder, which holds three files named part_, an id and .csv.",
+                "caption": "One save, three part files.",
+                "desktop": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
+                  "width": 720,
+                  "height": 900
+                }
               }
-            }
+            ]
           },
           {
             "id": "try",
