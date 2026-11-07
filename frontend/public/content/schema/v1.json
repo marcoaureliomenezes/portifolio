@@ -35,7 +35,7 @@
             },
             "cvUrl": {
               "type": "string",
-              "pattern": "^\\/(?![\\/\\\\])"
+              "pattern": "^\\/(?![\\\\/\\x00-\\x20\\x7f])"
             }
           },
           "required": [

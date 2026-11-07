@@ -15,6 +15,8 @@
 import { z } from "zod";
 
 export const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
+// eslint-disable-next-line no-control-regex -- the control range is the point
+export const SiteRelativeUrl = z.string().regex(/^\/(?![\\/\x00-\x20\x7f])/); // same-origin path: no //, /\, whitespace or control after the slash
 
 // ---------------------------------------------------------------------------
 // Shared sub-schemas
