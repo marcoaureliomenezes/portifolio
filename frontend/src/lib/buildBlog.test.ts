@@ -133,7 +133,7 @@ describe("build-blog link rule", () => {
     const run = build(postWith("bad-link", `[x](${href})`));
     expect(run.status).toBe(1);
     expect(run.stdout).toBe("");
-    expect(run.stderr).toContain(`bad-link: link: "${href}" is not http(s), site-relative or #`);
+    expect(run.stderr).toBe(`bad-link: link: "${href}" is not http(s), site-relative or #\n`);
   });
 });
 
@@ -213,6 +213,6 @@ describe("build-blog media", () => {
     const out = build(postWith("media-fail", body, files));
     expect(out.status).toBe(1);
     expect(out.stdout).toBe("");
-    expect(out.stderr).toContain(message);
+    expect(out.stderr).toBe(`${message}\n`);
   });
 });
