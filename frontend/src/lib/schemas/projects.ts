@@ -1,15 +1,12 @@
 /**
- * projects.ts — T-PC-A-02
+ * projects.ts
  *
  * Zod schemas for the projects-cluster-v1 content model.
- *
- * Constraints (from SPEC §5.5 / Architect HIGH-3):
- * - Zero z.any() — all shapes explicit.
- * - z.discriminatedUnion("kind", [...]) with 3 variants.
- * - sections / stack / costs / decisions are z.array(z.object({...})).min(1).
- * - This file is ONLY imported in frontend/src/hooks/useContent.ts (inside
- *   if(import.meta.env.DEV) guard).
- * Vite tree-shakes Zod from the production bundle (AC-PC-02).
+ * Inputs: none; each exported schema parses an unknown value (safeParse, parse).
+ * Output: the URL, email and media schemas, the four per-kind project schemas,
+ * ProjectSchema (a discriminated union on `kind`), ProjectsContentSchema, and
+ * their inferred types.
+ * Side effects: none; imports only zod.
  */
 
 import { z } from "zod";

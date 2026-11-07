@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 /**
- * export-content-schema.mjs — T-RD-11 (AC-RD-08)
+ * export-content-schema.mjs
  *
- * Exports the canonical content contract (scripts/content-schema.mjs) as
- * versioned JSON Schema at public/content/schema/v1.json. The external
- * admin-panel project consumes this artifact to render schema-driven forms —
- * it is the ONLY coupling between the two projects.
- *
- * Deterministic output (sorted, stable stringify) so CI can diff-check that
- * the committed artifact matches the schema source.
+ * Converts ContentDataSchema (scripts/content-schema.mjs) to JSON Schema 2020-12.
+ * Output: public/schema/site-content.schema.json, JSON.stringify(schema, null, 2)
+ * plus a trailing newline.
+ * Side effects: without --check, creates public/schema/ if needed and overwrites
+ * the file; with --check, writes nothing.
+ * Exits: with --check, 1 when the committed file is missing or differs from the
+ * generated text, else 0.
  *
  * Usage: node scripts/export-content-schema.mjs [--check]
- *   --check  exit 1 if the committed artifact differs (CI mode, no write)
  */
 
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from "node:fs";

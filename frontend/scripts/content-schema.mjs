@@ -1,15 +1,11 @@
 /**
- * content-schema.mjs — T-RD-11 (AC-RD-08)
+ * content-schema.mjs
  *
- * THE canonical machine contract for portfolio content (headless Phase 1).
- * Single-sourced here (plain ESM so Node can run it without a TS toolchain):
- *  - parsed against public/content/*.json by src/lib/contentSchemaExport.test.ts (inside verify)
- *  - exported as JSON Schema by scripts/export-content-schema.mjs — the
- *    versioned artifact (/content/schema/v1.json) the external admin-panel
- *    project renders its forms from.
- *
- * The projects sub-schema is imported from src/lib/schemas/projects.ts, its
- * one authority (Node type stripping loads it; it imports only zod).
+ * Zod schema of the portfolio content document (public/content/*.json):
+ * ContentDataSchema and the sub-schemas it composes.
+ * Inputs: none; each schema parses an unknown value (safeParse, parse).
+ * Side effects: none; imports zod and projects.ts (loaded by Node type stripping).
+ * Consumers: scripts/export-content-schema.mjs and src/lib/contentSchemaExport.test.ts.
  */
 
 import { z } from "zod";
