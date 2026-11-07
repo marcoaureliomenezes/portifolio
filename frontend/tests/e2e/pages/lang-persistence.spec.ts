@@ -9,6 +9,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 // Hero tagline strings (heroTagline field) used as per language-switch.spec.ts convention
 // portfolio-redesign-v1: the hero tagline is locale-INVARIANT (single approved
@@ -26,9 +27,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
     await expect(heroHeading).toBeVisible();
 
     // Switch to English
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     await expect(heroHeading).toContainText(TAGLINES.en);
 
     // Reload and assert persistence
@@ -42,16 +41,12 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
     const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-
     // Switch to English first
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     await expect(heroHeading).toContainText(TAGLINES.en);
 
     // Switch to Deutsch
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'Deutsch' }).click();
+    await switchLanguage(page, 'Deutsch');
     await expect(heroHeading).toContainText(TAGLINES.de);
 
     // Reload and assert persistence
@@ -66,9 +61,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
     const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     await expect(heroHeading).toContainText(TAGLINES.en);
 
     // Clear localStorage (simulates first-visit with no stored preference)
@@ -87,9 +80,7 @@ test.describe('Language persistence — T-FE-QUAL-07', () => {
     const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     await expect(heroHeading).toContainText(TAGLINES.en);
 
     // Verify localStorage was written

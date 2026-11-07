@@ -21,7 +21,8 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import { expandSeniorRole as sharedExpandSeniorRole, roleDetailsButton, switchLanguage as sharedSwitchLanguage } from '../fixtures/experience-helpers';
+import { expandSeniorRole as sharedExpandSeniorRole, roleDetailsButton } from '../fixtures/experience-helpers';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Locale-specific expected text for the highlight block
@@ -59,7 +60,6 @@ const LOCALE_HIGHLIGHT = [
 // ---------------------------------------------------------------------------
 // Helpers: thin wrappers over shared helpers (kept for signature compat)
 // ---------------------------------------------------------------------------
-const switchLanguage = sharedSwitchLanguage;
 const expandSeniorRole = (page: Page, seniorPattern: RegExp) =>
   sharedExpandSeniorRole(page, seniorPattern);
 

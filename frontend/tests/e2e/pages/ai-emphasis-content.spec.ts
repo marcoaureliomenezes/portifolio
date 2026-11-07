@@ -14,7 +14,8 @@
  */
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import { expandSeniorRole, switchLanguage as sharedSwitchLanguage } from '../fixtures/experience-helpers';
+import { expandSeniorRole } from '../fixtures/experience-helpers';
+import { switchLanguage } from '../fixtures/language';
 
 const LANGUAGES = [
   {
@@ -42,8 +43,6 @@ const LANGUAGES = [
     aiSkillSamples: ['Claude Code', 'Devin'],
   },
 ] as const;
-
-const switchLanguage = sharedSwitchLanguage;
 
 for (const lang of LANGUAGES) {
   test.describe(`AI-emphasis content — ${lang.key.toUpperCase()} — T-FE-WAVE5`, () => {

@@ -20,6 +20,7 @@
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 const projectsName: string = JSON.parse(
   readFileSync('public/content/pt.json', 'utf8'),
@@ -60,11 +61,9 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(heroHeading).toBeVisible();
 
     // First combobox is the language selector
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await expect(selectTrigger).toBeVisible();
-    await selectTrigger.click();
+    await expect(page.getByRole('combobox').first()).toBeVisible();
 
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
 
     // Hero heading must remain visible — proves reactive re-render works post strict-flip
     await expect(heroHeading).toContainText('at Scale');

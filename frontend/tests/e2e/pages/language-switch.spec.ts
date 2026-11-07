@@ -26,9 +26,7 @@ test.describe('Language switch', () => {
     await expect(heroHeading).toBeVisible();
     await expect(heroHeading).toContainText('Experiência Profissional');
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
 
     await expect(heroHeading).toContainText('Professional Experience');
   });
@@ -39,13 +37,10 @@ test.describe('Language switch', () => {
     const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
     await expect(heroHeading).toContainText('Professional Experience');
 
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'Deutsch' }).click();
+    await switchLanguage(page, 'Deutsch');
     await expect(heroHeading).toContainText('Berufserfahrung');
   });
 
@@ -55,9 +50,7 @@ test.describe('Language switch', () => {
     const heroHeading = page.locator('#experiencia h2');
     await expect(heroHeading).toBeVisible();
 
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await selectTrigger.click();
-    await page.getByRole('option', { name: 'Deutsch' }).click();
+    await switchLanguage(page, 'Deutsch');
 
     await expect(heroHeading).toContainText('Berufserfahrung');
     await expect(heroHeading).not.toContainText('Experiência Profissional');
