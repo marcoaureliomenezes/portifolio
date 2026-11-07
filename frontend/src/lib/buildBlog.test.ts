@@ -96,7 +96,7 @@ describe("build-blog over the fixtures", () => {
 
   it("renders the heading and keeps http(s), site-relative and # links", () => {
     const html = body("proving-post");
-    expect(html).toContain("<h1>A heading</h1>");
+    expect(html).toContain("<h2>A heading</h2>");
     expect(html).toContain('<a href="https://example.com/page">external link</a>');
     expect(html).toContain('<a href="/projetos/demo">site link</a>');
     expect(html).toContain('<a href="#top">anchor</a>');
@@ -110,6 +110,26 @@ describe("build-blog over the fixtures", () => {
 
   it("renders a code block as pre/code with escaped text and no language class", () => {
     expect(body("proving-post")).toContain("<pre><code>a &lt; b\n</code></pre>");
+  });
+});
+
+describe("build-blog heading shift", () => {
+  it("shifts each body heading down one level, capped at 6", () => {
+    const run = build(postWith("heads", "# a\n\n## b\n\n### c\n\n#### d\n\n##### e\n\n###### f"));
+    const html = readFileSync(join(run.dist, "blog/heads/body.html"), "utf8");
+    expect(html).toBe(
+      "<h2>a</h2>\n<h3>b</h3>\n<h4>c</h4>\n<h5>d</h5>\n<h6>e</h6>\n<h6>f</h6>\n",
+    );
+  });
+});
+
+describe("build-blog attribute escaping", () => {
+  it("escapes & and \" in an image alt and a link href", () => {
+    const run = build(postWith("esc", "![a & \"b\"](x.webp)\n\n[l](/p?a=1&b=2&c=\"3\")", { "x.webp": webp8x6() }));
+    expect(run.stderr).toBe("");
+    const html = readFileSync(join(run.dist, "blog/esc/body.html"), "utf8");
+    expect(html).toContain('alt="a &amp; &quot;b&quot;"');
+    expect(html).toContain('<a href="/p?a=1&amp;b=2&amp;c=&quot;3&quot;">l</a>');
   });
 });
 
