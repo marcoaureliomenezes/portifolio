@@ -8,11 +8,15 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import {
   ProjectsContentSchema,
   CaseStudyProjectSchema,
   MetaProjectSchema,
   GamesProjectSchema,
+  HttpUrl,
+  SiteRelativeUrl,
+  Email,
 } from "./projects";
 
 // ---------------------------------------------------------------------------
@@ -414,5 +418,55 @@ describe("project link URLs accept only http(s)", () => {
     expect(
       CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: "https://github.com/x/y" } }).success,
     ).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// One rule per field: zod, and the emitted pattern with and without the u flag
+// ---------------------------------------------------------------------------
+
+const controls = (from: number, to: number) =>
+  Array.from({ length: to - from + 1 }, (_, i) => `/${String.fromCharCode(from + i)}x`);
+
+const partitions: [string, () => z.ZodType, string[], string[]][] = [
+  [
+    "HttpUrl",
+    () => HttpUrl,
+    [
+      "https://",
+      "https://exa%20mple.com",
+      "https://a.b/x y",
+      "https://a|b",
+      "javascript:alert(1)",
+      "data:text/html,x",
+      "https://{tag}.example/",
+    ],
+    [
+      "http://example.com/a",
+      "https://www.linkedin.com/in/marco-menezes-731542b9",
+      "https://github.com/marcoaureliomenezes/portifolio",
+      "https://www.instagram.com/marcoaurelioreislima/",
+      "https://h.example/blob/{tag}/x",
+    ],
+  ],
+  ["Email", () => Email, ["no-at-sign.example.com", "a b@example.com"], ["marco@example.com"]],
+  [
+    "SiteRelativeUrl",
+    () => SiteRelativeUrl,
+    ["/ x", ...controls(0, 8), "/\x7fx"],
+    ["/cv.pdf", "/assets/a-b"],
+  ],
+];
+
+describe.each(partitions)("%s: zod equals the emitted pattern", (_name, rule, refused, accepted) => {
+  it.each([
+    ...refused.map((v) => [v, false] as const),
+    ...accepted.map((v) => [v, true] as const),
+  ])("%j -> %s", (v, ok) => {
+    const schema = rule();
+    const { pattern } = z.toJSONSchema(schema) as { pattern: string };
+    expect(schema.safeParse(v).success).toBe(ok);
+    expect(new RegExp(pattern).test(v)).toBe(ok);
+    expect(new RegExp(pattern, "u").test(v)).toBe(ok);
   });
 });
