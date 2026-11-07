@@ -37,6 +37,10 @@ function renderBody(slug, markdown, dir, files) {
   const marked = new Marked({
     renderer: {
       html: ({ text }) => escape(text),
+      heading: function ({ tokens, depth }) {
+        const h = Math.min(depth + 1, 6);
+        return `<h${h}>${this.parser.parseInline(tokens)}</h${h}>\n`;
+      },
       code: ({ text }) => `<pre><code>${escape(text)}\n</code></pre>\n`,
       image({ href, text }) {
         if (text === "") throw new Error(`${slug}: image: alt must not be empty`);
