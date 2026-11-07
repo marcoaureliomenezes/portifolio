@@ -9,7 +9,6 @@ tags:
 sources:
   - frontend/playwright.config.ts
   - frontend/tests/e2e/fixtures/routes.ts
-  - frontend/tests/e2e/setup/.gitkeep
 ---
 
 ## What it does
@@ -28,8 +27,7 @@ Real-browser checks that the site loads and its main paths work, before a merge 
   `npm run dev`, reusing a running server.
 - The browser locale is `pt-BR`, so pt is the default language; `E2E_BASE_URL` overrides the
   base URL. Traces are kept on the first retry and screenshots on failure.
-- `tests/e2e/fixtures/routes.ts` names the routes the specs visit; `tests/e2e/setup/` holds only
-  a `.gitkeep`, and no config or spec reads it.
+- `tests/e2e/fixtures/routes.ts` names the routes the specs visit.
 
 ## Boundaries
 

@@ -9,19 +9,28 @@ import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
-const projectsName: string = JSON.parse(
-  readFileSync('public/content/pt.json', 'utf8'),
-).siteChrome.nav.projects;
+const chrome = JSON.parse(readFileSync('public/content/pt.json', 'utf8')).siteChrome.nav;
+const projectsName: string = chrome.projects;
 
 test.describe('Navigation to /projetos from the header', () => {
-  test('PC-E2E-17: desktop header nav has Resume and Projects links and Projects navigates', async ({ page }) => {
+  test('PC-E2E-17: desktop header nav has Resume and Projects links and Projects navigates', async ({ page, request }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
     const headerNav = page.locator('header nav[aria-label="Navegação principal"]');
     await expect(headerNav).toBeVisible();
-    await expect(headerNav.locator('a')).toHaveCount(2);
+    // Blog is linked exactly when the blog index data lists a post.
+    const index = await request.get('/blog/index.json');
+    const isJson = index.ok() && (index.headers()['content-type'] ?? '').includes('json');
+    const posts = isJson ? ((await index.json()) as unknown[]).length : 0;
+    const links = 2 + (posts > 0 ? 1 : 0);
+    await expect(headerNav.locator('a')).toHaveCount(links);
+    if (links === 3) {
+      const blogLink = headerNav.locator('a').nth(2);
+      await expect(blogLink).toHaveAttribute('href', '/blog');
+      await expect(blogLink).toHaveText(chrome.blog);
+    }
 
     const resumeLink = headerNav.locator('a[href="/"]');
     const projLink = headerNav.locator('a[href="/projetos"]');

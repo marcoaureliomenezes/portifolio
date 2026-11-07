@@ -10,6 +10,7 @@ import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { CodeBlock } from "@/components/projects/CodeBlock";
 import { Media } from "@/components/projects/Media";
 import { ProjectSections } from "@/components/projects/ProjectSections";
+import { PROSE } from "@/lib/layout";
 import { track } from "@dadaia/analytics-sdk";
 import type { LibraryProject } from "@/types/content";
 
@@ -44,7 +45,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
     <div className="space-y-10">
       <header className="space-y-4">
         <h1 className="text-title-sm md:text-title text-primary">{hero.title}</h1>
-        <p className="max-w-[680px] text-muted-foreground">{hero.tagline}</p>
+        <p className={`${PROSE} text-muted-foreground`}>{hero.tagline}</p>
         <div className="flex flex-wrap gap-4 text-meta">
           <span data-testid="library-version">
             {labels?.versionLabel} {pypi.version}
@@ -79,7 +80,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
                   {title}
                 </h3>
                 {body && (
-                  <p className="max-w-[680px] text-muted-foreground leading-relaxed whitespace-pre-line">
+                  <p className={`${PROSE} text-muted-foreground leading-relaxed whitespace-pre-line`}>
                     {body}
                   </p>
                 )}

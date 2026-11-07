@@ -1,17 +1,4 @@
 {
   "schema": "backlog-v1",
-  "active": [
-    {
-      "id": "blog-v1",
-      "title": "A personal blog",
-      "opened": "2026-10-24",
-      "status": "idea",
-      "description": "Operator words: \"I also want another session called blog. Where I'll write some articles.\"; \"We need 3 parts, we have my resume, we have my personal projects, and we will have my personal blog\". Rulings: posts are Markdown in this repo, one folder per post (text, images, moving images); the build writes real HTML per post and per project page with title, description and share image, plus an RSS feed (\"Markdown in repo, static HTML\"); one language per post, chosen by the author, listed in every locale with a language tag (\"One per post, your choice\"); v1 = index, post page, tags, RSS; the Blog nav item appears once the first post exists. Target: the candidate after resume-refinement.",
-      "provenance": "operator demand 2026-10-24 (grill session confirmed by the operator)",
-      "relates": [
-        "library-pages-in-motion",
-        "resume-refinement"
-      ]
-    }
-  ]
+  "active": []
 }

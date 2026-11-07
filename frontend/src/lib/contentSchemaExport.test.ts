@@ -57,7 +57,7 @@ describe("content schema export (v1.json)", () => {
     expect(CertificationSchema.safeParse({ ...cert, link: "javascript:alert(1)" }).success).toBe(false);
     expect(EducationSchema.safeParse({ ...edu, thesisLink: "https://a.io/t" }).success).toBe(true);
     expect(EducationSchema.safeParse({ ...edu, thesisLink: "javascript:alert(1)" }).success).toBe(false);
-    for (const bad of ["javascript:alert(1)", "data:text/html,x", "//evil.com", "/\\evil.com"]) {
+    for (const bad of ["javascript:alert(1)", "data:text/html,x", "//evil.com", "/\\evil.com", "/\t/evil.example", "/\n/evil.example", "/\r/evil.example"]) {
       expect(ProfileSchema.safeParse({ ...profile, cvUrl: bad }).success).toBe(false);
     }
   });

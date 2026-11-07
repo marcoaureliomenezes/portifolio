@@ -21,6 +21,12 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 ## Feature catalog
 
+### blog
+
+| slug | title | tldr |
+|------|-------|------|
+| `blog` | Blog | Markdown post folders become per-post HTML, an index and an RSS feed at build time; project heads are prerendered; the Blog link shows once a post is published. |
+
 ### content
 
 | slug | title | tldr |
@@ -31,14 +37,13 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `deploy-infrastructure` | Deploy infrastructure | One Terraform module serves the built site from a private S3 bucket through CloudFront, per env (stage, prod), applied and deployed by GitHub Actions over OIDC. |
-| `local-servers` | Local Flask servers | backend/ holds Flask servers that serve frontend/dist on localhost; scripts start them; nothing in CI, deploy or the frontend uses them. |
+| `deploy-infrastructure` | Deploy infrastructure | One Terraform module serves the site from private S3 via CloudFront per env; Actions deploys over OIDC, hashed assets immutable, the rest no-cache. |
 
 ### legacy
 
 | slug | title | tldr |
 |------|-------|------|
-| `legacy-specs` | Legacy specs and screenshots | specs-bkp/ is the pre-canon specs tree kept by specs init and img/ holds site screenshots; both are reading material only, unread by the site and its gates. |
+| `legacy-specs` | Legacy specs | specs-bkp/ is the pre-canon specs tree kept by specs init; it is reading material only, unread by the site and its gates. |
 
 ### media
 
@@ -64,7 +69,7 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `resume-home` | Resume home | The home is a frameless resume - hero, experience, two projects, skills, certifications, education - every number and word read from content. |
+| `resume-home` | Resume home | The home is a frameless resume - hero, experience, two projects, skills, certifications, education - numbers derived from content, labels from the locale. |
 
 ### site
 

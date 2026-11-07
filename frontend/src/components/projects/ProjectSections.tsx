@@ -5,6 +5,7 @@
  */
 
 import { useContent } from "@/hooks/useContent";
+import { PROSE } from "@/lib/layout";
 import type { ProjectSectionData } from "@/types/content";
 import { Block } from "./Block";
 import { CodeBlock } from "./CodeBlock";
@@ -24,7 +25,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
       {sections.map(({ id, title, body, media, code, items }) => (
         <Block key={id} id={`${slug}-${id}-heading`} title={title}>
           {body && (
-            <p className="max-w-[680px] text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
+            <p className={`${PROSE} text-muted-foreground leading-relaxed whitespace-pre-line`}>{body}</p>
           )}
           {media && <Media media={media} />}
           {code && (

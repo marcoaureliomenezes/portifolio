@@ -44,11 +44,20 @@
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
   "siteChrome": {
-    "nav": { "label": "Hauptnavigation", "resume": "Lebenslauf", "projects": "Projekte" },
+    "nav": { "label": "Hauptnavigation", "resume": "Lebenslauf", "projects": "Projekte", "blog": "Blog" },
     "theme": { "toLight": "Zum hellen Design wechseln", "toDark": "Zum dunklen Design wechseln" },
     "language": { "label": "Sprache auswählen" },
     "breadcrumb": { "label": "Navigationspfad", "projects": "Projekte" },
     "backToProjects": "Zurück zu den Projekten",
+    "blog": {
+      "title": "Blog",
+      "intro": "Notizen zu Data Engineering und den Werkzeugen, die ich baue.",
+      "empty": "Noch keine Beiträge.",
+      "tagsLabel": "Tags",
+      "filteredBy": "Beiträge mit dem Tag",
+      "allPosts": "Alle Beiträge",
+      "back": "Zurück zum Blog"
+    },
     "footer": {
       "label": "Fußzeile",
       "owner": "Marco Menezes",
@@ -689,7 +698,7 @@
           "tagline": "Wie diese Website aufgebaut, gehostet und gepflegt wird."
         },
         "card": {
-          "cover": "/assets/projects/portifolio/cover.svg",
+          "cover": "/assets/projects/portifolio/cover-541d649e.svg",
           "summary": "Portfolio-Website mit React + Vite, gehostet auf AWS mit S3 + CloudFront + Route53, mit CI/CD-Pipeline über GitHub Actions + OIDC.",
           "tech": [
             "React",
@@ -703,7 +712,7 @@
           "title": "Portfolio-Architektur — Marco Menezes",
           "description": "Stack, Terraform-Infra, monatliche Kosten und Architekturentscheidungen für marco-menezes.com."
         },
-        "diagram": "/assets/projects/portifolio/architecture-light.svg",
+        "diagram": "/assets/projects/portifolio/architecture-light-ebbd2299.svg",
         "diagramAlt": "Infrastrukturdiagramm des Portfolios: S3, CloudFront, Route53, GitHub Actions CI/CD.",
         "sections": [
           {
@@ -792,7 +801,7 @@
           "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
           "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
         },
-        "diagramDark": "/assets/projects/portifolio/architecture-dark.svg"
+        "diagramDark": "/assets/projects/portifolio/architecture-dark-dd11b504.svg"
       },
       {
         "slug": "tauan-games",
@@ -802,7 +811,7 @@
           "tagline": "Spiele, die zu Hause mit meinem Sohn Tauan entwickelt wurden."
         },
         "card": {
-          "cover": "/assets/projects/tauan-games/cover.svg",
+          "cover": "/assets/projects/tauan-games/cover-96c63ff3.svg",
           "summary": "Zwei Browser-Spiele mit Three.js und Phaser gemeinsam mit meinem Sohn Tauan — ein Luftkampf-Shooter und eine Neuauflage des Dinosaurierspiels.",
           "tech": [
             "Three.js",
@@ -821,7 +830,7 @@
             "slug": "aero-fighters",
             "title": "Aero Fighters",
             "engine": "Three.js",
-            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover-8145e44e.svg",
             "body": "Ein Luftkampf-Shooter mit Three.js. Entstanden aus dem Wunsch, gemeinsam mit Tauan etwas Spielbares zu entwickeln — mit einfacher Physik, Sprites und Tastatursteuerung im Browser.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
@@ -830,7 +839,7 @@
             "slug": "tauan-trex",
             "title": "tauan-trex",
             "engine": "Phaser",
-            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover-815faa2e.svg",
             "body": "Eine Neuauflage des klassischen Chrome-Dinosaurierspiels mit Phaser, personalisiert mit von Tauan entworfenen Elementen. Ein Wochenendd-Projekt zum Erlernen von Tastaturereignissen und Animation.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"

@@ -1,7 +1,7 @@
 ---
 slug: resume-home
 title: Resume home
-tldr: The home is a frameless resume - hero, experience, two projects, skills, certifications, education - every number and word read from content.
+tldr: The home is a frameless resume - hero, experience, two projects, skills, certifications, education - numbers derived from content, labels from the locale.
 summary: Portfolio renders Hero, Experience, Projects, Skills, Certifications and Education in one column with no section card or fold; the hero's stat line is derived from content, role periods are localized by one parser, and the only disclosures are the story toggle and each role's Details control.
 tags:
   - resume
@@ -57,7 +57,8 @@ he worked, two projects, what he works with, what he is certified in and where h
   "Heute"); an unparsable period renders as written. `yearRange` gives the Earlier line's
   `2015–18` form, and `yearsSince` the stat line's n.
 - Projects: rand-engine then dadaia-workspace, two per row from `md`, one below; the heading
-  ends with the `seeAllProjects` link to `/projetos` (`data-testid="see-all-projects"`).
+  ends with the link to `/projetos` (`data-testid="see-all-projects"`), labelled by the locale's
+  required `seeAllProjects`.
 - `ProjectCard`, the one card of the home and `/projetos`, is a single link to the project page
   with four elements: the hero media's desktop poster (`<img>` with width, height and alt; the
   card cover or a gradient placeholder when the item has no video), the name, the one-line

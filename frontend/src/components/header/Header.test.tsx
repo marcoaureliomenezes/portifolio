@@ -4,7 +4,7 @@
  */
 
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import React from "react";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -20,7 +20,7 @@ function chromeOf(locale: Locale) {
   const chrome = JSON.parse(readFileSync(file, "utf-8")).siteChrome;
   expect(chrome, `siteChrome in ${locale}.json`).toBeDefined();
   return chrome as {
-    nav: { label: string; resume: string; projects: string };
+    nav: { label: string; resume: string; projects: string; blog: string };
     theme: { toLight: string; toDark: string };
     language: { label: string };
   };
@@ -39,6 +39,8 @@ async function renderHeader(path = "/", locale: Locale = "pt") {
 }
 
 describe("Header", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
   it("renders the banner with the brand name", async () => {
     await renderHeader();
     expect(screen.getByText("Marco Menezes")).toBeInTheDocument();
@@ -94,11 +96,44 @@ describe("Header", () => {
     }
   });
 
-  it("has no Blog link, no in-page anchor and no menu button", async () => {
+  it("with no published post: no Blog link, no in-page anchor and no menu button", async () => {
     const { container } = await renderHeader("/", "en");
     expect(screen.queryByRole("link", { name: /blog/i })).toBeNull();
     expect(container.querySelector('a[href^="#"]')).toBeNull();
     expect(container.querySelector('button[aria-label="Menu"]')).toBeNull();
+  });
+
+  it.each(["pt", "en", "de"] as const)(
+    "%s: with a published post the Blog link follows Projects and goes to /blog",
+    async (locale) => {
+      vi.stubGlobal("__BLOG_PUBLISHED__", true);
+      await renderHeader("/", locale);
+      const chrome = chromeOf(locale);
+      const blog = screen.getByRole("link", { name: chrome.nav.blog });
+      expect(blog).toHaveAttribute("href", "/blog");
+      const projects = screen.getByRole("link", { name: chrome.nav.projects });
+      expect(projects.compareDocumentPosition(blog) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    },
+  );
+
+  it.each([
+    ["/blog", "blog"],
+    ["/blog/a-post", "blog"],
+    ["/projetos", "projects"],
+    ["/", "resume"],
+  ] as const)("with a published post, on %s only the %s link is current", async (path, current) => {
+    vi.stubGlobal("__BLOG_PUBLISHED__", true);
+    await renderHeader(path, "en");
+    const chrome = chromeOf("en");
+    const links = {
+      resume: screen.getByRole("link", { name: chrome.nav.resume }),
+      projects: screen.getByRole("link", { name: chrome.nav.projects }),
+      blog: screen.getByRole("link", { name: chrome.nav.blog }),
+    };
+    for (const [name, link] of Object.entries(links)) {
+      if (name === current) expect(link).toHaveAttribute("aria-current", "page");
+      else expect(link).not.toHaveAttribute("aria-current");
+    }
   });
 
   it.each(["pt", "en", "de"] as const)(

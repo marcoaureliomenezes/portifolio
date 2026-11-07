@@ -70,6 +70,7 @@ const CHROME_I18N_KEYS = new Set([
   "nav.label", "nav.resume", "nav.projects", "theme.toLight", "theme.toDark",
   "language.label", "breadcrumb.label", "breadcrumb.projects", "backToProjects",
   "footer.label", "footer.owner", "footer.email", "footer.linkedin", "footer.github",
+  "nav.blog", "blog.title", "blog.intro", "blog.empty", "blog.tagsLabel", "blog.filteredBy", "blog.allPosts", "blog.back",
 ]);
 
 /** Top-level keys of each locale file that the home page reads. */

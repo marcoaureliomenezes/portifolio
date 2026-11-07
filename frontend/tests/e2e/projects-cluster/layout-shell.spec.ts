@@ -134,7 +134,8 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     const selectTrigger = page.locator('[role="combobox"]').first();
     await selectTrigger.click();
     await page.getByRole('option', { name: 'English' }).click();
-    await page.waitForLoadState('networkidle');
+    // The switch does not navigate: wait for the effect to rewrite the title
+    await expect(page).not.toHaveTitle(titlePT2);
 
     const titleEN = await page.title();
     // EN title is non-empty and distinct from PT title (i18n hook works)

@@ -31,9 +31,10 @@ sources:
 
 ## What it does
 
-Every page, the resume, the project index, each project page and the 404, carries the same
-header: the owner's name, a Resume link, a Projects link, a theme toggle and a language
-selector, and the same footer with the owner's contact links, all in the visitor's language.
+Every page, the resume, the project index, each project page, the blog pages and the 404,
+carries the same header: the owner's name, a Resume link, a Projects link, a Blog link once a
+post is published, a theme toggle and a language selector, and the same footer with the owner's
+contact links, all in the visitor's language.
 
 ## Current behavior
 
@@ -43,19 +44,23 @@ selector, and the same footer with the owner's contact links, all in the visitor
   `<main>` or footer.
 - `lib/layout.ts` holds `COLUMN`, at most 960 px with 20 px side padding (24 px from `md`), and
   `PROSE`, a 680 px cap. The main column and the footer row use `COLUMN`, so the home and the
-  project routes share one width; the hero story and role summaries use `PROSE`, and the library
-  page's prose writes the same 680 px cap as its own class.
+  project routes share one width; the hero story, role summaries, the library page's prose and
+  a blog post use `PROSE`, and no other module writes the 680 px cap.
 - Footer: `© <year> <owner>`, the year read from the clock at render, then Email
   (`mailto:` `profile.email`), LinkedIn and GitHub (`profile.linkedinUrl`, `profile.githubUrl`,
   new tab). Its landmark label and link texts come from `siteChrome.footer`; no production
   module under `src/` holds an email or URL literal.
-- Header: Resume (`/`) and Projects (`/projetos`) as `NavLink`s; the current one carries
-  `aria-current="page"` and an amber underline, and Projects is current on every `/projetos*`
-  route. Below `md` the two links sit in a second row under the name, theme and language; there
-  is no menu button.
+- Header: Resume (`/`) and Projects (`/projetos`) as `NavLink`s, then Blog (`/blog`) exactly
+  when the build-time constant `__BLOG_PUBLISHED__` is true: `vite.config.ts` sets it on a
+  production build from the post reader's published list ([[blog]]), so the dev server and a
+  build with no published post show two links. The current link carries `aria-current="page"`
+  and an amber underline; Projects is current on every `/projetos*` route and Blog on every
+  `/blog*` route. Below `md` the links sit in a second row under the name, theme and language;
+  there is no menu button. The nav E2E spec expects Blog exactly when `/blog/index.json` lists a
+  post.
 - Chrome strings come from the active locale's `siteChrome` block: nav label and links, theme
-  toggle labels, language selector label, breadcrumb label and root, the back link and the
-  footer. `siteChrome` is required, so no reader guards it. The games empty state, whose link is
+  toggle labels, language selector label, breadcrumb label and root, the back link, the blog
+  pages' strings and the footer. `siteChrome` is required, so no reader guards it. The games empty state, whose link is
   `profile.githubUrl`, and the 404 text come from the same content file.
 - `<html lang>` follows the active locale: `pt-BR` for pt, `en` and `de` otherwise.
 - First paint is dark unless the stored theme is `light`; the inline script in `index.html` and
@@ -72,6 +77,7 @@ selector, and the same footer with the owner's contact links, all in the visitor
 
 ## Boundaries
 
-- The resume's sections inside the column: [[resume-home]]. The blog is outside this frame;
-  the header carries no Blog link and no in-page anchors.
+- The resume's sections inside the column: [[resume-home]]. `/blog` and `/blog/:slug` render
+  under `SiteLayout`, outside the projects shell; their pages, the share image and the RSS link
+  in `index.html`'s head: [[blog]]. The header carries no in-page anchors.
 - The library page body: [[library-page]]. Chrome key parity across locales: [[content-contract]].
