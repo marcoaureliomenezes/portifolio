@@ -24,9 +24,9 @@ portifolio/
 │   └── workflows/
 │       ├── ci.yml         # Lint + Build + Testes (todo PR)
 │       ├── deploy.yml     # Deploy frontend (push develop/main)
-│       └── terraform.yml  # Plan (PR) + Apply (push)
+│       └── terraform.yml  # Apply manual por ambiente (workflow_dispatch)
 ├── scripts/
-│   ├── bootstrap-oidc.sh  # Bootstrap OIDC inicial (uma unica vez — nao Developer)
+│   ├── bootstrap-oidc.sh  # Cria so o OIDC provider do GitHub na conta (uma unica vez — nao Developer)
 │   ├── build_frontend.sh
 │   └── setup-deployment.sh
 └── specs/             # SDD: constitution.md, memory/, releases/, backlog/, bugs/, audits/, ADRs/
@@ -58,10 +58,7 @@ npm run preview    # Servidor local da build
 | Todo PR para `develop` ou `main` | `ci.yml` | Lint, type-check, unit tests, i18n parity, build, E2E smoke, Lighthouse |
 | Push em `develop` | `deploy.yml` | Build + deploy para stage S3 + CloudFront invalidation |
 | Push em `main` | `deploy.yml` | Build + deploy para prod (environment gate) |
-| Push em `develop` (arquivos `terraform/**`) | `terraform.yml` | `terraform apply` em stage |
-| Push em `main` (arquivos `terraform/**`) | `terraform.yml` | `terraform apply` em prod (environment gate) |
-| PR para `develop` (arquivos `terraform/**`) | `terraform.yml` | `terraform plan` stage comentado no PR |
-| PR para `main` (arquivos `terraform/**`) | `terraform.yml` | `terraform plan` prod comentado no PR |
+| Disparo manual (`workflow_dispatch`, input `env`) | `terraform.yml` | fmt, validate, plan, guarda de delete/replace e `terraform apply` no environment `infra` |
 
 Autenticacao AWS: **OIDC exclusivamente**. Nenhuma chave estatica em uso.
 
@@ -78,7 +75,7 @@ Gerenciada via Terraform em `terraform/envs/{stage,prod}/`.
 - **IAM**: role OIDC por env (`github-actions-portfolio-{stage,prod}-deploy`)
 
 O `terraform apply` e executado **exclusivamente via GitHub Actions** (workflow `terraform.yml`).
-Para o bootstrap inicial do OIDC provider, use `scripts/bootstrap-oidc.sh` (Fluxo A via CloudShell ou Fluxo B com `INFRA_SPECIALIST_MODE=1`).
+O script cria apenas o OIDC provider do GitHub da conta; a role de apply pertence ao bootstrap do painel. Para o provider, use `scripts/bootstrap-oidc.sh` (Fluxo A via CloudShell ou Fluxo B com `INFRA_SPECIALIST_MODE=1`).
 
 ---
 

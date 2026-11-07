@@ -712,7 +712,7 @@
           "title": "Portfolio Architecture — Marco Menezes",
           "description": "Stack, terraform infra, monthly costs, and architectural decisions for marco-menezes.com."
         },
-        "diagram": "/assets/projects/portifolio/architecture-light-9b79dad0.svg",
+        "diagram": "/assets/projects/portifolio/architecture-light-ebbd2299.svg",
         "diagramAlt": "Portfolio infrastructure diagram: S3, CloudFront, Route53, GitHub Actions CI/CD.",
         "sections": [
           {
@@ -801,7 +801,7 @@
           "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
           "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
         },
-        "diagramDark": "/assets/projects/portifolio/architecture-dark-3631bf6d.svg"
+        "diagramDark": "/assets/projects/portifolio/architecture-dark-dd11b504.svg"
       },
       {
         "slug": "tauan-games",

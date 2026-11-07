@@ -32,8 +32,8 @@ Approval marker: `**Status:** Aprovado` no header da spec é requisito para impl
 - `frontend/` — React 18 + Vite 7 + Tailwind + shadcn (refator em andamento — vide `specs/memory/ARCHITECTURE.md`, `## Tech Stack`)
 - `terraform/modules/portfolio-static-site/` — módulo compartilhado da topologia AWS
 - `terraform/envs/{stage,prod}/` — chamadas do módulo por ambiente
-- `.github/workflows/{ci,deploy,terraform}.yml` — pipeline OIDC (2 envs)
-- `scripts/bootstrap-oidc.sh` — bootstrap único do OIDC provider (CloudShell apenas)
+- `.github/workflows/{ci,deploy,terraform}.yml` — pipeline OIDC (2 envs); `terraform.yml` é apply manual (`workflow_dispatch`) por ambiente, no environment `infra`
+- `scripts/bootstrap-oidc.sh` — cria só o OIDC provider do GitHub da conta (CloudShell apenas); a role de apply é do bootstrap do painel
 - `specs/` — SDD do Portfólio 2.0
 - `.dadaia/reports/portifolio/` — reports do ciclo de retomada (discovery + 4 especialistas)
 

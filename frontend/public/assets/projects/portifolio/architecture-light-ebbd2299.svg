@@ -49,7 +49,7 @@
   <path fill="#e2e8f0" d="M40 155h580v1H40z"/>
   <text x="60" y="180" fill="#64748b" font-family="monospace" font-size="10">CI/CD Flow:</text>
   <text x="60" y="200" fill="#475569" font-family="monospace" font-size="9">push → ci.yml (lint+build+test+e2e+lighthouse) → deploy.yml (stage → prod)</text>
-  <text x="60" y="218" fill="#475569" font-family="monospace" font-size="9">terraform.yml: plan (PR) → apply (merge) per env [stage | prod]</text>
+  <text x="60" y="218" fill="#475569" font-family="monospace" font-size="9">terraform.yml: apply (dispatch) per env [stage | prod]</text>
 
   <path fill="#e2e8f0" d="M40 240h580v1H40z"/>
   <text x="60" y="262" fill="#64748b" font-family="monospace" font-size="10">IaC:</text>
