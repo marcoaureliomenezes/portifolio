@@ -75,20 +75,6 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Effect   = "Allow"
         Action   = ["cloudfront:CreateInvalidation"]
         Resource = aws_cloudfront_distribution.website.arn
-      },
-      {
-        Sid    = "TerraformStateBucket"
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:ListBucket",
-        ]
-        Resource = [
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state",
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state/portifolio/${var.environment}/*",
-        ]
       }
     ]
   })
