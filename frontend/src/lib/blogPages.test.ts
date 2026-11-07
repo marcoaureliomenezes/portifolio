@@ -75,6 +75,11 @@ describe("post pages over the fixtures", () => {
     const b = build(fixtures, template.replace(/<meta property="og:locale"[^>]*>/, ""));
     expect(() => b.run()).toThrow(/og:locale/);
   });
+
+  it("a template without the default og:image fails the build naming it", () => {
+    const b = build(join(tmp, "no-posts"), template.replace(/<meta property="og:image"[^>]*>/, ""));
+    expect(() => b.run()).toThrow(/og:image must match exactly once/);
+  });
 });
 
 describe("project pages from the committed pt.json", () => {
