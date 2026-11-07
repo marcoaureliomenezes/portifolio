@@ -47,7 +47,7 @@ npm run preview    # Servidor local da build
 
 **Blog**: cada post e uma pasta `frontend/content/blog/<slug>/index.md` (front matter + Markdown, midia ao lado). O blog so aparece no build: `npm run build && npm run preview`. O link Blog entra no header quando ha ao menos um post publicado.
 
-**Pre-requisitos**: Node.js 20+. Nenhuma credencial AWS necessaria para desenvolvimento local.
+**Pre-requisitos**: Node.js na versão de `engines.node` em `frontend/package.json`. Nenhuma credencial AWS necessaria para desenvolvimento local.
 
 ---
 
