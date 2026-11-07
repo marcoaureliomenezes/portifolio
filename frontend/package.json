@@ -74,11 +74,20 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^7.3.3",
     "vitest": "^5.1.0",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "overrides": {
     "cookie": "^0.7.0",
     "tmp": "^0.2.6",
-    "uuid": ">=11.1.1"
+    "uuid": ">=11.1.1",
+    "get-uri": {
+      "basic-ftp": "^6.2.1"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "^11.0.1"
+    },
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    }
   }
 }
