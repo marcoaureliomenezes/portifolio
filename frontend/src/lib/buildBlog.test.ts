@@ -114,13 +114,11 @@ describe("build-blog over the fixtures", () => {
 });
 
 describe("build-blog with no post", () => {
-  it("writes [] for an empty folder and for an absent one", () => {
-    const empty = mkdtempSync(join(tmp, "empty-"));
-    for (const posts of [empty, join(empty, "absent")]) {
-      const run = build(posts);
-      expect(run.status).toBe(0);
-      expect(readFileSync(join(run.dist, "blog/index.json"), "utf8").trim()).toBe("[]");
-    }
+  const empty = mkdtempSync(join(tmp, "empty-"));
+  it.each([["an empty folder", empty], ["an absent one", join(empty, "absent")]])("writes [] for %s", (_name, posts) => {
+    const run = build(posts);
+    expect(run.status).toBe(0);
+    expect(readFileSync(join(run.dist, "blog/index.json"), "utf8").trim()).toBe("[]");
   });
 });
 
@@ -204,17 +202,14 @@ describe("build-blog media", () => {
   });
 
   it("picks the poster among webp, png, jpg in that order and reads its size", () => {
-    const body = `![c](${MP4})`;
-    const all = { [MP4]: "v", "clip.png": fixture("clip.png"), "clip.jpg": "j", "clip.webp": webp8x6() };
-    const withWebp = build(postWith("poster-order", body, all));
-    expect(readFileSync(join(withWebp.dist, "blog/poster-order/body.html"), "utf8")).toContain(
-      'width="8" height="6" poster="/blog/poster-order/clip.webp"',
-    );
-    const { "clip.webp": _w, ...noWebp } = all;
-    const withPng = build(postWith("poster-order", body, noWebp));
-    expect(readFileSync(join(withPng.dist, "blog/poster-order/body.html"), "utf8")).toContain(
-      'width="4" height="3" poster="/blog/poster-order/clip.png"',
-    );
+    const files = {
+      [MP4]: "v", "clip.png": fixture("clip.png"), "clip.jpg": "j", "clip.webp": webp8x6(),
+      "other.mp4": "v", "other.png": fixture("clip.png"), "other.jpg": "j",
+    };
+    const out = build(postWith("poster-order", `![c](${MP4})\n\n![o](other.mp4)`, files));
+    const html = readFileSync(join(out.dist, "blog/poster-order/body.html"), "utf8");
+    expect(html).toContain('width="8" height="6" poster="/blog/poster-order/clip.webp"');
+    expect(html).toContain('width="4" height="3" poster="/blog/poster-order/other.png"');
   });
 
   it("serves a webm clip with its own type", () => {
