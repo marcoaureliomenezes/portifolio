@@ -246,16 +246,8 @@
             "type": "string"
           },
           "link": {
-            "anyOf": [
-              {
-                "type": "string",
-                "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$"
-              },
-              {
-                "type": "string",
-                "const": "#"
-              }
-            ]
+            "type": "string",
+            "pattern": "^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$|^#$"
           },
           "description": {
             "type": "string"
@@ -1910,6 +1902,329 @@
         "index",
         "list"
       ]
+    },
+    "resumeTitle": {
+      "type": "string"
+    },
+    "skillsTitle": {
+      "type": "string"
+    },
+    "experienceTitle": {
+      "type": "string"
+    },
+    "educationTitle": {
+      "type": "string"
+    },
+    "certificationsTitle": {
+      "type": "string"
+    },
+    "responsibilities": {
+      "type": "string"
+    },
+    "technologies": {
+      "type": "string"
+    },
+    "gamesComingSoon": {
+      "type": "string"
+    },
+    "gamesComingSoonDesc": {
+      "type": "string"
+    },
+    "notFoundMessage": {
+      "type": "string"
+    },
+    "returnHome": {
+      "type": "string"
+    },
+    "seeAllProjects": {
+      "type": "string"
+    },
+    "earlierLabel": {
+      "type": "string"
+    },
+    "detailsOpen": {
+      "type": "string"
+    },
+    "detailsClose": {
+      "type": "string"
+    },
+    "storyOpen": {
+      "type": "string"
+    },
+    "storyClose": {
+      "type": "string"
+    },
+    "impactLabel": {
+      "type": "string"
+    },
+    "heroStatsSuffix": {
+      "type": "object",
+      "properties": {
+        "years": {
+          "type": "string"
+        },
+        "certs": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "years",
+        "certs"
+      ]
+    },
+    "featuredProjectsTitle": {
+      "type": "string"
+    },
+    "heroTagline": {
+      "type": "string"
+    },
+    "heroCTAs": {
+      "type": "object",
+      "properties": {
+        "downloadCv": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "downloadCv"
+      ]
+    },
+    "archPage": {
+      "type": "object",
+      "properties": {
+        "infraDiagramTitle": {
+          "type": "string"
+        },
+        "techStackTitle": {
+          "type": "string"
+        },
+        "monthlyCostsTitle": {
+          "type": "string"
+        },
+        "tableHeaderLayer": {
+          "type": "string"
+        },
+        "tableHeaderTechnology": {
+          "type": "string"
+        },
+        "tableHeaderService": {
+          "type": "string"
+        },
+        "tableHeaderCostUsd": {
+          "type": "string"
+        },
+        "archDecisionsTitle": {
+          "type": "string"
+        },
+        "linksTitle": {
+          "type": "string"
+        },
+        "linkGithubRepo": {
+          "type": "string"
+        },
+        "linkTerraform": {
+          "type": "string"
+        },
+        "linkSpecs": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "infraDiagramTitle",
+        "techStackTitle",
+        "monthlyCostsTitle",
+        "tableHeaderLayer",
+        "tableHeaderTechnology",
+        "tableHeaderService",
+        "tableHeaderCostUsd",
+        "archDecisionsTitle",
+        "linksTitle",
+        "linkGithubRepo",
+        "linkTerraform",
+        "linkSpecs"
+      ]
+    },
+    "libraryPage": {
+      "type": "object",
+      "properties": {
+        "installTitle": {
+          "type": "string"
+        },
+        "versionLabel": {
+          "type": "string"
+        },
+        "copyLabel": {
+          "type": "string"
+        },
+        "copiedLabel": {
+          "type": "string"
+        },
+        "linkPypi": {
+          "type": "string"
+        },
+        "linkDocs": {
+          "type": "string"
+        },
+        "howTitle": {
+          "type": "string"
+        },
+        "factsTitle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "installTitle",
+        "versionLabel",
+        "copyLabel",
+        "copiedLabel",
+        "linkPypi",
+        "linkDocs",
+        "howTitle",
+        "factsTitle"
+      ]
+    },
+    "siteChrome": {
+      "type": "object",
+      "properties": {
+        "nav": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "resume": {
+              "type": "string"
+            },
+            "projects": {
+              "type": "string"
+            },
+            "blog": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "resume",
+            "projects",
+            "blog"
+          ]
+        },
+        "theme": {
+          "type": "object",
+          "properties": {
+            "toLight": {
+              "type": "string"
+            },
+            "toDark": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "toLight",
+            "toDark"
+          ]
+        },
+        "language": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label"
+          ]
+        },
+        "breadcrumb": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "projects": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "projects"
+          ]
+        },
+        "backToProjects": {
+          "type": "string"
+        },
+        "blog": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "intro": {
+              "type": "string"
+            },
+            "empty": {
+              "type": "string"
+            },
+            "tagsLabel": {
+              "type": "string"
+            },
+            "filteredBy": {
+              "type": "string"
+            },
+            "allPosts": {
+              "type": "string"
+            },
+            "back": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "intro",
+            "empty",
+            "tagsLabel",
+            "filteredBy",
+            "allPosts",
+            "back"
+          ]
+        },
+        "footer": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "linkedin": {
+              "type": "string"
+            },
+            "github": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "owner",
+            "email",
+            "linkedin",
+            "github"
+          ]
+        }
+      },
+      "required": [
+        "nav",
+        "theme",
+        "language",
+        "breadcrumb",
+        "backToProjects",
+        "blog",
+        "footer"
+      ]
     }
   },
   "required": [
@@ -1922,7 +2237,26 @@
     "certifications",
     "education",
     "skills",
-    "projectsV2"
-  ],
-  "additionalProperties": {}
+    "projectsV2",
+    "resumeTitle",
+    "skillsTitle",
+    "experienceTitle",
+    "educationTitle",
+    "certificationsTitle",
+    "responsibilities",
+    "technologies",
+    "gamesComingSoon",
+    "gamesComingSoonDesc",
+    "notFoundMessage",
+    "returnHome",
+    "seeAllProjects",
+    "earlierLabel",
+    "detailsOpen",
+    "detailsClose",
+    "storyOpen",
+    "storyClose",
+    "impactLabel",
+    "heroStatsSuffix",
+    "siteChrome"
+  ]
 }
