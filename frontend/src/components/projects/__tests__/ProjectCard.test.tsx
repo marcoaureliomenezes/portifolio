@@ -127,7 +127,10 @@ const mockLibrary = {
   hero: {
     title: "rand-engine",
     tagline: "Synthetic data",
-    media: { type: "video", alt: "rand-engine demo", desktop: cut, phone: cut },
+    media: [
+      { type: "svg", alt: "diagram first", light: "/m/l.svg", dark: "/m/d.svg" },
+      { type: "video", alt: "rand-engine demo", desktop: cut, phone: cut },
+    ],
   },
   card: {
     summary: "Generate realistic data fast.",

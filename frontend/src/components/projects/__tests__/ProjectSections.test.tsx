@@ -101,12 +101,20 @@ describe("ProjectSections — Block", () => {
       id: "full",
       title: "Full",
       body: "Body text.",
-      media: {
-        type: "svg",
-        alt: "scene",
-        light: "/m/s-light.svg",
-        dark: "/m/s-dark.svg",
-      },
+      media: [
+        {
+          type: "svg",
+          alt: "scene",
+          light: "/m/s-light.svg",
+          dark: "/m/s-dark.svg",
+        },
+        {
+          type: "svg",
+          alt: "scene two",
+          light: "/m/t-light.svg",
+          dark: "/m/t-dark.svg",
+        },
+      ],
       code: "print('hi')",
       items: [
         { label: "Docs", value: "Read", href: "https://docs.example.com" },
@@ -121,7 +129,7 @@ describe("ProjectSections — Block", () => {
     const order = [
       within(section).getByRole("heading", { level: 2, name: "Full" }),
       within(section).getByText("Body text."),
-      within(section).getByTestId("diagram-light"),
+      within(section).getAllByTestId("diagram-light")[0],
       within(section).getByText("print('hi')"),
       within(section).getByText("License"),
     ];
@@ -130,6 +138,12 @@ describe("ProjectSections — Block", () => {
         order[i].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();
     });
+  });
+
+  it("renders every media of the list, in order", () => {
+    renderSections(full);
+    const lights = within(screen.getByTestId("project-section")).getAllByTestId("diagram-light");
+    expect(lights.map((i) => i.getAttribute("alt"))).toEqual(["scene", "scene two"]);
   });
 
   it("copies exactly the section code and tracks nothing", async () => {

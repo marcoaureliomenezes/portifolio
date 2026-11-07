@@ -26,7 +26,7 @@ test.describe('rand-engine — library project smoke', () => {
     await expect(card).toBeVisible();
 
     // Library card signal: still poster + PyPI version visible without clicking
-    await expect(card.locator(`img[src="${hero.media.desktop.poster}"]`)).toBeVisible();
+    await expect(card.locator(`img[src="${hero.media[0].desktop.poster}"]`)).toBeVisible();
     await expect(card).toContainText(`PyPI ${pypi.version}`);
   });
 

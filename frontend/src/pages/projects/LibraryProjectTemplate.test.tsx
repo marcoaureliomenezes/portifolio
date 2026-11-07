@@ -171,17 +171,20 @@ const richProject: LibraryProject = {
   ...mockProject,
   hero: {
     ...mockProject.hero,
-    media: {
-      type: "video",
-      alt: "hero loop",
-      desktop: { webm: "/m/d.webm", mp4: "/m/d.mp4", poster: "/m/d.jpg", width: 1280, height: 720 },
-      phone: { webm: "/m/p.webm", mp4: "/m/p.mp4", poster: "/m/p.jpg", width: 360, height: 450 },
-    },
+    media: [
+      {
+        type: "video" as const,
+        alt: "hero loop",
+        desktop: { webm: "/m/d.webm", mp4: "/m/d.mp4", poster: "/m/d.jpg", width: 1280, height: 720 },
+        phone: { webm: "/m/p.webm", mp4: "/m/p.mp4", poster: "/m/p.jpg", width: 360, height: 450 },
+      },
+      svg("hero-extra"),
+    ],
   },
   links: { ...mockProject.links, docs: "https://docs.example.com/rand-engine" },
   sections: [
-    { id: "tables", title: "Related tables", body: "Hashed keys.", media: svg("tables") },
-    { id: "streams", title: "Event streams", body: "Micro-batches.", media: svg("streams") },
+    { id: "tables", title: "Related tables", body: "Hashed keys.", media: [svg("tables"), svg("tables-extra")] },
+    { id: "streams", title: "Event streams", body: "Micro-batches.", media: [svg("streams")] },
     { id: "try", title: "Try it", code: "spec = {'age': 1}" },
     { id: "why", title: "Why it exists", body: "Realistic test data." },
     {
@@ -270,6 +273,15 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
         order[i].compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();
     });
+  });
+
+  it("renders every media of the hero list and of a section list", () => {
+    const { container } = renderRoute();
+    expect(container.querySelector('video[aria-label="hero loop"]')).toBeTruthy();
+    expect(screen.getAllByAltText("scene hero-extra").length).toBeGreaterThan(0);
+    for (const alt of ["scene tables", "scene tables-extra", "scene streams"]) {
+      expect(screen.getAllByAltText(alt).length).toBeGreaterThan(0);
+    }
   });
 
   it("ranks the headings: scene titles are h3 in the How it works region, the rest h2", () => {

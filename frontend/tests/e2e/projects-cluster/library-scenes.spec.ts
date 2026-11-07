@@ -20,8 +20,8 @@ const pages = [
   { slug: 'dadaia-workspace', route: ROUTES.dadaiaWorkspace },
 ].map((p) => {
   const item = en.projectsV2.list.find((i: { slug: string }) => i.slug === p.slug);
-  const sectionScenes = (item.sections as { media?: Scene }[]).flatMap((s) => (s.media ? [s.media] : []));
-  return { ...p, hero: item.hero.media as Scene | undefined, sectionScenes };
+  const sectionScenes = (item.sections as { media?: Scene[] }[]).flatMap((s) => s.media ?? []);
+  return { ...p, hero: (item.hero.media ?? []) as Scene[], sectionScenes };
 });
 
 const viewports = [
@@ -46,7 +46,7 @@ async function open(page: Page, route: string, reduced: boolean) {
 }
 
 for (const { slug, route, hero, sectionScenes } of pages) {
-  const scenes = [...(hero ? [hero] : []), ...sectionScenes];
+  const scenes = [...hero, ...sectionScenes];
 
   for (const vp of viewports) {
     for (const reduced of [false, true]) {
