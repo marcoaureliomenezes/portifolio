@@ -68,7 +68,7 @@ function renderBody(slug, markdown, dir, files) {
       },
     },
   });
-  return marked.parse(markdown);
+  return marked.parser(marked.lexer(markdown));
 }
 
 /** Replaces each head tag of the template, which must hold it exactly once; values are escaped. */
