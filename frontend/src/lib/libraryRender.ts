@@ -10,7 +10,7 @@ import type { LibraryProject } from "@/types/content";
 
 export function renderLibrary(project: LibraryProject): LibraryProject {
   const { version, tagPrefix = "" } = project.pypi;
-  const fill = (s: string) => s.replaceAll("{version}", version).replaceAll("{tag}", tagPrefix + version);
+  const fill = (s: string) => s.split("{version}").join(version).split("{tag}").join(tagPrefix + version);
   return {
     ...project,
     pypi: { ...project.pypi, installCommand: fill(project.pypi.installCommand) },
