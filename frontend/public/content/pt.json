@@ -593,6 +593,7 @@
     "pypi": {
       "package": "dadaia-workspace",
       "version": "0.4.7",
+      "tagPrefix": "v",
       "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
     },
     "sections": [
@@ -653,7 +654,7 @@
       {
         "id": "try",
         "title": "Experimente",
-        "code": "uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3"
+        "code": "uvx dadaia-workspace@{version} init demo --harness claude | tail -n 3"
       },
       {
         "id": "why",
@@ -667,22 +668,22 @@
           {
             "label": "Linguagem",
             "value": "Python ^3.12",
-            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/pyproject.toml"
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/pyproject.toml"
           },
           {
             "label": "Licença",
             "value": "MIT",
-            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/LICENSE"
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/LICENSE"
           },
           {
             "label": "Harnesses",
             "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
-            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/README.md"
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/README.md"
           },
           {
             "label": "Papéis de agente",
             "value": "3: revisor de código, engenheiro de produto, engenheiro de software",
-            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/v0.4.7/dadaia_workspace/public/agents"
+            "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/{tag}/dadaia_workspace/public/agents"
           }
         ]
       }
@@ -966,22 +967,22 @@
               {
                 "label": "Linguagem",
                 "value": "Python >=3.10",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "pandas",
                 "value": "^2.2.2",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "Licença",
                 "value": "MIT",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "Velocidade (runner de CI)",
                 "value": "1.000.000 inteiros em 0,006 s, 10.000.000 em 0,041 s",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/docs/BENCHMARKS.md"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/docs/BENCHMARKS.md"
               }
             ]
           }
