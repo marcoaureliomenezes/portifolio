@@ -284,6 +284,16 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     }
   });
 
+  it("keeps a scene's text in one grid cell and every media of its list in the other", () => {
+    renderRoute();
+    const scene = screen.getByRole("heading", { name: "Related tables" }).closest("section") as HTMLElement;
+    expect(scene.children.length).toBe(2);
+    const [text, mediaCell] = Array.from(scene.children) as HTMLElement[];
+    expect(within(text).getByRole("heading", { name: "Related tables" })).toBeTruthy();
+    expect(within(mediaCell).getAllByAltText("scene tables").length).toBeGreaterThan(0);
+    expect(within(mediaCell).getAllByAltText("scene tables-extra").length).toBeGreaterThan(0);
+  });
+
   it("ranks the headings: scene titles are h3 in the How it works region, the rest h2", () => {
     renderRoute();
     const how = screen.getByRole("region", { name: "How it works" });
