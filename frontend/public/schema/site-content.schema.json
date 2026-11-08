@@ -1871,6 +1871,9 @@
                         "type": "string",
                         "minLength": 1
                       },
+                      "tagPrefix": {
+                        "type": "string"
+                      },
                       "installCommand": {
                         "type": "string",
                         "minLength": 1

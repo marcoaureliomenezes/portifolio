@@ -157,6 +157,7 @@ export const LibraryProjectSchema = ProjectBaseSchema.extend({
   pypi: z.object({
     package: z.string().min(1),
     version: z.string().min(1),
+    tagPrefix: z.string().optional(),
     installCommand: z.string().min(1),
   }),
   links: z.object({
