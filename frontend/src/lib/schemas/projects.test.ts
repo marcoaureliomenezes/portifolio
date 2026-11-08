@@ -483,3 +483,42 @@ describe.each(partitions)("%s: zod equals the emitted pattern", (_name, rule, re
     expect(new RegExp(pattern, "u").test(v)).toBe(ok);
   });
 });
+
+describe("library pypi version and tag prefix", () => {
+  const library = (pypi: Record<string, unknown>) =>
+    ProjectsContentSchema.safeParse({
+      index: validProjectsContent.index,
+      list: [
+        {
+          slug: "lib",
+          kind: "library",
+          hero: validCaseStudy.hero,
+          card: validProjectCard,
+          seo: validSeo,
+          sections: [validSection],
+          pypi: { package: "lib", version: "1.0.0", installCommand: "pip install lib", ...pypi },
+          links: { repo: "https://github.com/a/b", pypi: "https://pypi.org/project/lib" },
+        },
+      ],
+    });
+
+  it("keeps an optional string tagPrefix", () => {
+    const r = library({ tagPrefix: "v" });
+    expect(r.success && r.data.list[0].kind === "library" && r.data.list[0].pypi.tagPrefix).toBe("v");
+    expect(library({}).success).toBe(true);
+  });
+
+  it("refuses a numeric tagPrefix", () => {
+    expect(library({ tagPrefix: 1 }).success).toBe(false);
+  });
+
+  it.each(["pt", "en", "de"])("%s: each library block holds its pypi.version once", (lang) => {
+    const file = resolve(__dirname, `../../../public/content/${lang}.json`);
+    const { projectsV2 } = JSON.parse(readFileSync(file, "utf-8"));
+    const blocks = projectsV2.list.filter((p: { kind: string }) => p.kind === "library");
+    expect(blocks.length).toBe(2);
+    for (const block of blocks) {
+      expect(JSON.stringify(block).split(block.pypi.version).length - 1).toBe(1);
+    }
+  });
+});

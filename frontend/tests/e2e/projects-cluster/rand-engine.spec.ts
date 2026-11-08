@@ -42,7 +42,7 @@ test.describe('rand-engine — library project smoke', () => {
 
     // Library blocks: install command, version badge, sections
     await expect(page.locator('[data-testid="install-command"]')).toContainText(
-      pypi.installCommand,
+      'pip install rand-engine',
     );
     await expect(page.locator('[data-testid="library-version"]')).toContainText(pypi.version);
     await expect(

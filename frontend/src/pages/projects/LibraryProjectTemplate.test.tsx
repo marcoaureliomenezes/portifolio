@@ -347,3 +347,47 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     expect(screen.queryByTestId("project-card-stat")).toBeNull();
   });
 });
+
+describe("LibraryProjectTemplate — version placeholders", () => {
+  it("renders {version} and {tag} as literals in the install command, the Try-it code and the facts links", () => {
+    const project: LibraryProject = {
+      ...mockProject,
+      pypi: { ...mockProject.pypi, installCommand: "pip install rand-engine=={version}", tagPrefix: "v" },
+      sections: [
+        { id: "try", title: "Try it", code: "uvx rand-engine@{version} run" },
+        { id: "facts", title: "ignored", items: [{ label: "License", value: "MIT", href: "https://h.example/blob/{tag}/LICENSE" }] },
+      ],
+    };
+    renderTemplate(project);
+    expect(screen.getByTestId("install-command").textContent).toContain("pip install rand-engine==1.2.3");
+    expect(screen.getByText("uvx rand-engine@1.2.3 run")).toBeTruthy();
+    expect(screen.getByRole("link", { name: "MIT" }).getAttribute("href")).toBe("https://h.example/blob/v1.2.3/LICENSE");
+  });
+
+  it("renders the committed library pages with the pinned literals", () => {
+    const { projectsV2 } = JSON.parse(readFileSync(resolve(process.cwd(), "public/content/en.json"), "utf-8"));
+    const hrefs = (slug: string) => {
+      cleanup();
+      const { container } = renderTemplate(projectsV2.list.find((p: { slug: string }) => p.slug === slug));
+      return Array.from(container.querySelectorAll("a"))
+        .map((a) => a.getAttribute("href"))
+        .filter((h) => h?.includes("/blob/") || h?.includes("/tree/"));
+    };
+    const dw = "https://github.com/marcoaureliomenezes/dadaia-workspace";
+    expect(hrefs("dadaia-workspace")).toEqual([
+      `${dw}/blob/v0.4.7/pyproject.toml`,
+      `${dw}/blob/v0.4.7/LICENSE`,
+      `${dw}/blob/v0.4.7/README.md`,
+      `${dw}/tree/v0.4.7/dadaia_workspace/public/agents`,
+    ]);
+    expect(screen.getByText("uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3")).toBeTruthy();
+    const re = "https://github.com/marcoaureliomenezes/rand_engine";
+    expect(hrefs("rand-engine")).toEqual([
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/docs/BENCHMARKS.md`,
+    ]);
+    expect(screen.getByTestId("install-command").textContent).toContain("pip install rand-engine");
+  });
+});
