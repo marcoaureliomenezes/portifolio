@@ -86,7 +86,11 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
                   </p>
                 )}
               </div>
-              {media?.map((m, i) => <Media key={i} media={m} />)}
+              {media?.length ? (
+                <div className="space-y-4">
+                  {media.map((m, i) => <Media key={i} media={m} />)}
+                </div>
+              ) : null}
             </section>
           ))}
         </section>
