@@ -60,8 +60,9 @@ he worked, two projects, what he works with, what he is certified in and where h
   ends with the link to `/projetos` (`data-testid="see-all-projects"`), labelled by the locale's
   required `seeAllProjects`.
 - `ProjectCard`, the one card of the home and `/projetos`, is a single link to the project page
-  with four elements: the hero media's desktop poster (`<img>` with width, height and alt; the
-  card cover or a gradient placeholder when the item has no video), the name, the one-line
+  with four elements: the desktop poster of the first video in the hero's media list (`<img>`
+  with width, height and alt; the card cover or a gradient placeholder when the list holds no
+  video), the name, the one-line
   purpose and, for a library item, `PyPI <version>`. The home renders no `<video>`.
 - Skills: one `<dl>`, a `<dt>` per category keyed by its `id` and its items in one `<dd>`
   joined by " · ", in content order.

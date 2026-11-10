@@ -1,7 +1,7 @@
 ---
 slug: rand-engine-page
 title: rand-engine project page
-tldr: The library page for rand-engine, pinned to PyPI 0.8.0 and tag 0.8.0, with a hero loop, three scenes, a runnable Try it and facts from the tag.
+tldr: The rand-engine library page - version held once in pypi.version, tag equal to it; a hero loop, three scenes, a runnable Try it and tag-sourced facts.
 summary: The projectsV2 item slug rand-engine, kind library, in the three locale content files; its scenes, example and facts state what the pinned PyPI release ships, each fact linked to its source at the pinned git tag.
 tags:
   - projects
@@ -25,14 +25,16 @@ file at the pinned tag.
 
 ## Current behavior
 
-- The pin, as the content and `frontend/media/rand-engine/pin.txt` hold it:
+- The pin: `pypi.version` is the one place the content holds the version, and the page fills
+  the placeholders from it ([[library-page]]); the item has no `pypi.tagPrefix`, so its tag is
+  the version; `frontend/media/rand-engine/pin.txt` holds the same version for the recordings:
 
   ```text
   pin.txt        rand-engine==0.8.0
   pypi.version   0.8.0
-  git tag        0.8.0
+  git tag        {tag} = 0.8.0
   install line   pip install rand-engine
-  facts links    <links.repo>/blob/0.8.0/<path>
+  facts links    <links.repo>/blob/{tag}/<path>
   ```
 
 - Hero loop: a recording of one Python command that builds a `DataGenerator` from a two-column
@@ -48,10 +50,12 @@ file at the pinned tag.
   (the range its pyproject declares), License (MIT) and Speed on the CI runner (1,000,000
   integers in 0.006 s, 10,000,000 in 0.041 s, from its benchmarks page).
 - The meta row links the GitHub repo, the PyPI page and the docs root.
-- Its card on `/projetos` and on the home shows the hero's desktop poster ([[resume-home]]).
+- Its card on `/projetos` and on the home shows the desktop poster of the hero's video
+  ([[resume-home]]).
 - The three locale files carry the same keys, media paths and facts rows; text, `alt` and
   `caption` are translated.
-- The E2E spec reads the expected version from the content item, never from a literal.
+- The E2E spec reads the expected version and the card poster from the content item; it checks
+  the rendered install line, `pip install rand-engine`.
 - `frontend/media/rand-engine/claims.md` maps every sentence a scene prints or draws to its file
   and line at the tag.
 
@@ -59,6 +63,6 @@ file at the pinned tag.
 
 - Version-dependent facts sit only in the facts table, never in prose or scene text; Spark speed
   is not featured.
-- Moving the pin is a re-record of the scenes ([[scene-media]]) plus the same edit in the three
-  locale files.
+- Moving the pin is a re-record of the scenes ([[scene-media]]) plus a new `pypi.version` in the
+  three locale files.
 - Page order and layout: [[library-page]]. Content shape and asset rules: [[content-contract]].

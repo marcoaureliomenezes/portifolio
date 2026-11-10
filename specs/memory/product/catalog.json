@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T15:16:02Z",
+  "generated_at": "2026-11-10T04:02:32Z",
   "features": [
     {
       "rank": 1,
@@ -7,14 +7,14 @@
       "title": "Blog",
       "area": "blog",
       "tldr": "Markdown post folders become per-post HTML, an index and an RSS feed at build time; project heads are prerendered; the Blog link shows once a post is published.",
-      "summary": "build-blog.mjs runs after vite build; blog-posts.mjs is the one decider of a published post; /blog lists every published post in every locale with a language tag and tag filter, /blog/:slug shows the body the build rendered; the root head carries the default share image and the feed link.",
+      "summary": "build-blog.mjs runs after vite build; blog-posts.mjs is the one decider of a published post and of the post order; /blog lists every published post in every locale with a language tag and tag filter, /blog/:slug shows the body the build rendered; the root head carries the default share image and the feed link.",
       "path": "specs/memory/product/blog/blog.md",
       "tags": [
         "blog",
         "content",
         "seo"
       ],
-      "token_estimate": 1119,
+      "token_estimate": 1223,
       "depends_on": [
         "content-contract",
         "site-chrome",
@@ -41,8 +41,8 @@
       "slug": "content-contract",
       "title": "Content contract",
       "area": "content",
-      "tldr": "projects.ts is the one project schema, links are http(s), v1.json its input-mode export; verify parses the locales, checks key parity and every asset.",
-      "summary": "The site's content JSON has one machine contract built on the one project schema; verify's unit tests parse the three locale files against it, keep the exported JSON Schema equal to a fresh export, and hold every rule on the files under public/assets.",
+      "tldr": "projects.ts is the one project schema, one regex per URL or email field, site-content.schema.json its 2020-12 export; verify checks locales and assets.",
+      "summary": "The site's content JSON has one machine contract built on the one project schema that declares every top-level key; verify's unit tests parse the three locale files against it, keep the published JSON Schema equal to a fresh export and mappable by the panel's Studio, and hold every rule on the files under public/assets.",
       "path": "specs/memory/product/content/content-contract.md",
       "tags": [
         "content",
@@ -50,11 +50,12 @@
         "i18n",
         "assets"
       ],
-      "token_estimate": 905,
+      "token_estimate": 1157,
       "depends_on": [
-        "blog",
-        "scene-media",
         "library-page",
+        "blog",
+        "deploy-infrastructure",
+        "scene-media",
         "site-chrome",
         "resume-home"
       ],
@@ -65,7 +66,7 @@
         "frontend/scripts/content-schema.mjs",
         "frontend/scripts/export-content-schema.mjs",
         "frontend/scripts/check-i18n-parity.mjs",
-        "frontend/public/content/schema/v1.json",
+        "frontend/public/schema/**",
         "frontend/src/lib/contentSchemaExport.test.ts",
         "frontend/src/lib/contentAssets.test.ts",
         "frontend/src/lib/homeParity.test.ts",
@@ -80,14 +81,14 @@
       "title": "Deploy infrastructure",
       "area": "infra",
       "tldr": "One Terraform module serves the site from private S3 via CloudFront per env; Actions deploys over OIDC, hashed assets immutable, the rest no-cache.",
-      "summary": "terraform/modules/portfolio-static-site is the one topology, called by envs/stage and envs/prod; the terraform workflow plans on PRs and applies on push; the deploy workflow syncs dist/ under one cache rule, uploads each prerendered route as an extensionless HTML object and invalidates CloudFront; a one-time script creates the OIDC provider and a temporary bootstrap role.",
+      "summary": "terraform/modules/portfolio-static-site is the one topology, called by envs/stage and envs/prod, and names each env's bucket and distribution in SSM for the panel; the terraform workflow is a manual apply per env on the panel's infra role; the deploy workflow uploads the published schema, syncs dist/ under one cache rule, uploads each prerendered route as an extensionless HTML object and invalidates CloudFront; a one-time script creates only the OIDC provider.",
       "path": "specs/memory/product/infra/deploy-infrastructure.md",
       "tags": [
         "infrastructure",
         "deploy",
         "aws"
       ],
-      "token_estimate": 628,
+      "token_estimate": 845,
       "depends_on": [
         "blog",
         "content-contract",
@@ -97,6 +98,8 @@
         "terraform/**",
         ".github/workflows/deploy.yml",
         ".github/workflows/terraform.yml",
+        "frontend/src/terraformWorkflow.test.ts",
+        "frontend/src/deployRolePolicy.test.ts",
         "scripts/bootstrap-oidc.sh",
         "scripts/setup-deployment.sh",
         "scripts/build_frontend.sh",
@@ -138,7 +141,7 @@
         "accessibility",
         "performance"
       ],
-      "token_estimate": 481,
+      "token_estimate": 521,
       "depends_on": [
         "content-contract",
         "rand-engine-page",
@@ -162,7 +165,7 @@
       "slug": "dadaia-workspace-page",
       "title": "dadaia-workspace project page",
       "area": "projects",
-      "tldr": "The library page for dadaia-workspace, pinned to PyPI 0.4.7 and tag v0.4.7, with a hero loop, three scenes, a pinned Try it and facts from the tag.",
+      "tldr": "The dadaia-workspace library page - version held once in pypi.version, tag v plus it; a hero loop, three scenes, a Try it and facts from the tag.",
       "summary": "The projectsV2 item slug dadaia-workspace, kind library, in the three locale content files; every claim on it states what the pinned PyPI release ships and links its source at the pinned git tag.",
       "path": "specs/memory/product/projects/dadaia-workspace-page.md",
       "tags": [
@@ -170,11 +173,11 @@
         "content",
         "library"
       ],
-      "token_estimate": 490,
+      "token_estimate": 532,
       "depends_on": [
+        "library-page",
         "resume-home",
         "scene-media",
-        "library-page",
         "content-contract"
       ],
       "sources": [
@@ -191,15 +194,15 @@
       "slug": "library-page",
       "title": "Library project page layout",
       "area": "projects",
-      "tldr": "The one library page layout - purpose, install line, hero loop, side-by-side scenes, Try it, Why it exists, facts pinned to a tag.",
-      "summary": "LibraryProjectTemplate renders a library item in a fixed order from its content alone; scene sections sit text beside media on wide screens, and the facts heading names the library and its pinned version.",
+      "tldr": "The one library page layout - purpose, install line, hero media, scenes, Try it, Why it exists, facts at a tag; versions filled from pypi.version.",
+      "summary": "LibraryProjectTemplate renders a library item in a fixed order from its content alone, filling the {version} and {tag} placeholders from pypi.version; scene sections sit text beside their media on wide screens, and the facts heading names the library and its pinned version.",
       "path": "specs/memory/product/projects/library-page.md",
       "tags": [
         "projects",
         "library",
         "layout"
       ],
-      "token_estimate": 439,
+      "token_estimate": 525,
       "depends_on": [
         "site-chrome",
         "scene-media",
@@ -212,6 +215,8 @@
         "frontend/src/components/projects/ProjectSections.tsx",
         "frontend/src/components/projects/Block.tsx",
         "frontend/src/components/projects/CodeBlock.tsx",
+        "frontend/src/lib/libraryRender.ts",
+        "frontend/src/lib/libraryRender.test.ts",
         "frontend/tests/e2e/projects-cluster/library-scenes.spec.ts",
         "frontend/tests/e2e/projects-cluster/project-detail-library.spec.ts"
       ]
@@ -221,7 +226,7 @@
       "slug": "rand-engine-page",
       "title": "rand-engine project page",
       "area": "projects",
-      "tldr": "The library page for rand-engine, pinned to PyPI 0.8.0 and tag 0.8.0, with a hero loop, three scenes, a runnable Try it and facts from the tag.",
+      "tldr": "The rand-engine library page - version held once in pypi.version, tag equal to it; a hero loop, three scenes, a runnable Try it and tag-sourced facts.",
       "summary": "The projectsV2 item slug rand-engine, kind library, in the three locale content files; its scenes, example and facts state what the pinned PyPI release ships, each fact linked to its source at the pinned git tag.",
       "path": "specs/memory/product/projects/rand-engine-page.md",
       "tags": [
@@ -229,11 +234,11 @@
         "content",
         "library"
       ],
-      "token_estimate": 518,
+      "token_estimate": 579,
       "depends_on": [
+        "library-page",
         "resume-home",
         "scene-media",
-        "library-page",
         "content-contract"
       ],
       "sources": [
@@ -257,14 +262,15 @@
         "quality-assurance",
         "e2e"
       ],
-      "token_estimate": 223,
+      "token_estimate": 292,
       "depends_on": [
         "resume-home",
         "site-chrome"
       ],
       "sources": [
         "frontend/playwright.config.ts",
-        "frontend/tests/e2e/fixtures/routes.ts"
+        "frontend/tests/e2e/fixtures/routes.ts",
+        "frontend/tests/e2e/fixtures/language.ts"
       ]
     },
     {
@@ -280,7 +286,7 @@
         "home",
         "i18n"
       ],
-      "token_estimate": 788,
+      "token_estimate": 798,
       "depends_on": [
         "site-chrome",
         "content-contract",

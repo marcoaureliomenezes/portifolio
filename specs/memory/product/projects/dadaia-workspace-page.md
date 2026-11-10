@@ -1,7 +1,7 @@
 ---
 slug: dadaia-workspace-page
 title: dadaia-workspace project page
-tldr: The library page for dadaia-workspace, pinned to PyPI 0.4.7 and tag v0.4.7, with a hero loop, three scenes, a pinned Try it and facts from the tag.
+tldr: The dadaia-workspace library page - version held once in pypi.version, tag v plus it; a hero loop, three scenes, a Try it and facts from the tag.
 summary: The projectsV2 item slug dadaia-workspace, kind library, in the three locale content files; every claim on it states what the pinned PyPI release ships and links its source at the pinned git tag.
 tags:
   - projects
@@ -24,15 +24,18 @@ command to try it and a facts table whose rows each link their source file at th
 
 ## Current behavior
 
-- The pin, as the content and `frontend/media/dadaia-workspace/pin.txt` hold it:
+- The pin: `pypi.version` is the one place the content holds the version, and the page fills
+  the placeholders from it ([[library-page]]); `frontend/media/dadaia-workspace/pin.txt` holds
+  the same version for the recordings:
 
   ```text
-  pin.txt        dadaia-workspace==0.4.7
-  pypi.version   0.4.7
-  git tag        v0.4.7
-  install line   uvx dadaia-workspace init <dir> --harness <name>
-  Try it         uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3
-  facts links    <links.repo>/blob/v0.4.7/<path>
+  pin.txt          dadaia-workspace==0.4.7
+  pypi.version     0.4.7
+  pypi.tagPrefix   v
+  git tag          {tag} = v0.4.7
+  install line     uvx dadaia-workspace init <dir> --harness <name>
+  Try it           uvx dadaia-workspace@{version} init demo --harness claude | tail -n 3
+  facts links      <links.repo>/blob/{tag}/<path>, the agents row /tree/{tag}/
   ```
 
 - Hero loop: a recording of `init` for a directory `demo` with the claude harness, the listing
@@ -46,7 +49,8 @@ command to try it and a facts table whose rows each link their source file at th
   code reviewer, product engineer, software engineer, its public agents folder).
 - The meta row links the GitHub repo and the PyPI page; the item has no docs link, because the
   library's docs URL answers 404.
-- Its card on `/projetos` and on the home shows the hero's desktop poster ([[resume-home]]).
+- Its card on `/projetos` and on the home shows the desktop poster of the hero's video
+  ([[resume-home]]).
 - The three locale files carry the same keys, media paths and facts rows; text, `alt` and
   `caption` are translated. The `h1` is the product name in every locale; the purpose line is
   localized.
@@ -57,5 +61,5 @@ command to try it and a facts table whose rows each link their source file at th
 
 - The page states only what the pinned PyPI release ships; verbs and role counts of an
   unpublished branch stay off it. Moving the pin is a re-record of the scenes
-  ([[scene-media]]) plus the same edit in the three locale files.
+  ([[scene-media]]) plus a new `pypi.version` in the three locale files.
 - Page order and layout: [[library-page]]. Content shape and asset rules: [[content-contract]].

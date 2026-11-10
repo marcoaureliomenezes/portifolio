@@ -41,7 +41,8 @@ view, and a still image when the system asks for reduced motion.
   `<scene>-<light|dark>-<h>.svg`, `<h>` the first 8 hex of the file's sha256; a re-record deletes
   the scene's previous files. `record.mjs` exits non-zero above the budgets: webm 307200 bytes,
   mp4 409600, poster 61440, SVG 51200.
-- `Media` renders a scene in a `<figure>` with its caption. A video picks the desktop cut from
+- A hero or a section carries a list of media; each entry renders as its own `Media`, in list
+  order. `Media` renders a scene in a `<figure>` with its caption. A video picks the desktop cut from
   640 px wide and the phone cut below; it mounts as `<video autoplay muted loop playsinline
   preload="none">` with the poster, width and height, webm then mp4 sources, and the `alt` as
   its accessible name, only once in view. Before that, and always under
@@ -49,7 +50,8 @@ view, and a still image when the system asks for reduced motion.
   640 px swaps the cut.
 - An SVG scene shows its light or dark file by the site's theme class, not the OS scheme; its
   own CSS stops the animation under reduced motion, leaving the complete still.
-- The E2E spec checks both library pages at 1440 and 360 px, with and without reduced motion.
+- The E2E spec checks every entry of the hero and section media lists of both library pages at
+  1440 and 360 px, with and without reduced motion.
 
 ## Boundaries
 

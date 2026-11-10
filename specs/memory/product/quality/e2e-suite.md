@@ -9,6 +9,7 @@ tags:
 sources:
   - frontend/playwright.config.ts
   - frontend/tests/e2e/fixtures/routes.ts
+  - frontend/tests/e2e/fixtures/language.ts
 ---
 
 ## What it does
@@ -28,6 +29,10 @@ Real-browser checks that the site loads and its main paths work, before a merge 
 - The browser locale is `pt-BR`, so pt is the default language; `E2E_BASE_URL` overrides the
   base URL. Traces are kept on the first retry and screenshots on failure.
 - `tests/e2e/fixtures/routes.ts` names the routes the specs visit.
+- `tests/e2e/fixtures/language.ts` `switchLanguage` is the one language switch: it opens the
+  header's language combobox, picks the option, and returns once the header's first nav link
+  shows the chosen locale's `siteChrome.nav.resume`, read from that locale's content file, so
+  the new locale's content has loaded. Every spec that switches the language calls it.
 
 ## Boundaries
 
