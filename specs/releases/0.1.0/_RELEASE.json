@@ -1,12 +1,12 @@
 {
   "schema": "release-state-v1",
   "release": "0.1.0",
-  "phase": "IMPLEMENTATION",
+  "phase": "CLOSURE",
   "defined": {
     "ts": "2026-11-07T18:45:20Z"
   },
   "implemented": {
-    "ts": "2026-11-07T15:02:23Z"
+    "ts": "2026-11-10T03:55:06Z"
   },
   "shipped": null,
   "log": [
@@ -386,6 +386,14 @@
       "agent": "main",
       "kind": "note",
       "text": "Operator authorization verbatim: \"Adiar a exclusão (Recommended)\" — AC2.3's first bullet, for content/* only (neither sync writes or deletes content/*), is carried to the switch, the panel's first publish to the portfolio buckets. rc-5 deletes the two --exclude \"content/*\" sync lines, one per deploy job. The schema cp and the schema/* exclusion stay. Reason: Job 6 changes media to a list, and the old content JSON left in the buckets would break the project pages until the panel publishes."
+    },
+    {
+      "ts": "2026-11-10T03:55:06Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-5",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
     }
   ]
 }
