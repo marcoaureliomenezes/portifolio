@@ -400,6 +400,28 @@
       "agent": "dd-product-engineer",
       "kind": "summary",
       "text": "delivered: rc-5 Jobs 1-7 merged on the wt-rc, each with an APPROVED verdict (CLOSURE at 53c75ad): FR1 zod ^4.6.7, the majors react-router-dom 7.18, vitest and @vitest/coverage-v8 5 and @lhci/cli 0.16 with overrides for what no direct bump clears, frontend/bun.lockb deleted; FR2 the module's two SSM String parameters per environment in us-east-1 (/static-sites/<site>/<env>/bucket and /distribution-id, valued from its own bucket and distribution), each deploy role trusting only its GitHub environment subject by StringEquals (stage, production), and in both deploy jobs one aws s3 cp of the published schema to schema/site-content.schema.json (application/json, no-cache) with the no-cache sync excluding schema/*; FR3 the published schema as JSON Schema 2020-12 at public/schema/site-content.schema.json with no $ref or definitions wrapper, v1.json and the draft-07 export deleted, one regex per URL and email field emitted as its pattern with no format, the SiteRelativeUrl control-character partitions pinned, kindLabels deleted, the certification link one pattern and media a list so every oneOf sits under items with a const, the 35 top-level locale keys declared and .catchall gone; FR4 pypi.tagPrefix and the {version} and {tag} placeholders filled at render from pypi.version, each locale's library blocks holding the version only there, the rendered pages and pin.txt unchanged; FR5 the empty-tags partition of PostMeta, the post reader the one order decider with the blog index's second sort deleted, the docstrings stating only their unit's contract, attribute escaping of & and \" pinned, body headings one level under the title, and one E2E switchLanguage helper replacing every inline switch; one bug found and fixed inside the rc, 0 open: library-scene-second-media-leaves-the-media-column, a REBUILD of the scene's media cell in Job 7 (0a92d60); readings: (a) AC3.2's \"no existing refusal turns into an acceptance\" holds over the listed partitions, which are the PLAN §2.2 regexes; (b) the \"0 read-only\" of AC3.4 and the DoD means no non-const placeholder, and the 19 read-only fields are const by design; (c) the --delete no-cache deploy sync removes the unread bucket object content/schema/v1.json, which has 0 readers; AC2.1-AC2.3 evidence (the plans, the apply run and the stage checks) is collected after the rc PR merges into develop (SPEC Closure) and recorded then as a note; memory: content-contract, deploy-infrastructure, blog, library-page, dadaia-workspace-page, rand-engine-page, scene-media, resume-home and e2e-suite reconciled, site-chrome reviewed, ARCHITECTURE Structure names the export path, the catalog regenerated, the README infra and deploy lines derived; carried: AC2.3's content/* exclusion, carried to the switch under the operator's words \"Adiar a exclusão (Recommended)\" (note 2026-11-07T23:05:00Z), as the backlog entry switch-restores-the-content-exclusion; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-10T04:04:22Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 25d1dd504cd8f21211349d76e9074983771e2bbd..4df7c005f10d: 1 reviewed, 9 changed.",
+      "since": "25d1dd504cd8f21211349d76e9074983771e2bbd",
+      "until": "4df7c005f10d81573c248a23e873a1274a5ed81b",
+      "reviewed": [
+        "site-chrome"
+      ],
+      "changed": [
+        "content-contract",
+        "deploy-infrastructure",
+        "blog",
+        "library-page",
+        "dadaia-workspace-page",
+        "rand-engine-page",
+        "scene-media",
+        "resume-home",
+        "e2e-suite"
+      ]
     }
   ]
 }
