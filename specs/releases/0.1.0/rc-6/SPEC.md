@@ -177,7 +177,7 @@ The as-is review found the five write sets disjoint. The PLAN schedules the wave
 
 ### FR5 — Lighthouse publishes nothing
 
-- **AC5.1** `lighthouserc.json` holds no `upload` block, and `assert` still runs. Test: integration. The job's hand-back cites one run of `npm run lighthouse` with its exit code and no upload line. No workflow runs Lighthouse on a PR.
+- **AC5.1** `lighthouserc.json` holds no `upload` block, and `assert` still runs. Test: integration. The job's hand-back cites one run of `npm run lighthouse` with its exit code and no upload line. On a PR, the `ci.yml` `lighthouse` job runs `npm run lighthouse` (`.github/workflows/ci.yml:154-176`), and that job, the last step of the file, uploads no artifact. No workflow or step reads the uploaded report: the workflows' `upload-artifact` steps carry only `dist/` and `playwright-report/`. Deleting the `upload` block therefore loses nothing, and that PR run keeps its `assert`.
 
 ### FR6 — the consumer and the gate
 
