@@ -113,33 +113,23 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
-    // Then: document.title is non-empty
-    const titlePT = await page.title();
-    expect(titlePT.trim().length).toBeGreaterThan(0);
-
-    // Then: document.title does NOT equal a generic "Projetos" shell title
+    // Then: document.title is the project's, not a generic "Projetos" shell title
     // The shell must NOT override the child's title; the child sets it via useDocumentSeo
-    expect(titlePT.toLowerCase()).not.toBe('projetos');
-    // Title should reference the project (dadaia-workspace or Marco Menezes, etc.)
-    // We assert it is project-specific by checking it differs from the index title
+    await expect(page).toHaveTitle(/dadaia-workspace/);
+    await expect(page).not.toHaveTitle(/^projetos$/i);
+    const titlePT = await page.title();
+
+    // The index title differs from the project's
     await page.goto(ROUTES.projectsIndex);
-    await page.waitForLoadState('networkidle');
-    const titleIndex = await page.title();
-    expect(titlePT).not.toBe(titleIndex);
+    await expect(page).not.toHaveTitle(titlePT);
 
     // Then: switching language changes the title (useDocumentSeo responds to LanguageContext)
     await page.goto(ROUTES.dadaiaWorkspace);
-    await page.waitForLoadState('networkidle');
-    const titlePT2 = await page.title();
+    await expect(page).toHaveTitle(titlePT);
 
     await switchLanguage(page, 'English');
-    // The switch does not navigate: wait for the effect to rewrite the title
-    await expect(page).not.toHaveTitle(titlePT2);
-
-    const titleEN = await page.title();
-    // EN title is non-empty and distinct from PT title (i18n hook works)
-    expect(titleEN.trim().length).toBeGreaterThan(0);
-    expect(titleEN).not.toBe(titlePT2);
+    // The switch does not navigate: the effect rewrites the title
+    await expect(page).toHaveTitle(/dadaia-workspace, a spec-driven/);
   });
 
   test('PC-E2E-36: shell persists across Outlet swap — index card click updates breadcrumb without remount', async ({ page }) => {

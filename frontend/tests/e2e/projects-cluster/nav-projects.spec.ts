@@ -9,11 +9,11 @@ import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
-const chrome = JSON.parse(readFileSync('public/content/pt.json', 'utf8')).siteChrome.nav;
-const projectsName: string = chrome.projects;
+const readNav = () => JSON.parse(readFileSync('public/content/pt.json', 'utf8')).siteChrome.nav;
 
 test.describe('Navigation to /projetos from the header', () => {
   test('PC-E2E-17: desktop header nav has Resume and Projects links and Projects navigates', async ({ page, request }) => {
+    const chrome = readNav();
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
@@ -70,7 +70,7 @@ test.describe('Navigation to /projetos from the header', () => {
     await page.goto(ROUTES.home);
     await page.waitForLoadState('networkidle');
 
-    await page.getByRole('banner').getByRole('link', { name: projectsName }).click();
+    await page.getByRole('banner').getByRole('link', { name: readNav().projects }).click();
 
     await expect(page).toHaveURL('/projetos');
   });
