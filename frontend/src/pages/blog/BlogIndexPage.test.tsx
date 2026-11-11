@@ -71,13 +71,13 @@ describe("BlogIndexPage", () => {
     ["pt", "Blog", "Notas sobre engenharia de dados e as ferramentas que construo."],
     ["en", "Blog", "Notes on data engineering and the tools I build."],
     ["de", "Blog", "Notizen zu Data Engineering und den Werkzeugen, die ich baue."],
-  ] as const)("%s lists both posts newest first under the blog heading", async (locale, h1, intro) => {
-    servePosts();
+  ] as const)("%s lists both posts in the order the index holds them, oldest first, under the blog heading", async (locale, h1, intro) => {
+    serveIndex(() => Promise.resolve(new Response(JSON.stringify([...POSTS].reverse()))));
     renderAt("/blog", locale);
     await screen.findByRole("link", { name: "Newer post" });
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(h1);
     expect(screen.getByText(intro)).toBeTruthy();
-    expect(postHrefs()).toEqual(["/blog/newer-post", "/blog/older-post"]);
+    expect(postHrefs()).toEqual(["/blog/older-post", "/blog/newer-post"]);
   });
 
   it("renders the index in the order the data holds, not by date", async () => {
