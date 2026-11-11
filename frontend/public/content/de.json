@@ -544,13 +544,7 @@
   "projectsV2": {
     "index": {
       "title": "Projekte",
-      "description": "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn.",
-      "kindLabels": {
-        "case-study": "Fallstudie",
-        "meta": "Infrastruktur",
-        "games": "Games",
-        "library": "Python · PyPI"
-      }
+      "description": "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn."
     },
     "list": [
       {
@@ -559,25 +553,27 @@
         "hero": {
           "title": "dadaia-workspace",
           "tagline": "Ein lokal-first, spezifikationsgesteuerter Workspace, der KI-Agenten aktuellen Kontext, einen dokumentgesteuerten Lebenszyklus und Anti-Slop-Grenzen gibt.",
-          "media": {
-            "type": "video",
-            "alt": "Ein Terminal führt dadaia-workspace init für ein Verzeichnis namens demo mit dem Harness claude aus und gibt Harness: claude aus. Das Auflisten von demo zeigt .agents, AGENTS.md, .claude und .dadaia. Ein doctor in demo gibt Exit 0 aus.",
-            "caption": "Ein Befehl erstellt einen Workspace, und doctor endet mit Code 0.",
-            "desktop": {
-              "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
-              "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
-              "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
-              "width": 1280,
-              "height": 720
-            },
-            "phone": {
-              "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
-              "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
-              "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
-              "width": 720,
-              "height": 900
+          "media": [
+            {
+              "type": "video",
+              "alt": "Ein Terminal führt dadaia-workspace init für ein Verzeichnis namens demo mit dem Harness claude aus und gibt Harness: claude aus. Das Auflisten von demo zeigt .agents, AGENTS.md, .claude und .dadaia. Ein doctor in demo gibt Exit 0 aus.",
+              "caption": "Ein Befehl erstellt einen Workspace, und doctor endet mit Code 0.",
+              "desktop": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+                "width": 720,
+                "height": 900
+              }
             }
-          }
+          ]
         },
         "card": {
           "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
@@ -597,6 +593,7 @@
         "pypi": {
           "package": "dadaia-workspace",
           "version": "0.4.7",
+          "tagPrefix": "v",
           "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
         },
         "sections": [
@@ -604,54 +601,60 @@
             "id": "demand-to-merge",
             "title": "Von der Nachfrage zum Merge",
             "body": "Ein ausgewähltes Set durchläuft einen Grill, dann SPEC, PLAN und TASKS. Eine Aufgabe wird jeweils reserviert und erst nach dem APPROVED des Reviewers abgehakt, danach führt der Abschluss Feature in develop zusammen.",
-            "media": {
-              "type": "svg",
-              "alt": "Von der Nachfrage zum Merge: ausgewähltes Set, Grill, SPEC PLAN TASKS, jeweils eine reservierte Aufgabe, abgehakt erst nach APPROVED, dann Abschluss mit dem Merge des Features in develop",
-              "caption": "Jeder Schritt wartet auf den vorherigen.",
-              "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
-              "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Von der Nachfrage zum Merge: ausgewähltes Set, Grill, SPEC PLAN TASKS, jeweils eine reservierte Aufgabe, abgehakt erst nach APPROVED, dann Abschluss mit dem Merge des Features in develop",
+                "caption": "Jeder Schritt wartet auf den vorherigen.",
+                "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+                "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+              }
+            ]
           },
           {
             "id": "gate-refuses",
             "title": "Das Gate verweigert",
             "body": "Das Pre-Gate blockiert einen dadaia-Lauf außerhalb des Workspace-venv. Seine Verweigerung nennt den blockierten Befehl und trägt eine Korrekturzeile.",
-            "media": {
-              "type": "video",
-              "alt": "Ein Terminal erstellt einen Workspace namens w und schickt dem Pre-Gate dann einen Bash-Aufruf für dadaia doctor. Das Gate gibt eine VENV-GUARD-Verweigerung aus, die den blockierten Befehl dadaia doctor nennt und eine Korrekturzeile, .dadaia/.venv/bin/dadaia doctor.",
-              "caption": "Ein blockierter Befehl, eine Korrekturzeile.",
-              "desktop": {
-                "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
-                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
-                "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
-                "width": 1280,
-                "height": 720
-              },
-              "phone": {
-                "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
-                "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
-                "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
-                "width": 720,
-                "height": 900
+            "media": [
+              {
+                "type": "video",
+                "alt": "Ein Terminal erstellt einen Workspace namens w und schickt dem Pre-Gate dann einen Bash-Aufruf für dadaia doctor. Das Gate gibt eine VENV-GUARD-Verweigerung aus, die den blockierten Befehl dadaia doctor nennt und eine Korrekturzeile, .dadaia/.venv/bin/dadaia doctor.",
+                "caption": "Ein blockierter Befehl, eine Korrekturzeile.",
+                "desktop": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+                  "width": 720,
+                  "height": 900
+                }
               }
-            }
+            ]
           },
           {
             "id": "six-harnesses",
             "title": "Sechs Harnesses",
             "body": "Das Gesetz in AGENTS.md wird einmal geschrieben und von Claude Code, Codex, Kimi Code, Cursor, Devin und GitHub Copilot gelesen. Ein Harness unterscheidet sich nur in der Serialisierung: Ereignisnamen, Hook-Datei und Antwortform.",
-            "media": {
-              "type": "svg",
-              "alt": "Ein Gesetz, AGENTS.md, projiziert in sechs Harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin und GitHub Copilot.",
-              "caption": "Ein Gesetz, sechs Harnesses.",
-              "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
-              "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Ein Gesetz, AGENTS.md, projiziert in sechs Harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin und GitHub Copilot.",
+                "caption": "Ein Gesetz, sechs Harnesses.",
+                "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+                "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+              }
+            ]
           },
           {
             "id": "try",
             "title": "Ausprobieren",
-            "code": "uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3"
+            "code": "uvx dadaia-workspace@{version} init demo --harness claude | tail -n 3"
           },
           {
             "id": "why",
@@ -665,22 +668,22 @@
               {
                 "label": "Sprache",
                 "value": "Python ^3.12",
-                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "Lizenz",
                 "value": "MIT",
-                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/LICENSE"
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/LICENSE"
               },
               {
                 "label": "Harnesses",
                 "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
-                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/v0.4.7/README.md"
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/README.md"
               },
               {
                 "label": "Agentenrollen",
                 "value": "3: Code-Reviewer, Product Engineer, Software Engineer",
-                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/v0.4.7/dadaia_workspace/public/agents"
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/{tag}/dadaia_workspace/public/agents"
               }
             ]
           }
@@ -852,25 +855,27 @@
         "hero": {
           "title": "rand-engine",
           "tagline": "Synthetische Daten aus einer deklarativen Spezifikation, für Batch und Streaming.",
-          "media": {
-            "type": "video",
-            "alt": "Ein Terminal führt einen Python-Befehl aus. Er baut einen DataGenerator aus einer Spezifikation mit zwei Spalten, age als Ganzzahl von 18 bis 80 und plan als free oder pro, mit seed 42 und 5 Zeilen, und gibt eine Tabelle mit den Spalten age und plan und 5 Zeilen aus.",
-            "caption": "Eine Spezifikation rein, ein DataFrame mit Seed raus.",
-            "desktop": {
-              "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
-              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
-              "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
-              "width": 1280,
-              "height": 720
-            },
-            "phone": {
-              "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
-              "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
-              "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
-              "width": 720,
-              "height": 900
+          "media": [
+            {
+              "type": "video",
+              "alt": "Ein Terminal führt einen Python-Befehl aus. Er baut einen DataGenerator aus einer Spezifikation mit zwei Spalten, age als Ganzzahl von 18 bis 80 und plan als free oder pro, mit seed 42 und 5 Zeilen, und gibt eine Tabelle mit den Spalten age und plan und 5 Zeilen aus.",
+              "caption": "Eine Spezifikation rein, ein DataFrame mit Seed raus.",
+              "desktop": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
+                "width": 720,
+                "height": 900
+              }
             }
-          }
+          ]
         },
         "card": {
           "cover": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
@@ -895,49 +900,55 @@
             "id": "related-tables",
             "title": "Verwandte Tabellen",
             "body": "Verwandte Tabellen teilen die pk-Spezifikation der Elterntabelle mit dem fk der Kindtabelle, damit die Schlüssel konsistent bleiben. Hier ist orders.customer_id ein fk auf den pk customer_id von customers.",
-            "media": {
-              "type": "svg",
-              "alt": "Zwei Tabellen. Die Tabelle customers hat customer_id, mit pk markiert, und city, mit den Zeilen 1 Rio, 2 Recife und 3 Rio. Die Tabelle orders hat order_id, mit pk markiert, und customer_id, mit fk markiert, mit den Bestellungen 1, 2 und 3, die auf die Kunden 2, 1 und 2 zeigen.",
-              "caption": "orders.customer_id ist ein Fremdschlüssel auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
-              "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
-              "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Zwei Tabellen. Die Tabelle customers hat customer_id, mit pk markiert, und city, mit den Zeilen 1 Rio, 2 Recife und 3 Rio. Die Tabelle orders hat order_id, mit pk markiert, und customer_id, mit fk markiert, mit den Bestellungen 1, 2 und 3, die auf die Kunden 2, 1 und 2 zeigen.",
+                "caption": "orders.customer_id ist ein Fremdschlüssel auf customers.customer_id. Die gezeichneten Zeilen sind illustrativ.",
+                "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
+                "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
+              }
+            ]
           },
           {
             "id": "event-stream",
             "title": "Event-Streams",
             "body": "stream_dict liefert einen unendlichen Generator aus Dicts, den der Aufrufer beendet. Seine event_id ist ein pk, der über Microbatches hinweg weiterläuft, sodass sich die Werte nie wiederholen.",
-            "media": {
-              "type": "svg",
-              "alt": "Ein Generator, gebaut mit DataGenerator(spec, seed=1).size(10).stream_dict(), gibt Datensätze nacheinander aus, mit event_id 1, 2, 3 und 4, jeweils neben einem Feld timestamp_created, und ein Label besagt, dass er nie endet.",
-              "caption": "Jeder Datensatz trägt die nächste event_id, und der Stream endet nie.",
-              "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
-              "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
-            }
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Ein Generator, gebaut mit DataGenerator(spec, seed=1).size(10).stream_dict(), gibt Datensätze nacheinander aus, mit event_id 1, 2, 3 und 4, jeweils neben einem Feld timestamp_created, und ein Label besagt, dass er nie endet.",
+                "caption": "Jeder Datensatz trägt die nächste event_id, und der Stream endet nie.",
+                "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
+                "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
+              }
+            ]
           },
           {
             "id": "files-in-parts",
             "title": "Dateien in Teilen",
             "body": "Beim Schreiben mit numFiles größer als 1 entsteht ein Ordner mit Teildateien statt einer einzigen Datei. Die pk-Werte wiederholen sich zwischen den Teilen nie.",
-            "media": {
-              "type": "video",
-              "alt": "Ein Terminal führt einen Python-Befehl aus, der 1000 Zeilen einer pk-Spalte namens id mit numFiles gleich 3 in eine CSV-Datei schreibt. Ein zweiter Befehl listet den Ausgabeordner, der drei Dateien enthält, deren Namen part_, id und .csv enthalten.",
-              "caption": "Ein Speichervorgang, drei Teildateien.",
-              "desktop": {
-                "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
-                "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
-                "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
-                "width": 1280,
-                "height": 720
-              },
-              "phone": {
-                "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
-                "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
-                "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
-                "width": 720,
-                "height": 900
+            "media": [
+              {
+                "type": "video",
+                "alt": "Ein Terminal führt einen Python-Befehl aus, der 1000 Zeilen einer pk-Spalte namens id mit numFiles gleich 3 in eine CSV-Datei schreibt. Ein zweiter Befehl listet den Ausgabeordner, der drei Dateien enthält, deren Namen part_, id und .csv enthalten.",
+                "caption": "Ein Speichervorgang, drei Teildateien.",
+                "desktop": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
+                  "width": 720,
+                  "height": 900
+                }
               }
-            }
+            ]
           },
           {
             "id": "try",
@@ -956,22 +967,22 @@
               {
                 "label": "Sprache",
                 "value": "Python >=3.10",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "pandas",
                 "value": "^2.2.2",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "Lizenz",
                 "value": "MIT",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/pyproject.toml"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "Geschwindigkeit (CI-Runner)",
                 "value": "1.000.000 Ganzzahlen in 0,006 s, 10.000.000 in 0,041 s",
-                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/0.8.0/docs/BENCHMARKS.md"
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/docs/BENCHMARKS.md"
               }
             ]
           }

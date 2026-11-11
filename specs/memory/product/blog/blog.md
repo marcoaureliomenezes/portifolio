@@ -2,7 +2,7 @@
 slug: blog
 title: Blog
 tldr: Markdown post folders become per-post HTML, an index and an RSS feed at build time; project heads are prerendered; the Blog link shows once a post is published.
-summary: build-blog.mjs runs after vite build; blog-posts.mjs is the one decider of a published post; /blog lists every published post in every locale with a language tag and tag filter, /blog/:slug shows the body the build rendered; the root head carries the default share image and the feed link.
+summary: build-blog.mjs runs after vite build; blog-posts.mjs is the one decider of a published post and of the post order; /blog lists every published post in every locale with a language tag and tag filter, /blog/:slug shows the body the build rendered; the root head carries the default share image and the feed link.
 tags:
   - blog
   - content
@@ -42,10 +42,14 @@ pages get their own served heads from the same build.
   fails the build with `<slug>: <field>: <message>`.
 - `scripts/blog-posts.mjs` `readPosts` is the one decider of "published": it validates every
   folder, drafts included, drops `draft: true` posts and orders the rest newest first (ties by
-  slug). A draft gets no page, index entry or feed item and does not count for the Blog link.
+  slug); it is the one order decider, and the index data, the feed and the blog index keep its
+  order. A draft gets no page, index entry or feed item and does not count for the Blog link.
 - `npm run build` runs `vite build`, then `scripts/build-blog.mjs` (`--posts`, `--dist`
   override the folders). `marked`, a devDependency absent from the client bundle, renders the
-  body: raw HTML renders as escaped text; a code block is a plain escaped `<pre><code>`; a link
+  body: raw HTML renders as escaped text; a body heading sits one level under the post title,
+  so `#` renders `<h2>`, each level shifts down one and `######` stays `<h6>`, and the post page
+  keeps one `h1`; a code block is a plain escaped `<pre><code>`; `&` and `"` in an image `alt` or
+  a link `href` render as `&amp;` and `&quot;`; a link
   must be `http(s)://`, `SiteRelativeUrl` ([[content-contract]]) or a `#` anchor, else the build
   fails naming the post and the link.
 - Media: `![alt](x.png|jpg|webp|svg)` becomes an `<img>` with its alt and the width and height
@@ -73,7 +77,8 @@ pages get their own served heads from the same build.
   `pubDate`, description, one `<category>` per tag and `dc:language`.
 - `/blog` and `/blog/:slug` are lazy routes, present whether or not a post exists; both read
   `/blog/index.json` (no-cache), and a failed fetch reads as no post. The index lists every
-  published post newest first in every locale: the title linked to the post, the description,
+  published post in every locale, in the order the index data holds them, with no sort of its
+  own: the title linked to the post, the description,
   the date in the visitor's locale (`Intl.DateTimeFormat`), the post's `lang` code uppercased in
   an element carrying that `lang`, and its tags after the locale's `siteChrome.blog.tagsLabel`
   (no label when it has none). `/blog?tag=x` lists only the posts tagged `x`

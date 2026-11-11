@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { configure } from '@testing-library/dom';
 
 // T-PC2-R2-09 (AC-PC2-R2-08, deflake): LanguageProvider blocks render until its

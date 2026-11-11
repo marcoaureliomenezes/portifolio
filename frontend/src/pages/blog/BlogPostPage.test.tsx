@@ -91,6 +91,22 @@ describe("BlogPostPage", () => {
     expect(article.closest('[class*="max-w-[680px]"]')).not.toBeNull();
   });
 
+  it("a post with no tags shows its date and language tag and no tags label", async () => {
+    const base = globalThis.fetch;
+    vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
+      input === "/blog/index.json"
+        ? Promise.resolve(new Response(JSON.stringify([{ ...POSTS[0], tags: [] }])))
+        : typeof input === "string" && input.endsWith("/body.html")
+          ? Promise.resolve(new Response("<p>x</p>", { headers: { "Content-Type": "text/html" } }))
+          : base(input, init),
+    );
+    renderAt("/blog/newer-post");
+    await screen.findByRole("article");
+    expect(screen.getByText("9 de março de 2026")).toBeTruthy();
+    expect(screen.getByText("PT").getAttribute("lang")).toBe("pt");
+    expect(screen.queryByText("Tags")).toBeNull();
+  });
+
   it("an en post under the de UI keeps lang en on its article", async () => {
     serveBlog();
     renderAt("/blog/older-post", "de");
@@ -151,16 +167,17 @@ describe("BlogPostPage", () => {
   });
 
   it("renders no 404 content while the index is still pending", async () => {
+    let requested = false;
     const base = globalThis.fetch;
     vi.stubGlobal("fetch", (input: RequestInfo | URL, init?: RequestInit) =>
       input === "/blog/index.json"
-        ? new Promise<Response>(() => undefined)
+        ? ((requested = true), new Promise<Response>(() => undefined))
         : typeof input === "string" && input.endsWith("/body.html")
           ? Promise.resolve(new Response("", { status: 404 }))
           : base(input, init),
     );
     renderAt("/blog/newer-post");
-    await new Promise((r) => setTimeout(r, 50));
+    await vi.waitFor(() => expect(requested).toBe(true));
     expect(screen.queryByText("404")).toBeNull();
     expect(screen.queryByRole("article")).toBeNull();
   });

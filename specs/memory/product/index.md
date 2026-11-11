@@ -31,7 +31,7 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `content-contract` | Content contract | projects.ts is the one project schema, links are http(s), v1.json its input-mode export; verify parses the locales, checks key parity and every asset. |
+| `content-contract` | Content contract | projects.ts is the one project schema, one regex per URL or email field, site-content.schema.json its 2020-12 export; verify checks locales and assets. |
 
 ### infra
 
@@ -55,9 +55,9 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `dadaia-workspace-page` | dadaia-workspace project page | The library page for dadaia-workspace, pinned to PyPI 0.4.7 and tag v0.4.7, with a hero loop, three scenes, a pinned Try it and facts from the tag. |
-| `library-page` | Library project page layout | The one library page layout - purpose, install line, hero loop, side-by-side scenes, Try it, Why it exists, facts pinned to a tag. |
-| `rand-engine-page` | rand-engine project page | The library page for rand-engine, pinned to PyPI 0.8.0 and tag 0.8.0, with a hero loop, three scenes, a runnable Try it and facts from the tag. |
+| `dadaia-workspace-page` | dadaia-workspace project page | The dadaia-workspace library page - version held once in pypi.version, tag v plus it; a hero loop, three scenes, a Try it and facts from the tag. |
+| `library-page` | Library project page layout | The one library page layout - purpose, install line, hero media, scenes, Try it, Why it exists, facts at a tag; versions filled from pypi.version. |
+| `rand-engine-page` | rand-engine project page | The rand-engine library page - version held once in pypi.version, tag equal to it; a hero loop, three scenes, a runnable Try it and tag-sourced facts. |
 
 ### quality
 

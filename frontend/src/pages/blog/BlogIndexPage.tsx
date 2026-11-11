@@ -10,8 +10,7 @@ export function BlogIndexPage() {
   const tag = useSearchParams()[0].get("tag");
   const loaded = useBlogIndex();
   const posts = loaded
-    ?.filter((p) => !tag || p.tags.includes(tag))
-    .sort((a, b) => b.date.localeCompare(a.date));
+    ?.filter((p) => !tag || p.tags.includes(tag));
   useDocumentSeo({ title: blog.title, description: blog.intro });
 
   return (

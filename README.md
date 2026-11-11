@@ -56,7 +56,7 @@ npm run preview    # Servidor local da build
 | Trigger | Workflow | O que faz |
 |---|---|---|
 | Todo PR para `develop` ou `main` | `ci.yml` | Lint, type-check, unit tests, i18n parity, build, E2E smoke, Lighthouse |
-| Push em `develop` | `deploy.yml` | Build + deploy para stage S3 + CloudFront invalidation |
+| Push em `develop` | `deploy.yml` | Build + deploy para stage S3 (inclui o schema publicado `schema/site-content.schema.json`) + CloudFront invalidation |
 | Push em `main` | `deploy.yml` | Build + deploy para prod (environment gate) |
 | Disparo manual (`workflow_dispatch`, input `env`) | `terraform.yml` | fmt, validate, plan, guarda de delete/replace e `terraform apply` no environment `infra` |
 
@@ -72,7 +72,8 @@ Gerenciada via Terraform em `terraform/envs/{stage,prod}/`.
 - **CloudFront**: distribuicao dedicada por env, HTTPS obrigatorio, SPA fallback
 - **ACM**: certificado SSL em `us-east-1` (requisito CloudFront)
 - **Route53**: registro A ALIAS apontando para CloudFront
-- **IAM**: role OIDC por env (`github-actions-portfolio-{stage,prod}-deploy`)
+- **IAM**: role OIDC por env (`github-actions-portfolio-{stage,prod}-deploy`), assumida so por um job no environment GitHub do env (`stage`, `production`)
+- **SSM** (us-east-1): `/static-sites/<site>/<env>/bucket` e `/static-sites/<site>/<env>/distribution-id`, por onde o painel acha o site
 
 O `terraform apply` e executado **exclusivamente via GitHub Actions** (workflow `terraform.yml`).
 O script cria apenas o OIDC provider do GitHub da conta; a role de apply pertence ao bootstrap do painel. Para o provider, use `scripts/bootstrap-oidc.sh` (Fluxo A via CloudShell ou Fluxo B com `INFRA_SPECIALIST_MODE=1`).

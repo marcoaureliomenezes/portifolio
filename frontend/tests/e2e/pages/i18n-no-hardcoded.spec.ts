@@ -16,6 +16,7 @@
 
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Known localized values extracted from src/data/content/*.json
@@ -43,11 +44,9 @@ const LOCALE_STRINGS = {
 
 type Locale = keyof typeof LOCALE_STRINGS;
 
-/** Click the language-selector combobox and pick the target language option. */
+/** Switch the UI language, then wait until the skills heading shows the target locale. */
 async function switchLocale(page: import('@playwright/test').Page, label: string) {
-  const combobox = page.locator('[role="combobox"]').first();
-  await combobox.click();
-  await page.getByRole('option', { name: label }).click();
+  await switchLanguage(page, label);
   // T-RD-10: locales load via fetch and the PREVIOUS content stays visible
   // while the switch is in flight (by design — no blank flash). Wait until the
   // skills heading shows the target locale before snapshotting.

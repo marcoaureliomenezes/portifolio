@@ -8,11 +8,15 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import {
   ProjectsContentSchema,
   CaseStudyProjectSchema,
   MetaProjectSchema,
   GamesProjectSchema,
+  HttpUrl,
+  SiteRelativeUrl,
+  Email,
 } from "./projects";
 
 // ---------------------------------------------------------------------------
@@ -319,13 +323,26 @@ const parseSection = (section: object) =>
 
 describe("project section media, code and href", () => {
   it("keeps a video media with both cuts", () => {
-    const r = parseSection({ media: videoMedia });
-    expect(r.success && r.data.sections[0].media).toEqual(videoMedia);
+    const r = parseSection({ media: [videoMedia] });
+    expect(r.success && r.data.sections[0].media).toEqual([videoMedia]);
   });
 
   it("keeps an svg media with its light/dark pair", () => {
-    const r = parseSection({ media: svgMedia });
-    expect(r.success && r.data.sections[0].media).toEqual(svgMedia);
+    const r = parseSection({ media: [svgMedia] });
+    expect(r.success && r.data.sections[0].media).toEqual([svgMedia]);
+  });
+
+  it("keeps a list of media in order, in a section and in the hero", () => {
+    const media = [videoMedia, svgMedia];
+    const section = parseSection({ media });
+    expect(section.success && section.data.sections[0].media).toEqual(media);
+    const hero = CaseStudyProjectSchema.safeParse({ ...validCaseStudy, hero: { ...validCaseStudy.hero, media } });
+    expect(hero.success && hero.data.hero.media).toEqual(media);
+  });
+
+  it.each([["video", videoMedia], ["svg", svgMedia]])("refuses a bare %s object, in a section and in the hero", (_n, media) => {
+    expect(parseSection({ media }).success).toBe(false);
+    expect(CaseStudyProjectSchema.safeParse({ ...validCaseStudy, hero: { ...validCaseStudy.hero, media } }).success).toBe(false);
   });
 
   it("keeps code and an item href", () => {
@@ -338,9 +355,9 @@ describe("project section media, code and href", () => {
   it("keeps hero.media", () => {
     const r = CaseStudyProjectSchema.safeParse({
       ...validCaseStudy,
-      hero: { ...validCaseStudy.hero, media: videoMedia },
+      hero: { ...validCaseStudy.hero, media: [videoMedia] },
     });
-    expect(r.success && r.data.hero.media).toEqual(videoMedia);
+    expect(r.success && r.data.hero.media).toEqual([videoMedia]);
   });
 
   it.each([
@@ -351,7 +368,7 @@ describe("project section media, code and href", () => {
     ["a media without alt", { ...svgMedia, alt: undefined }],
     ["an unknown media type", { ...svgMedia, type: "gif" }],
   ])("rejects %s", (_name, media) => {
-    expect(parseSection({ media }).success).toBe(false);
+    expect(parseSection({ media: [media] }).success).toBe(false);
   });
 });
 
@@ -414,5 +431,94 @@ describe("project link URLs accept only http(s)", () => {
     expect(
       CaseStudyProjectSchema.safeParse({ ...validCaseStudy, cta: { github: "https://github.com/x/y" } }).success,
     ).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// One rule per field: zod, and the emitted pattern with and without the u flag
+// ---------------------------------------------------------------------------
+
+const controls = (from: number, to: number) =>
+  Array.from({ length: to - from + 1 }, (_, i) => `/${String.fromCharCode(from + i)}x`);
+
+const partitions: [string, () => z.ZodType, string[], string[]][] = [
+  [
+    "HttpUrl",
+    () => HttpUrl,
+    [
+      "https://",
+      "https://exa%20mple.com",
+      "https://a.b/x y",
+      "https://a|b",
+      "javascript:alert(1)",
+      "data:text/html,x",
+      "https://{tag}.example/",
+    ],
+    [
+      "http://example.com/a",
+      "https://www.linkedin.com/in/marco-menezes-731542b9",
+      "https://github.com/marcoaureliomenezes/portifolio",
+      "https://www.instagram.com/marcoaurelioreislima/",
+      "https://h.example/blob/{tag}/x",
+    ],
+  ],
+  ["Email", () => Email, ["no-at-sign.example.com", "a b@example.com"], ["marco@example.com"]],
+  [
+    "SiteRelativeUrl",
+    () => SiteRelativeUrl,
+    ["/ x", ...controls(0, 8), "/\x7fx"],
+    ["/cv.pdf", "/assets/a-b"],
+  ],
+];
+
+describe.each(partitions)("%s: zod equals the emitted pattern", (_name, rule, refused, accepted) => {
+  it.each([
+    ...refused.map((v) => [v, false] as const),
+    ...accepted.map((v) => [v, true] as const),
+  ])("%j -> %s", (v, ok) => {
+    const schema = rule();
+    const { pattern } = z.toJSONSchema(schema) as { pattern: string };
+    expect(schema.safeParse(v).success).toBe(ok);
+    expect(new RegExp(pattern).test(v)).toBe(ok);
+    expect(new RegExp(pattern, "u").test(v)).toBe(ok);
+  });
+});
+
+describe("library pypi version and tag prefix", () => {
+  const library = (pypi: Record<string, unknown>) =>
+    ProjectsContentSchema.safeParse({
+      index: validProjectsContent.index,
+      list: [
+        {
+          slug: "lib",
+          kind: "library",
+          hero: validCaseStudy.hero,
+          card: validProjectCard,
+          seo: validSeo,
+          sections: [validSection],
+          pypi: { package: "lib", version: "1.0.0", installCommand: "pip install lib", ...pypi },
+          links: { repo: "https://github.com/a/b", pypi: "https://pypi.org/project/lib" },
+        },
+      ],
+    });
+
+  it("keeps an optional string tagPrefix", () => {
+    const r = library({ tagPrefix: "v" });
+    expect(r.success && r.data.list[0].kind === "library" && r.data.list[0].pypi.tagPrefix).toBe("v");
+    expect(library({}).success).toBe(true);
+  });
+
+  it("refuses a numeric tagPrefix", () => {
+    expect(library({ tagPrefix: 1 }).success).toBe(false);
+  });
+
+  it.each(["pt", "en", "de"])("%s: each library block holds its pypi.version once", (lang) => {
+    const file = resolve(__dirname, `../../../public/content/${lang}.json`);
+    const { projectsV2 } = JSON.parse(readFileSync(file, "utf-8"));
+    const blocks = projectsV2.list.filter((p: { kind: string }) => p.kind === "library");
+    expect(blocks.length).toBe(2);
+    for (const block of blocks) {
+      expect(JSON.stringify(block).split(block.pypi.version).length - 1).toBe(1);
+    }
   });
 });

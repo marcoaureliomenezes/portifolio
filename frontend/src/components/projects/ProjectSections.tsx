@@ -27,7 +27,7 @@ export function ProjectSections({ sections, slug }: ProjectSectionsProps) {
           {body && (
             <p className={`${PROSE} text-muted-foreground leading-relaxed whitespace-pre-line`}>{body}</p>
           )}
-          {media && <Media media={media} />}
+          {media?.map((m, i) => <Media key={i} media={m} />)}
           {code && (
             <CodeBlock
               code={code}

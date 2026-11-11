@@ -80,6 +80,13 @@ describe("BlogIndexPage", () => {
     expect(postHrefs()).toEqual(["/blog/newer-post", "/blog/older-post"]);
   });
 
+  it("renders the index in the order the data holds, not by date", async () => {
+    serveIndex(() => Promise.resolve(new Response(JSON.stringify([...POSTS].reverse()))));
+    renderAt("/blog");
+    await screen.findByRole("link", { name: "Newer post" });
+    expect(postHrefs()).toEqual(["/blog/older-post", "/blog/newer-post"]);
+  });
+
   it.each([
     ["pt", "9 de março de 2026"],
     ["en", "March 9, 2026"],
@@ -143,7 +150,7 @@ describe("BlogIndexPage", () => {
     let resolve!: (r: Response) => void;
     serveIndex(() => new Promise<Response>((r) => (resolve = r)));
     renderAt("/blog");
-    await new Promise((r) => setTimeout(r, 50));
+    await vi.waitFor(() => expect(resolve).toBeTypeOf("function"));
     expect(screen.queryByText("Nenhum post ainda.")).toBeNull();
     resolve(new Response(JSON.stringify(POSTS)));
     await screen.findByRole("link", { name: "Newer post" });

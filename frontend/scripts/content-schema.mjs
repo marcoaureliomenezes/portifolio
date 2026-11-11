@@ -1,23 +1,15 @@
 /**
- * content-schema.mjs — T-RD-11 (AC-RD-08)
+ * content-schema.mjs
  *
- * THE canonical machine contract for portfolio content (headless Phase 1).
- * Single-sourced here (plain ESM so Node can run it without a TS toolchain):
- *  - parsed against public/content/*.json by src/lib/contentSchemaExport.test.ts (inside verify)
- *  - exported as JSON Schema by scripts/export-content-schema.mjs — the
- *    versioned artifact (/content/schema/v1.json) the external admin-panel
- *    project renders its forms from.
- *
- * The projects sub-schema is imported from src/lib/schemas/projects.ts, its
- * one authority (Node type stripping loads it; it imports only zod).
- *
- * Policy: structured collections are strict; top-level UI label keys are
- * intentionally tolerated via .catchall() — labels come and go with features
- * and must not require a schema major bump.
+ * Zod schema of the portfolio content document (public/content/*.json):
+ * ContentDataSchema and the sub-schemas it composes.
+ * Inputs: none; each schema parses an unknown value (safeParse, parse).
+ * Side effects: none; imports zod and projects.ts (loaded by Node type stripping).
+ * Consumers: scripts/export-content-schema.mjs and src/lib/contentSchemaExport.test.ts.
  */
 
 import { z } from "zod";
-import { HttpUrl, ProjectsContentSchema, SiteRelativeUrl } from "../src/lib/schemas/projects.ts";
+import { Email, HttpUrl, ProjectsContentSchema, SiteRelativeUrl } from "../src/lib/schemas/projects.ts";
 
 // ── shared ──────────────────────────────────────────────────────────────────
 
@@ -27,9 +19,12 @@ export const ProfileSchema = z.object({
   linkedinUrl: HttpUrl,
   githubUrl: HttpUrl,
   instagramUrl: HttpUrl,
-  email: z.string().email(),
+  email: Email,
   cvUrl: SiteRelativeUrl,
 });
+
+// one regex: HttpUrl's source or a bare "#"
+const CertLink = z.string().regex(new RegExp(`${z.toJSONSchema(HttpUrl).pattern}|^#$`));
 
 // ── experiences ─────────────────────────────────────────────────────────────
 
@@ -71,7 +66,7 @@ export const CertificationSchema = z.object({
   validity: z.string(),
   level: z.string().min(1),
   icon: z.string(),
-  link: z.union([HttpUrl, z.literal("#")]),
+  link: CertLink,
   description: z.string(),
   priority: z.number(),
 });
@@ -99,23 +94,62 @@ export const SkillCategorySchema = z.object({
 
 // ── top-level contract ──────────────────────────────────────────────────────
 
-export const ContentDataSchema = z
-  .object({
-    schema_version: z.literal("1"),
-    published_at: z.string().min(1),
-    profile: ProfileSchema,
-    resume: z.object({ short: z.string().min(1), full: z.string().min(1) }),
-    header: z.object({
-      title: z.string().min(1),
-      location: z.string().min(1),
-      viewEmail: z.string().min(1),
-    }),
-    experiences: z.array(ExperienceSchema).min(1),
-    certifications: z.array(CertificationSchema).min(1),
-    education: EducationSchema,
-    skills: z.array(SkillCategorySchema).min(1),
-    projectsV2: ProjectsContentSchema,
-  })
-  // UI label keys (resumeTitle, storyOpen, …) are feature-owned and
-  // intentionally schema-tolerant; i18n parity is enforced by check-i18n-parity.
-  .catchall(z.unknown());
+const Str = z.string();
+const obj = (keys) => z.object(Object.fromEntries(keys.map((k) => [k, Str])));
+
+export const ContentDataSchema = z.object({
+  schema_version: z.literal("1"),
+  published_at: z.string().min(1),
+  profile: ProfileSchema,
+  resume: z.object({ short: z.string().min(1), full: z.string().min(1) }),
+  header: z.object({
+    title: z.string().min(1),
+    location: z.string().min(1),
+    viewEmail: z.string().min(1),
+  }),
+  experiences: z.array(ExperienceSchema).min(1),
+  certifications: z.array(CertificationSchema).min(1),
+  education: EducationSchema,
+  skills: z.array(SkillCategorySchema).min(1),
+  projectsV2: ProjectsContentSchema,
+  // UI labels, as src/types/content.ts carries them
+  resumeTitle: Str,
+  skillsTitle: Str,
+  experienceTitle: Str,
+  educationTitle: Str,
+  certificationsTitle: Str,
+  responsibilities: Str,
+  technologies: Str,
+  gamesComingSoon: Str,
+  gamesComingSoonDesc: Str,
+  notFoundMessage: Str,
+  returnHome: Str,
+  seeAllProjects: Str,
+  earlierLabel: Str,
+  detailsOpen: Str,
+  detailsClose: Str,
+  storyOpen: Str,
+  storyClose: Str,
+  impactLabel: Str,
+  heroStatsSuffix: obj(["years", "certs"]),
+  featuredProjectsTitle: Str.optional(),
+  heroTagline: Str.optional(),
+  heroCTAs: obj(["downloadCv"]).optional(),
+  archPage: obj([
+    "infraDiagramTitle", "techStackTitle", "monthlyCostsTitle", "tableHeaderLayer", "tableHeaderTechnology",
+    "tableHeaderService", "tableHeaderCostUsd", "archDecisionsTitle", "linksTitle", "linkGithubRepo",
+    "linkTerraform", "linkSpecs",
+  ]).optional(),
+  libraryPage: obj([
+    "installTitle", "versionLabel", "copyLabel", "copiedLabel", "linkPypi", "linkDocs", "howTitle", "factsTitle",
+  ]).optional(),
+  siteChrome: z.object({
+    nav: obj(["label", "resume", "projects", "blog"]),
+    theme: obj(["toLight", "toDark"]),
+    language: obj(["label"]),
+    breadcrumb: obj(["label", "projects"]),
+    backToProjects: Str,
+    blog: obj(["title", "intro", "empty", "tagsLabel", "filteredBy", "allPosts", "back"]),
+    footer: obj(["label", "owner", "email", "linkedin", "github"]),
+  }),
+});

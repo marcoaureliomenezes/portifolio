@@ -71,6 +71,10 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-session-name: GitHubActions-deploy-stage-${{ github.run_id }}
 
+      - name: Upload schema object (no-cache)
+        run: |
+          aws s3 cp dist/schema/site-content.schema.json "s3://${{ vars.S3_BUCKET }}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
+
       - name: Sync hashed assets to S3 (immutable cache)
         run: |
           aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
@@ -86,6 +90,7 @@ jobs:
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
+            --exclude "schema/*" \
             --cache-control "no-cache"
 
       - name: Upload route objects (extensionless, no-cache)
@@ -133,6 +138,10 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-session-name: GitHubActions-deploy-prod-${{ github.run_id }}
 
+      - name: Upload schema object (no-cache)
+        run: |
+          aws s3 cp dist/schema/site-content.schema.json "s3://${{ vars.S3_BUCKET }}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
+
       - name: Sync hashed assets to S3 (immutable cache)
         run: |
           aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
@@ -148,6 +157,7 @@ jobs:
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
+            --exclude "schema/*" \
             --cache-control "no-cache"
 
       - name: Upload route objects (extensionless, no-cache)

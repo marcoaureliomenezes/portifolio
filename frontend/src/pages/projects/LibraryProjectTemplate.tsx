@@ -10,6 +10,7 @@ import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { CodeBlock } from "@/components/projects/CodeBlock";
 import { Media } from "@/components/projects/Media";
 import { ProjectSections } from "@/components/projects/ProjectSections";
+import { renderLibrary } from "@/lib/libraryRender";
 import { PROSE } from "@/lib/layout";
 import { track } from "@dadaia/analytics-sdk";
 import type { LibraryProject } from "@/types/content";
@@ -20,7 +21,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
   useDocumentSeo({ title: project.seo.title, description: project.seo.description });
 
   const { content } = useContent();
-  const { slug, hero, pypi, links, sections } = project;
+  const { slug, hero, pypi, links, sections } = renderLibrary(project);
   const labels = content.libraryPage;
 
   const scenes = sections.filter((s) => !FOLLOWING.includes(s.id));
@@ -62,7 +63,7 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
           testIds={{ code: "install-command", button: "copy-install" }}
         />
       </header>
-      {hero.media && <Media media={hero.media} />}
+      {hero.media?.map((m, i) => <Media key={i} media={m} />)}
       {scenes.length > 0 && (
         <section aria-labelledby={`${slug}-how-heading`} className="space-y-10">
           <h2 id={`${slug}-how-heading`} className="text-label text-muted-foreground">
@@ -85,7 +86,11 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
                   </p>
                 )}
               </div>
-              {media && <Media media={media} />}
+              {media?.length ? (
+                <div className="space-y-4">
+                  {media.map((m, i) => <Media key={i} media={m} />)}
+                </div>
+              ) : null}
             </section>
           ))}
         </section>

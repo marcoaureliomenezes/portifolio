@@ -21,10 +21,8 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import {
-  expandSeniorRole as sharedExpandSeniorRole,
-  switchLanguage as sharedSwitchLanguage,
-} from '../fixtures/experience-helpers';
+import { expandSeniorRole as sharedExpandSeniorRole } from '../fixtures/experience-helpers';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Constants derived directly from WAVE5 data (locale-invariant skills)
@@ -65,7 +63,6 @@ const SKILL_CATEGORY_SAMPLES: Record<string, string> = {
 // ---------------------------------------------------------------------------
 // Helpers (delegated to shared module)
 // ---------------------------------------------------------------------------
-const switchLanguage = sharedSwitchLanguage;
 const expandSeniorRole = (page: Page) => sharedExpandSeniorRole(page);
 
 // ---------------------------------------------------------------------------

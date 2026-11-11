@@ -12,7 +12,7 @@ const COVER_SIZE = { width: 1280, height: 720 };
 
 export function ProjectCard({ project }: { project: Project }) {
   const { slug, hero, card } = project;
-  const media = hero.media?.type === "video" ? hero.media : undefined;
+  const media = hero.media?.find((m) => m.type === "video");
   const poster = media
     ? { src: media.desktop.poster, width: media.desktop.width, height: media.desktop.height, alt: media.alt }
     : card.cover && { src: card.cover, ...COVER_SIZE, alt: hero.title };

@@ -171,17 +171,20 @@ const richProject: LibraryProject = {
   ...mockProject,
   hero: {
     ...mockProject.hero,
-    media: {
-      type: "video",
-      alt: "hero loop",
-      desktop: { webm: "/m/d.webm", mp4: "/m/d.mp4", poster: "/m/d.jpg", width: 1280, height: 720 },
-      phone: { webm: "/m/p.webm", mp4: "/m/p.mp4", poster: "/m/p.jpg", width: 360, height: 450 },
-    },
+    media: [
+      {
+        type: "video" as const,
+        alt: "hero loop",
+        desktop: { webm: "/m/d.webm", mp4: "/m/d.mp4", poster: "/m/d.jpg", width: 1280, height: 720 },
+        phone: { webm: "/m/p.webm", mp4: "/m/p.mp4", poster: "/m/p.jpg", width: 360, height: 450 },
+      },
+      svg("hero-extra"),
+    ],
   },
   links: { ...mockProject.links, docs: "https://docs.example.com/rand-engine" },
   sections: [
-    { id: "tables", title: "Related tables", body: "Hashed keys.", media: svg("tables") },
-    { id: "streams", title: "Event streams", body: "Micro-batches.", media: svg("streams") },
+    { id: "tables", title: "Related tables", body: "Hashed keys.", media: [svg("tables"), svg("tables-extra")] },
+    { id: "streams", title: "Event streams", body: "Micro-batches.", media: [svg("streams")] },
     { id: "try", title: "Try it", code: "spec = {'age': 1}" },
     { id: "why", title: "Why it exists", body: "Realistic test data." },
     {
@@ -272,6 +275,25 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     });
   });
 
+  it("renders every media of the hero list and of a section list", () => {
+    const { container } = renderRoute();
+    expect(container.querySelector('video[aria-label="hero loop"]')).toBeTruthy();
+    expect(screen.getAllByAltText("scene hero-extra").length).toBeGreaterThan(0);
+    for (const alt of ["scene tables", "scene tables-extra", "scene streams"]) {
+      expect(screen.getAllByAltText(alt).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("keeps a scene's text in one grid cell and every media of its list in the other", () => {
+    renderRoute();
+    const scene = screen.getByRole("heading", { name: "Related tables" }).closest("section") as HTMLElement;
+    expect(scene.children.length).toBe(2);
+    const [text, mediaCell] = Array.from(scene.children) as HTMLElement[];
+    expect(within(text).getByRole("heading", { name: "Related tables" })).toBeTruthy();
+    expect(within(mediaCell).getAllByAltText("scene tables").length).toBeGreaterThan(0);
+    expect(within(mediaCell).getAllByAltText("scene tables-extra").length).toBeGreaterThan(0);
+  });
+
   it("ranks the headings: scene titles are h3 in the How it works region, the rest h2", () => {
     renderRoute();
     const how = screen.getByRole("region", { name: "How it works" });
@@ -333,5 +355,49 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     renderRoute();
     expect(screen.queryByTestId("library-stat")).toBeNull();
     expect(screen.queryByTestId("project-card-stat")).toBeNull();
+  });
+});
+
+describe("LibraryProjectTemplate — version placeholders", () => {
+  it("renders {version} and {tag} as literals in the install command, the Try-it code and the facts links", () => {
+    const project: LibraryProject = {
+      ...mockProject,
+      pypi: { ...mockProject.pypi, installCommand: "pip install rand-engine=={version}", tagPrefix: "v" },
+      sections: [
+        { id: "try", title: "Try it", code: "uvx rand-engine@{version} run" },
+        { id: "facts", title: "ignored", items: [{ label: "License", value: "MIT", href: "https://h.example/blob/{tag}/LICENSE" }] },
+      ],
+    };
+    renderTemplate(project);
+    expect(screen.getByTestId("install-command").textContent).toContain("pip install rand-engine==1.2.3");
+    expect(screen.getByText("uvx rand-engine@1.2.3 run")).toBeTruthy();
+    expect(screen.getByRole("link", { name: "MIT" }).getAttribute("href")).toBe("https://h.example/blob/v1.2.3/LICENSE");
+  });
+
+  it("renders the committed library pages with the pinned literals", () => {
+    const { projectsV2 } = JSON.parse(readFileSync(resolve(process.cwd(), "public/content/en.json"), "utf-8"));
+    const hrefs = (slug: string) => {
+      cleanup();
+      const { container } = renderTemplate(projectsV2.list.find((p: { slug: string }) => p.slug === slug));
+      return Array.from(container.querySelectorAll("a"))
+        .map((a) => a.getAttribute("href"))
+        .filter((h) => h?.includes("/blob/") || h?.includes("/tree/"));
+    };
+    const dw = "https://github.com/marcoaureliomenezes/dadaia-workspace";
+    expect(hrefs("dadaia-workspace")).toEqual([
+      `${dw}/blob/v0.4.7/pyproject.toml`,
+      `${dw}/blob/v0.4.7/LICENSE`,
+      `${dw}/blob/v0.4.7/README.md`,
+      `${dw}/tree/v0.4.7/dadaia_workspace/public/agents`,
+    ]);
+    expect(screen.getByText("uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3")).toBeTruthy();
+    const re = "https://github.com/marcoaureliomenezes/rand_engine";
+    expect(hrefs("rand-engine")).toEqual([
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/pyproject.toml`,
+      `${re}/blob/0.8.0/docs/BENCHMARKS.md`,
+    ]);
+    expect(screen.getByTestId("install-command").textContent).toContain("pip install rand-engine");
   });
 });

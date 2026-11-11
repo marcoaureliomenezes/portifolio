@@ -2,8 +2,9 @@
 # IAM — role OIDC para GitHub Actions (deploy final)
 #
 # Esta role e criada pelo terraform no primeiro apply.
-# A trust policy permite qualquer ref do repo (PRs + pushes).
-# A seguranca de prod e dada pelo environment GitHub exigir aprovacao manual.
+# A trust policy aceita so o subject do environment GitHub deste env
+# (StringEquals em environment:<nome>), nunca um ref qualquer do repo:
+# PRs e outros jobs nao assumem a role. Prod ainda exige aprovacao manual.
 # Ref: specs/foundation/SPEC.md §5 (DEV-03).
 # ==============================================================================
 
@@ -31,9 +32,7 @@ resource "aws_iam_role" "github_actions_deploy" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          }
-          StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:marcoaureliomenezes/portifolio:*"
+            "token.actions.githubusercontent.com:sub" = "${local.oidc_prefix}:environment:${local.github_environment}"
           }
         }
       }
@@ -75,20 +74,6 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Effect   = "Allow"
         Action   = ["cloudfront:CreateInvalidation"]
         Resource = aws_cloudfront_distribution.website.arn
-      },
-      {
-        Sid    = "TerraformStateBucket"
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:ListBucket",
-        ]
-        Resource = [
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state",
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state/portifolio/${var.environment}/*",
-        ]
       }
     ]
   })

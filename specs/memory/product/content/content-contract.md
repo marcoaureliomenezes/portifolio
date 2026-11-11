@@ -1,8 +1,8 @@
 ---
 slug: content-contract
 title: Content contract
-tldr: projects.ts is the one project schema, links are http(s), v1.json its input-mode export; verify parses the locales, checks key parity and every asset.
-summary: The site's content JSON has one machine contract built on the one project schema; verify's unit tests parse the three locale files against it, keep the exported JSON Schema equal to a fresh export, and hold every rule on the files under public/assets.
+tldr: projects.ts is the one project schema, one regex per URL or email field, site-content.schema.json its 2020-12 export; verify checks locales and assets.
+summary: The site's content JSON has one machine contract built on the one project schema that declares every top-level key; verify's unit tests parse the three locale files against it, keep the published JSON Schema equal to a fresh export and mappable by the panel's Studio, and hold every rule on the files under public/assets.
 tags:
   - content
   - schema
@@ -15,7 +15,7 @@ sources:
   - frontend/scripts/content-schema.mjs
   - frontend/scripts/export-content-schema.mjs
   - frontend/scripts/check-i18n-parity.mjs
-  - frontend/public/content/schema/v1.json
+  - frontend/public/schema/**
   - frontend/src/lib/contentSchemaExport.test.ts
   - frontend/src/lib/contentAssets.test.ts
   - frontend/src/lib/homeParity.test.ts
@@ -36,29 +36,43 @@ asset they point to. A break fails `verify`.
   `meta`, `games`, `case-study`). `src/types/content.ts` re-exports its types through `z.infer`,
   and `scripts/content-schema.mjs` imports it into the full content contract.
 - A section holds `id`, `title` and optional `body`, `media`, `code` and `items`; an item may
-  carry an `href`. `media` is a video (desktop and phone cuts, each with webm, mp4, poster, width
-  and height) or an SVG light/dark pair, both with `alt` and an optional `caption`; the hero may
-  carry `media`. The project-level `diagram`, `diagramDark` and `diagramAlt` serve the meta kind.
-  A project has no `stat` field.
+  carry an `href`. `media` is a list, in a section and in the hero alike; each entry is a video
+  (desktop and phone cuts, each with webm, mp4, poster, width and height) or an SVG light/dark
+  pair, both with `alt` and an optional `caption`. The project-level `diagram`, `diagramDark` and
+  `diagramAlt` serve the meta kind. A project has no `stat` field.
+- A library item's `pypi` holds `package`, `version`, an optional string `tagPrefix` and
+  `installCommand`. `installCommand`, a section's `code` and an item's `href` may carry the
+  placeholders `{version}` and `{tag}`; validation reads the raw content, and the page fills them
+  at render ([[library-page]]).
 - The locale files and `src/types/content.ts` carry a key only when `src/**` reads it or the
-  published `v1.json` holds it: `header.viewEmail`, `education.location` and each
-  certification's `icon` stay because the schema requires them, and the optional
-  `projectsV2.index.kindLabels` stays for the schema's outside readers; the site reads none of
-  the four. `profile` is required in both the schema and the type; `siteChrome`, `heroStatsSuffix`
-  (`years`, `certs`) and the home labels, `seeAllProjects` included, are required in the type
-  and pass the schema as tolerated label keys.
-- Every link field is `HttpUrl` (`^https?://`), so no `javascript:` or `data:` link reaches an
-  `<a href>`. `SiteRelativeUrl` in `projects.ts` is the one site-relative rule: a path that
-  starts with one `/` not followed by `/`, `\`, whitespace or a control character; `cvUrl` is
-  one, and a post's links are held to the same rule ([[blog]]). Unknown top-level label keys are
-  tolerated; unknown keys inside a structured object are stripped, never refused.
-- `public/content/schema/v1.json` is the JSON Schema export of the contract in input mode
-  (`npm run schema:export`); a unit test fails when the committed file differs from a fresh
-  export, or when it closes an object with `additionalProperties: false`.
+  published schema requires it: `header.viewEmail`, `education.location` and each
+  certification's `icon` stay because the schema requires them; the site reads none of the
+  three. The projects index holds only `title` and `description`.
+- The contract declares every top-level key the three locales carry, each label key a string or
+  nested objects of strings, and requires the keys `src/types/content.ts` requires plus
+  `schema_version`, `published_at` and `projectsV2`. An unknown key, top-level or nested, is
+  stripped, never refused.
+- Each URL field and the email field is one regex, emitted as the schema's `pattern` with no
+  `format`. `HttpUrl` is `^https?://` plus a host of word characters, dots and hyphens, an
+  optional port and a path with no whitespace, so no `javascript:` or `data:` link reaches an
+  `<a href>`, and `{` or `}` passes in a path and fails in the host. The email holds one `@`, no
+  whitespace and a dot after the `@`. A certification's `link` is `HttpUrl`'s pattern or
+  a bare `#`. A unit test holds, for each partition, zod's verdict equal to the emitted pattern's,
+  compiled with and without the `u` flag.
+- `SiteRelativeUrl` in `projects.ts` is the one site-relative rule: a path that starts with one
+  `/` not followed by `/`, `\`, whitespace or a control character; `cvUrl` is one, and a post's
+  links are held to the same rule ([[blog]]).
+- `public/schema/site-content.schema.json` is the published schema: the contract as JSON Schema
+  2020-12 in input mode, with no `$ref` or `definitions` wrapper (`npm run schema:export`;
+  `npm run schema:check` exits 1 on drift). The deploy uploads it ([[deploy-infrastructure]]).
+  Unit tests fail when the committed file differs from a fresh export, closes an object with
+  `additionalProperties: false`, or breaks the Studio mapping the panel builds its fields from:
+  every property name matches `^[A-Za-z_][A-Za-z0-9_]*$`, no `anyOf` remains, and every `oneOf`
+  sits directly under `items` with a `const` on each branch.
 - A unit test parses `pt.json`, `en.json` and `de.json` against the full contract inside
   `test:run`, so `verify` fails on a malformed locale file.
 - `check:i18n-projects` (in `verify`) checks that the three locales carry the same project keys,
-  the same media `alt` and `caption` presence, every `siteChrome` key (the footer's, the Blog nav
+  the same `alt` and `caption` presence on each media list entry, index by index, every `siteChrome` key (the footer's, the Blog nav
   label and the blog pages' strings included) and every home label (`earlierLabel`, `detailsOpen`, `detailsClose`, `storyOpen`,
   `storyClose`, `impactLabel`, `seeAllProjects`), non-blank; `CONTENT_DIR` points it at another
   folder, and a unit test runs it on a copy missing one key.

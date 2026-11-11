@@ -1,20 +1,18 @@
 /**
- * projects.ts — T-PC-A-02
+ * projects.ts
  *
  * Zod schemas for the projects-cluster-v1 content model.
- *
- * Constraints (from SPEC §5.5 / Architect HIGH-3):
- * - Zero z.any() — all shapes explicit.
- * - z.discriminatedUnion("kind", [...]) with 3 variants.
- * - sections / stack / costs / decisions are z.array(z.object({...})).min(1).
- * - This file is ONLY imported in frontend/src/hooks/useContent.ts (inside
- *   if(import.meta.env.DEV) guard).
- * Vite tree-shakes Zod from the production bundle (AC-PC-02).
+ * Inputs: none; each exported schema parses an unknown value (safeParse, parse).
+ * Output: the URL, email and media schemas, the four per-kind project schemas,
+ * ProjectSchema (a discriminated union on `kind`), ProjectsContentSchema, and
+ * their inferred types.
+ * Side effects: none; imports only zod.
  */
 
 import { z } from "zod";
 
-export const HttpUrl = z.string().url().regex(/^https?:\/\//); // links render as <a href>: no javascript:/data:
+export const HttpUrl = z.string().regex(/^https?:\/\/[\w.-]+(:\d+)?([/?#]\S*)?$/); // links render as <a href>: no javascript:/data:, no space or %| in the host
+export const Email = z.string().regex(/^[^@\s]+@[^@\s]+\.[^@\s]+$/);
 // eslint-disable-next-line no-control-regex -- the control range is the point
 export const SiteRelativeUrl = z.string().regex(/^\/(?![\\/\x00-\x20\x7f])/); // same-origin path: no //, /\, whitespace or control after the slash
 
@@ -65,7 +63,7 @@ export const MediaSchema = z.discriminatedUnion("type", [
 const ProjectHeroSchema = z.object({
   title: z.string().min(1),
   tagline: z.string().min(1),
-  media: MediaSchema.optional(),
+  media: z.array(MediaSchema).optional(),
 });
 
 const ProjectSectionItemSchema = z.object({
@@ -78,7 +76,7 @@ export const ProjectSectionDataSchema = z.object({
   id: z.string().min(1),
   title: z.string().min(1),
   body: z.string().optional(),
-  media: MediaSchema.optional(),
+  media: z.array(MediaSchema).optional(),
   code: z.string().optional(),
   items: z.array(ProjectSectionItemSchema).optional(),
 });
@@ -120,7 +118,7 @@ const ProjectBaseSchema = z.object({
   card: ProjectCardSchema,
   seo: ProjectSeoSchema,
   diagram: z.string().optional(),
-  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. */
+  /** Dark-mode diagram; falls back to `diagram` when absent. */
   diagramDark: z.string().optional(),
   diagramAlt: z.string().optional(),
 });
@@ -152,13 +150,14 @@ export const GamesProjectSchema = ProjectBaseSchema.extend({
   items: z.array(GameLinkSchema).min(1),
 });
 
-/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
+/** Open-source library published on a package registry. */
 export const LibraryProjectSchema = ProjectBaseSchema.extend({
   kind: z.literal("library"),
   sections: z.array(ProjectSectionDataSchema).min(1),
   pypi: z.object({
     package: z.string().min(1),
     version: z.string().min(1),
+    tagPrefix: z.string().optional(),
     installCommand: z.string().min(1),
   }),
   links: z.object({
@@ -186,15 +185,6 @@ export const ProjectSchema = z.discriminatedUnion("kind", [
 export const ProjectsIndexSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
-  kindLabels: z
-    .object({
-      "case-study": z.string().min(1),
-      meta: z.string().min(1),
-      games: z.string().min(1),
-      library: z.string().min(1),
-    })
-    .optional(),
 });
 
 export const ProjectsContentSchema = z.object({

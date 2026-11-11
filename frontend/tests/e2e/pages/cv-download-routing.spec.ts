@@ -22,6 +22,7 @@
 
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -44,13 +45,6 @@ const LOCALE_OPTION_LABELS = {
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-
-/** Switch the language selector to the given option label. */
-async function switchLocale(page: import('@playwright/test').Page, optionLabel: string) {
-  const combobox = page.locator('[role="combobox"]').first();
-  await combobox.click();
-  await page.getByRole('option', { name: optionLabel }).click();
-}
 
 /**
  * Wait for the Download CV anchor to be visible, then return its href attribute.
@@ -76,7 +70,7 @@ test.describe('CV download routing — single /cv.pdf for all locales (T-FE-QUAL
     // Switch explicitly to PT so tests are locale-deterministic regardless of
     // what navigator.language the Playwright browser reports (Chromium defaults to
     // en-US, which would make the app load EN content instead of PT).
-    await switchLocale(page, LOCALE_OPTION_LABELS.pt);
+    await switchLanguage(page, LOCALE_OPTION_LABELS.pt);
     await expect(page.locator('#hero-heading')).toBeVisible();
   });
 
@@ -92,7 +86,7 @@ test.describe('CV download routing — single /cv.pdf for all locales (T-FE-QUAL
    * Scenario 2 — EN locale: Download CV href is /cv.pdf.
    */
   test('S2: EN locale — Download CV href is /cv.pdf', async ({ page }) => {
-    await switchLocale(page, LOCALE_OPTION_LABELS.en);
+    await switchLanguage(page, LOCALE_OPTION_LABELS.en);
     const href = await getDownloadCvHref(page, DOWNLOAD_CTA_LABELS.en);
     expect(href).toBe(EXPECTED_CV_HREF);
   });
@@ -101,7 +95,7 @@ test.describe('CV download routing — single /cv.pdf for all locales (T-FE-QUAL
    * Scenario 3 — DE locale: Download CV href is /cv.pdf.
    */
   test('S3: DE locale — Download CV href is /cv.pdf', async ({ page }) => {
-    await switchLocale(page, LOCALE_OPTION_LABELS.de);
+    await switchLanguage(page, LOCALE_OPTION_LABELS.de);
     const href = await getDownloadCvHref(page, DOWNLOAD_CTA_LABELS.de);
     expect(href).toBe(EXPECTED_CV_HREF);
   });
@@ -111,8 +105,8 @@ test.describe('CV download routing — single /cv.pdf for all locales (T-FE-QUAL
    * Confirms the href is not incorrectly cached or re-keyed after a switch.
    */
   test('S4: locale round-trip en → pt — href stays /cv.pdf', async ({ page }) => {
-    await switchLocale(page, LOCALE_OPTION_LABELS.en);
-    await switchLocale(page, LOCALE_OPTION_LABELS.pt);
+    await switchLanguage(page, LOCALE_OPTION_LABELS.en);
+    await switchLanguage(page, LOCALE_OPTION_LABELS.pt);
     const href = await getDownloadCvHref(page, DOWNLOAD_CTA_LABELS.pt);
     expect(href).toBe(EXPECTED_CV_HREF);
   });

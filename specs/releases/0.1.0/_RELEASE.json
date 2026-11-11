@@ -3,10 +3,10 @@
   "release": "0.1.0",
   "phase": "CLOSURE",
   "defined": {
-    "ts": "2026-10-25T22:20:28Z"
+    "ts": "2026-11-07T18:45:20Z"
   },
   "implemented": {
-    "ts": "2026-11-07T15:02:23Z"
+    "ts": "2026-11-10T03:55:06Z"
   },
   "shipped": null,
   "log": [
@@ -359,6 +359,68 @@
         "legacy-specs",
         "e2e-suite",
         "resume-home"
+      ]
+    },
+    {
+      "ts": "2026-11-07T17:02:25Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-4 Jobs 1-7 merged on the wt-rc (CLOSURE at 0c30205): FR1 deploy syncs dist/assets/** with the immutable cache and every other file no-cache, and uploads each prerendered route as an extensionless no-cache HTML object in both deploy jobs, with no Terraform or IAM change, the six plain-named SVGs under public/assets renamed to hash names and the hash-name rule held over every file under public/assets; FR2 the post contract (one folder per post, zod-checked front matter, drafts unpublished) and build-blog.mjs after vite build, marked a devDependency, raw HTML escaped, link targets limited to http(s), SiteRelativeUrl and # anchors, image and clip rules with read sizes and posters; FR3 each post's and each of the 4 project pages' own served head, the root head with the default share image and the RSS link; FR4 /blog and /blog/:slug with language tags and the tag filter; FR5 blog/rss.xml and the 1200x630 share image; FR6 the Blog link behind a build-time flag read from the post reader, absent on the committed content: the Blog link waits for the operator's first post; FR7 seeAllProjects required, the hero one-column selector widened, the 19 files and folders with no reader deleted with the Makefile server targets, PROSE the one 680 px cap, the README structure line; the cvUrl hotfix synced from the work branch makes SiteRelativeUrl the one site-relative rule, read by cvUrl and the blog link rule; seven bugs found and fixed inside the rc, 0 open: six blog bugs (blog-link-rule-admits-protocol-relative-redirects, blog-media-rule-has-two-copies-and-admits-markdown, post-page-blanks-the-head-before-the-post-resolves, blog-default-image-read-skips-the-exactly-once-rule, blog-media-poster-test-spawns-three-builds-and-times-out, blog-link-errors-carry-the-marked-report-suffix) and blog-tags-label-unread, fixed at closure by e48d354 after its RED test f81aae4 (PostMeta renders siteChrome.blog.tagsLabel before the tag links); AC1.1 and AC1.2 stage evidence is collected after the rc PR merges into develop; memory: blog added, local-servers deleted, content-contract, deploy-infrastructure, site-chrome, legacy-specs, e2e-suite and resume-home reconciled, the README blog note, then the follow-up 82f2c3e (content-contract drops the unread tagsLabel exception and the blog atom's meta line names the label), its memory pass recorded at 25d1dd5; this entry corrects the 15:10:21Z summary, which named six of the seven bugs and predated 82f2c3e; carried: none; backlog exits: blog-v1 (delivered)"
+    },
+    {
+      "ts": "2026-11-07T17:02:40Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-07T18:45:20Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-5",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-07T23:05:00Z",
+      "agent": "main",
+      "kind": "note",
+      "text": "Operator authorization verbatim: \"Adiar a exclusão (Recommended)\" — AC2.3's first bullet, for content/* only (neither sync writes or deletes content/*), is carried to the switch, the panel's first publish to the portfolio buckets. rc-5 deletes the two --exclude \"content/*\" sync lines, one per deploy job. The schema cp and the schema/* exclusion stay. Reason: Job 6 changes media to a list, and the old content JSON left in the buckets would break the project pages until the panel publishes."
+    },
+    {
+      "ts": "2026-11-10T03:55:06Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-5",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-10T04:03:59Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-5 Jobs 1-7 merged on the wt-rc, each with an APPROVED verdict (CLOSURE at 53c75ad): FR1 zod ^4.6.7, the majors react-router-dom 7.18, vitest and @vitest/coverage-v8 5 and @lhci/cli 0.16 with overrides for what no direct bump clears, frontend/bun.lockb deleted; FR2 the module's two SSM String parameters per environment in us-east-1 (/static-sites/<site>/<env>/bucket and /distribution-id, valued from its own bucket and distribution), each deploy role trusting only its GitHub environment subject by StringEquals (stage, production), and in both deploy jobs one aws s3 cp of the published schema to schema/site-content.schema.json (application/json, no-cache) with the no-cache sync excluding schema/*; FR3 the published schema as JSON Schema 2020-12 at public/schema/site-content.schema.json with no $ref or definitions wrapper, v1.json and the draft-07 export deleted, one regex per URL and email field emitted as its pattern with no format, the SiteRelativeUrl control-character partitions pinned, kindLabels deleted, the certification link one pattern and media a list so every oneOf sits under items with a const, the 35 top-level locale keys declared and .catchall gone; FR4 pypi.tagPrefix and the {version} and {tag} placeholders filled at render from pypi.version, each locale's library blocks holding the version only there, the rendered pages and pin.txt unchanged; FR5 the empty-tags partition of PostMeta, the post reader the one order decider with the blog index's second sort deleted, the docstrings stating only their unit's contract, attribute escaping of & and \" pinned, body headings one level under the title, and one E2E switchLanguage helper replacing every inline switch; one bug found and fixed inside the rc, 0 open: library-scene-second-media-leaves-the-media-column, a REBUILD of the scene's media cell in Job 7 (0a92d60); readings: (a) AC3.2's \"no existing refusal turns into an acceptance\" holds over the listed partitions, which are the PLAN §2.2 regexes; (b) the \"0 read-only\" of AC3.4 and the DoD means no non-const placeholder, and the 19 read-only fields are const by design; (c) the --delete no-cache deploy sync removes the unread bucket object content/schema/v1.json, which has 0 readers; AC2.1-AC2.3 evidence (the plans, the apply run and the stage checks) is collected after the rc PR merges into develop (SPEC Closure) and recorded then as a note; memory: content-contract, deploy-infrastructure, blog, library-page, dadaia-workspace-page, rand-engine-page, scene-media, resume-home and e2e-suite reconciled, site-chrome reviewed, ARCHITECTURE Structure names the export path, the catalog regenerated, the README infra and deploy lines derived; carried: AC2.3's content/* exclusion, carried to the switch under the operator's words \"Adiar a exclusão (Recommended)\" (note 2026-11-07T23:05:00Z), as the backlog entry switch-restores-the-content-exclusion; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-10T04:04:22Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 25d1dd504cd8f21211349d76e9074983771e2bbd..4df7c005f10d: 1 reviewed, 9 changed.",
+      "since": "25d1dd504cd8f21211349d76e9074983771e2bbd",
+      "until": "4df7c005f10d81573c248a23e873a1274a5ed81b",
+      "reviewed": [
+        "site-chrome"
+      ],
+      "changed": [
+        "content-contract",
+        "deploy-infrastructure",
+        "blog",
+        "library-page",
+        "dadaia-workspace-page",
+        "rand-engine-page",
+        "scene-media",
+        "resume-home",
+        "e2e-suite"
       ]
     }
   ]
