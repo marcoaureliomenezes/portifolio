@@ -57,7 +57,7 @@ npm run preview    # Servidor local da build
 |---|---|---|
 | Todo PR para `develop` ou `main` | `ci.yml` | Lint, type-check, unit tests, i18n parity, build, E2E smoke, Lighthouse |
 | Push em `develop` | `deploy.yml` | Build + deploy para stage S3 (inclui o schema publicado `schema/site-content.schema.json`) + CloudFront invalidation |
-| Push em `main` | `deploy.yml` | Build + deploy para prod (environment gate) |
+| Push em `main` | `deploy.yml` | Build + deploy para prod (environment gate; inclui o schema publicado `schema/site-content.schema.json`) |
 | Disparo manual (`workflow_dispatch`, input `env`) | `terraform.yml` | fmt, validate, plan, guarda de delete/replace e `terraform apply` no environment `infra` |
 
 Autenticacao AWS: **OIDC exclusivamente**. Nenhuma chave estatica em uso.
