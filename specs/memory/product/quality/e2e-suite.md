@@ -26,8 +26,8 @@ Real-browser checks that the site loads and its main paths work, before a merge 
 - In CI: Chromium only, one retry, four workers, `npm run preview` on port 8080 serving the
   built `dist/`. Locally: Chromium, Firefox, WebKit, Pixel 5 and iPhone 12 against
   `npm run dev`, reusing a running server.
-- The browser locale is `pt-BR`, so pt is the default language; `E2E_BASE_URL` overrides the
-  base URL. Traces are kept on the first retry and screenshots on failure.
+- The browser locale is `pt-BR`, so pt is the default language. `E2E_BASE_URL`, when set, is the
+  base URL and Playwright starts no server; unset, Playwright starts the server above. Traces are kept on the first retry and screenshots on failure.
 - `tests/e2e/fixtures/routes.ts` names the routes the specs visit.
 - `tests/e2e/fixtures/language.ts` `switchLanguage` is the one language switch: it opens the
   header's language combobox, picks the option, and returns once the header's first nav link

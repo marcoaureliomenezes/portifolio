@@ -2,7 +2,7 @@
 slug: content-contract
 title: Content contract
 tldr: projects.ts is the one project schema, one regex per URL or email field, site-content.schema.json its 2020-12 export; verify checks locales and assets.
-summary: The site's content JSON has one machine contract built on the one project schema that declares every top-level key; verify's unit tests parse the three locale files against it, keep the published JSON Schema equal to a fresh export and mappable by the panel's Studio, and hold every rule on the files under public/assets.
+summary: The site's content JSON has one machine contract built on the one project schema that declares every top-level key; verify's unit tests parse the three locale files against it with nothing stripped, keep the published JSON Schema equal to a fresh export and mappable by the panel's Studio, and hold every rule on the files under public/assets.
 tags:
   - content
   - schema
@@ -50,15 +50,17 @@ asset they point to. A break fails `verify`.
   three. The projects index holds only `title` and `description`.
 - The contract declares every top-level key the three locales carry, each label key a string or
   nested objects of strings, and requires the keys `src/types/content.ts` requires plus
-  `schema_version`, `published_at` and `projectsV2`. An unknown key, top-level or nested, is
-  stripped, never refused.
+  `schema_version`, `published_at` and `projectsV2`. The parse strips an unknown key, top-level
+  or nested, never refuses it.
 - Each URL field and the email field is one regex, emitted as the schema's `pattern` with no
   `format`. `HttpUrl` is `^https?://` plus a host of word characters, dots and hyphens, an
-  optional port and a path with no whitespace, so no `javascript:` or `data:` link reaches an
-  `<a href>`, and `{` or `}` passes in a path and fails in the host. The email holds one `@`, no
-  whitespace and a dot after the `@`. A certification's `link` is `HttpUrl`'s pattern or
-  a bare `#`. A unit test holds, for each partition, zod's verdict equal to the emitted pattern's,
-  compiled with and without the `u` flag.
+  optional port from 1 to 65535 with no leading zero, and a path with no whitespace, so no
+  `javascript:` or `data:` link reaches an `<a href>`, and `{` or `}` passes in a path and fails
+  in the host. `Email` is one linear regex: one `@`, no whitespace, and after the `@` at least two
+  non-empty dot-separated labels, so `a@b..c`, `a@.b.c` and `a@b.c.` are refused; a unit test
+  answers a 50 000-character adversarial input in under 50 ms. A certification's `link` is
+  `HttpUrl`'s pattern or a bare `#`. A unit test holds, for each partition, zod's verdict equal
+  to the emitted pattern's, compiled with and without the `u` flag.
 - `SiteRelativeUrl` in `projects.ts` is the one site-relative rule: a path that starts with one
   `/` not followed by `/`, `\`, whitespace or a control character; `cvUrl` is one, and a post's
   links are held to the same rule ([[blog]]).
@@ -70,12 +72,14 @@ asset they point to. A break fails `verify`.
   every property name matches `^[A-Za-z_][A-Za-z0-9_]*$`, no `anyOf` remains, and every `oneOf`
   sits directly under `items` with a `const` on each branch.
 - A unit test parses `pt.json`, `en.json` and `de.json` against the full contract inside
-  `test:run`, so `verify` fails on a malformed locale file.
+  `test:run` and requires the parsed value to equal the file, so `verify` fails on a malformed
+  locale file and on a key, at any depth, that the contract does not declare.
 - `check:i18n-projects` (in `verify`) checks that the three locales carry the same project keys,
   the same `alt` and `caption` presence on each media list entry, index by index, every `siteChrome` key (the footer's, the Blog nav
   label and the blog pages' strings included) and every home label (`earlierLabel`, `detailsOpen`, `detailsClose`, `storyOpen`,
   `storyClose`, `impactLabel`, `seeAllProjects`), non-blank; `CONTENT_DIR` points it at another
-  folder, and a unit test runs it on a copy missing one key.
+  folder, and unit tests run it on a copy missing one key and on a copy whose media list entry
+  lacks an optional key the other locales carry.
 - A unit test holds the resume data of each locale: the `main` and `minor` experiences by
   company, certifications newest first by `priority` with no level in a name, skill rows in id
   order, the home keys present and no unread label key at any depth.

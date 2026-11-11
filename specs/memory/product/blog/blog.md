@@ -45,7 +45,8 @@ pages get their own served heads from the same build.
   slug); it is the one order decider, and the index data, the feed and the blog index keep its
   order. A draft gets no page, index entry or feed item and does not count for the Blog link.
 - `npm run build` runs `vite build`, then `scripts/build-blog.mjs` (`--posts`, `--dist`
-  override the folders). `marked`, a devDependency absent from the client bundle, renders the
+  override the folders), which also exports `buildBlog(postsDir, dist)`; importing it runs
+  nothing. `marked`, a devDependency absent from the client bundle, renders the
   body: raw HTML renders as escaped text; a body heading sits one level under the post title,
   so `#` renders `<h2>`, each level shifts down one and `######` stays `<h6>`, and the post page
   keeps one `h1`; a code block is a plain escaped `<pre><code>`; `&` and `"` in an image `alt` or
@@ -91,7 +92,9 @@ pages get their own served heads from the same build.
 - `vite.config.ts` defines `__BLOG_PUBLISHED__` as true only on `vite build` with at least one
   published post under `content/blog`; the header reads it ([[site-chrome]]).
 - The tests read three fixture posts under `tests/fixtures/blog/` (a proving post with an image
-  and a clip, a second post, a draft) by passing that folder to the build script.
+  and a clip, a second post, a draft) by calling `buildBlog` in process on that folder; only the
+  CLI's own contract spawns the script: exit 0 with an empty stderr, a failure's exit status 1
+  with its message on stderr, and an import that runs nothing.
 
 ## Boundaries
 

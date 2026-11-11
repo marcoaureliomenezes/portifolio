@@ -34,7 +34,11 @@ project page or a post is served from its own HTML, so a crawler reads its own h
   SPA fallback), an ACM certificate in us-east-1 validated by Route53 DNS, A records for the
   domain (plus `www` in prod), and the IAM deploy role GitHub Actions assumes over OIDC to list,
   put, get and delete the bucket's objects and invalidate the distribution, with no access to the
-  Terraform state (a unit test reads the policy).
+  Terraform state. A unit test reads the policy as an allowlist: its statement keys are exactly
+  `Sid`, `Effect`, `Action` and `Resource`; its actions, whatever their shape, are exactly
+  `cloudfront:CreateInvalidation`, `s3:DeleteObject`, `s3:GetObject`, `s3:ListBucket`,
+  `s3:PutObject` and `s3:PutObjectAcl`; its resources are exactly the bucket, its objects and the
+  distribution, so any other grant fails it.
 - The deploy role trusts one subject by `StringEquals`: the repo's OIDC prefix plus
   `:environment:stage` for stage and `:environment:production` for prod, so only a job bound to
   that GitHub environment assumes it.
@@ -52,7 +56,9 @@ project page or a post is served from its own HTML, so a crawler reads its own h
 - `deploy.yml` runs on a push to `develop` (stage, in the `stage` environment) or `main` (prod,
   behind the `production` environment) that touches `frontend/**` or the workflow. It builds once
   with `npm run build`, which also writes the blog and the prerendered pages ([[blog]]), then for
-  the env:
+  the env, each deploy job reading the `S3_BUCKET` and `DOMAIN` variables once into job-level
+  `env:` entries that its `run:` scripts use as quoted shell variables, so no `${{ vars.… }}`
+  expression sits inside a script:
   - uploads the published schema ([[content-contract]]) by `aws s3 cp` to the key
     `schema/site-content.schema.json`, `application/json`, `no-cache`;
   - syncs `dist/assets/**` with `public, max-age=31536000, immutable`, and every other file but
