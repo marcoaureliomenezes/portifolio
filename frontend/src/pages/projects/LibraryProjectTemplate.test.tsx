@@ -294,6 +294,14 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     expect(within(mediaCell).getAllByAltText("scene tables-extra").length).toBeGreaterThan(0);
   });
 
+  it("renders no media cell for a scene without media: its section holds the text cell only", () => {
+    renderTemplate({ ...richProject, sections: [{ id: "plain", title: "Plain scene", body: "Text only." }] });
+    const scene = screen.getByRole("heading", { name: "Plain scene" }).closest("section") as HTMLElement;
+    expect(scene.children.length).toBe(1);
+    expect(within(scene).getByText("Text only.")).toBeTruthy();
+    expect(within(scene).queryByRole("img")).toBeNull();
+  });
+
   it("ranks the headings: scene titles are h3 in the How it works region, the rest h2", () => {
     renderRoute();
     const how = screen.getByRole("region", { name: "How it works" });
