@@ -18,7 +18,7 @@
 | `terraform-workflow-cannot-plan-or-apply` | `438e193`, `c7540a5` | `terraform.yml` becomes one dispatched apply per environment on the infra role, and the bootstrap script creates only the OIDC provider. 342 lines are deleted. Its RED tests are `40c58c3` and `d1ac240`. | It replaces the PR, push and destroy-bootstrap paths and adds no layer. The record's `expected` was superseded by the operator ruling of 2026-11-07. It left the deploy role's state statement dead, which became the child record below. That was a missed deletion, not a layer, and `171db50` deleted it. | KEEP |
 | `blog-pending-test-waits-by-clock` | `4254018` | Two pending cases wait on the index fetch with `vi.waitFor` instead of sleeping 50 ms. | The change is test-only, and the "no empty message / no 404 while pending" asserts are kept. Net +1 line. This is the same wait-by-clock family as `layout-shell-title-read-races-the-language-switch` (correlates). The family's remaining one-shot read, `layout-shell.spec.ts:132`, is AC2.4. | KEEP |
 | `deploy-role-can-write-terraform-state` | `171db50` | Deletes the deploy role's state statement (−14 lines). Its RED test is `32269ed`. | The fix is a deletion, so it is KEEP. Its RED test, `deployRolePolicy.test.ts:16`, is a forbidden-word list: it stays green for any grant whose text it does not name (`"s3:*"`, as-is review D3). That test pins the symptom's words, not the policy. | fix KEEP; RED test REBUILD, carried by AC3.1 (candidate scope, entry 3) |
-| `library-scene-second-media-leaves-the-media-column` | `0a92d60` | A scene's media list renders inside one cell, so the scene grid has two children. Its RED test is `a84bc35`. | No assert is loosened. The fix adds one branch, `media?.length ? … : null` (`LibraryProjectTemplate.tsx:89`). No fixture scene lacks media, since both scenes in `richProject` carry it, so the branch's false partition is unpinned. | KEEP. The unpinned partition goes to the main thread's intake (§6), not to this scope. |
+| `library-scene-second-media-leaves-the-media-column` | `0a92d60` | A scene's media list renders inside one cell, so the scene grid has two children. Its RED test is `a84bc35`. | No assert is loosened. The fix adds one branch, `media?.length ? … : null` (`LibraryProjectTemplate.tsx:89`). No fixture scene lacks media, since both scenes in `richProject` carry it, so the branch's false partition is unpinned. | KEEP. AC2.7 pins the unpinned partition (entry 2's class). |
 
 There is no REBUILD of a fix, so no bug is proposed. The one REBUILD is a RED test, and AC3.1 carries it inside the picked set. `bugs.py stats`: no REBUILD due.
 
@@ -42,6 +42,7 @@ Read at `66e643f` (as-is review handoff `2026-11-11T032902Z`; grill handoff `202
    - A task id sits in an E2E title (`tests/e2e/pages/language-switch.spec.ts:60`).
    - A path is split on `/` (`contentAssets.test.ts:69`).
    - The question of whether a missing posts root is valid.
+   - A scene with no media is untested: the branch `0a92d60` added at `LibraryProjectTemplate.tsx:89` has no case for its false partition.
 3. **The deploy.**
    - The policy test is a forbidden-word list.
    - `data "aws_caller_identity" "current"` (`terraform/modules/portfolio-static-site/iam.tf:11`) has 0 readers.
@@ -144,6 +145,7 @@ The as-is review found the five write sets disjoint. The PLAN schedules the wave
   Test: E2E, the three specs pass. The reviewer greps the E2E titles for `J\d+\.T\d+` and finds 0 hits.
 - **AC2.5** The asset-name test takes a file's name with `basename` from `node:path`, not `split("/")` (`contentAssets.test.ts:69`). Test: unit, the existing cases pass.
 - **AC2.6** A missing posts root is valid. The post reader returns `[]` (`blog-posts.mjs:99`), and the build writes `blog/index.json` as `[]`, so the site builds before its first post. This partition is already pinned by `buildBlog.test.ts:138` ("writes [] for an absent one"). It needs no code change and no new case, and it survives FR4's move. Test: unit, existing.
+- **AC2.7** A scene with no media renders no media cell and no empty grid cell. The scene's `section` has exactly one child, its text cell (heading and body), so the text keeps the grid's one column. Test: unit, one added partition in `LibraryProjectTemplate.test.tsx` next to the one-cell case, with a scene fixture that carries no `media`. The reviewer renders the media cell unconditionally and sees the case go red.
 
 ### FR3 — the deploy role and the deploy workflow
 
@@ -222,4 +224,3 @@ None for the operator beyond approving the two narrowings (AC1.2, AC1.3) with th
 For the main thread:
 
 - **The pre-mortem.** The `dd-researcher` pre-mortem of the published pattern's consumers (`dd-release-definition` §2) is owed before approval.
-- **An intake item.** `library-scene-second-media-leaves-the-media-column` added a branch whose media-less partition is unpinned (Bug window review). It goes to the next intake, not this scope.
