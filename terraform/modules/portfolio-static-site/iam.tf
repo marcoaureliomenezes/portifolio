@@ -8,8 +8,6 @@
 # Ref: specs/foundation/SPEC.md §5 (DEV-03).
 # ==============================================================================
 
-data "aws_caller_identity" "current" {}
-
 # OIDC provider é account-wide (compartilhado entre todos os envs e repos).
 # Criado uma vez por scripts/bootstrap-oidc.sh, que cria só o provider (a role de apply é do bootstrap do painel).
 # Referenciado aqui via data source para não conflitar entre envs.
