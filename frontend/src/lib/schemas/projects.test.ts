@@ -453,6 +453,11 @@ const partitions: [string, () => z.ZodType, string[], string[]][] = [
       "javascript:alert(1)",
       "data:text/html,x",
       "https://{tag}.example/",
+      "https://a.io:0/",
+      "https://a.io:080/",
+      "https://a.io:08080/",
+      "https://a.io:65536/",
+      "https://a.io:99999/",
     ],
     [
       "http://example.com/a",
@@ -460,9 +465,17 @@ const partitions: [string, () => z.ZodType, string[], string[]][] = [
       "https://github.com/marcoaureliomenezes/portifolio",
       "https://www.instagram.com/marcoaurelioreislima/",
       "https://h.example/blob/{tag}/x",
+      "https://a.io:1/",
+      "https://a.io:80/",
+      "https://a.io:65535/",
     ],
   ],
-  ["Email", () => Email, ["no-at-sign.example.com", "a b@example.com"], ["marco@example.com"]],
+  [
+    "Email",
+    () => Email,
+    ["no-at-sign.example.com", "a b@example.com", "a@b..c", "a@.b.c", "a@b.c."],
+    ["marco@example.com", "a@b.test", "first.last@sub.example.test"],
+  ],
   [
     "SiteRelativeUrl",
     () => SiteRelativeUrl,
@@ -481,6 +494,18 @@ describe.each(partitions)("%s: zod equals the emitted pattern", (_name, rule, re
     expect(schema.safeParse(v).success).toBe(ok);
     expect(new RegExp(pattern).test(v)).toBe(ok);
     expect(new RegExp(pattern, "u").test(v)).toBe(ok);
+  });
+});
+
+describe("Email pattern on a hostile input", () => {
+  it("answers 50 000 dots in under 50 ms, in zod and in both regex modes", () => {
+    const v = `a@${".".repeat(50_000)} `;
+    const { pattern } = z.toJSONSchema(Email) as { pattern: string };
+    const t = performance.now();
+    expect(Email.safeParse(v).success).toBe(false);
+    expect(new RegExp(pattern).test(v)).toBe(false);
+    expect(new RegExp(pattern, "u").test(v)).toBe(false);
+    expect(performance.now() - t).toBeLessThan(50);
   });
 });
 
