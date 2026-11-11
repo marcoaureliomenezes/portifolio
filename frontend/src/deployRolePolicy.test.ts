@@ -12,9 +12,14 @@ describe("deploy role policy", () => {
     expect(policy.length).toBeGreaterThan(3);
   });
 
-  it("grants exactly the deploy actions", () => {
-    const actions = policy.flatMap((l) => l.match(/"[a-z0-9-]+:[A-Za-z*]+"/g) ?? []).map((a) => a.slice(1, -1));
-    expect(actions.sort()).toEqual([
+  it("uses only the statement keys Sid, Effect, Action, Resource", () => {
+    const keys = policy.flatMap((l) => l.match(/^ {8}([A-Za-z]+)\s*=/)?.slice(1) ?? []);
+    expect([...new Set(keys)].sort()).toEqual(["Action", "Effect", "Resource", "Sid"]);
+  });
+
+  it("grants exactly the deploy actions, whatever their shape", () => {
+    const values = [...policy.join("\n").matchAll(/\bAction\s*=\s*(\[[^\]]*\]|"[^"]*")/g)].flatMap((m) => m[1].match(/"[^"]*"/g) ?? []);
+    expect(values.map((v) => v.slice(1, -1)).sort()).toEqual([
       "cloudfront:CreateInvalidation",
       "s3:DeleteObject",
       "s3:GetObject",
