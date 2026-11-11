@@ -12,7 +12,24 @@ describe("deploy role policy", () => {
     expect(policy.length).toBeGreaterThan(3);
   });
 
-  it("grants no access to the Terraform state", () => {
-    expect(policy.filter((l) => /terraform|tfstate|\bstate\b|-state/i.test(l)).map((l) => l.trim())).toEqual([]);
+  it("grants exactly the deploy actions", () => {
+    const actions = policy.flatMap((l) => l.match(/"[a-z0-9-]+:[A-Za-z*]+"/g) ?? []).map((a) => a.slice(1, -1));
+    expect(actions.sort()).toEqual([
+      "cloudfront:CreateInvalidation",
+      "s3:DeleteObject",
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+    ]);
+  });
+
+  it("grants on exactly the bucket, its objects and the distribution", () => {
+    const resources = policy.filter((l) => /^\s*Resource\s*=/.test(l)).map((l) => l.replace(/^\s*Resource\s*=\s*/, "").trim());
+    expect(resources.sort()).toEqual([
+      '"${aws_s3_bucket.website.arn}/*"',
+      "aws_cloudfront_distribution.website.arn",
+      "aws_s3_bucket.website.arn",
+    ]);
   });
 });
