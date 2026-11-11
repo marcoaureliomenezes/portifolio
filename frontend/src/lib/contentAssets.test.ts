@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative, resolve, sep } from "node:path";
+import { basename, join, relative, resolve, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = resolve(__dirname, "../..");
@@ -66,7 +66,7 @@ describe("AC3.2 the media list", () => {
 describe("AC1.2 every file under public/assets carries the sha256 of its bytes in its name", () => {
   for (const f of walk(join(pub, "assets"))) {
     it(rel(f), () => {
-      const m = /^[a-z0-9-]+-([0-9a-f]{8})\.(webm|mp4|webp|svg|png)$/.exec(f.split("/").pop()!);
+      const m = /^[a-z0-9-]+-([0-9a-f]{8})\.(webm|mp4|webp|svg|png)$/.exec(basename(f));
       expect(m, `${rel(f)}: name must match <scene>-<8 hex>.<ext>`).not.toBeNull();
       const sha = createHash("sha256").update(readFileSync(f)).digest("hex").slice(0, 8);
       expect(m![1], `${rel(f)}: name hash differs from sha256 prefix ${sha}`).toBe(sha);
