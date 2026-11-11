@@ -1,6 +1,7 @@
 # SPEC — Release: 0.1.0
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-11-11, operator: "Aprovo (Recommended)"
 **Release ID:** 0.1.0
 **Owner:** dd-product-engineer
 **Opened:** 2026-11-11
