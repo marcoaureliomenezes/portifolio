@@ -1,6 +1,7 @@
 # PLAN — Release 0.1.0, rc-8
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-11-12, operator: "Aprovo (Recommended)"
 **Owner:** dd-sw-engineer-sr
 
 Paths are relative to the repo root (the app is under `frontend/`). Tree: the rc-8 `wt-rc` (rc-7 merged), SPEC at `ab560fa` (Draft); every `path:line` was read in this tree. The repo `verify:` line is unchanged: `npm --prefix frontend run verify` (30.07 s measured at rc-7's closure).
