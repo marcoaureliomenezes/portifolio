@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/select";
 import type { SupportedLanguages } from "@/types/content";
 import { useContent } from "@/hooks/useContent";
-import { track } from "@dadaia/analytics-sdk";
 
 interface LanguageSelectorProps {
   language: SupportedLanguages;
@@ -29,11 +28,8 @@ export function LanguageSelector({
   const label = useContent().content.siteChrome.language.label;
   const current = LANGUAGE_OPTIONS.find((o) => o.value === language);
 
-  // T-AN-D-02: Track language_switch event when the language changes.
   function handleLanguageChange(v: string) {
-    const next = v as SupportedLanguages;
-    track('language_switch', { from: language, to: next });
-    onLanguageChange(next);
+    onLanguageChange(v as SupportedLanguages);
   }
 
   if (compact) {

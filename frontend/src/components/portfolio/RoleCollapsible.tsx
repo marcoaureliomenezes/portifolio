@@ -5,7 +5,6 @@ import { CollapsibleTrigger } from "@/components/ui/collapsible";
 import { RoleSkillBadges } from "./RoleSkillBadges";
 import { HighlightProjectBlock } from "./HighlightProjectBlock";
 import type { Position, ContentData } from "@/types/content";
-import { track } from "@dadaia/analytics-sdk";
 
 interface RoleCollapsibleProps {
   role: Position;
@@ -25,14 +24,8 @@ export function RoleCollapsible({ role, labels, defaultOpen = false }: RoleColla
   const summary = role.responsibilities?.[0];
   const rest = role.responsibilities?.slice(1) ?? [];
 
-  // T-AN-D-02: Track section expand/collapse analytics events.
-  function handleOpenChange(next: boolean) {
-    setOpen(next);
-    track(next ? "section_expand" : "section_collapse", { section: role.title });
-  }
-
   return (
-    <Disclosure open={open} onOpenChange={handleOpenChange}>
+    <Disclosure open={open} onOpenChange={setOpen}>
       <article
         data-testid="role"
         className="flex flex-col space-y-1"

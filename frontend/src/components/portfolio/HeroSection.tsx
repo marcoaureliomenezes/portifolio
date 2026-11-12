@@ -6,7 +6,6 @@ import { PROSE } from "@/lib/layout";
 import { yearsSince } from "@/lib/formatPeriod";
 import profileAvatar from "@/assets/profile.webp";
 import type { ContentData, SupportedLanguages } from "@/types/content";
-import { track } from "@dadaia/analytics-sdk";
 
 interface HeroSectionProps {
   content: ContentData;
@@ -77,7 +76,7 @@ export function HeroSection({ content, locale = "pt" }: HeroSectionProps) {
           variant="outline"
           className="border-border hover:border-accent/60 hover:bg-accent/5 gap-2"
         >
-          <a href={cvUrl} download onClick={() => track('cv_download')}>
+          <a href={cvUrl} download>
             <Download className="w-4 h-4" aria-hidden="true" />
             {ctas.downloadCv}
           </a>
