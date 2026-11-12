@@ -390,7 +390,6 @@ describe("LibraryProjectTemplate — version placeholders", () => {
       `${dw}/tree/v0.4.7/dadaia_workspace/public/agents`,
     ]);
     expect(screen.getByText("uvx dadaia-workspace@0.4.7 init demo --harness claude | tail -n 3")).toBeTruthy();
-    const randEngine = projectsV2.list.find((p: { slug: string }) => p.slug === "rand-engine");
     const re = "https://github.com/marcoaureliomenezes/rand_engine";
     expect(hrefs("rand-engine")).toEqual([
       `${re}/blob/0.8.0/pyproject.toml`,
@@ -398,6 +397,6 @@ describe("LibraryProjectTemplate — version placeholders", () => {
       `${re}/blob/0.8.0/pyproject.toml`,
       `${re}/blob/0.8.0/docs/BENCHMARKS.md`,
     ]);
-    expect(screen.getByTestId("install-command").textContent).toBe(randEngine.pypi.installCommand);
+    expect(screen.getByTestId("install-command").textContent).toBe("pip install rand-engine");
   });
 });
