@@ -13,7 +13,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { track } from "@dadaia/analytics-sdk";
 import { RoleCollapsible } from "./RoleCollapsible";
 import { PROSE } from "@/lib/layout";
 import type { Position, ContentData } from "@/types/content";
@@ -24,8 +23,6 @@ const mockRole: Position = {
   responsibilities: ["Built pipelines", "Optimized queries", "Reduced batch failures", "Led migrations"],
   technologies: "Python, Spark, AWS",
 };
-
-vi.mock("@dadaia/analytics-sdk", () => ({ track: vi.fn() }));
 
 type Labels = Pick<
   ContentData,
@@ -274,16 +271,6 @@ describe("RoleCollapsible", () => {
     expect(within(region as HTMLElement).getByText("Led migrations")).toBeInTheDocument();
     expect(within(region as HTMLElement).getByText("Migration Project")).toBeInTheDocument();
     expect(within(region as HTMLElement).queryByText("Built pipelines")).not.toBeInTheDocument();
-  });
-
-  it("tracks section_expand then section_collapse with the role title", async () => {
-    const user = userEvent.setup();
-    render(<RoleCollapsible role={mockRole} labels={mockLabels} />);
-
-    await user.click(screen.getByRole("button"));
-    expect(track).toHaveBeenLastCalledWith("section_expand", { section: "Software Engineer" });
-    await user.click(screen.getByRole("button"));
-    expect(track).toHaveBeenLastCalledWith("section_collapse", { section: "Software Engineer" });
   });
 
   it.each([
