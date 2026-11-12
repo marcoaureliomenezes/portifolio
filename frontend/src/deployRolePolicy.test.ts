@@ -1,17 +1,19 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const lines = readFileSync(resolve(__dirname, "../../terraform/modules/portfolio-static-site/iam.tf"), "utf8").split("\n");
+const moduleDir = resolve(__dirname, "../../terraform/modules/portfolio-static-site");
+const read = (file: string) => readFileSync(resolve(moduleDir, file), "utf8").split("\n");
 
-function block(header: string): string {
+function block(file: string, header: string): string {
+  const lines = read(file);
   const start = lines.indexOf(header);
   return lines.slice(start, start + lines.slice(start).indexOf("}") + 1).join("\n");
 }
 
 describe("deploy role", () => {
   it("is exactly this block, under the permissions boundary", () => {
-    expect(block('resource "aws_iam_role" "github_actions_deploy" {')).toBe(
+    expect(block("iam.tf", 'resource "aws_iam_role" "github_actions_deploy" {')).toBe(
 `resource "aws_iam_role" "github_actions_deploy" {
   name                 = "github-actions-portfolio-\${var.environment}-deploy"
   permissions_boundary = "arn:\${data.aws_partition.current.partition}:iam::\${data.aws_caller_identity.current.account_id}:policy/portifolio-roles-boundary"
@@ -44,7 +46,7 @@ describe("deploy role", () => {
   });
 
   it("carries exactly this policy", () => {
-    expect(block('resource "aws_iam_role_policy" "github_actions_deploy" {')).toBe(
+    expect(block("iam.tf", 'resource "aws_iam_role_policy" "github_actions_deploy" {')).toBe(
 `resource "aws_iam_role_policy" "github_actions_deploy" {
   name = "portfolio-\${var.environment}-deploy-policy"
   role = aws_iam_role.github_actions_deploy.id
@@ -63,7 +65,6 @@ describe("deploy role", () => {
         Effect = "Allow"
         Action = [
           "s3:PutObject",
-          "s3:PutObjectAcl",
           "s3:DeleteObject",
           "s3:GetObject",
         ]
@@ -74,6 +75,62 @@ describe("deploy role", () => {
         Effect   = "Allow"
         Action   = ["cloudfront:CreateInvalidation"]
         Resource = aws_cloudfront_distribution.website.arn
+      }
+    ]
+  })
+}`,
+    );
+  });
+
+  it("is the only IAM resource in the module", () => {
+    const headers = readdirSync(moduleDir)
+      .filter((f) => f.endsWith(".tf"))
+      .flatMap(read)
+      .flatMap((l) => l.match(/^resource "(aws_iam_[a-z_]+)" "([^"]+)" \{$/)?.slice(1).join(".") ?? [])
+      .sort();
+    expect(headers).toEqual(["aws_iam_role.github_actions_deploy", "aws_iam_role_policy.github_actions_deploy"]);
+  });
+
+  it("grants the bucket policy exactly this block", () => {
+    expect(block("s3_policies.tf", 'resource "aws_s3_bucket_policy" "website" {')).toBe(
+`resource "aws_s3_bucket_policy" "website" {
+  bucket = aws_s3_bucket.website.id
+
+  depends_on = [aws_s3_bucket_public_access_block.website]
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "\${aws_s3_bucket.website.arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.website.arn
+          }
+        }
+      },
+      {
+        Sid    = "AllowGitHubActionsOIDCRoleDeploy"
+        Effect = "Allow"
+        Principal = {
+          AWS = aws_iam_role.github_actions_deploy.arn
+        }
+        Action = [
+          "s3:PutObject",
+          "s3:DeleteObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+        ]
+        Resource = [
+          aws_s3_bucket.website.arn,
+          "\${aws_s3_bucket.website.arn}/*",
+        ]
       }
     ]
   })
