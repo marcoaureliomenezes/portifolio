@@ -3,38 +3,81 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const lines = readFileSync(resolve(__dirname, "../../terraform/modules/portfolio-static-site/iam.tf"), "utf8").split("\n");
-const start = lines.findIndex((l) => /^resource "aws_iam_role_policy" "github_actions_deploy"/.test(l));
-const policy = lines.slice(start, start + lines.slice(start).findIndex((l) => l === "}") + 1);
 
-describe("deploy role policy", () => {
-  it("is found in iam.tf", () => {
-    expect(start).toBeGreaterThan(-1);
-    expect(policy.length).toBeGreaterThan(3);
+function block(header: string): string {
+  const start = lines.indexOf(header);
+  return lines.slice(start, start + lines.slice(start).indexOf("}") + 1).join("\n");
+}
+
+describe("deploy role", () => {
+  it("is exactly this block, under the permissions boundary", () => {
+    expect(block('resource "aws_iam_role" "github_actions_deploy" {')).toBe(
+`resource "aws_iam_role" "github_actions_deploy" {
+  name                 = "github-actions-portfolio-\${var.environment}-deploy"
+  permissions_boundary = "arn:\${data.aws_partition.current.partition}:iam::\${data.aws_caller_identity.current.account_id}:policy/portifolio-roles-boundary"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = data.aws_iam_openid_connect_provider.github.arn
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringEquals = {
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+            "token.actions.githubusercontent.com:sub" = "\${local.oidc_prefix}:environment:\${local.github_environment}"
+          }
+        }
+      }
+    ]
+  })
+
+  tags = merge(local.common_tags, {
+    Name    = "github-actions-portfolio-\${var.environment}-deploy"
+    Purpose = "Role assumida pelo GitHub Actions para deploy do portfolio"
+  })
+}`,
+    );
   });
 
-  it("uses only the statement keys Sid, Effect, Action, Resource", () => {
-    const keys = policy.flatMap((l) => l.match(/^ {8}([A-Za-z]+)\s*=/)?.slice(1) ?? []);
-    expect([...new Set(keys)].sort()).toEqual(["Action", "Effect", "Resource", "Sid"]);
-  });
+  it("carries exactly this policy", () => {
+    expect(block('resource "aws_iam_role_policy" "github_actions_deploy" {')).toBe(
+`resource "aws_iam_role_policy" "github_actions_deploy" {
+  name = "portfolio-\${var.environment}-deploy-policy"
+  role = aws_iam_role.github_actions_deploy.id
 
-  it("grants exactly the deploy actions, whatever their shape", () => {
-    const values = [...policy.join("\n").matchAll(/\bAction\s*=\s*(\[[^\]]*\]|"[^"]*")/g)].flatMap((m) => m[1].match(/"[^"]*"/g) ?? []);
-    expect(values.map((v) => v.slice(1, -1)).sort()).toEqual([
-      "cloudfront:CreateInvalidation",
-      "s3:DeleteObject",
-      "s3:GetObject",
-      "s3:ListBucket",
-      "s3:PutObject",
-      "s3:PutObjectAcl",
-    ]);
-  });
-
-  it("grants on exactly the bucket, its objects and the distribution", () => {
-    const resources = policy.filter((l) => /^\s*Resource\s*=/.test(l)).map((l) => l.replace(/^\s*Resource\s*=\s*/, "").trim());
-    expect(resources.sort()).toEqual([
-      '"${aws_s3_bucket.website.arn}/*"',
-      "aws_cloudfront_distribution.website.arn",
-      "aws_s3_bucket.website.arn",
-    ]);
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid      = "ListPortfolioBucket"
+        Effect   = "Allow"
+        Action   = ["s3:ListBucket"]
+        Resource = aws_s3_bucket.website.arn
+      },
+      {
+        Sid    = "ManagePortfolioObjects"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:DeleteObject",
+          "s3:GetObject",
+        ]
+        Resource = "\${aws_s3_bucket.website.arn}/*"
+      },
+      {
+        Sid      = "InvalidateCloudFrontCache"
+        Effect   = "Allow"
+        Action   = ["cloudfront:CreateInvalidation"]
+        Resource = aws_cloudfront_distribution.website.arn
+      }
+    ]
+  })
+}`,
+    );
   });
 });

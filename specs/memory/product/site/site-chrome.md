@@ -63,6 +63,10 @@ contact links, all in the visitor's language.
   pages' strings and the footer. `siteChrome` is required, so no reader guards it. The games empty state, whose link is
   `profile.githubUrl`, and the 404 text come from the same content file.
 - `<html lang>` follows the active locale: `pt-BR` for pt, `en` and `de` otherwise.
+- The site keeps only the visitor's own choices: the language under `lang`
+  (`LanguageContext.tsx`) and the theme under `theme` (`useTheme.ts`), both in `localStorage`.
+  It sets no cookie, writes no identifier and sends no analytics event; its only requests are
+  for its own files.
 - First paint is dark unless the stored theme is `light`; the inline script in `index.html` and
   `useTheme` decide the same way, whatever the OS colour scheme.
 - Type scale, the only font sizes the header and project parts use: `text-label` 12 px and
@@ -72,7 +76,8 @@ contact links, all in the visitor's language.
   `SectionHeading`: an `h2` on `text-label`, uppercase and muted.
 - `ProjectsLayoutShell` wraps `/projetos` and `/projetos/:slug` inside the site column: a
   breadcrumb (Projects, then the project's name), the page, and on a project page a back link
-  after it.
+  after it. The shell sets no document title: a project page sets its own, and the
+  projects index sets none, so it keeps the default title of `index.html`.
 - One amber accent; no nested card, accordion or stat chip in the project parts.
 
 ## Boundaries

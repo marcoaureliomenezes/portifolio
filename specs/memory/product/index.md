@@ -75,7 +75,6 @@ The product vision is not documented yet. Describe the project's core purpose he
 
 | slug | title | tldr |
 |------|-------|------|
-| `analytics-sdk` | Analytics SDK | A vendored dependency-free SDK queues anonymous events per tab session and sends them by sendBeacon when the page hides. |
 | `site-chrome` | Shared site chrome | One header and one footer on every route, one 960 px column with 680 px prose, one type scale, localized chrome strings and <html lang>. |
 
 ## Capability map

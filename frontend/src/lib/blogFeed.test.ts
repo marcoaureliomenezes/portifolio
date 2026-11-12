@@ -12,10 +12,9 @@ const fixtures = join(frontend, "tests/fixtures/blog");
 const rootHtml = join(frontend, "index.html");
 const projectSlug: string = JSON.parse(readFileSync(join(frontend, "public/content/pt.json"), "utf8")).projectsV2.list[0].slug;
 const tmp = mkdtempSync(join(tmpdir(), "blog-feed-"));
-process.chdir(frontend);
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-/** Runs buildBlog in process from frontend/ over a temp dist whose template is the committed index.html; returns the dist. */
+/** Runs buildBlog in process over a temp dist whose template is the committed index.html; returns the dist. */
 function build(posts: string) {
   const dist = mkdtempSync(join(tmp, "dist-"));
   writeFileSync(join(dist, "index.html"), readFileSync(rootHtml));

@@ -45,9 +45,7 @@ behind it, each fact linked to its source.
   block, then items as label and value rows, the value linked when the item has an `href`.
 - The facts heading reads `<factsTitle> · <product name> <pypi.version>`.
 - The install line and the Try it code sit in a code block whose copy button copies exactly the
-  text shown and flips to the copied label for 2 s. Copying the install line fires
-  `track("project_cta", {action: "copy_install"})`; the GitHub and PyPI links fire
-  `project_cta` with `github` and `pypi`.
+  text shown and flips to the copied label for 2 s.
 - Prose is capped at 680 px inside the 960 px project column; no card, accordion or stat chip
   appears.
 

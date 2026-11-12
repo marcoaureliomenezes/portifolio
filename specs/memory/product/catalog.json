@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T14:03:54Z",
+  "generated_at": "2026-11-12T11:23:33Z",
   "features": [
     {
       "rank": 1,
@@ -14,7 +14,7 @@
         "content",
         "seo"
       ],
-      "token_estimate": 1276,
+      "token_estimate": 1307,
       "depends_on": [
         "content-contract",
         "site-chrome",
@@ -88,7 +88,7 @@
         "deploy",
         "aws"
       ],
-      "token_estimate": 949,
+      "token_estimate": 1084,
       "depends_on": [
         "blog",
         "content-contract",
@@ -100,6 +100,7 @@
         ".github/workflows/terraform.yml",
         "frontend/src/terraformWorkflow.test.ts",
         "frontend/src/deployRolePolicy.test.ts",
+        "frontend/src/workflowScripts.test.ts",
         "scripts/bootstrap-oidc.sh",
         "scripts/setup-deployment.sh",
         "scripts/build_frontend.sh",
@@ -202,7 +203,7 @@
         "library",
         "layout"
       ],
-      "token_estimate": 525,
+      "token_estimate": 500,
       "depends_on": [
         "site-chrome",
         "scene-media",
@@ -262,15 +263,16 @@
         "quality-assurance",
         "e2e"
       ],
-      "token_estimate": 309,
+      "token_estimate": 406,
       "depends_on": [
-        "resume-home",
-        "site-chrome"
+        "site-chrome",
+        "resume-home"
       ],
       "sources": [
         "frontend/playwright.config.ts",
         "frontend/tests/e2e/fixtures/routes.ts",
-        "frontend/tests/e2e/fixtures/language.ts"
+        "frontend/tests/e2e/fixtures/language.ts",
+        ".github/workflows/ci.yml"
       ]
     },
     {
@@ -286,7 +288,7 @@
         "home",
         "i18n"
       ],
-      "token_estimate": 798,
+      "token_estimate": 792,
       "depends_on": [
         "site-chrome",
         "content-contract",
@@ -311,29 +313,6 @@
     },
     {
       "rank": 11,
-      "slug": "analytics-sdk",
-      "title": "Analytics SDK",
-      "area": "site",
-      "tldr": "A vendored dependency-free SDK queues anonymous events per tab session and sends them by sendBeacon when the page hides.",
-      "summary": "frontend/vendor/analytics-sdk is installed as @dadaia/analytics-sdk; main.tsx calls init with the build's VITE_ANALYTICS_ENDPOINT, and the site's track calls record page views, CV downloads, theme and language switches, role disclosures and project actions.",
-      "path": "specs/memory/product/site/analytics-sdk.md",
-      "tags": [
-        "analytics",
-        "privacy"
-      ],
-      "token_estimate": 277,
-      "depends_on": [
-        "site-chrome",
-        "resume-home",
-        "library-page"
-      ],
-      "sources": [
-        "frontend/vendor/analytics-sdk/**",
-        "frontend/src/main.tsx"
-      ]
-    },
-    {
-      "rank": 12,
       "slug": "site-chrome",
       "title": "Shared site chrome",
       "area": "site",
@@ -346,7 +325,7 @@
         "i18n",
         "design-tokens"
       ],
-      "token_estimate": 791,
+      "token_estimate": 884,
       "depends_on": [
         "blog",
         "resume-home",

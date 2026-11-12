@@ -15,7 +15,6 @@ import { resolve } from "node:path";
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { render, screen, cleanup, fireEvent, waitFor, within } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { track } from "@dadaia/analytics-sdk";
 import { LibraryProjectTemplate } from "./LibraryProjectTemplate";
 import { ProjectDetailPage } from "./ProjectDetailPage";
 import { ProjectsLayoutShell } from "@/components/projects/ProjectsLayoutShell";
@@ -23,14 +22,12 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { LanguageContext } from "@/contexts/LanguageContext";
 import type { ContentData, LibraryProject } from "@/types/content";
 
-vi.mock("@dadaia/analytics-sdk", () => ({ track: vi.fn() }));
 // Boundary stub: the header's own contract lives in Header.test.tsx.
 vi.mock("@/components/Header", () => ({ Header: () => <header>header</header> }));
 
 const writeText = vi.fn().mockResolvedValue(undefined);
 
 beforeEach(() => {
-  vi.mocked(track).mockClear();
   writeText.mockClear();
   Object.defineProperty(navigator, "clipboard", {
     value: { writeText },
@@ -320,25 +317,19 @@ describe("LibraryProjectTemplate — in the route mirror", () => {
     }
   });
 
-  it("copies exactly the install command and tracks copy_install once", async () => {
+  it("copies exactly the install command", async () => {
     renderRoute();
     fireEvent.click(screen.getByTestId("copy-install"));
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
     expect(writeText).toHaveBeenCalledWith("pip install rand-engine");
-    expect(track).toHaveBeenCalledTimes(1);
-    expect(track).toHaveBeenCalledWith("project_cta", {
-      project: "rand-engine",
-      action: "copy_install",
-    });
   });
 
-  it("copies exactly the Try it code and tracks nothing", async () => {
+  it("copies exactly the Try it code", async () => {
     renderRoute();
     const section = screen.getByRole("heading", { name: "Try it" }).closest("section");
     fireEvent.click(within(section as HTMLElement).getByRole("button", { name: "Copy" }));
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
     expect(writeText).toHaveBeenCalledWith("spec = {'age': 1}");
-    expect(track).not.toHaveBeenCalled();
   });
 
   it("renders every section flat: no boxed descendant, no shadow, no disclosure", () => {

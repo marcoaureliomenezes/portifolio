@@ -10,10 +10,9 @@ const frontend = resolve(__dirname, "../..");
 const fixtures = join(frontend, "tests/fixtures/blog");
 const rootHtml = join(frontend, "index.html");
 const tmp = mkdtempSync(join(tmpdir(), "blog-pages-"));
-process.chdir(frontend);
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-/** buildBlog, run in process from frontend/ over a temp dist whose template is the committed index.html. */
+/** buildBlog, run in process over a temp dist whose template is the committed index.html. */
 function build(posts: string, template = readFileSync(rootHtml, "utf8")) {
   const dist = mkdtempSync(join(tmp, "dist-"));
   writeFileSync(join(dist, "index.html"), template);

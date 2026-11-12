@@ -2,9 +2,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import App from "@/App";
 
-// Boundary stub: the analytics SDK is not under test.
-vi.mock("@dadaia/analytics-sdk", () => ({ track: () => undefined }));
-
 afterEach(() => {
   window.history.pushState({}, "", "/");
   vi.restoreAllMocks();

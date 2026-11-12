@@ -13,6 +13,7 @@ sources:
   - .github/workflows/terraform.yml
   - frontend/src/terraformWorkflow.test.ts
   - frontend/src/deployRolePolicy.test.ts
+  - frontend/src/workflowScripts.test.ts
   - scripts/bootstrap-oidc.sh
   - scripts/setup-deployment.sh
   - scripts/build_frontend.sh
@@ -34,11 +35,13 @@ project page or a post is served from its own HTML, so a crawler reads its own h
   SPA fallback), an ACM certificate in us-east-1 validated by Route53 DNS, A records for the
   domain (plus `www` in prod), and the IAM deploy role GitHub Actions assumes over OIDC to list,
   put, get and delete the bucket's objects and invalidate the distribution, with no access to the
-  Terraform state. A unit test reads the policy as an allowlist: its statement keys are exactly
-  `Sid`, `Effect`, `Action` and `Resource`; its actions, whatever their shape, are exactly
-  `cloudfront:CreateInvalidation`, `s3:DeleteObject`, `s3:GetObject`, `s3:ListBucket`,
-  `s3:PutObject` and `s3:PutObjectAcl`; its resources are exactly the bucket, its objects and the
-  distribution, so any other grant fails it.
+  Terraform state. The deploy role carries the permissions boundary the panel's bootstrap owns,
+  the policy named `portifolio-roles-boundary`, its ARN built from the `aws_partition` and
+  `aws_caller_identity` data sources, so no account id is written in the repo.
+- `src/deployRolePolicy.test.ts` compares the deploy role block and the deploy policy block of
+  `iam.tf`, each as one literal: any change inside either block (the boundary line, the trust,
+  an action, a statement, a resource, a format-only edit) fails it. It reads only those two
+  blocks, so a new IAM resource elsewhere in the module passes it.
 - The deploy role trusts one subject by `StringEquals`: the repo's OIDC prefix plus
   `:environment:stage` for stage and `:environment:production` for prod, so only a job bound to
   that GitHub environment assumes it.
@@ -51,14 +54,15 @@ project page or a post is served from its own HTML, so a crawler reads its own h
   the workflow. `terraform/` holds only `envs/` and `modules/`.
 - `terraform.yml` runs only on a manual dispatch with an `env` input (`stage` or `prod`), in the
   `infra` GitHub environment, assuming the one apply role its `AWS_ROLE_ARN` variable names, which
-  the panel's bootstrap owns. It runs fmt check, validate and a saved plan, refuses a plan that
-  deletes or replaces anything, then applies that plan. A unit test reads the workflow.
+  the panel's bootstrap owns. Its init reads the state bucket and region as shell variables. It
+  runs fmt check, validate and a saved plan, refuses a plan that deletes or replaces anything,
+  then applies that plan. A unit test reads the workflow.
 - `deploy.yml` runs on a push to `develop` (stage, in the `stage` environment) or `main` (prod,
   behind the `production` environment) that touches `frontend/**` or the workflow. It builds once
   with `npm run build`, which also writes the blog and the prerendered pages ([[blog]]), then for
   the env, each deploy job reading the `S3_BUCKET` and `DOMAIN` variables once into job-level
-  `env:` entries that its `run:` scripts use as quoted shell variables, so no `${{ vars.… }}`
-  expression sits inside a script:
+  `env:` entries and the distribution id into its invalidation step's `env:`; its `run:` scripts
+  use them as quoted shell variables and the commit as `$GITHUB_SHA`:
   - uploads the published schema ([[content-contract]]) by `aws s3 cp` to the key
     `schema/site-content.schema.json`, `application/json`, `no-cache`;
   - syncs `dist/assets/**` with `public, max-age=31536000, immutable`, and every other file but
@@ -70,6 +74,10 @@ project page or a post is served from its own HTML, so a crawler reads its own h
     extensionless object `projetos/<slug>` or `blog/<slug>`, `text/html; charset=utf-8`,
     `no-cache`, so CloudFront answers `/projetos/<slug>` with that page's own HTML;
   - invalidates `/*`.
+- No `run:` script of `ci.yml`, `ci-weekly.yml`, `deploy.yml` or `terraform.yml` holds a
+  `${{ }}` expression: a value reaches a script through `env:`. `src/workflowScripts.test.ts`
+  reads those four named files as text and fails on such an expression; a workflow file outside
+  the four is not read.
 - While a deploy runs, and on a trailing-slash path, a route falls back to the SPA shell, which
   renders the same page in the browser. A removed post's object is deleted by the sync and not
   uploaded again.

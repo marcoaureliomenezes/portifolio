@@ -10,6 +10,7 @@ sources:
   - frontend/playwright.config.ts
   - frontend/tests/e2e/fixtures/routes.ts
   - frontend/tests/e2e/fixtures/language.ts
+  - .github/workflows/ci.yml
 ---
 
 ## What it does
@@ -23,9 +24,10 @@ Real-browser checks that the site loads and its main paths work, before a merge 
   every `*.spec.ts` under `tests/e2e` runs.
 - `ci.yml` runs the smoke set on each PR to `develop` or `main`; `ci-weekly.yml` runs the full suite on a Sunday
   schedule.
-- In CI: Chromium only, one retry, four workers, `npm run preview` on port 8080 serving the
-  built `dist/`. Locally: Chromium, Firefox, WebKit, Pixel 5 and iPhone 12 against
-  `npm run dev`, reusing a running server.
+- In CI: Chromium only, installed by `npx playwright install chromium` without the system
+  packages, one retry, four workers, `npm run preview` on port 8080 serving the built `dist/`.
+  Locally: Chromium, Firefox, WebKit, Pixel 5 and iPhone 12 against `npm run dev`, reusing a
+  running server.
 - The browser locale is `pt-BR`, so pt is the default language. `E2E_BASE_URL`, when set, is the
   base URL and Playwright starts no server; unset, Playwright starts the server above. Traces are kept on the first retry and screenshots on failure.
 - `tests/e2e/fixtures/routes.ts` names the routes the specs visit.
@@ -33,6 +35,11 @@ Real-browser checks that the site loads and its main paths work, before a merge 
   header's language combobox, picks the option, and returns once the header's first nav link
   shows the chosen locale's `siteChrome.nav.resume`, read from that locale's content file, so
   the new locale's content has loaded. Every spec that switches the language calls it.
+- In the projects cluster, the layout-shell and i18n-projects specs compare the document title
+  with literal titles; the projects index is asserted on the site's default title, since it sets
+  none of its own ([[site-chrome]]). The two project-detail specs read the title once and check
+  only that it is non-empty and not `projetos`; the deep-link spec checks only that it is
+  non-empty.
 
 ## Boundaries
 

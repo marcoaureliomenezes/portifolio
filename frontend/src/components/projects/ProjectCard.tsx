@@ -6,7 +6,6 @@
 
 import { Link } from "react-router-dom";
 import type { Project } from "@/types/content";
-import { track } from "@dadaia/analytics-sdk";
 
 const COVER_SIZE = { width: 1280, height: 720 };
 
@@ -22,7 +21,6 @@ export function ProjectCard({ project }: { project: Project }) {
       to={`/projetos/${slug}`}
       aria-label={hero.title}
       data-testid="project-card"
-      onClick={() => track("project_cta", { project: hero.title })}
       className={[
         "block rounded-xl border border-border/40 bg-card shadow-sm overflow-hidden",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",

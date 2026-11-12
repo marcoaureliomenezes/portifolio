@@ -13,8 +13,6 @@ const script = join(frontend, "scripts/build-blog.mjs");
 const tmp = mkdtempSync(join(tmpdir(), "build-blog-"));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-process.chdir(frontend);
-
 /** A fresh temp dist that holds the site's index.html. */
 function freshDist(): string {
   const dist = mkdtempSync(join(tmp, "dist-"));
@@ -22,7 +20,7 @@ function freshDist(): string {
   return dist;
 }
 
-/** Builds posts in process from frontend/ into a fresh temp dist; returns the dist. */
+/** Builds posts in process into a fresh temp dist; returns the dist. */
 function build(posts: string): string {
   const dist = freshDist();
   buildBlog(posts, dist);

@@ -6,11 +6,10 @@ interface CodeBlockProps {
   code: string;
   copyLabel: string;
   copiedLabel: string;
-  onCopy?: () => void;
   testIds?: { code: string; button: string };
 }
 
-export function CodeBlock({ code, copyLabel, copiedLabel, onCopy, testIds }: CodeBlockProps) {
+export function CodeBlock({ code, copyLabel, copiedLabel, testIds }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -26,7 +25,6 @@ export function CodeBlock({ code, copyLabel, copiedLabel, onCopy, testIds }: Cod
       return;
     }
     setCopied(true);
-    onCopy?.();
   };
 
   return (

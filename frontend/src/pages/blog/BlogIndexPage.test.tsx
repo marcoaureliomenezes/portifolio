@@ -80,13 +80,6 @@ describe("BlogIndexPage", () => {
     expect(postHrefs()).toEqual(["/blog/older-post", "/blog/newer-post"]);
   });
 
-  it("renders the index in the order the data holds, not by date", async () => {
-    serveIndex(() => Promise.resolve(new Response(JSON.stringify([...POSTS].reverse()))));
-    renderAt("/blog");
-    await screen.findByRole("link", { name: "Newer post" });
-    expect(postHrefs()).toEqual(["/blog/older-post", "/blog/newer-post"]);
-  });
-
   it.each([
     ["pt", "9 de março de 2026"],
     ["en", "March 9, 2026"],

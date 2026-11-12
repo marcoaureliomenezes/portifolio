@@ -1,9 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { track } from "@dadaia/analytics-sdk";
 import { CodeBlock } from "../CodeBlock";
-
-vi.mock("@dadaia/analytics-sdk", () => ({ track: vi.fn() }));
 
 const CODE = "uv tool install thing\nthing run --fast \n";
 
@@ -18,10 +15,8 @@ describe("CodeBlock", () => {
     });
   });
 
-  afterEach(() => vi.clearAllMocks());
-
-  const setup = (onCopy?: () => void) =>
-    render(<CodeBlock code={CODE} copyLabel="Copy" copiedLabel="Copied" onCopy={onCopy} />);
+  const setup = () =>
+    render(<CodeBlock code={CODE} copyLabel="Copy" copiedLabel="Copied" />);
 
   it("renders the text in a pre", () => {
     const { container } = setup();
@@ -35,21 +30,12 @@ describe("CodeBlock", () => {
     expect(writeText).toHaveBeenCalledWith(CODE);
   });
 
-  it("calls onCopy once after a successful copy", async () => {
-    const onCopy = vi.fn();
-    setup(onCopy);
-    fireEvent.click(screen.getByRole("button"));
-    await waitFor(() => expect(onCopy).toHaveBeenCalledTimes(1));
-  });
-
-  it("does not call onCopy when the write rejects", async () => {
+  it("keeps the copy label when the write rejects", async () => {
     writeText.mockRejectedValue(new Error("denied"));
-    const onCopy = vi.fn();
-    setup(onCopy);
+    setup();
     fireEvent.click(screen.getByRole("button"));
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
     await Promise.resolve();
-    expect(onCopy).not.toHaveBeenCalled();
     expect(screen.getByRole("button").textContent).toContain("Copy");
     expect(screen.getByRole("button").textContent).not.toContain("Copied");
   });
@@ -59,13 +45,5 @@ describe("CodeBlock", () => {
     expect(screen.getByRole("button").textContent).toBe("Copy");
     fireEvent.click(screen.getByRole("button"));
     await waitFor(() => expect(screen.getByRole("button").textContent).toBe("Copied"));
-  });
-
-  it("fires no track() itself", async () => {
-    const onCopy = vi.fn();
-    setup(onCopy);
-    fireEvent.click(screen.getByRole("button"));
-    await waitFor(() => expect(onCopy).toHaveBeenCalledTimes(1));
-    expect(track).not.toHaveBeenCalled();
   });
 });

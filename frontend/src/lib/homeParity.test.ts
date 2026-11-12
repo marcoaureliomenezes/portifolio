@@ -58,6 +58,13 @@ describe("check-i18n-parity on a copy of the locale files", () => {
     expect(out.split("\n").some((l) => l.includes("[de]") && l.includes(".hero.media[0]") && l.includes("caption"))).toBe(true);
   });
 
+  it("fails naming the section media item when the de copy lacks an optional key of it", () => {
+    removeKey("de", ["projectsV2", "list", "0", "sections", "1", "media", "0", "alt"]);
+    const { status, out } = runParity();
+    expect(status).toBe(1);
+    expect(out.split("\n").some((l) => l.includes("[de]") && l.includes(".sections[1].media[0]") && l.includes("alt"))).toBe(true);
+  });
+
   it("passes on an unmodified copy", () => {
     const { status, out } = runParity();
     expect({ status, out }).toEqual({

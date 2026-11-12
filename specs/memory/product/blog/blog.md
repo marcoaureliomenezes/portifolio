@@ -44,11 +44,13 @@ pages get their own served heads from the same build.
   folder, drafts included, drops `draft: true` posts and orders the rest newest first (ties by
   slug); it is the one order decider, and the index data, the feed and the blog index keep its
   order. A draft gets no page, index entry or feed item and does not count for the Blog link.
-- `npm run build` runs `vite build`, then `scripts/build-blog.mjs` (`--posts`, `--dist`
-  override the folders), which also exports `buildBlog(postsDir, dist)`; importing it runs
-  nothing. `marked`, a devDependency absent from the client bundle, renders the
-  body: raw HTML renders as escaped text; a body heading sits one level under the post title,
-  so `#` renders `<h2>`, each level shifts down one and `######` stays `<h6>`, and the post page
+- `npm run build` runs `vite build`, then `scripts/build-blog.mjs`, whose `--posts` and
+  `--dist` default to `content/blog` and `dist` under the directory it runs in. It also exports
+  `buildBlog(postsDir, dist)`; importing it runs nothing. The build finds
+  `public/content/pt.json` from the script's own location, whatever the working directory.
+  `marked`, a devDependency absent from the client bundle, renders the body: raw HTML renders
+  as escaped text; a body heading sits one level under the post title, so `#` renders `<h2>`,
+  each level shifts down one and `######` stays `<h6>`, and the post page
   keeps one `h1`; a code block is a plain escaped `<pre><code>`; `&` and `"` in an image `alt` or
   a link `href` render as `&amp;` and `&quot;`; a link
   must be `http(s)://`, `SiteRelativeUrl` ([[content-contract]]) or a `#` anchor, else the build

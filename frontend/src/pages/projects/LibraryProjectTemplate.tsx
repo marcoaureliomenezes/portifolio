@@ -12,7 +12,6 @@ import { Media } from "@/components/projects/Media";
 import { ProjectSections } from "@/components/projects/ProjectSections";
 import { renderLibrary } from "@/lib/libraryRender";
 import { PROSE } from "@/lib/layout";
-import { track } from "@dadaia/analytics-sdk";
 import type { LibraryProject } from "@/types/content";
 
 const FOLLOWING = ["try", "why", "facts"];
@@ -30,13 +29,12 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
       ? { ...s, title: `${labels?.factsTitle} · ${hero.title} ${pypi.version}` }
       : s,
   );
-  const link = (href: string, label: string | undefined, action?: string) => (
+  const link = (href: string, label: string | undefined) => (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="underline underline-offset-4"
-      onClick={action ? () => track("project_cta", { project: slug, action }) : undefined}
     >
       {label}
     </a>
@@ -51,15 +49,14 @@ export function LibraryProjectTemplate({ project }: { project: LibraryProject })
           <span data-testid="library-version">
             {labels?.versionLabel} {pypi.version}
           </span>
-          {link(links.repo, "GitHub", "github")}
-          {link(links.pypi, labels?.linkPypi, "pypi")}
+          {link(links.repo, "GitHub")}
+          {link(links.pypi, labels?.linkPypi)}
           {links.docs && link(links.docs, labels?.linkDocs)}
         </div>
         <CodeBlock
           code={pypi.installCommand}
           copyLabel={labels?.copyLabel || ""}
           copiedLabel={labels?.copiedLabel || ""}
-          onCopy={() => track("project_cta", { project: slug, action: "copy_install" })}
           testIds={{ code: "install-command", button: "copy-install" }}
         />
       </header>

@@ -48,9 +48,9 @@ jobs:
           TF_ENV: ${{ inputs.env }}
         run: |
           terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
+            -backend-config="bucket=${TF_STATE_BUCKET}" \
             -backend-config="key=portifolio/${TF_ENV}/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
+            -backend-config="region=${TF_STATE_REGION}"
 
       - name: Terraform Format check
         run: terraform fmt -check -recursive
