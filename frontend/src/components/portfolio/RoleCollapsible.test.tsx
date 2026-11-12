@@ -12,7 +12,7 @@
 
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { RoleCollapsible } from "./RoleCollapsible";
 import { PROSE } from "@/lib/layout";
 import type { Position, ContentData } from "@/types/content";
@@ -44,8 +44,6 @@ const highlightRole: Position = {
     body: "Solo AI-augmented migration.",
   },
 };
-
-beforeEach(() => vi.clearAllMocks());
 
 describe("RoleCollapsible", () => {
   it("renders the role title", () => {

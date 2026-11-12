@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { CodeBlock } from "../CodeBlock";
 
@@ -14,8 +14,6 @@ describe("CodeBlock", () => {
       configurable: true,
     });
   });
-
-  afterEach(() => vi.clearAllMocks());
 
   const setup = () =>
     render(<CodeBlock code={CODE} copyLabel="Copy" copiedLabel="Copied" />);
