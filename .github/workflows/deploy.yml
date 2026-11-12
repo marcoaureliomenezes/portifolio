@@ -57,6 +57,9 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/develop'
     environment: stage
+    env:
+      BUCKET: ${{ vars.S3_BUCKET }}
+      DOMAIN: ${{ vars.DOMAIN }}
 
     steps:
       - uses: actions/download-artifact@v4
@@ -73,11 +76,11 @@ jobs:
 
       - name: Upload schema object (no-cache)
         run: |
-          aws s3 cp dist/schema/site-content.schema.json "s3://${{ vars.S3_BUCKET }}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
+          aws s3 cp dist/schema/site-content.schema.json "s3://${BUCKET}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
 
       - name: Sync hashed assets to S3 (immutable cache)
         run: |
-          aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
+          aws s3 sync dist/ "s3://${BUCKET}" \
             --delete \
             --exact-timestamps \
             --exclude "*" \
@@ -86,7 +89,7 @@ jobs:
 
       - name: Sync everything else to S3 (no-cache)
         run: |
-          aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
+          aws s3 sync dist/ "s3://${BUCKET}" \
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
@@ -99,7 +102,7 @@ jobs:
           [ -d dist/blog ] && roots="dist/blog $roots"
           find $roots -mindepth 2 -maxdepth 2 -name index.html | sort | while read -r f; do
             key="${f#dist/}"; key="${key%/index.html}"
-            aws s3 cp "$f" "s3://${{ vars.S3_BUCKET }}/$key" \
+            aws s3 cp "$f" "s3://${BUCKET}/$key" \
               --content-type "text/html; charset=utf-8" \
               --cache-control "no-cache"
           done
@@ -116,7 +119,7 @@ jobs:
         run: |
           echo "Stage deploy complete"
           echo "Commit: ${{ github.sha }}"
-          echo "Site: https://${{ vars.DOMAIN }}"
+          echo "Site: https://${DOMAIN}"
 
   deploy-prod:
     name: Deploy / Production
@@ -124,6 +127,9 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'
     environment: production
+    env:
+      BUCKET: ${{ vars.S3_BUCKET }}
+      DOMAIN: ${{ vars.DOMAIN }}
 
     steps:
       - uses: actions/download-artifact@v4
@@ -140,11 +146,11 @@ jobs:
 
       - name: Upload schema object (no-cache)
         run: |
-          aws s3 cp dist/schema/site-content.schema.json "s3://${{ vars.S3_BUCKET }}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
+          aws s3 cp dist/schema/site-content.schema.json "s3://${BUCKET}/schema/site-content.schema.json" --content-type application/json --cache-control no-cache
 
       - name: Sync hashed assets to S3 (immutable cache)
         run: |
-          aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
+          aws s3 sync dist/ "s3://${BUCKET}" \
             --delete \
             --exact-timestamps \
             --exclude "*" \
@@ -153,7 +159,7 @@ jobs:
 
       - name: Sync everything else to S3 (no-cache)
         run: |
-          aws s3 sync dist/ s3://${{ vars.S3_BUCKET }} \
+          aws s3 sync dist/ "s3://${BUCKET}" \
             --delete \
             --exact-timestamps \
             --exclude "assets/*" \
@@ -166,7 +172,7 @@ jobs:
           [ -d dist/blog ] && roots="dist/blog $roots"
           find $roots -mindepth 2 -maxdepth 2 -name index.html | sort | while read -r f; do
             key="${f#dist/}"; key="${key%/index.html}"
-            aws s3 cp "$f" "s3://${{ vars.S3_BUCKET }}/$key" \
+            aws s3 cp "$f" "s3://${BUCKET}/$key" \
               --content-type "text/html; charset=utf-8" \
               --cache-control "no-cache"
           done
@@ -183,4 +189,4 @@ jobs:
         run: |
           echo "Production deploy complete"
           echo "Commit: ${{ github.sha }}"
-          echo "Site: https://${{ vars.DOMAIN }}"
+          echo "Site: https://${DOMAIN}"

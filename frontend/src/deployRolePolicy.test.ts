@@ -12,7 +12,29 @@ describe("deploy role policy", () => {
     expect(policy.length).toBeGreaterThan(3);
   });
 
-  it("grants no access to the Terraform state", () => {
-    expect(policy.filter((l) => /terraform|tfstate|\bstate\b|-state/i.test(l)).map((l) => l.trim())).toEqual([]);
+  it("uses only the statement keys Sid, Effect, Action, Resource", () => {
+    const keys = policy.flatMap((l) => l.match(/^ {8}([A-Za-z]+)\s*=/)?.slice(1) ?? []);
+    expect([...new Set(keys)].sort()).toEqual(["Action", "Effect", "Resource", "Sid"]);
+  });
+
+  it("grants exactly the deploy actions, whatever their shape", () => {
+    const values = [...policy.join("\n").matchAll(/\bAction\s*=\s*(\[[^\]]*\]|"[^"]*")/g)].flatMap((m) => m[1].match(/"[^"]*"/g) ?? []);
+    expect(values.map((v) => v.slice(1, -1)).sort()).toEqual([
+      "cloudfront:CreateInvalidation",
+      "s3:DeleteObject",
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+    ]);
+  });
+
+  it("grants on exactly the bucket, its objects and the distribution", () => {
+    const resources = policy.filter((l) => /^\s*Resource\s*=/.test(l)).map((l) => l.replace(/^\s*Resource\s*=\s*/, "").trim());
+    expect(resources.sort()).toEqual([
+      '"${aws_s3_bucket.website.arn}/*"',
+      "aws_cloudfront_distribution.website.arn",
+      "aws_s3_bucket.website.arn",
+    ]);
   });
 });

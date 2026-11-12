@@ -1,27 +1,23 @@
-import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+// @ts-expect-error plain ESM, no declaration file
+import { buildBlog } from "../../scripts/build-blog.mjs";
 
 const frontend = resolve(__dirname, "../..");
 const fixtures = join(frontend, "tests/fixtures/blog");
 const rootHtml = join(frontend, "index.html");
 const tmp = mkdtempSync(join(tmpdir(), "blog-pages-"));
+process.chdir(frontend);
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-/** The CLI run from frontend/ over a temp dist whose template is the committed index.html. */
+/** buildBlog, run in process from frontend/ over a temp dist whose template is the committed index.html. */
 function build(posts: string, template = readFileSync(rootHtml, "utf8")) {
   const dist = mkdtempSync(join(tmp, "dist-"));
   writeFileSync(join(dist, "index.html"), template);
-  const run = () =>
-    execFileSync(process.execPath, ["scripts/build-blog.mjs", "--posts", posts, "--dist", dist], {
-      cwd: frontend,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-  return { dist, run };
+  return { dist, run: () => buildBlog(posts, dist) };
 }
 
 const tag = (html: string, re: RegExp) => html.match(re)?.[1];

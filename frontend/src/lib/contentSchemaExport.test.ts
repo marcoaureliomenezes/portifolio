@@ -87,7 +87,7 @@ describe("content schema export (site-content.schema.json)", () => {
   });
 
   it("exports the http(s) constraint on profile links", () => {
-    expect(contract.properties.profile.properties.githubUrl.pattern).toBe("^https?:\\/\\/[\\w.-]+(:\\d+)?([/?#]\\S*)?$");
+    expect(contract.properties.profile.properties.githubUrl.pattern).toBe("^https?:\\/\\/[\\w.-]+(:(?:[1-9]\\d{0,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d\\d|655[0-2]\\d|6553[0-5]))?([/?#]\\S*)?$");
   });
 
   it("keeps certification, thesis and cv links off script schemes", () => {
@@ -149,5 +149,6 @@ describe("committed locale content", () => {
     const data = JSON.parse(readFileSync(resolve(root, `public/content/${locale}.json`), "utf-8"));
     const result = ContentDataSchema.safeParse(data);
     expect(result.error?.issues ?? []).toEqual([]);
+    expect(result.data).toEqual(data);
   });
 });

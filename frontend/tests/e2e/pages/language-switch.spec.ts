@@ -57,7 +57,7 @@ test.describe('Language switch', () => {
     await expect(heroHeading).not.toContainText('Professional Experience');
   });
 
-  test('J4.T1: switchLanguage returns only after the new locale content shows', async ({ page }) => {
+  test('switchLanguage returns only after the new locale content shows', async ({ page }) => {
     await page.route('**/content/en.json', async (route) => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       await route.continue();

@@ -102,7 +102,7 @@ ${tags.map((tag) => `<category>${escape(tag)}</category>`).join("\n")}
 }
 
 /** Writes index.json, one body.html and one index.html per published post under <dist>/blog, one page per project under <dist>/projetos, and blog/rss.xml. */
-function buildBlog(postsDir, dist) {
+export function buildBlog(postsDir, dist) {
   const pt = JSON.parse(readFileSync("public/content/pt.json", "utf8"));
   const posts = readPosts(postsDir);
   const blog = join(dist, "blog");

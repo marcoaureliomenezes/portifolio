@@ -3,10 +3,10 @@
   "release": "0.1.0",
   "phase": "CLOSURE",
   "defined": {
-    "ts": "2026-11-07T18:45:20Z"
+    "ts": "2026-11-11T04:12:25Z"
   },
   "implemented": {
-    "ts": "2026-11-10T03:55:06Z"
+    "ts": "2026-11-11T14:02:04Z"
   },
   "shipped": null,
   "log": [
@@ -420,6 +420,52 @@
         "rand-engine-page",
         "scene-media",
         "resume-home",
+        "e2e-suite"
+      ]
+    },
+    {
+      "ts": "2026-11-11T03:32:30Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-11T04:12:25Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-6",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-11T14:02:04Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-6",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-11T14:04:26Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-6 Jobs 1-5 merged on the wt-rc, each with an APPROVED verdict (Job 4 2026-11-11T042916Z at 6d7cb85, Job 3 re-review 043009Z at 22974ad after the 042547Z REJECTED round, Job 1 043011Z at 9346e28, Job 5 134925Z at 6ed7ea6, Job 2 135622Z at 044c0d4; CLOSURE at 3aaa6cd), 0 bugs in the ledger; FR1: AC1.1 Email is the linear ^[^@\\s]+@[^@\\s.]+(\\.[^@\\s.]+)+$, the 50 000-dot unit case under 50 ms and nine 50k hostile inputs each under 1 ms at review; AC1.2 a@b..c, a@.b.c and a@b.c. refused, a@b.test and first.last@sub.example.test accepted, zod equal to the emitted pattern with and without u; AC1.3 HttpUrl bounds the port to 1-65535 with no leading zero, ports 0-70000 plus leading zeros 0 mismatches, the pinned literal moved in a test( commit, schema:export regenerated 20 lines and schema:check 0; AC1.4 the locale-parse test requires result.data to equal the file; AC1.5 0 Consumers: hits under scripts/; FR2: AC2.1 the parity CLI fails naming .hero.media[0] when the de copy lacks caption; AC2.2 the install command asserted with toBe; AC2.3 the index case serves oldest first and asserts that order; AC2.4 the label read inside the test, web-first title asserts, 0 J<n>.T<k> titles, E2E 13 passed on chromium; AC2.5 basename; AC2.6 held by the existing absent-root case; AC2.7 a scene with no media renders one child; FR3: AC3.1 the policy test pins the statement keys, the full Action values and the three resources; AC3.2 0 aws_caller_identity hits under terraform/; AC3.3 each deploy job reads vars.S3_BUCKET and vars.DOMAIN once in job-level env and 0 vars expressions sit inside a run: script (10 to 0), its stage check (a green stage deploy run and /schema/site-content.schema.json answering 200) is owed after the rc PR merges into develop, with the deploy run URL; AC3.4 the README prod row names the schema upload; FR4: AC4.1 webServer only when E2E_BASE_URL is unset, the reviewer loaded the config since --list cannot discriminate (webServer null when set); AC4.2 buildBlog exported (build-blog.mjs:105) and called in process, spawns 27 to 3, the four-file vitest 6.42 s to 1.29 s at review, 72 to 73 cases; FR5: AC5.1 lighthouserc.json holds no upload block, npm run lighthouse exit 0, 15 runs, every assertion passes, no upload line; FR6: AC6.1 the panel recipe on the regenerated schema, typesFor 433 fields with 19 read-only, sanity schema validate 0 errors, the panel's status empty before and after; AC6.2 verify exit 0 at every job merge, the rc PR head's run owed with the PR; main-thread rulings for the record (intake 172-178): AC3.3's sentence that the grep finds vars only on env: lines overstates, since the two aws-region with: inputs of configure-aws-credentials match too, and the check is read with the SPEC's own measurable, run: scripts 10 to 0, so those inputs stay (173); J4.T2's assert moves (per-row status, stdout and stderr to toThrow with the CLI's message, the CLI status and output asserted once in the two spawned cases) are ruled by PLAN 2.3 and SPEC AC4.2 bullet 1, both operator-approved 2026-11-11, and job4.md's 'each moves to the same value' misdescribes them (178); job4.md's '64 tests' baseline and build-blog.mjs:100 are stale, the true values are 72 tests and :105 (175); the two denylist fixture swaps of the J1.T2 Email accept row, a@b.test to a@b.test and first.last@sub.example.test to first.last@sub.example.test, the same partitions inside the email carve-out (172, 174); the non-blocking findings stay in the intake for the main thread to group; memory: content-contract, deploy-infrastructure, blog and e2e-suite reconciled, resume-home and site-chrome reviewed (test-only changes), the catalog regenerated; carried: none; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-11T14:04:50Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 66e643f301c7b91e89eee9b89add947e54028d63..8c3aebd8e94b: 2 reviewed, 4 changed.",
+      "since": "66e643f301c7b91e89eee9b89add947e54028d63",
+      "until": "8c3aebd8e94b05659c4e3437a517a66efc45a009",
+      "reviewed": [
+        "resume-home",
+        "site-chrome"
+      ],
+      "changed": [
+        "content-contract",
+        "deploy-infrastructure",
+        "blog",
         "e2e-suite"
       ]
     }

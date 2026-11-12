@@ -44,7 +44,7 @@ export default defineConfig({
     { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
     { name: 'mobile-safari', use: { ...devices['iPhone 12'] } },
   ],
-  webServer: {
+  webServer: process.env.E2E_BASE_URL ? undefined : {
     // CI: dist/ is downloaded from the build artifact before Playwright runs —
     //     just start the preview server, no rebuild.
     // Local: start Vite dev server (or reuse if already running).

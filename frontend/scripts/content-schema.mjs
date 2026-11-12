@@ -5,7 +5,6 @@
  * ContentDataSchema and the sub-schemas it composes.
  * Inputs: none; each schema parses an unknown value (safeParse, parse).
  * Side effects: none; imports zod and projects.ts (loaded by Node type stripping).
- * Consumers: scripts/export-content-schema.mjs and src/lib/contentSchemaExport.test.ts.
  */
 
 import { z } from "zod";

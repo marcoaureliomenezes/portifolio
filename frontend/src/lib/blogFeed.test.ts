@@ -1,27 +1,25 @@
 // @vitest-environment jsdom
-import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterAll, describe, expect, it } from "vitest";
+// @ts-expect-error plain ESM, no declaration file
+import { buildBlog } from "../../scripts/build-blog.mjs";
 
 const frontend = resolve(__dirname, "../..");
 const fixtures = join(frontend, "tests/fixtures/blog");
 const rootHtml = join(frontend, "index.html");
 const projectSlug: string = JSON.parse(readFileSync(join(frontend, "public/content/pt.json"), "utf8")).projectsV2.list[0].slug;
 const tmp = mkdtempSync(join(tmpdir(), "blog-feed-"));
+process.chdir(frontend);
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
-/** Runs the CLI from frontend/ over a temp dist whose template is the committed index.html; returns the dist. */
+/** Runs buildBlog in process from frontend/ over a temp dist whose template is the committed index.html; returns the dist. */
 function build(posts: string) {
   const dist = mkdtempSync(join(tmp, "dist-"));
   writeFileSync(join(dist, "index.html"), readFileSync(rootHtml));
-  execFileSync(process.execPath, ["scripts/build-blog.mjs", "--posts", posts, "--dist", dist], {
-    cwd: frontend,
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-  });
+  buildBlog(posts, dist);
   return dist;
 }
 
