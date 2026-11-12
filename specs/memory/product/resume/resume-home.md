@@ -45,7 +45,7 @@ he worked, two projects, what he works with, what he is certified in and where h
 - Experience: each `main` employer is one `h3` line (name, period, location) under a left rule,
   its roles beneath. A role is a frameless `article`: title, period, its first responsibility as
   an unclamped summary capped at 680 px, and one inline Details control (`detailsOpen` /
-  `detailsClose`, closed at first, tracking `section_expand` and `section_collapse`). It reveals
+  `detailsClose`, closed at first). It reveals
   the remaining responsibilities, the technologies, the skill badges and the highlight project,
   whose impact badge text and accessible name are the locale's `impactLabel`.
 - After the employers, one Earlier line under `earlierLabel` lists each `minor` experience in
