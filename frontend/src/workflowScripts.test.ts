@@ -10,10 +10,9 @@ type Script = { label: string; text: string };
 
 function walk(node: unknown, path: string[], file: string, out: Script[]): void {
   if (Array.isArray(node)) {
-    node.forEach((v, i) => walk(v, [...path, (v as { name?: unknown })?.name?.toString() ?? String(i)], file, out));
+    node.forEach((v, i) => walk(v, [...path, `${i}${(v as { name?: unknown })?.name ? ` ${(v as { name: unknown }).name}` : ""}`], file, out));
   } else if (node && typeof node === "object") {
     for (const [k, v] of Object.entries(node)) {
-      if (k === "defaults") continue;
       if (k === "run" && typeof v === "string") {
         out.push({ label: `${file}:${path.join("/")}`, text: v });
       } else {
