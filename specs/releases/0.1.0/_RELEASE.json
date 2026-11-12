@@ -1,7 +1,7 @@
 {
   "schema": "release-state-v1",
   "release": "0.1.0",
-  "phase": "CLOSURE",
+  "phase": "DEFINITION",
   "defined": {
     "ts": "2026-11-11T04:12:25Z"
   },
@@ -468,6 +468,12 @@
         "blog",
         "e2e-suite"
       ]
+    },
+    {
+      "ts": "2026-11-12T06:48:18Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
     }
   ]
 }
