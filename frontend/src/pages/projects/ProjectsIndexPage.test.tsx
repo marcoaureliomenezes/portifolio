@@ -64,13 +64,20 @@ const committed = JSON.parse(
   readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
 ) as Pick<ContentData, "siteChrome" | "profile">;
 
+const indexByLocale = {
+  pt: { title: "Projetos", description: "Galeria de projetos." },
+  en: { title: "Projects", description: "Project gallery." },
+  de: { title: "Projekte", description: "Projektgalerie." },
+};
+const current = vi.hoisted(() => ({ locale: "pt" as "pt" | "en" | "de" }));
+
 vi.mock("@/hooks/useContent", () => ({
   useContent: () => ({
     content: {
       siteChrome: committed.siteChrome,
       profile: committed.profile,
       projectsV2: {
-        index: { title: "Projetos", description: "Galeria de projetos." },
+        index: indexByLocale[current.locale],
         list: mockProjects,
       },
     },
@@ -153,5 +160,17 @@ describe("ProjectsIndexPage — shell owns the landmark", () => {
   it("renders no <main> of its own", () => {
     const { container } = renderPage();
     expect(container.querySelector("main")).toBeNull();
+  });
+});
+
+describe("ProjectsIndexPage — document title", () => {
+  it.each([
+    ["pt", "Projetos"],
+    ["en", "Projects"],
+    ["de", "Projekte"],
+  ] as const)("sets the %s index title", (locale, title) => {
+    current.locale = locale;
+    renderPage();
+    expect(document.title).toBe(title);
   });
 });
