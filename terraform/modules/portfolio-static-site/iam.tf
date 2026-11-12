@@ -15,8 +15,13 @@ data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
 }
 
+data "aws_partition" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "github_actions_deploy" {
-  name = "github-actions-portfolio-${var.environment}-deploy"
+  name                 = "github-actions-portfolio-${var.environment}-deploy"
+  permissions_boundary = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/portifolio-roles-boundary"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
