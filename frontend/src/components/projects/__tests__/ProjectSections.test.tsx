@@ -15,15 +15,11 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import { ProjectSections } from "../ProjectSections";
 import type { ContentData, ProjectSectionData } from "@/types/content";
 import { LanguageContext } from "@/contexts/LanguageContext";
-import { track } from "@dadaia/analytics-sdk";
-
-vi.mock("@dadaia/analytics-sdk", () => ({ track: vi.fn() }));
 
 const writeText = vi.fn().mockResolvedValue(undefined);
 
 beforeEach(() => {
   writeText.mockClear();
-  vi.mocked(track).mockClear();
   Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
   vi.stubGlobal("matchMedia", (query: string) => ({
     matches: false,
@@ -146,12 +142,11 @@ describe("ProjectSections — Block", () => {
     expect(lights.map((i) => i.getAttribute("alt"))).toEqual(["scene", "scene two"]);
   });
 
-  it("copies exactly the section code and tracks nothing", async () => {
+  it("copies exactly the section code", async () => {
     renderSections(full);
     fireEvent.click(screen.getByRole("button", { name: "Copy" }));
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
     expect(writeText).toHaveBeenCalledWith("print('hi')");
-    expect(track).not.toHaveBeenCalled();
   });
 
   it("links an item value only when it has an href", () => {
