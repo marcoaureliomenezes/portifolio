@@ -174,6 +174,17 @@ describe("build-blog command line", () => {
     expect(out.stdout).toBe("");
     expect(out.stderr).toBe('bad-link: link: "javascript:alert(1)" is not http(s), site-relative or #\n');
   });
+
+  it("builds from a directory outside frontend/ with absolute paths", () => {
+    const cwd = mkdtempSync(join(tmp, "cwd-"));
+    const dist = freshDist();
+    execFileSync(process.execPath, [script, "--posts", fixtures, "--dist", dist], {
+      cwd,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    expect(existsSync(join(dist, "blog/index.json"))).toBe(true);
+  });
 });
 
 describe("importing build-blog", () => {
