@@ -20,8 +20,7 @@ test.describe('Deep link / SPA fallback', () => {
     // Must NOT show a white-screen crash (body should have content)
     await expect(page.locator('body')).not.toBeEmpty();
 
-    // Title attribute on the page should be set (basic SEO)
-    const title = await page.title();
-    expect(title.length).toBeGreaterThan(0);
+    // Title is the project's pt SEO title (basic SEO)
+    await expect(page).toHaveTitle("dadaia-workspace, um workspace spec-driven para agentes de IA — Marco Menezes");
   });
 });

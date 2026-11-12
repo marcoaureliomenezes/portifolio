@@ -118,9 +118,9 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     await expect(page).toHaveTitle(/dadaia-workspace/);
     await expect(page).not.toHaveTitle(/^projetos$/i);
 
-    // The index sets no title of its own: the document keeps the site's default
+    // The index sets its own title through useDocumentSeo
     await page.goto(ROUTES.projectsIndex);
-    await expect(page).toHaveTitle("marco-menezes");
+    await expect(page).toHaveTitle("Projetos");
 
     // Then: switching language changes the title (useDocumentSeo responds to LanguageContext)
     await page.goto(ROUTES.dadaiaWorkspace);

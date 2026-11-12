@@ -103,7 +103,6 @@ test.describe('i18n — Projects cluster routes', () => {
 
     // Then: document.title changed
     await expect(page).toHaveTitle("dadaia-workspace, a spec-driven workspace for AI agents — Marco Menezes");
-    expect((await page.title()).trim().length).toBeGreaterThan(0);
 
     // Then: the purpose line under the h1 changed (the h1 is the product name in every locale)
     await expect(purpose).not.toHaveText(ptPurpose);

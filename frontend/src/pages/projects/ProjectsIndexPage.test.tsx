@@ -13,7 +13,7 @@
 
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { describe, it, expect, vi } from "vitest";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ProjectsIndexPage } from "./ProjectsIndexPage";
@@ -64,13 +64,20 @@ const committed = JSON.parse(
   readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
 ) as Pick<ContentData, "siteChrome" | "profile">;
 
+const indexByLocale = {
+  pt: { title: "Projetos", description: "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho." },
+  en: { title: "Projects", description: "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son." },
+  de: { title: "Projekte", description: "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn." },
+};
+const current = vi.hoisted(() => ({ locale: "pt" as "pt" | "en" | "de" }));
+
 vi.mock("@/hooks/useContent", () => ({
   useContent: () => ({
     content: {
       siteChrome: committed.siteChrome,
       profile: committed.profile,
       projectsV2: {
-        index: { title: "Projetos", description: "Galeria de projetos." },
+        index: indexByLocale[current.locale],
         list: mockProjects,
       },
     },
@@ -153,5 +160,23 @@ describe("ProjectsIndexPage — shell owns the landmark", () => {
   it("renders no <main> of its own", () => {
     const { container } = renderPage();
     expect(container.querySelector("main")).toBeNull();
+  });
+});
+
+describe("ProjectsIndexPage — document title and meta", () => {
+  afterEach(() => {
+    current.locale = "pt";
+  });
+
+  it.each(["pt", "en", "de"] as const)("sets the %s index title and description", (locale) => {
+    current.locale = locale;
+    const { title, description } = indexByLocale[locale];
+    renderPage();
+    const meta = (selector: string) =>
+      document.head.querySelector(selector)?.getAttribute("content");
+    expect(document.title).toBe(title);
+    expect(meta('meta[name="description"]')).toBe(description);
+    expect(meta('meta[property="og:title"]')).toBe(title);
+    expect(meta('meta[property="og:description"]')).toBe(description);
   });
 });

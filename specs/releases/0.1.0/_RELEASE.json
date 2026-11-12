@@ -3,10 +3,10 @@
   "release": "0.1.0",
   "phase": "CLOSURE",
   "defined": {
-    "ts": "2026-11-12T10:46:19Z"
+    "ts": "2026-11-12T22:56:32Z"
   },
   "implemented": {
-    "ts": "2026-11-12T11:20:28Z"
+    "ts": "2026-11-12T23:28:35Z"
   },
   "shipped": null,
   "log": [
@@ -514,6 +514,52 @@
         "deploy-infrastructure",
         "blog",
         "e2e-suite"
+      ]
+    },
+    {
+      "ts": "2026-11-12T11:44:04Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-12T22:56:32Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-8",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-12T23:28:35Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-8",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-12T23:31:22Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-8 Jobs 1-4 merged on the wt-rc, each with an APPROVED verdict (Job 1 2026-11-12T230809Z at 70e48de, re-verdict 231414Z at 2d83627 after J1.T5; Job 2 231624Z at 986cb34, re-verdict after rebase 231750Z at 57e6ee3; Job 4 232015Z at 0a48cc2, re-verdict after rebase 232155Z at 5d3334a; Job 3 232029Z at 2dab9ec, re-review 232721Z at 724e8d5 after J3.T4; CLOSURE at 1ced3e4), 0 bugs in the ledger; FR1: AC1.1 workflowScripts.test.ts lists every *.yml and *.yaml under .github/workflows, parses each with yaml declared in devDependencies at ^2.9.0 and reads every string-valued run at any depth, the regex extractor and the four-file list gone; AC1.2 ci-weekly.yml runs npx playwright install chromium with no --with-deps and no webkit, the job and step names and the playwright.config.ts comment name Chromium only; FR2: AC2.1 0 s3:PutObjectAcl grants under terraform/ (2 to 0); AC2.2 the policy test compares the deploy policy and the bucket policy blocks as literals; AC2.3 it pins the module's IAM resource headers to the deploy role and the deploy policy; FR3: AC3.1 ProjectsIndexPage sets the title, description and og tags from projectsV2.index through useDocumentSeo, unit-tested in pt, en and de; AC3.2 layout-shell asserts the index title Projetos; FR4: AC4.1 PC-E2E-22, PC-E2E-23 and E2E-15 compare toHaveTitle against the pt seo.title literals; AC4.2 the implied non-empty assert removed; AC4.3 a buildBlog.test.ts CLI case runs from a temp directory outside frontend/ with absolute --posts and --dist; AC4.4 the install command asserted against its literal; FR5: AC5.1 the root .gitattributes holds * text=auto eol=lf; FR6: verify exit 0 on the closure memory commit 7ae62dd in 34.91 s, 60 test files and 960 tests; deviations from the closed PLAN and SPEC: each job's tasks landed as ordered commits in one task tree (the PLAN seam); J1.T5, by main-thread ruling, deleted the defaults skip the PLAN's seam prescribed (it hid the scripts of a job whose id is defaults; the string check alone keeps the defaults run mapping out) and made step labels unique; J3.T4, by ruling, added the description and og asserts (AC3.1's Test line named only the title) and the locale reset after each case; memory: deploy-infrastructure, e2e-suite, site-chrome and blog reconciled, ARCHITECTURE.md Structure gains the line-endings bullet, library-page and dadaia-workspace-page reviewed, the catalog regenerated; carried: open, not done: AC2.4 (terraform.yml dispatched for stage then prod, each plan 0 to add, 3 to change, 0 to destroy with the guard and the apply green, then a green stage deploy run, CI dispatch at the promote after the central panel's bootstrap is applied; it supersedes rc-7 AC2.3); AC1.2 live (one green weekly or dispatched run of ci-weekly.yml, its run id); AC6.1 on the rc PR (every CI job on its head green); rc-5 AC2.1-AC2.3 and rc-6 AC3.3 the prod schema check after the promote; rc-5 AC1.4 the Dependabot read at the promote; next release (intake 224-225, PLAN 2.7): twelve process.cwd() reads in frontend/src tests resolve files against the cwd (one shared content-path helper would replace them); terraformWorkflow.test.ts still splits the workflow on newlines; a workflow made only of reusable-workflow calls would fail the pin test's at-least-one-script case; the projects and blog index routes have no prerendered static head, so a reader without scripts sees the site default title; the index title carries no brand suffix (a suffixed title needs its own SEO key); the module sets no S3 object-ownership control; the IAM header pin reaches only the module's top-level .tf files and canonically spaced headers, and CI's terraform fmt runs from the env roots, never reaching modules/; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-12T23:31:32Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 2d0fe6f8dbb5f7ad47c6d5f86fc4e2085987e44d..8db52a8050e2: 2 reviewed, 4 changed.",
+      "since": "2d0fe6f8dbb5f7ad47c6d5f86fc4e2085987e44d",
+      "until": "8db52a8050e2f610a343791a34e36f1c7df5dc7f",
+      "reviewed": [
+        "library-page",
+        "dadaia-workspace-page"
+      ],
+      "changed": [
+        "deploy-infrastructure",
+        "e2e-suite",
+        "site-chrome",
+        "blog"
       ]
     }
   ]

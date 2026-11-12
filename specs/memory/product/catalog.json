@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T11:23:33Z",
+  "generated_at": "2026-11-12T23:30:15Z",
   "features": [
     {
       "rank": 1,
@@ -14,7 +14,7 @@
         "content",
         "seo"
       ],
-      "token_estimate": 1307,
+      "token_estimate": 1324,
       "depends_on": [
         "content-contract",
         "site-chrome",
@@ -88,7 +88,7 @@
         "deploy",
         "aws"
       ],
-      "token_estimate": 1084,
+      "token_estimate": 1212,
       "depends_on": [
         "blog",
         "content-contract",
@@ -263,10 +263,10 @@
         "quality-assurance",
         "e2e"
       ],
-      "token_estimate": 406,
+      "token_estimate": 437,
       "depends_on": [
-        "site-chrome",
-        "resume-home"
+        "resume-home",
+        "site-chrome"
       ],
       "sources": [
         "frontend/playwright.config.ts",
@@ -325,7 +325,7 @@
         "i18n",
         "design-tokens"
       ],
-      "token_estimate": 884,
+      "token_estimate": 938,
       "depends_on": [
         "blog",
         "resume-home",
@@ -338,6 +338,8 @@
         "frontend/src/components/header/*",
         "frontend/src/components/layout/*",
         "frontend/src/components/projects/ProjectsLayoutShell.tsx",
+        "frontend/src/pages/projects/ProjectsIndexPage.tsx",
+        "frontend/src/pages/projects/ProjectsIndexPage.test.tsx",
         "frontend/src/components/projects/__tests__/ProjectsLayoutShell.test.tsx",
         "frontend/src/lib/layout.ts",
         "frontend/src/contexts/LanguageContext.tsx",

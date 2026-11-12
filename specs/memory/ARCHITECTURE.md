@@ -25,6 +25,8 @@ No technology is recorded yet.
   `frontend/src/lib/schemas/projects.ts` and exported by `frontend/scripts/export-content-schema.mjs`
   as the JSON Schema 2020-12 `frontend/public/schema/site-content.schema.json`, which the deploy
   uploads to the bucket key `schema/site-content.schema.json`.
+- Line endings: the root `.gitattributes` (`* text=auto eol=lf`) checks every text file out with
+  LF, so the tests that read a file as text and split it on `\n` hold on any checkout.
 
 <!-- dadaia:fixed slop-code -->
 ### Slop — code (fixed)
