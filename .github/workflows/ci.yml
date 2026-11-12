@@ -137,7 +137,7 @@ jobs:
           path: frontend/dist/
       - name: Install Playwright (Chromium only)
         working-directory: frontend
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
       - name: Run E2E smoke tests
         working-directory: frontend
         env:
