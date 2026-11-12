@@ -14,6 +14,7 @@
  */
 
 import { useContent } from "@/hooks/useContent";
+import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import type { ProjectsContentV2 } from "@/types/content";
 
@@ -23,6 +24,7 @@ export function ProjectsIndexPage() {
   // projectsV2 is always defined when this page is rendered (content is fully loaded)
   const projectsV2 = content.projectsV2 as ProjectsContentV2;
   const { index, list } = projectsV2;
+  useDocumentSeo({ title: index.title, description: index.description });
 
   return (
     <div className="space-y-8">
