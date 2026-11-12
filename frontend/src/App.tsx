@@ -1,11 +1,10 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProjectsLayoutShell } from "@/components/projects/ProjectsLayoutShell";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Portfolio } from "@/components/portfolio/Portfolio";
-import { track } from "@dadaia/analytics-sdk";
 
 // Lazy chunks — keep home (LCP route) eager; defer everything else.
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -40,11 +39,6 @@ const BlogPostPage = lazy(() =>
 );
 
 const App = () => {
-  // T-AN-D-02: Track initial page_view on app mount.
-  useEffect(() => {
-    track('page_view', { path: window.location.pathname });
-  }, []);
-
   return (
   <LanguageProvider>
     <TooltipProvider>
