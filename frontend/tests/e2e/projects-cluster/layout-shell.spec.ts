@@ -117,15 +117,14 @@ test.describe('ProjectsLayoutShell — /projetos/*', () => {
     // The shell must NOT override the child's title; the child sets it via useDocumentSeo
     await expect(page).toHaveTitle(/dadaia-workspace/);
     await expect(page).not.toHaveTitle(/^projetos$/i);
-    const titlePT = await page.title();
 
-    // The index title differs from the project's
+    // The index sets no title of its own: the document keeps the site's default
     await page.goto(ROUTES.projectsIndex);
-    await expect(page).not.toHaveTitle(titlePT);
+    await expect(page).toHaveTitle("marco-menezes");
 
     // Then: switching language changes the title (useDocumentSeo responds to LanguageContext)
     await page.goto(ROUTES.dadaiaWorkspace);
-    await expect(page).toHaveTitle(titlePT);
+    await expect(page).toHaveTitle("dadaia-workspace, um workspace spec-driven para agentes de IA — Marco Menezes");
 
     await switchLanguage(page, 'English');
     // The switch does not navigate: the effect rewrites the title
