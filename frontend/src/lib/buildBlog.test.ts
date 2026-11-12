@@ -20,7 +20,7 @@ function freshDist(): string {
   return dist;
 }
 
-/** Builds posts in process from frontend/ into a fresh temp dist; returns the dist. */
+/** Builds posts in process into a fresh temp dist; returns the dist. */
 function build(posts: string): string {
   const dist = freshDist();
   buildBlog(posts, dist);
