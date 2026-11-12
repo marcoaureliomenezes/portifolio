@@ -14,6 +14,8 @@ sources:
   - frontend/src/components/header/*
   - frontend/src/components/layout/*
   - frontend/src/components/projects/ProjectsLayoutShell.tsx
+  - frontend/src/pages/projects/ProjectsIndexPage.tsx
+  - frontend/src/pages/projects/ProjectsIndexPage.test.tsx
   - frontend/src/components/projects/__tests__/ProjectsLayoutShell.test.tsx
   - frontend/src/lib/layout.ts
   - frontend/src/contexts/LanguageContext.tsx
@@ -76,8 +78,12 @@ contact links, all in the visitor's language.
   `SectionHeading`: an `h2` on `text-label`, uppercase and muted.
 - `ProjectsLayoutShell` wraps `/projetos` and `/projetos/:slug` inside the site column: a
   breadcrumb (Projects, then the project's name), the page, and on a project page a back link
-  after it. The shell sets no document title: a project page sets its own, and the
-  projects index sets none, so it keeps the default title of `index.html`.
+  after it. The shell sets no document title. `ProjectsIndexPage` sets the document title,
+  the description and the `og:title` and `og:description` tags from the locale's
+  `projectsV2.index.title` and `.description` through `useDocumentSeo`, as a project page does
+  from its own `seo`; the index title carries no brand suffix. The build prerenders no static
+  head for `/projetos` or `/blog`, so a reader that runs no script sees the site's default title
+  there.
 - One amber accent; no nested card, accordion or stat chip in the project parts.
 
 ## Boundaries

@@ -96,7 +96,8 @@ pages get their own served heads from the same build.
 - The tests read three fixture posts under `tests/fixtures/blog/` (a proving post with an image
   and a clip, a second post, a draft) by calling `buildBlog` in process on that folder; only the
   CLI's own contract spawns the script: exit 0 with an empty stderr, a failure's exit status 1
-  with its message on stderr, and an import that runs nothing.
+  with its message on stderr, a build run from a directory outside `frontend/` with absolute
+  `--posts` and `--dist`, and an import that runs nothing.
 
 ## Boundaries
 

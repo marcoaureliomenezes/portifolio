@@ -35,13 +35,17 @@ project page or a post is served from its own HTML, so a crawler reads its own h
   SPA fallback), an ACM certificate in us-east-1 validated by Route53 DNS, A records for the
   domain (plus `www` in prod), and the IAM deploy role GitHub Actions assumes over OIDC to list,
   put, get and delete the bucket's objects and invalidate the distribution, with no access to the
-  Terraform state. The deploy role carries the permissions boundary the panel's bootstrap owns,
+  Terraform state. The bucket policy lets CloudFront get objects and the deploy role list, put,
+  get and delete them; neither the role nor the bucket policy grants an object-ACL action. The deploy role carries the permissions boundary the panel's bootstrap owns,
   the policy named `portifolio-roles-boundary`, its ARN built from the `aws_partition` and
   `aws_caller_identity` data sources, so no account id is written in the repo.
-- `src/deployRolePolicy.test.ts` compares the deploy role block and the deploy policy block of
-  `iam.tf`, each as one literal: any change inside either block (the boundary line, the trust,
-  an action, a statement, a resource, a format-only edit) fails it. It reads only those two
-  blocks, so a new IAM resource elsewhere in the module passes it.
+- `src/deployRolePolicy.test.ts` compares three blocks, each as one literal: the deploy role and
+  the deploy policy in `iam.tf` and the bucket policy in `s3_policies.tf`. Any change inside one
+  of them (the boundary line, the trust, an action, a statement, a resource, a format-only edit)
+  fails it. It also pins the module's IAM resources: the `resource "aws_iam_…" "…" {` header lines
+  of the module's top-level `.tf` files equal exactly the deploy role and the deploy policy. A
+  `.tf.json` file, a nested module, an environment root or a header not spaced as `terraform fmt`
+  writes it escapes that pin.
 - The deploy role trusts one subject by `StringEquals`: the repo's OIDC prefix plus
   `:environment:stage` for stage and `:environment:production` for prod, so only a job bound to
   that GitHub environment assumes it.
@@ -74,10 +78,11 @@ project page or a post is served from its own HTML, so a crawler reads its own h
     extensionless object `projetos/<slug>` or `blog/<slug>`, `text/html; charset=utf-8`,
     `no-cache`, so CloudFront answers `/projetos/<slug>` with that page's own HTML;
   - invalidates `/*`.
-- No `run:` script of `ci.yml`, `ci-weekly.yml`, `deploy.yml` or `terraform.yml` holds a
-  `${{ }}` expression: a value reaches a script through `env:`. `src/workflowScripts.test.ts`
-  reads those four named files as text and fails on such an expression; a workflow file outside
-  the four is not read.
+- No `run:` script of a workflow holds a `${{ }}` expression: a value reaches a script through
+  `env:`. `src/workflowScripts.test.ts` lists every `*.yml` and `*.yaml` file under
+  `.github/workflows/`, parses each with `yaml` (a declared devDependency) and reads every
+  string-valued `run` key at any depth, whatever its YAML form, as a script; a `defaults: run:`
+  mapping is not one. A file that does not parse, or that yields no script, fails it.
 - While a deploy runs, and on a trailing-slash path, a route falls back to the SPA shell, which
   renders the same page in the browser. A removed post's object is deleted by the sync and not
   uploaded again.
