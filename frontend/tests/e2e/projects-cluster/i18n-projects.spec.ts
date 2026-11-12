@@ -94,7 +94,6 @@ test.describe('i18n — Projects cluster routes', () => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
-    const ptTitle = await page.title();
     const purpose = page.locator('h1 + p').first();
     const ptPurpose = await purpose.innerText();
 
@@ -103,7 +102,7 @@ test.describe('i18n — Projects cluster routes', () => {
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
     // Then: document.title changed
-    await expect(page).not.toHaveTitle(ptTitle);
+    await expect(page).toHaveTitle("dadaia-workspace, a spec-driven workspace for AI agents — Marco Menezes");
     expect((await page.title()).trim().length).toBeGreaterThan(0);
 
     // Then: the purpose line under the h1 changed (the h1 is the product name in every locale)
