@@ -33,8 +33,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  // CI: Chromium only — personal portfolio, no browser-support SLA.
-  // Local / weekly: full 5-browser matrix.
+  // CI, the weekly run included: Chromium only — personal portfolio, no browser-support SLA.
+  // Local: full 5-browser matrix.
   projects: isCI ? [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ] : [
