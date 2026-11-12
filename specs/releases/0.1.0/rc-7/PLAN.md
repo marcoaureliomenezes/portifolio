@@ -1,6 +1,7 @@
 # PLAN — Release 0.1.0, rc-7
 
-**Status:** Draft
+**Status:** Approved
+**Approved:** 2026-11-12, operator: "Aprovo (Recommended)"
 **Owner:** dd-sw-engineer-sr
 
 Paths are relative to the repo root (the app is under `frontend/`). Tree: the rc-7 `wt-rc`, SPEC at `c2682bd` (Draft). Facts are read in this tree and from the as-is review handoff of 2026-11-12. The repo `verify:` line is unchanged: `npm --prefix frontend run verify` (measured 32.5 s wall, exit 0, at the as-is review with `time npm --prefix frontend run verify`).
