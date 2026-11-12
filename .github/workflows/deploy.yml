@@ -108,9 +108,11 @@ jobs:
           done
 
       - name: Invalidate CloudFront cache
+        env:
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_STAGE }}
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_STAGE }} \
+            --distribution-id "$DISTRIBUTION_ID" \
             --paths "/*" \
             --query 'Invalidation.Id' \
             --output text
@@ -118,7 +120,7 @@ jobs:
       - name: Deploy summary
         run: |
           echo "Stage deploy complete"
-          echo "Commit: ${{ github.sha }}"
+          echo "Commit: $GITHUB_SHA"
           echo "Site: https://${DOMAIN}"
 
   deploy-prod:
@@ -178,9 +180,11 @@ jobs:
           done
 
       - name: Invalidate CloudFront cache
+        env:
+          DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id "$DISTRIBUTION_ID" \
             --paths "/*" \
             --query 'Invalidation.Id' \
             --output text
@@ -188,5 +192,5 @@ jobs:
       - name: Deploy summary
         run: |
           echo "Production deploy complete"
-          echo "Commit: ${{ github.sha }}"
+          echo "Commit: $GITHUB_SHA"
           echo "Site: https://${DOMAIN}"
