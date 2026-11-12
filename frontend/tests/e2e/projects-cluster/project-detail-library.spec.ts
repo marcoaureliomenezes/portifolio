@@ -52,10 +52,8 @@ test.describe('Detail page — dadaia-workspace (kind: library)', () => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
-    // Then: title is non-empty and project-specific (not generic "Projetos")
-    const title = await page.title();
-    expect(title.trim().length).toBeGreaterThan(0);
-    expect(title.toLowerCase()).not.toBe('projetos');
+    // Then: title is the project's pt SEO title
+    await expect(page).toHaveTitle("dadaia-workspace, um workspace spec-driven para agentes de IA — Marco Menezes");
   });
 
   test('PC-E2E-10: "How it works" is followed by scenes, each a video or a light/dark svg pair (dadaia-workspace)', async ({ page }) => {
