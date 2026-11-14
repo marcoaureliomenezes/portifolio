@@ -1,12 +1,12 @@
 /**
  * E2E stubs — Projects Index Page (/projetos)
  *
- * AC-PC-08: grid responsive, 3 cards fixed order, Link elements, focus-visible ring, no filters.
+ * AC-PC-08: grid responsive, 4 cards fixed order, Link elements, focus-visible ring, no filters.
  *
  * Tests:
- *   PC-E2E-01: /projetos renders 3 card links in fixed DOM order
+ *   PC-E2E-01: /projetos renders 4 card links in fixed DOM order
  *   PC-E2E-02: each card is an <a> element (not div/button) pointing to correct detail slug
- *   PC-E2E-03: no filter/search input present; keyboard Tab reaches all 3 cards
+ *   PC-E2E-03: no filter/search input present; keyboard Tab reaches all 4 cards
  *
  * Activated in: T-PC-C-08 (after Phase C components are delivered).
  * Implementation contract: C-01, C-02, C-03 in qa-engineer E2E plan report.
@@ -17,21 +17,21 @@ import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
 
 // Slugs expected in DOM order per SPEC §3.1
-const EXPECTED_SLUGS = ['dadaia-workspace', 'portifolio', 'tauan-games'] as const;
+const EXPECTED_SLUGS = ['dadaia-workspace', 'portifolio', 'tauan-games', 'rand-engine'] as const;
 
 test.describe('Projects Index Page — /projetos', () => {
-  test('PC-E2E-01: renders exactly 3 project card links', async ({ page }) => {
+  test('PC-E2E-01: renders exactly 4 project card links', async ({ page }) => {
     // Given: /projetos is visited
     await page.goto(ROUTES.projectsIndex);
     await page.waitForLoadState('networkidle');
 
-    // Then: exactly 3 card links present
+    // Then: exactly 4 card links present
     // Implementation contract C-02: cards are <a> elements, not div/button
     const cardLinks = page.locator('[data-testid="project-card"]');
     await expect(cardLinks).toHaveCount(4);
 
     // Then: each is an anchor element
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       const tag = await cardLinks.nth(i).evaluate((el) => el.tagName.toLowerCase());
       expect(tag).toBe('a');
     }
@@ -45,7 +45,7 @@ test.describe('Projects Index Page — /projetos', () => {
     const cardLinks = page.locator('[data-testid="project-card"]');
     await expect(cardLinks).toHaveCount(4);
 
-    // Then: href order matches spec (dadaia-workspace, portifolio, tauan-games)
+    // Then: href order matches spec (dadaia-workspace, portifolio, tauan-games, rand-engine)
     for (let i = 0; i < EXPECTED_SLUGS.length; i++) {
       const href = await cardLinks.nth(i).getAttribute('href');
       expect(href).toContain(EXPECTED_SLUGS[i]);

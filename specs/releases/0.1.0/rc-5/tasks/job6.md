@@ -1,0 +1,19 @@
+# Job 6 — mappable media: a list under `items`
+
+Wave 3, waits on Job 5 (same `projects.ts`, locales and published file). Paths are relative to the repo root. Design: PLAN §2.2 (Media list); the rejected alternative and the consumers are in PLAN §1. Operator point 8: the panel's generator is not widened, so this repo's schema changes. The RED tests are `test(J6.Tn)` commits. T3 is one task on purpose: once the data are lists the components must read lists, so neither half is green alone.
+
+| task | who | AC | `W:` | outcome |
+|---|---|---|---|---|
+| J6.T1 | sr | AC3.4 | `frontend/src/lib/schemas/projects.test.ts`, `frontend/src/lib/contentSchemaExport.test.ts` | RED: `media` parses as a list; every `oneOf` of the published schema is a direct child of `items` |
+| J6.T2 | sr | AC3.4 | `frontend/src/pages/projects/LibraryProjectTemplate.test.tsx`, `frontend/src/components/projects/__tests__/ProjectSections.test.tsx`, `frontend/src/components/projects/__tests__/ProjectCard.test.tsx`, `frontend/tests/e2e/projects-cluster/rand-engine.spec.ts`, `frontend/tests/e2e/projects-cluster/library-scenes.spec.ts` | RED: the pages render each media of a list; the card takes the first video |
+| J6.T3 | sr | AC3.4 | `frontend/src/lib/schemas/projects.ts`, `frontend/public/content/pt.json`, `frontend/public/content/en.json`, `frontend/public/content/de.json`, `frontend/scripts/check-i18n-parity.mjs`, `frontend/public/schema/site-content.schema.json`, `frontend/src/pages/projects/LibraryProjectTemplate.tsx`, `frontend/src/components/projects/ProjectSections.tsx`, `frontend/src/components/projects/ProjectCard.tsx` | the schema, the 24 data nodes, the parity script and the three consumers move together |
+
+## Task notes
+
+- **J6.T1.** `projects.test.ts`: a hero or section with `media: [videoMedia, svgMedia]` parses and keeps both in order; a bare object is refused. The `:322-343` cases that assert a single `media` move to the list form (a product-contract change; the commit names the ruling and keeps each partition: video, svg, hero). `contentSchemaExport.test.ts`: the walk gains "every `oneOf` is a direct child of an `items`, each branch holding a `const`"; the former `:76-83` assert (the media variants reachable at `items.properties.media.oneOf`) moves to `items.properties.media.items.oneOf`, the same `["svg","video"]` expectation.
+- **J6.T2.** Fixtures become lists. `LibraryProjectTemplate.test.tsx` (`:174`, `:183-184`): the hero and each section render every media of their list; `ProjectSections.test.tsx` (`:104`) likewise; `ProjectCard.test.tsx` (`:130`): the card shows the first video of `hero.media`. `rand-engine.spec.ts:29` reads `hero.media[0].desktop.poster`; `library-scenes.spec.ts:23-24` flat-maps the lists. No assert is removed or loosened.
+- **J6.T3.** `media: z.array(MediaSchema).optional()` at the two sites. Each of the 8 media nodes per locale is wrapped in `[...]` by one scripted transform (JSON re-serialized with the file's 2-space indent; the hand-back states the script and that `git diff --stat` shows only the wrapped nodes). `check-i18n-parity.mjs:258-300` compares the lists' items (the same optional-key parity per index). `LibraryProjectTemplate.tsx:65,88` and `ProjectSections.tsx:30` map the list to `<Media/>`; `ProjectCard.tsx:15` takes the first `video` of the list. `Media.tsx` is unchanged. Re-record the published file.
+
+## Definition of done
+
+`npm --prefix frontend run verify` exits 0; the unit files above. E2E with the PLAN §2.3 recipe (port 5303): `project-detail-library`, `rand-engine`, `library-scenes`, `index` and `layout` of the `pages/` set, plus CI's smoke set (`E2E_SMOKE=1`), green on chromium. Once, in the hand-back: the panel's generator (`schemaFromJson.ts` in the panel's rc-1 tree, read-only, imported by a scratch script under `.dadaia/tmp/`) runs over the published schema and reports 0 read-only fields and 0 errors; cite the output.

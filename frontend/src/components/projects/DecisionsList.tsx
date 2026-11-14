@@ -21,7 +21,7 @@ export function DecisionsList({ decisions }: DecisionsListProps) {
     <ul data-testid="decisions-list" className="space-y-4">
       {decisions.map((d) => (
         <li key={d.title} data-testid="arch-decision" className="border-l-2 border-primary/40 pl-4">
-          <h3 className="font-semibold text-sm text-foreground">
+          <h3 className="text-item text-foreground">
             <a
               href={d.spec}
               target="_blank"
@@ -31,7 +31,7 @@ export function DecisionsList({ decisions }: DecisionsListProps) {
               {d.title}
             </a>
           </h3>
-          <p className="text-muted-foreground text-xs mt-1">{d.rationale}</p>
+          <p className="text-muted-foreground text-meta mt-1">{d.rationale}</p>
         </li>
       ))}
     </ul>

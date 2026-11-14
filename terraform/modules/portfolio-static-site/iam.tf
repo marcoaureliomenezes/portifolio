@@ -2,22 +2,26 @@
 # IAM — role OIDC para GitHub Actions (deploy final)
 #
 # Esta role e criada pelo terraform no primeiro apply.
-# A trust policy permite qualquer ref do repo (PRs + pushes).
-# A seguranca de prod e dada pelo environment GitHub exigir aprovacao manual.
+# A trust policy aceita so o subject do environment GitHub deste env
+# (StringEquals em environment:<nome>), nunca um ref qualquer do repo:
+# PRs e outros jobs nao assumem a role. Prod ainda exige aprovacao manual.
 # Ref: specs/foundation/SPEC.md §5 (DEV-03).
 # ==============================================================================
 
-data "aws_caller_identity" "current" {}
-
 # OIDC provider é account-wide (compartilhado entre todos os envs e repos).
-# Provisionado uma vez via scripts/bootstrap-oidc.sh (T-DEVOPS-02).
+# Criado uma vez por scripts/bootstrap-oidc.sh, que cria só o provider (a role de apply é do bootstrap do painel).
 # Referenciado aqui via data source para não conflitar entre envs.
 data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
 }
 
+data "aws_partition" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role" "github_actions_deploy" {
-  name = "github-actions-portfolio-${var.environment}-deploy"
+  name                 = "github-actions-portfolio-${var.environment}-deploy"
+  permissions_boundary = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/portifolio-roles-boundary"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -31,9 +35,7 @@ resource "aws_iam_role" "github_actions_deploy" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          }
-          StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:marcoaureliomenezes/portifolio:*"
+            "token.actions.githubusercontent.com:sub" = "${local.oidc_prefix}:environment:${local.github_environment}"
           }
         }
       }
@@ -64,7 +66,6 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Effect = "Allow"
         Action = [
           "s3:PutObject",
-          "s3:PutObjectAcl",
           "s3:DeleteObject",
           "s3:GetObject",
         ]
@@ -75,20 +76,6 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Effect   = "Allow"
         Action   = ["cloudfront:CreateInvalidation"]
         Resource = aws_cloudfront_distribution.website.arn
-      },
-      {
-        Sid    = "TerraformStateBucket"
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:ListBucket",
-        ]
-        Resource = [
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state",
-          "arn:aws:s3:::dadaia-s3-bucket-terraform-rm-state/portifolio/${var.environment}/*",
-        ]
       }
     ]
   })

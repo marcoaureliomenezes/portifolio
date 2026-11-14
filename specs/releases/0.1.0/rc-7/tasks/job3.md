@@ -1,0 +1,30 @@
+# Job 3 — delete the vendored analytics SDK
+
+Wave 2, waits on nothing (the cap holds it behind wave 1). Paths are relative to the repo root. A DELETE has no RED. The test tasks come first (T1-T3, each a `test(J3.Tn)` commit that names "AC1.3, operator approval of the rc-7 SPEC"), so no source commit leaves a red test behind. Then the source (T4-T6), and the SDK's own files last (T7), so no import dangles at any merge.
+
+| task | who | AC | `W:` | outcome |
+|---|---|---|---|---|
+| J3.T1 | jr | AC1.3 | `frontend/src/lib/analyticsBeacon.test.ts`, `frontend/src/pages/blog/blogRoutes.test.tsx` | the beacon test file and the SDK mock of `blogRoutes.test.tsx` leave |
+| J3.T2 | jr | AC1.3 | `frontend/src/pages/projects/LibraryProjectTemplate.test.tsx`, `frontend/src/components/projects/__tests__/ProjectSections.test.tsx` | the `track` asserts, titles and mocks leave |
+| J3.T3 | jr | AC1.3, AC1.2 | `frontend/src/components/portfolio/RoleCollapsible.test.tsx`, `frontend/src/components/projects/__tests__/CodeBlock.test.tsx` | the `track` case, the `onCopy` cases and the mocks leave |
+| J3.T4 | sr | AC1.2, AC1.1 | `frontend/src/components/projects/CodeBlock.tsx`, `frontend/src/pages/projects/LibraryProjectTemplate.tsx` | `onCopy` and `link`'s `action` leave with their one producer |
+| J3.T5 | jr | AC1.2, AC1.1 | `frontend/src/components/header/ThemeToggle.tsx`, `frontend/src/components/header/LanguageSelector.tsx`, `frontend/src/components/portfolio/HeroSection.tsx`, `frontend/src/components/portfolio/RoleCollapsible.tsx`, `frontend/src/components/projects/ProjectCard.tsx` | the five `track` calls leave; each handler keeps its one act |
+| J3.T6 | jr | AC1.1 | `frontend/src/main.tsx`, `frontend/src/App.tsx` | the `init` call and the `page_view` effect leave |
+| J3.T7 | jr | AC1.1, AC5.1 | `frontend/vendor/analytics-sdk/**`, `frontend/package.json`, `frontend/package-lock.json`, `frontend/.gitignore`, `frontend/.env.example` | the SDK, its dependency, its lock entries and its two config lines leave |
+
+## Task notes
+
+- **J3.T1.** Delete `analyticsBeacon.test.ts` (2 cases, 3 asserts). In `blogRoutes.test.tsx` delete the comment and the `vi.mock("@dadaia/analytics-sdk", …)` at `:5-6`; the file holds no assert on it.
+- **J3.T2.** `LibraryProjectTemplate.test.tsx`: delete the asserts at `:328`, `:329-332` and `:341`, keep each case's `writeText` asserts, retitle the two cases without "tracks …" (the copy-install case reads "copies exactly the install command"; the Try it case "copies exactly the Try it code"), delete the `track` import (`:18`), the `vi.mock` (`:26`) and the `mockClear` (`:33`). `ProjectSections.test.tsx`: delete the assert at `:154`, drop "and tracks nothing" from the title at `:149`, delete the import, mock and `mockClear` (`:18,20,26`). 4 asserts in all.
+- **J3.T3.** `RoleCollapsible.test.tsx`: delete the whole case at `:279-287` (it asserts only `track`: 2 asserts) and the import and mock (`:16,28`). `CodeBlock.test.tsx`: delete the case at `:38-43` (1 assert), the `onCopy` setup and assert of the reject case (`:47-48,52`, keeping its label asserts `:53-54` and its `writeText` assert), the case at `:64-70` (2 asserts), the `onCopy` parameter of `setup` (`:23-24`) and the import and mock (`:3,6`). 6 asserts here; with T1 (3) and T2 (4) the total is the SPEC's 13. The hand-back lists each removed assert by `file:line` and the total.
+- **J3.T4.** `CodeBlock.tsx`: remove `onCopy` from `CodeBlockProps` (`:9`), the destructuring (`:13`) and the call (`:29`). `LibraryProjectTemplate.tsx`: remove the `track` import, the `onCopy` prop (`:62`), `link`'s third parameter and its `onClick` (`:33,39`), and the two `action` arguments at `:54,55`. The copy button, the two links and the install block behave as today.
+- **J3.T5.** Each handler keeps its one remaining act: `ThemeToggle.handleToggle` becomes the `toggleTheme` call (inline the handler if it then only forwards), `LanguageSelector.handleLanguageChange` the `onLanguageChange(next)` call, `RoleCollapsible.handleOpenChange` the `setOpen(next)` call, and the `HeroSection` CV link and `ProjectCard` link lose their `onClick`. Remove each `track` import. The existing component and E2E cases pass unchanged.
+- **J3.T6.** Delete the `init` import and call from `main.tsx` (`:9-17`), and the `track` import and `page_view` effect from `App.tsx` (`:8,43-46`); drop `useEffect` from `App.tsx`'s React import only if nothing else uses it.
+- **J3.T7.** Delete `frontend/vendor/analytics-sdk/` (7 files), the `package.json:30` line, the `.gitignore:15-16` exemption (and the comment above it if it then stands alone), and `.env.example` (its one variable). Regenerate the lock with `npm install --package-lock-only --ignore-scripts` from `frontend/` (cache `.dadaia/tmp/npm-cache`); the diff is the three entries leaving, and nothing else moves. If the lock moves anything else, stop and report.
+
+## Definition of done
+
+- `npm --prefix frontend run verify` exits 0 (its `npm ci` proves the lock); `npm --prefix frontend run typecheck`.
+- Test directories reached: `frontend/src/components`, `frontend/src/pages`, `frontend/src/lib`; the E2E cases for the theme toggle, language switch, role disclosure and CV link run by the recipe of PLAN §2.3 under the project name `portifolio-j3` (`npx playwright test --project=chromium tests/e2e/pages/language-switch.spec.ts tests/e2e/pages/role-collapsible.spec.ts tests/e2e/pages/cv-download-routing.spec.ts`, with the command, exit code and count in the hand-back).
+- Sweep (AC1.1), run from the repo root, each with its hit count in the hand-back: `grep -rnE 'analytics-sdk|\btrack\(|VITE_ANALYTICS|sessionStorage|dadaia_session' frontend --exclude-dir=node_modules --exclude-dir=dist` prints 0 hits; `grep -rn 'onCopy' frontend/src` prints 0 hits; `git ls-files frontend/vendor` prints nothing.
+- Self-check before hand-back: `git diff <base>...HEAD` for tests shows the removals of AC1.3 only (13 asserts, listed), no skipped test, and no source change in a `test(` commit.

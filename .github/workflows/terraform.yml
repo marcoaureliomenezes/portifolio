@@ -1,27 +1,20 @@
 name: Terraform
 
+# Apply manual por ambiente (workflow_dispatch), na role de infra do environment `infra`.
+# Sem plan em PR, sem apply em push.
+
 on:
-  pull_request:
-    branches: [develop, main]
-    paths:
-      - "terraform/**"
-      - ".github/workflows/terraform.yml"
-  push:
-    branches: [develop, main]
-    paths:
-      - "terraform/**"
-      - ".github/workflows/terraform.yml"
   workflow_dispatch:
     inputs:
-      destroy_bootstrap:
-        description: "Deletar bootstrap IAM role (T-DEVOPS-13) — confirmar com 'yes'"
-        required: false
-        default: "no"
+      env:
+        description: "Ambiente"
+        type: choice
+        options: [stage, prod]
+        default: stage
 
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
 
 env:
   TF_VERSION: "1.9.0"
@@ -29,40 +22,35 @@ env:
   TF_STATE_REGION: ${{ vars.TF_STATE_REGION }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# ---------------------------------------------------------------------------
-# Stage — plan em PR, apply em push develop
-# ---------------------------------------------------------------------------
 jobs:
-  terraform-stage-plan:
-    name: Terraform / Stage Plan
+  apply:
+    name: Terraform / Apply ${{ inputs.env }}
     runs-on: ubuntu-24.04
-    if: |
-      github.event_name == 'pull_request' && github.base_ref == 'develop'
-    environment: stage
+    environment: infra
     defaults:
       run:
-        working-directory: terraform/envs/stage
-
+        working-directory: terraform/envs/${{ inputs.env }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
 
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGE }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-stage-plan-${{ github.run_id }}
+          terraform_wrapper: false
 
       - name: Terraform Init
+        env:
+          TF_ENV: ${{ inputs.env }}
         run: |
           terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/stage/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
+            -backend-config="bucket=${TF_STATE_BUCKET}" \
+            -backend-config="key=portifolio/${TF_ENV}/terraform.tfstate" \
+            -backend-config="region=${TF_STATE_REGION}"
 
       - name: Terraform Format check
         run: terraform fmt -check -recursive
@@ -71,204 +59,10 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        id: plan
-        run: |
-          terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
-          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-          cat plan_output.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+        run: terraform plan -out=tfplan
 
-      - name: Comment plan on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const output = `#### Terraform Plan — Stage
-            \`\`\`
-            ${{ steps.plan.outputs.plan_output }}
-            \`\`\``;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
-
-  terraform-stage-apply:
-    name: Terraform / Stage Apply
-    runs-on: ubuntu-24.04
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    environment: stage
-    defaults:
-      run:
-        working-directory: terraform/envs/stage
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN_STAGE }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-stage-apply-${{ github.run_id }}
-
-      - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/stage/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
-
-      - name: Terraform Validate
-        run: terraform validate
+      - name: No delete or replace
+        run: terraform show -json tfplan | jq -e '[.resource_changes[]?.change.actions[]] | index("delete") | not'
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=terraform.tfvars
-
-  # ---------------------------------------------------------------------------
-  # Prod — plan em PR, apply em push main (gate manual via environment)
-  # ---------------------------------------------------------------------------
-  terraform-prod-plan:
-    name: Terraform / Prod Plan
-    runs-on: ubuntu-24.04
-    if: |
-      github.event_name == 'pull_request' && github.base_ref == 'main'
-    environment: production
-    defaults:
-      run:
-        working-directory: terraform/envs/prod
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-prod-plan-${{ github.run_id }}
-
-      - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/prod/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
-
-      - name: Terraform Format check
-        run: terraform fmt -check -recursive
-
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Plan
-        id: plan
-        run: |
-          terraform plan -no-color -out=tfplan 2>&1 | tee plan_output.txt
-          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
-          cat plan_output.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Comment plan on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const output = `#### Terraform Plan — Prod
-            \`\`\`
-            ${{ steps.plan.outputs.plan_output }}
-            \`\`\``;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            });
-
-  terraform-prod-apply:
-    name: Terraform / Prod Apply
-    runs-on: ubuntu-24.04
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment: production
-    defaults:
-      run:
-        working-directory: terraform/envs/prod
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-tf-prod-apply-${{ github.run_id }}
-
-      - name: Terraform Init
-        run: |
-          terraform init \
-            -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" \
-            -backend-config="key=portifolio/prod/terraform.tfstate" \
-            -backend-config="region=${{ env.TF_STATE_REGION }}"
-
-      - name: Terraform Validate
-        run: terraform validate
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=terraform.tfvars
-
-  # ---------------------------------------------------------------------------
-  # T-DEVOPS-13 — Deletar bootstrap role apos apply prod bem-sucedido
-  # Acionado via workflow_dispatch com input destroy_bootstrap=yes
-  # ---------------------------------------------------------------------------
-  terraform-prod-destroy-bootstrap:
-    name: Terraform / Destroy Bootstrap Role
-    runs-on: ubuntu-24.04
-    if: |
-      github.event_name == 'workflow_dispatch' &&
-      github.event.inputs.destroy_bootstrap == 'yes'
-    environment: production
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS credentials (OIDC — role final)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'sa-east-1' }}
-          role-session-name: GitHubActions-destroy-bootstrap-${{ github.run_id }}
-
-      - name: Detach AdministratorAccess from bootstrap role
-        run: |
-          aws iam detach-role-policy \
-            --role-name github-actions-portfolio-bootstrap \
-            --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
-
-      - name: Delete bootstrap role
-        run: |
-          aws iam delete-role --role-name github-actions-portfolio-bootstrap
-
-      - name: Verify bootstrap role is gone
-        run: |
-          COUNT=$(aws iam list-roles \
-            --query 'length(Roles[?contains(RoleName, `bootstrap`)])' \
-            --output text)
-          if [ "${COUNT}" -ne "0" ]; then
-            echo "ERRO: bootstrap role ainda existe (count=${COUNT})."
-            exit 1
-          fi
-          echo "Bootstrap role deletada com sucesso."
+        run: terraform apply tfplan

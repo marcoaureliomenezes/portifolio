@@ -49,19 +49,18 @@ const content = {
 } as unknown as ContentData;
 
 describe("FeaturedProjects", () => {
-  it("renders the 3 curated cards in order (rand-engine, dadaia-workspace, portifolio)", () => {
+  it("renders the 2 curated cards in order (rand-engine, dadaia-workspace)", () => {
     render(
       <MemoryRouter>
         <FeaturedProjects content={content} />
       </MemoryRouter>,
     );
     const cards = screen.getAllByTestId("project-card");
-    expect(cards).toHaveLength(3);
+    expect(cards).toHaveLength(2);
     const hrefs = cards.map((c) => c.getAttribute("href"));
     expect(hrefs).toEqual([
       "/projetos/rand-engine",
       "/projetos/dadaia-workspace",
-      "/projetos/portifolio",
     ]);
   });
 
@@ -74,9 +73,32 @@ describe("FeaturedProjects", () => {
     expect(
       screen.getByRole("heading", { name: "Featured Projects" }),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("see-all-projects").getAttribute("href")).toBe(
-      "/projetos",
+    const link = screen.getByTestId("see-all-projects");
+    expect(link.getAttribute("href")).toBe("/projetos");
+    expect(link).toHaveTextContent("See all projects");
+  });
+
+  it("renders the see-all link as its text alone, with no icon", () => {
+    render(
+      <MemoryRouter>
+        <FeaturedProjects content={content} />
+      </MemoryRouter>,
     );
+    const link = screen.getByTestId("see-all-projects");
+    expect(link.textContent).toBe("See all projects");
+    expect(link.querySelector("svg")).toBeNull();
+  });
+
+  it("lays the cards on two columns inside #projetos-destaque", () => {
+    const { container } = render(
+      <MemoryRouter>
+        <FeaturedProjects content={content} />
+      </MemoryRouter>,
+    );
+    expect(container.querySelector("section#projetos-destaque")).not.toBeNull();
+    const grid = screen.getByTestId("featured-projects-grid");
+    expect(grid).toHaveClass("grid-cols-1", "md:grid-cols-2");
+    expect(grid).not.toHaveClass("md:grid-cols-3");
   });
 
   it("renders nothing when projectsV2 is absent", () => {

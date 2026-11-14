@@ -11,11 +11,21 @@
  *  6. Page content is within a <main> landmark
  */
 
-import { describe, it, expect, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ProjectsIndexPage } from "./ProjectsIndexPage";
-import type { Project } from "@/types/content";
+import { ProjectsLayoutShell } from "@/components/projects/ProjectsLayoutShell";
+import { SiteLayout } from "@/components/layout/SiteLayout";
+import { LanguageContext } from "@/contexts/LanguageContext";
+import type { ContentData, Project } from "@/types/content";
+
+// Boundary stub: the header's own contract lives in Header.test.tsx.
+vi.mock("@/components/Header", () => ({
+  Header: () => <header>header</header>,
+}));
 
 const mockProjects: Project[] = [
   {
@@ -49,11 +59,25 @@ const mockProjects: Project[] = [
   },
 ];
 
+/** The committed locale file the app fetches: the required chrome and profile. */
+const committed = JSON.parse(
+  readFileSync(resolve(process.cwd(), "public/content/pt.json"), "utf-8"),
+) as Pick<ContentData, "siteChrome" | "profile">;
+
+const indexByLocale = {
+  pt: { title: "Projetos", description: "Uma seleção de projetos que construí — de ecossistemas de agentes de IA a portfólio de engenharia de dados e jogos com meu filho." },
+  en: { title: "Projects", description: "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son." },
+  de: { title: "Projekte", description: "Eine Auswahl meiner Projekte — von KI-Agenten-Ökosystemen über Data-Engineering-Portfolio bis hin zu Spielen mit meinem Sohn." },
+};
+const current = vi.hoisted(() => ({ locale: "pt" as "pt" | "en" | "de" }));
+
 vi.mock("@/hooks/useContent", () => ({
   useContent: () => ({
     content: {
+      siteChrome: committed.siteChrome,
+      profile: committed.profile,
       projectsV2: {
-        index: { title: "Projetos", description: "Galeria de projetos." },
+        index: indexByLocale[current.locale],
         list: mockProjects,
       },
     },
@@ -66,6 +90,33 @@ function renderPage() {
     <MemoryRouter>
       <ProjectsIndexPage />
     </MemoryRouter>,
+  );
+}
+
+/** The layout route mirror: SiteLayout owns the <main>, the shell owns the breadcrumb. */
+function renderInLayout() {
+  const content = {
+    siteChrome: {
+      ...committed.siteChrome,
+      breadcrumb: { label: "Breadcrumb", projects: "Projetos" },
+      backToProjects: "Voltar para projetos",
+    },
+    profile: committed.profile,
+  } as unknown as ContentData;
+  return render(
+    <LanguageContext.Provider
+      value={{ language: "pt", setLanguage: () => undefined, content, isLoading: false }}
+    >
+      <MemoryRouter initialEntries={["/projetos"]}>
+        <Routes>
+          <Route element={<SiteLayout />}>
+            <Route element={<ProjectsLayoutShell />}>
+              <Route path="/projetos" element={<ProjectsIndexPage />} />
+            </Route>
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </LanguageContext.Provider>,
   );
 }
 
@@ -100,7 +151,32 @@ describe("ProjectsIndexPage — rendering", () => {
   });
 
   it("page content is within a <main> landmark", () => {
-    renderPage();
+    renderInLayout();
     expect(screen.getByRole("main")).toBeTruthy();
+  });
+});
+
+describe("ProjectsIndexPage — shell owns the landmark", () => {
+  it("renders no <main> of its own", () => {
+    const { container } = renderPage();
+    expect(container.querySelector("main")).toBeNull();
+  });
+});
+
+describe("ProjectsIndexPage — document title and meta", () => {
+  afterEach(() => {
+    current.locale = "pt";
+  });
+
+  it.each(["pt", "en", "de"] as const)("sets the %s index title and description", (locale) => {
+    current.locale = locale;
+    const { title, description } = indexByLocale[locale];
+    renderPage();
+    const meta = (selector: string) =>
+      document.head.querySelector(selector)?.getAttribute("content");
+    expect(document.title).toBe(title);
+    expect(meta('meta[name="description"]')).toBe(description);
+    expect(meta('meta[property="og:title"]')).toBe(title);
+    expect(meta('meta[property="og:description"]')).toBe(description);
   });
 });

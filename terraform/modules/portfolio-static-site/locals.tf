@@ -3,6 +3,9 @@ locals {
   bucket_name = "${local.env_prefix}portifolio-marco-menezes"
   domain      = var.environment == "prod" ? var.domain_name : "${var.subdomain}.${var.domain_name}"
 
+  oidc_prefix        = "repo:marcoaureliomenezes/portifolio"
+  github_environment = var.environment == "prod" ? "production" : var.environment
+
   common_tags = {
     Project     = var.project_name
     Environment = var.environment

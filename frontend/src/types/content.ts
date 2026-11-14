@@ -98,168 +98,44 @@ export interface HeaderInfo {
   viewEmail: string;
 }
 
-// ── New discriminated-union project types (projects-cluster-v1 / T-PC-A-01) ──
+// ── Project types: inferred from the one schema, src/lib/schemas/projects.ts ──
 
-export interface ProjectCardData {
-  /** Path to cover image, relative to /assets/. ≤ 60 KB. */
-  cover?: string;
-  /** 1-line summary ≤ 280 chars. i18n. */
-  summary: string;
-  /** Tech badges (≥ 3). Partial i18n (non-translatable tech names pass through). */
-  tech: string[];
-}
+import type { z } from "zod";
+import type {
+  ArchDecisionSchema,
+  CaseStudyProjectSchema,
+  CostRowSchema,
+  GameLinkSchema,
+  GamesProjectSchema,
+  LibraryProjectSchema,
+  MetaProjectSchema,
+  ProjectSchema,
+  ProjectSectionDataSchema,
+  ProjectsContentSchema,
+  StackRowSchema,
+} from "../lib/schemas/projects";
 
-export interface ProjectBase {
-  /** URL-safe identifier. Regex: ^[a-z0-9-]+$. Not i18n. */
-  slug: string;
-  /** Discriminator. Not i18n. */
-  kind: "case-study" | "meta" | "games" | "library";
-  hero: {
-    /** i18n. */
-    title: string;
-    /** i18n. */
-    tagline: string;
-  };
-  card: ProjectCardData;
-  seo: {
-    /** i18n. */
-    title: string;
-    /** i18n. */
-    description: string;
-  };
-  /** Optional path to diagram asset (light version). Not i18n. */
-  diagram?: string;
-  /** rc-2: dark-mode diagram variant; falls back to `diagram` when absent. Not i18n. */
-  diagramDark?: string;
-  /** Alt text for diagram. i18n. Required when diagram is present. */
-  diagramAlt?: string;
-}
-
-export interface CaseStudyProject extends ProjectBase {
-  kind: "case-study";
-  /** ≥ 1 section. */
-  sections: ProjectSectionData[];
-  cta: {
-    github: string;
-    githubLabel?: string;
-  };
-}
-
-export interface MetaProject extends ProjectBase {
-  kind: "meta";
-  /** ≥ 1 section. */
-  sections: ProjectSectionData[];
-  /** ≥ 1 stack rows. */
-  stack: StackRow[];
-  /** Cost breakdown rows. */
-  costs: CostRow[];
-  /** ≥ 1 architectural decisions. */
-  decisions: ArchDecision[];
-  links: {
-    repo: string;
-    terraform: string;
-    specs: string;
-  };
-}
-
-export interface GameLink {
-  slug: string;
-  title: string;
-  engine: string;
-  cover: string;
-  body: string;
-  repo: string;
-  playUrl: string;
-}
-
-export interface GamesProject extends ProjectBase {
-  kind: "games";
-  /** ≥ 1 game links. */
-  items: GameLink[];
-}
-
-/** rc-2 (ADR-PC2-R2-01): open-source library published on a package registry. */
-export interface LibraryProject extends ProjectBase {
-  kind: "library";
-  /** ≥ 1 section. */
-  sections: ProjectSectionData[];
-  /** Registry metadata rendered as the install block. Not i18n. */
-  pypi: {
-    package: string;
-    version: string;
-    installCommand: string;
-  };
-  /** Optional headline stat (e.g. rows/s, test count). i18n label. */
-  stat?: {
-    label: string;
-    value: string;
-  };
-  links: {
-    repo: string;
-    pypi: string;
-    docs?: string;
-  };
-}
-
-/** Discriminated union of all project kinds. */
-export type Project = CaseStudyProject | MetaProject | GamesProject | LibraryProject;
-
-/** New open-list shape for the projects section in content JSON. */
-export interface ProjectsContentV2 {
-  /** i18n metadata for the /projetos index page. */
-  index: {
-    title: string;
-    description: string;
-    /** rc-2: i18n labels for the kind chip on ProjectCard. Optional with code fallback. */
-    kindLabels?: Record<Project["kind"], string>;
-  };
-  /** Fixed-order list: dadaia-workspace, portifolio, tauan-games, rand-engine. */
-  list: Project[];
-}
-
-export interface ProjectSectionData {
-  id: string;
-  title: string;
-  body?: string;
-  diagram?: string;
-  items?: Array<{ label: string; value: string }>;
-}
-
-export interface StackRow {
-  layer: string;
-  tech: string;
-}
-
-export interface CostRow {
-  service: string;
-  monthly_usd: number;
-}
-
-export interface ArchDecision {
-  title: string;
-  rationale: string;
-  spec: string;
-}
+export type ProjectSectionData = z.infer<typeof ProjectSectionDataSchema>;
+export type StackRow = z.infer<typeof StackRowSchema>;
+export type CostRow = z.infer<typeof CostRowSchema>;
+export type ArchDecision = z.infer<typeof ArchDecisionSchema>;
+export type GameLink = z.infer<typeof GameLinkSchema>;
+export type CaseStudyProject = z.infer<typeof CaseStudyProjectSchema>;
+export type MetaProject = z.infer<typeof MetaProjectSchema>;
+export type GamesProject = z.infer<typeof GamesProjectSchema>;
+export type LibraryProject = z.infer<typeof LibraryProjectSchema>;
+export type Project = z.infer<typeof ProjectSchema>;
+export type ProjectsContentV2 = z.infer<typeof ProjectsContentSchema>;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface HeroStats {
-  years: number;
-  certifications: number;
-  clouds: number;
-}
-
 export interface HeroCTAs {
   downloadCv: string;
-  seeExperience: string;
-  /** 3rd CTA label linking to /projetos — T-PC-C-05. */
-  seeProjects?: string;
 }
 
 export interface HeroStatsSuffix {
   years: string;
   certs: string;
-  clouds: string;
 }
 
 /** Labels for the library project template (T-PC2-R2-04). */
@@ -270,6 +146,8 @@ export interface LibraryPageLabels {
   copiedLabel: string;
   linkPypi: string;
   linkDocs: string;
+  howTitle: string;
+  factsTitle: string;
 }
 
 export interface ArchPageLabels {
@@ -292,69 +170,64 @@ export interface ContentData {
   schema_version?: string;
   published_at?: string;
   /** Contact/CV data (T-RD-10) — admin-editable. */
-  profile?: Profile;
+  profile: Profile;
   resumeTitle: string;
   skillsTitle: string;
   experienceTitle: string;
   educationTitle: string;
   certificationsTitle: string;
-  seeMore: string;
-  seeLess: string;
   responsibilities: string;
   technologies: string;
-  validUntil: string;
-  viewCredential: string;
-  /** Label for the issuer field in CertificationCard (T-FE-QUAL-06). */
-  issuerLabel: string;
-  /** Singular/plural for certification count in CertificationCategoryGroup (T-FE-QUAL-06). */
-  certSingular: string;
-  certPlural: string;
-  /** Career progression section label in ExperienceCard (T-FE-QUAL-06). */
-  careerProgression: string;
-  /** Singular/plural for role count in ExperienceCard (T-FE-QUAL-06). */
-  roleSingular: string;
-  rolePlural: string;
-  /** Avatar hover label in HeaderDesktopLayout / HeaderMobileLayout (T-FE-QUAL-06). */
-  viewLarger: string;
   /** Games empty-state labels (T-FE-QUAL-06). */
   gamesComingSoon: string;
   gamesComingSoonDesc: string;
   /** NotFound page labels (T-FE-QUAL-06). */
   notFoundMessage: string;
   returnHome: string;
-  /** Suffixes for hero stats line (T-FE-QUAL-06). Falls back to en values when absent. */
-  heroStatsSuffix?: HeroStatsSuffix;
+  /** Words of the hero stat line. */
+  heroStatsSuffix: HeroStatsSuffix;
   /** Architecture / infra section labels (T-FE-QUAL-06). */
   archPage?: ArchPageLabels;
   /** Library template labels (T-PC2-R2-04). Falls back to PT literals when absent. */
   libraryPage?: LibraryPageLabels;
   /** Featured-projects strip labels (T-RD-04). */
   featuredProjectsTitle?: string;
-  seeAllProjects?: string;
-  /** Hero "now" panel labels (T-RD-05). */
-  nowPanel?: {
-    title: string;
-    currentRole: string;
-    latestCert: string;
-    latestProject: string;
-  };
+  seeAllProjects: string;
+  /** Home labels (rc-3): earlier-roles divider, role details and story toggles, impact caption. */
+  earlierLabel: string;
+  detailsOpen: string;
+  detailsClose: string;
+  storyOpen: string;
+  storyClose: string;
+  impactLabel: string;
   header: HeaderInfo;
   resume: Resume;
   /** Big tagline in Hero (T-FE-WAVE3). Falls back to resumeTitle when absent. */
   heroTagline?: string;
-  /** Inline stats line under the tagline (T-FE-WAVE3). */
-  heroStats?: HeroStats;
   /** CTA labels for Hero (T-FE-WAVE3). */
   heroCTAs?: HeroCTAs;
   skills: SkillCategory[];
   experiences: Experience[];
   education: Education;
   certifications: Certification[];
-  /**
-   * Navigation label for the "Projetos" header link (T-PC-C-04).
-   * Falls back to "Projetos" when absent.
-   */
-  navProjects?: string;
+  /** Site chrome labels: header nav, theme toggle, language selector, breadcrumb, back link. */
+  siteChrome: {
+    nav: { label: string; resume: string; projects: string; blog: string };
+    theme: { toLight: string; toDark: string };
+    language: { label: string };
+    breadcrumb: { label: string; projects: string };
+    backToProjects: string;
+    blog: {
+      title: string;
+      intro: string;
+      empty: string;
+      tagsLabel: string;
+      filteredBy: string;
+      allPosts: string;
+      back: string;
+    };
+    footer: { label: string; owner: string; email: string; linkedin: string; github: string };
+  };
   /**
    * Open-list shape for projects-cluster-v1 (T-PC-A-01).
    */

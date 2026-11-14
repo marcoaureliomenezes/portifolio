@@ -1,6 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
-import { track } from "@dadaia/analytics-sdk";
+import { useContent } from "@/hooks/useContent";
 
 interface ThemeToggleProps {
   className?: string;
@@ -9,21 +9,15 @@ interface ThemeToggleProps {
 export function ThemeToggle({ className }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
-
-  // T-AN-D-02: Track theme_toggle event; report the new theme (opposite of current).
-  function handleToggle() {
-    const newTheme = isDark ? "light" : "dark";
-    toggleTheme();
-    track('theme_toggle', { theme: newTheme });
-  }
+  const { toLight, toDark } = useContent().content.siteChrome.theme;
 
   return (
     <button
       type="button"
       role="switch"
       aria-checked={isDark}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      onClick={handleToggle}
+      aria-label={isDark ? toLight : toDark}
+      onClick={toggleTheme}
       className={
         "inline-flex h-9 w-9 items-center justify-center rounded-md text-header-text " +
         "hover:bg-white/10 hover:text-accent focus-visible:outline-none " +

@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Block } from "@/components/projects/Block";
 import { useContent } from "@/hooks/useContent";
 import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectHero } from "@/components/projects/ProjectHero";
@@ -32,10 +32,7 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
   const labels = content.archPage;
 
   return (
-    <main
-      className="container mx-auto px-4 pt-36 md:pt-32 pb-12 space-y-10 max-w-4xl"
-      aria-label={project.seo.title}
-    >
+    <div className="space-y-10">
       {/* ── Hero ─────────────────────────────────────────────────── */}
       <ProjectHero project={project} />
 
@@ -45,124 +42,66 @@ export function MetaProjectTemplate({ project }: { project: MetaProject }) {
       {/* ── Body sections ────────────────────────────────────────── */}
       <ProjectSections sections={project.sections} slug={slug} />
 
-      {/* ── Tech Stack ───────────────────────────────────────────── */}
       {stack.length > 0 && (
-        <section aria-labelledby={`${slug}-stack-heading`}>
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id={`${slug}-stack-heading`}
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                {labels?.techStackTitle ?? "Tech Stack"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-muted-foreground font-medium w-1/3">
-                      {labels?.tableHeaderLayer ?? "Layer"}
-                    </th>
-                    <th className="text-left py-2 text-foreground font-medium">
-                      {labels?.tableHeaderTechnology ?? "Technology"}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {stack.map((row) => (
-                    <tr key={row.layer} data-testid="stack-row">
-                      <td className="py-2 pr-4 text-muted-foreground">{row.layer}</td>
-                      <td className="py-2 text-foreground font-mono text-xs">{row.tech}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
-        </section>
+        <Block id={`${slug}-stack-heading`} title={labels?.techStackTitle ?? "Tech Stack"}>
+          <table className="w-full text-meta">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 text-label text-muted-foreground w-1/3">
+                  {labels?.tableHeaderLayer ?? "Layer"}
+                </th>
+                <th className="text-left py-2 text-label text-foreground">
+                  {labels?.tableHeaderTechnology ?? "Technology"}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {stack.map((row) => (
+                <tr key={row.layer} data-testid="stack-row">
+                  <td className="py-2 pr-4 text-muted-foreground">{row.layer}</td>
+                  <td className="py-2 text-foreground text-meta">{row.tech}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Block>
       )}
 
-      {/* ── Monthly Costs ─────────────────────────────────────────── */}
       {costs.length > 0 && (
-        <section aria-labelledby={`${slug}-costs-heading`}>
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id={`${slug}-costs-heading`}
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                {labels?.monthlyCostsTitle ?? "Monthly Costs"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CostsTable costs={costs} />
-            </CardContent>
-          </Card>
-        </section>
+        <Block id={`${slug}-costs-heading`} title={labels?.monthlyCostsTitle ?? "Monthly Costs"}>
+          <CostsTable costs={costs} />
+        </Block>
       )}
 
-      {/* ── Architectural Decisions ───────────────────────────────── */}
       {decisions.length > 0 && (
-        <section aria-labelledby={`${slug}-decisions-heading`}>
-          <Card className="w-full shadow-medium border-0 bg-card hover:shadow-large transition-all duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle
-                id={`${slug}-decisions-heading`}
-                className="text-lg md:text-2xl font-bold text-foreground"
-              >
-                {labels?.archDecisionsTitle ?? "Architectural Decisions"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DecisionsList decisions={decisions} />
-            </CardContent>
-          </Card>
-        </section>
+        <Block
+          id={`${slug}-decisions-heading`}
+          title={labels?.archDecisionsTitle ?? "Architectural Decisions"}
+        >
+          <DecisionsList decisions={decisions} />
+        </Block>
       )}
 
-      {/* ── Links ────────────────────────────────────────────────── */}
-      <section aria-labelledby={`${slug}-links-heading`}>
-        <Card className="w-full shadow-medium border-0 bg-card">
-          <CardHeader className="pb-2">
-            <CardTitle
-              id={`${slug}-links-heading`}
-              className="text-lg font-bold text-foreground"
-            >
-              {labels?.linksTitle ?? "Links"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-4">
+      <Block id={`${slug}-links-heading`} title={labels?.linksTitle ?? "Links"}>
+        <div className="flex flex-wrap gap-4">
+          {[
+            [links.repo, labels?.linkGithubRepo ?? "GitHub Repository"],
+            [links.terraform, labels?.linkTerraform ?? "Terraform"],
+            [links.specs, labels?.linkSpecs ?? "Specs"],
+          ].map(([href, label]) => (
             <a
-              href={links.repo}
+              key={href}
+              href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-meta text-primary hover:underline"
             >
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              {labels?.linkGithubRepo ?? "GitHub Repository"}
+              {label}
             </a>
-            <a
-              href={links.terraform}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              {labels?.linkTerraform ?? "Terraform"}
-            </a>
-            <a
-              href={links.specs}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-            >
-              <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              {labels?.linkSpecs ?? "Specs"}
-            </a>
-          </CardContent>
-        </Card>
-      </section>
-    </main>
+          ))}
+        </div>
+      </Block>
+    </div>
   );
 }

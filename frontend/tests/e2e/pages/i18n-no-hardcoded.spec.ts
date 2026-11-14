@@ -16,6 +16,7 @@
 
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Known localized values extracted from src/data/content/*.json
@@ -43,11 +44,9 @@ const LOCALE_STRINGS = {
 
 type Locale = keyof typeof LOCALE_STRINGS;
 
-/** Click the language-selector combobox and pick the target language option. */
+/** Switch the UI language, then wait until the skills heading shows the target locale. */
 async function switchLocale(page: import('@playwright/test').Page, label: string) {
-  const combobox = page.locator('[role="combobox"]').first();
-  await combobox.click();
-  await page.getByRole('option', { name: label }).click();
+  await switchLanguage(page, label);
   // T-RD-10: locales load via fetch and the PREVIOUS content stays visible
   // while the switch is in flight (by design — no blank flash). Wait until the
   // skills heading shows the target locale before snapshotting.
@@ -70,20 +69,17 @@ const LOCALE_OPTION_LABELS: Record<Locale, string> = {
 // ---------------------------------------------------------------------------
 // Helper — gather all heading texts in the current page state
 //
-// ExperienceSection / SkillsSection / EducationSection / CertificationsSection
-// each render their CardTitle twice (desktop `hidden md:block` + mobile
-// `MobileCollapsibleSection.md:hidden`), so every `#*-heading` id appears
-// on BOTH variants and strict-mode resolves 2 elements. Filter to the
-// currently-visible copy so the helper works on any viewport.
+// Each section renders its heading once, through SectionHeading. Read the DOM
+// text, not innerText: the CSS uppercase transform would change the title.
 // ---------------------------------------------------------------------------
 async function captureHeadings(page: import('@playwright/test').Page) {
   const visible = (id: string) =>
     page.locator(`[id="${id}"]`).filter({ visible: true }).first();
   return {
-    skillsTitle:         await visible('habilidades-heading').innerText(),
-    experienceTitle:     await visible('experiencia-heading').innerText(),
-    educationTitle:      await visible('educacao-heading').innerText(),
-    certificationsTitle: await visible('certificacoes-heading').innerText(),
+    skillsTitle:         await visible('habilidades-heading').textContent(),
+    experienceTitle:     await visible('experiencia-heading').textContent(),
+    educationTitle:      await visible('educacao-heading').textContent(),
+    certificationsTitle: await visible('certificacoes-heading').textContent(),
   };
 }
 

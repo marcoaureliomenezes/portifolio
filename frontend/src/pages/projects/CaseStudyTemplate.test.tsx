@@ -12,7 +12,8 @@ import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { CaseStudyTemplate } from "./CaseStudyTemplate";
-import type { CaseStudyProject } from "@/types/content";
+import type { CaseStudyProject, ContentData } from "@/types/content";
+import { LanguageContext } from "@/contexts/LanguageContext";
 
 afterEach(() => {
   cleanup();
@@ -49,11 +50,17 @@ const mockProject: CaseStudyProject = {
   },
 };
 
+const enContent = {} as unknown as ContentData;
+
 function renderTemplate(project = mockProject) {
   return render(
-    <MemoryRouter>
-      <CaseStudyTemplate project={project} />
-    </MemoryRouter>,
+    <LanguageContext.Provider
+      value={{ language: "en", setLanguage: () => undefined, content: enContent, isLoading: false }}
+    >
+      <MemoryRouter>
+        <CaseStudyTemplate project={project} />
+      </MemoryRouter>
+    </LanguageContext.Provider>,
   );
 }
 
@@ -116,5 +123,15 @@ describe("CaseStudyTemplate", () => {
     // We verify that title is set even without explicit useEffect in the template itself.
     renderTemplate();
     expect(document.title).toBe(mockProject.seo.title);
+  });
+
+  it("renders no <main>: SiteLayout owns it", () => {
+    const { container } = renderTemplate();
+    expect(container.querySelector("main")).toBeNull();
+  });
+
+  it("renders the en GitHub label from content", () => {
+    renderTemplate({ ...mockProject, cta: { ...mockProject.cta, githubLabel: "View on GitHub" } });
+    expect(screen.getByRole("link", { name: "View on GitHub" })).toBeInTheDocument();
   });
 });

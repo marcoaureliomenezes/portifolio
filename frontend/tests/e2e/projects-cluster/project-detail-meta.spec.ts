@@ -49,10 +49,8 @@ test.describe('Detail page — portifolio (kind: meta)', () => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1').first()).not.toBeEmpty();
 
-    // Then: title non-empty and not generic
-    const title = await page.title();
-    expect(title.trim().length).toBeGreaterThan(0);
-    expect(title.toLowerCase()).not.toBe('projetos');
+    // Then: title is the project's pt SEO title
+    await expect(page).toHaveTitle("Arquitetura deste portfólio — Marco Menezes");
   });
 
   test('PC-E2E-13: theme-aware diagram imgs present for portifolio (rc-2)', async ({ page }) => {

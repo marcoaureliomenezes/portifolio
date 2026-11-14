@@ -24,18 +24,18 @@ export function CostsTable({ costs }: CostsTableProps) {
   }
 
   return (
-    <table data-testid="costs-table" className="w-full text-sm">
+    <table data-testid="costs-table" className="w-full text-meta">
       <thead>
         <tr className="border-b border-border">
           <th
             scope="col"
-            className="text-left py-2 pr-4 text-muted-foreground font-medium"
+            className="text-left py-2 pr-4 text-muted-foreground font-normal"
           >
             Service
           </th>
           <th
             scope="col"
-            className="text-right py-2 text-muted-foreground font-medium"
+            className="text-right py-2 text-muted-foreground font-normal"
           >
             USD / month
           </th>
@@ -45,7 +45,7 @@ export function CostsTable({ costs }: CostsTableProps) {
         {costs.map((row) => (
           <tr key={row.service}>
             <td className="py-2 pr-4 text-foreground">{row.service}</td>
-            <td className="py-2 text-right font-mono text-xs text-foreground">
+            <td className="py-2 text-right text-label text-foreground">
               {formatUsd(row.monthly_usd)}
             </td>
           </tr>
@@ -54,7 +54,7 @@ export function CostsTable({ costs }: CostsTableProps) {
       <tfoot>
         <tr className="border-t-2 border-border font-semibold">
           <td className="py-2 pr-4 text-foreground">Total</td>
-          <td className="py-2 text-right font-mono text-xs text-foreground">
+          <td className="py-2 text-right text-label text-foreground">
             {formatUsd(total)}
           </td>
         </tr>

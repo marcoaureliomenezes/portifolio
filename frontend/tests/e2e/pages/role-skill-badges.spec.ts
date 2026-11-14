@@ -21,10 +21,8 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import {
-  expandSeniorRole as sharedExpandSeniorRole,
-  switchLanguage as sharedSwitchLanguage,
-} from '../fixtures/experience-helpers';
+import { expandSeniorRole as sharedExpandSeniorRole } from '../fixtures/experience-helpers';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Constants derived directly from WAVE5 data (locale-invariant skills)
@@ -65,7 +63,6 @@ const SKILL_CATEGORY_SAMPLES: Record<string, string> = {
 // ---------------------------------------------------------------------------
 // Helpers (delegated to shared module)
 // ---------------------------------------------------------------------------
-const switchLanguage = sharedSwitchLanguage;
 const expandSeniorRole = (page: Page) => sharedExpandSeniorRole(page);
 
 // ---------------------------------------------------------------------------
@@ -254,7 +251,7 @@ test('BADGE-06: screenshot evidence — Senior card PT dark mode', async ({ page
   await page.goto(ROUTES.home);
 
   // Enable dark mode via the theme toggle
-  const themeToggle = page.locator('[aria-label*="dark"], [aria-label*="Dark"], [aria-label*="tema"], [aria-label*="theme"]').first();
+  const themeToggle = page.getByRole('banner').getByRole('switch');
   if (await themeToggle.isVisible().catch(() => false)) {
     await themeToggle.click();
   } else {

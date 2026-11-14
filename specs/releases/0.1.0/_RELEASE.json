@@ -1,0 +1,566 @@
+{
+  "schema": "release-state-v1",
+  "release": "0.1.0",
+  "phase": "CLOSURE",
+  "defined": {
+    "ts": "2026-11-12T22:56:32Z"
+  },
+  "implemented": {
+    "ts": "2026-11-12T23:28:35Z"
+  },
+  "shipped": null,
+  "log": [
+    {
+      "ts": "2026-10-19T21:48:25Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Release 0.1.0 born"
+    },
+    {
+      "ts": "2026-10-19T22:18:55Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-1",
+      "milestone": "defined",
+      "sha": "c80eff0",
+      "text": "Candidate defined at c80eff0; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-10-20T00:15:48Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-1",
+      "milestone": "implemented",
+      "sha": "f669060",
+      "text": "Candidate implemented at f669060; phase CLOSURE."
+    },
+    {
+      "ts": "2026-10-20T00:17:03Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over c80eff0..8a9b6a8a60e6: 76 reviewed, 1 changed.",
+      "since": "c80eff0",
+      "until": "8a9b6a8a60e69a7790361613657626b26dc7e887",
+      "reviewed": [
+        "backend",
+        "frontend/public/assets/projects/site",
+        "frontend/public/assets/projects/rand-engine",
+        "frontend/public/assets/projects/redacted-games",
+        "frontend/public/content/schema",
+        "frontend/public/decorators",
+        "frontend/public/images",
+        "frontend/public/images/badges",
+        "frontend/public/lovable-uploads",
+        "frontend/scripts",
+        "frontend/src",
+        "frontend/src/assets",
+        "frontend/src/components",
+        "frontend/src/components/header",
+        "frontend/src/components/portfolio",
+        "frontend/src/components/projects",
+        "frontend/src/components/projects/__tests__",
+        "frontend/src/components/ui",
+        "frontend/src/contexts",
+        "frontend/src/hooks",
+        "frontend/src/lib",
+        "frontend/src/lib/schemas",
+        "frontend/src/pages",
+        "frontend/src/pages/projects",
+        "frontend/src/types",
+        "frontend/tests/e2e/fixtures",
+        "frontend/tests/e2e/pages",
+        "frontend/tests/e2e/pages/email-modal-dark-mode.spec.ts-snapshots",
+        "frontend/tests/e2e/projects-cluster",
+        "frontend/tests/e2e/setup",
+        "frontend/vendor/analytics-sdk",
+        "frontend/vendor/analytics-sdk/dist",
+        "frontend/vendor/analytics-sdk/src",
+        "img/mobile",
+        "img/web",
+        "scripts",
+        "specs-bkp",
+        "specs-bkp/_archive",
+        "specs-bkp/_archive/2026-05-14",
+        "specs-bkp/_archive/2026-05-14/memory",
+        "specs-bkp/_archive/2026-05-14/security",
+        "specs-bkp/_archive/legacy-features",
+        "specs-bkp/_archive/legacy-features/projects-cluster",
+        "specs-bkp/_archive/legacy-root",
+        "specs-bkp/_archive/releases/content-json-v1",
+        "specs-bkp/_archive/releases/content-json-v1/supporting",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1/supporting",
+        "specs-bkp/_archive/releases/frontend-refactor-v1",
+        "specs-bkp/_archive/releases/infra-bootstrap-v1",
+        "specs-bkp/_archive/releases/portfolio-home-polish-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1/decisions",
+        "specs-bkp/_archive/releases/quality-gate-v1",
+        "specs-bkp/_archive/releases/visual-identity-v1",
+        "specs-bkp/backlog",
+        "specs-bkp/features/aba-arquitetura",
+        "specs-bkp/features/aba-dadaia-workspace",
+        "specs-bkp/features/aba-redacted-games",
+        "specs-bkp/features/cms-lite",
+        "specs-bkp/features/content-json",
+        "specs-bkp/features/infra-retomada",
+        "specs-bkp/features/quality-gate",
+        "specs-bkp/features/visual-identity",
+        "specs-bkp/foundation",
+        "specs-bkp/memory",
+        "specs-bkp/memory/product",
+        "specs-bkp/releases",
+        "specs-bkp/releases/mobile-redesign-v1",
+        "specs-bkp/releases/projects-cluster-v2",
+        "specs-bkp/security",
+        "terraform",
+        "terraform/_legacy",
+        "terraform/envs/prod",
+        "terraform/envs/stage",
+        "terraform/modules/portfolio-static-site"
+      ],
+      "changed": [
+        "dadaia-workspace-page"
+      ]
+    },
+    {
+      "ts": "2026-10-20T00:17:04Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-1 Job 1: develop back-merged from origin/main fcc8682 (e422c86), the verify npm script behind the verify: line (8c18c14), the dadaia-workspace page on the library kind with 0.5.0 copy in en, pt and de (6fce4ec, 9747be3), APPROVED at 9747be3; the wt-rc review REJECTED at d43932c (HIGH: E2E PC-E2E-06 pinned the pip install line), so the first closure commits were reverted (297a04e, 744f3a0, 3d7dd59, 8001f5e), the job reopened with J1.T5 (f669060, PC-E2E-06 asserts the uvx line, APPROVED, revert-RED confirmed on chromium) and CLOSURE was set again at 0507385; AC3.4 claim -> source pin 2059b779e (dadaia-workspace feature/0.5.0, all 15 rows checked by the reviewer), with two accepted LOWs: (a) the version row cites rc-18/SPEC.md:9 and ADR 0068 instead of roadmap Q3, (b) en.json:611 and :637 need claim-table rows at the re-check before the rc-21 prod deploy; LOW: the stale comment at project-detail-library.spec.ts:39 still says pip, to fix at the next touch of the file; memory: QUALITY Gates records the verify and tests lines and that Playwright E2E runs only in CI (ci.yml e2e on PRs to main, ci-weekly.yml full-e2e), outside verify, QUALITY Test architecture names frontend/tests/e2e, ARCHITECTURE drops its scaffold future-tense lines and records the content tree, atom dadaia-workspace-page added, 76 uncovered packages reviewed and left for the Level 3b first pass (dadaia-workspace 0.6.0, operator ruling; release.py drift exits 1 on them by that ruling); verdict.py stats 0.1.0-rc1: 1 fix-induced bugs n/a (target <= 20%), 2 first-pass approval 1/3 33% (>= 70%), 4 closure duration n/a (<= 4 h), 6 non-block commits after closure 0 (0), 7 memory drift 0 (0), 9 rebuild-due patches 0 (0), oldest record 2026-10-19T21:17:07Z; carried: AC3.6 stage check (deploy-stage run URL and a fetch of the stage page) runs after the rc-1 PR merges into develop; the develop-to-main prod deploy and the dadaia-workspace homepage repoint are dadaia-workspace rc-21's acts, with the claim-table re-check against feature/0.5.0 (LOW b) before that deploy; to the main thread's intake: 15 full-suite E2E tests fail on chromium at both HEAD and main fcc8682, pre-existing and undiagnosed (pages/layout.spec.ts x6, projects-cluster/i18n-projects.spec.ts x6, layout-shell.spec.ts x2, nav-projects.spec.ts x1), the reviewer MEDIUM (13 inherited npm audit advisories in frontend/package-lock.json, byte-identical to main), the LOW pt/de copy calques, and a SPEC claim that no test pins a value cites its grep; backlog exits: dadaia-workspace-page-050 delivered (0.1.0; AC (7) is dadaia-workspace rc-21's)"
+    },
+    {
+      "ts": "2026-10-24T15:50:07Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-10-24T16:31:47Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-2",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-10-24T23:25:53Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-2",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-10-24T23:33:20Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 3b77e40b1437a9a8a0102885703e615673817c8d..7ec046c3f4a2: 59 reviewed, 6 changed.",
+      "since": "3b77e40b1437a9a8a0102885703e615673817c8d",
+      "until": "7ec046c3f4a2077a5048f1d171b620cf8822888a",
+      "reviewed": [
+        "backend",
+        "frontend/public/assets/projects/portifolio",
+        "frontend/public/assets/projects/redacted-games",
+        "frontend/public/decorators",
+        "frontend/public/images",
+        "frontend/public/images/badges",
+        "frontend/public/lovable-uploads",
+        "frontend/src/assets",
+        "frontend/src/components/portfolio",
+        "frontend/src/components/projects/__tests__",
+        "frontend/src/components/ui",
+        "frontend/tests/e2e/fixtures",
+        "frontend/tests/e2e/setup",
+        "frontend/vendor/analytics-sdk",
+        "frontend/vendor/analytics-sdk/dist",
+        "frontend/vendor/analytics-sdk/src",
+        "img/mobile",
+        "img/web",
+        "scripts",
+        "specs-bkp",
+        "specs-bkp/_archive",
+        "specs-bkp/_archive/2026-05-14",
+        "specs-bkp/_archive/2026-05-14/memory",
+        "specs-bkp/_archive/2026-05-14/security",
+        "specs-bkp/_archive/legacy-features",
+        "specs-bkp/_archive/legacy-features/projects-cluster",
+        "specs-bkp/_archive/legacy-root",
+        "specs-bkp/_archive/releases/content-json-v1",
+        "specs-bkp/_archive/releases/content-json-v1/supporting",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1",
+        "specs-bkp/_archive/releases/fe-qual-refactor-v1/supporting",
+        "specs-bkp/_archive/releases/frontend-refactor-v1",
+        "specs-bkp/_archive/releases/infra-bootstrap-v1",
+        "specs-bkp/_archive/releases/portfolio-home-polish-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1",
+        "specs-bkp/_archive/releases/projects-cluster-v1/decisions",
+        "specs-bkp/_archive/releases/quality-gate-v1",
+        "specs-bkp/_archive/releases/visual-identity-v1",
+        "specs-bkp/backlog",
+        "specs-bkp/features/aba-arquitetura",
+        "specs-bkp/features/aba-dadaia-workspace",
+        "specs-bkp/features/aba-redacted-games",
+        "specs-bkp/features/cms-lite",
+        "specs-bkp/features/content-json",
+        "specs-bkp/features/infra-retomada",
+        "specs-bkp/features/quality-gate",
+        "specs-bkp/features/visual-identity",
+        "specs-bkp/foundation",
+        "specs-bkp/memory",
+        "specs-bkp/memory/product",
+        "specs-bkp/releases",
+        "specs-bkp/releases/mobile-redesign-v1",
+        "specs-bkp/releases/projects-cluster-v2",
+        "specs-bkp/security",
+        "terraform",
+        "terraform/_legacy",
+        "terraform/envs/prod",
+        "terraform/envs/stage",
+        "terraform/modules/portfolio-static-site"
+      ],
+      "changed": [
+        "dadaia-workspace-page",
+        "rand-engine-page",
+        "library-page",
+        "site-chrome",
+        "content-contract",
+        "scene-media"
+      ]
+    },
+    {
+      "ts": "2026-10-24T23:34:39Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-2 Jobs 1-8 merged on the wt-rc (last job HEAD 8ce4c64, CLOSURE at aea11d4): FR1 one SiteLayout header and main#main-content on every route, Resume and Projects with a phone nav row, siteChrome strings and <html lang> per locale, dark first paint, type-step tokens and --header-h; FR2 projects.ts as the one project schema (media, code, item href, hero.media; stat and section diagram gone), flat Block sections, the library page order with copy buttons, games and Portfolio Architecture restyled with content unchanged; FR3 capture.sh and record.mjs, hash-named cuts under budgets, the Media player with in-view mount and the reduced-motion still, the contentAssets contract test; FR4 rand-engine pinned to PyPI 0.8.0 at tag 0.8.0 (hero spec-to-dataframe, related tables, event stream, files in parts, Try it, facts from the tag); FR5 dadaia-workspace pinned to PyPI 0.4.7 at tag v0.4.7 (hero init-workspace, demand to merge, the gate refuses, six harnesses, Try it pinned @0.4.7, facts from the tag, no docs link since that URL answers 404); bugs registered and resolved in the rc: content-schema-export-is-empty, content-urls-accept-script-schemes, content-schema-rejects-committed-content, content-validation-never-runs, media-terminal-final-line-dropped, media-resize-keeps-old-cut, media-empty-box-layout-shift (0 open); rulings recorded here and in the commit bodies only, the SPEC, PLAN and job files staying closed: R-S J7.T6 added, scenes side by side per the mockup, rendered in LibraryProjectTemplate only; R-W J7.T2's write set gained a test fixture; R-A and R-A2 J8.T8 and J8.T9 added from the operator's bug batch; R-M2 and R-M3 PC-E2E-14 compares the localized purpose line and retries; R-T2 the operator removed the MetaProjectTemplate Card assert; R-F the DiagramCard assert moved to the content label; the main thread corrected the shell column from 760 to 960 px per SPEC.md:56; validate:content was deleted by the content-validation-never-runs fix, so the DoD lines naming it (PLAN.md:38, job3.md:3, job7.md:3, job8.md:3) are stale and verify's locale-parse test replaces them; test:run delta measured at 7ec046c on the local tree: contentAssets.test.ts alone 206 cases in 0.84 s, the whole test:run 45 files and 606 tests in 13.76 s; memory: atoms dadaia-workspace-page rewritten, rand-engine-page, library-page, site-chrome, content-contract and scene-media added, QUALITY Gates E2E line fixed (smoke on PRs to develop and main, full suite weekly), ARCHITECTURE Structure names projects.ts, 59 uncovered drift directories left for the first-pass audit; verdict.py stats 0.1.0-rc2: 1 fix-induced bugs 4/8 50% (target <= 20%), 2 first-pass approval 6/14 43% (>= 70%), 4 closure duration n/a (<= 4 h), 6 non-block commits after closure 0 (0), 7 memory drift 0 (0), 9 rebuild-due patches 0 (0), oldest record 2026-10-24T15:41:24Z; carried: AC4.7 and AC5.5 stage evidence (deploy-stage run URL, one fetch of each page, curl -I of one video asset) after the rc-2 PR merges into develop; the dadaia-workspace upstream re-check of the portfolio claim table; 124 intake lines to the main thread's intake report, in categories: pre-existing E2E reds and language-switch flakes, npm audit advisories in frontend dependencies, media pipeline LOWs (failure-path cleanup, cast privacy grep, webm bitexact, README gaps), test hygiene (own-hook mocks, live-content reads, Windows path handling in contentAssets.test.ts), schema LOWs (HttpUrl host char, cvUrl whitespace, the unused case-study kind, optional siteChrome), the SVG budget decided twice (ci.yml and the contract test), stale comments and doc lines (job DoD validate:content, the repo AGENTS.md Spec Structure, claims.md line refs), pt/de wording nits and content items for the screenshot pass, and dadaia-workspace upstream items (the drop-orphan worktree bug registered there, a commit-shape row for a doctor law refresh); backlog exits: library-pages-in-motion delivered (0.1.0; the Blog nav item waits for the first post, rc-4)"
+    },
+    {
+      "ts": "2026-10-25T14:13:42Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-10-25T15:22:36Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-3",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-10-25T17:27:06Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-3",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-10-25T17:35:23Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-3 Jobs 1-8 merged on the wt-rc (last job merge aa39520, CLOSURE at b00e367): FR1 one authority per content fact (the dead hero, now-panel, label and achievements keys gone from the three locales and ContentData; siteChrome, profile and heroStatsSuffix required in the type; the keys the published v1.json holds kept, v1.json unchanged; Trie Engenharia main; certifications newest first; skill rows keyed by id with the Data platforms rename; the home strings as flat keys under check:i18n-projects parity; i18n-strings.test.tsx split per component); FR2 one 960 px column from lib/layout.ts in SiteLayout, prose 680 px, a footer on every route from siteChrome.footer and profile; FR3 the one-column hero, its stat line derived from content, the story toggle, HeroNowPanel deleted; FR4 frameless employer lines, role articles with one inline Details control, the Earlier line from minor roles, periods localized over Intl by formatPeriod.ts, the impact label from content; FR5 two featured cards and the four-element ProjectCard with its still poster, no video on the home; FR6 Skills as one dl keyed by id, a flat certification list, one education entry; FR7 the home composed Hero > Experience > Projects > Skills > Certifications > Education with no section card or fold, the 56/80 px section rhythm, each smoke spec moved with the element it selected, the README and repo AGENTS.md links fixed; AC7.3 home scrollHeight, PLAN 2.5 script on the Job 8 build (j8-measure.log): 1440x900 pt 3103, en 3103 (target 2700-3300); 390x844 pt 4040, en 3922 (target 3870-4730); as-is by the same method 4525 / 4525 / 6644 / 6572 (j8t1-measure.log, equal to the SPEC figures); AC7.5 the full chromium suite at base f34f33c: 151 passed, 0 failed of 151 tests in 30 files (j8t1-full.log), so the SPEC's 15 pre-existing failures no longer hold at that base and no failing test is named; rc-2's carried AC4.7 and AC5.5 stage evidence, collected 2026-10-25: PR #34 merged into develop as 11ac2bb; deploy run https://github.com/marcoaureliomenezes/portifolio/actions/runs/40194175406 succeeded; stage /projetos/rand-engine answers 200 text/html, and the spec-to-dataframe and init-workspace desktop webm 200 video/webm; stage en.json serves 0.4.7 and no 0.5.0; the stage Playwright pass ran 24/24 OK (2 pages × pt/en/de × 1440/360 × motion/reduced); facts: 13/13 match their sources at tags 0.8.0 and v0.4.7; rulings made during implementation, recorded here and in the commit bodies only, the SPEC and PLAN staying closed: R15 section titles are read as DOM text (textContent) in i18n-no-hardcoded.spec.ts, the title asserts verbatim; Job 3 rework: profile required in the type with its guards gone, and the games empty-state link reads profile.githubUrl; Job 5 rework: the trailing-suffix strip lives in the one parser, and the role article is frameless with an inline Details control; Job 8 folds J8.T8-T10 (one arrow on the All link with literal cover-fallback asserts, the education and Details labels pinned, the games empty-state link tested); DisclosureTrigger deleted once nothing called it; J8.T3-T5 and J8.T10 worked by one agent in one task tree, in commit order; R-F landed as two commits (fa35915, 4d5bc15) because the merge gate refuses a test commit touching source; the rejected i18n registration lane retired at closure by a reset to its base and WT clean, its two items delivered as Arm A (AC4.5, AC4.6); AC2.2's no-literal rule read at reconcile as the production modules under src/ (none holds an email or URL literal), the test files keeping their literal expectations; memory: resume-home added, site-chrome, content-contract, rand-engine-page and dadaia-workspace-page reconciled, the catalog regenerated; the release.py memory record waits on the main thread's ruling, since the verb refuses while 54 repo units are covered by no atom; carried: 31 intake items from the rc-3 review rounds (2 MEDIUM, 19 LOW, 10 INFO) in categories: test strength (the one-column hero selector, the CTA and education-label asserts, tombstone and absent-class asserts), test hygiene (committed-content reads duplicated, cwd-relative locale reads, a duplicated contentOf helper, PC-E2E-20 duplicating two specs), code nits (COVER_SIZE, a silent clouds drop, repeated classNames, index keys, fullName against company, four unread label keys, stale docstrings), job-file and commit drift (tasks outside job3.md, the R-F split, four commits without a co-author line, a fold labelled R-M) and evidence notes (AC5.2 proven structurally, the recomputed duration, intermediate red commits, no screenshot); one dadaia-workspace law observation (no stated exit for a REJECTED lane) queued for the library; reconcile additions: the 680 px prose cap written as a class literal in the library page and ProjectSections beside PROSE, the README structure line naming specs folders that no longer exist, and the 54 repo units no atom covers (the first-pass worklist); 2 operator questions open: two denylisted names already ship in public content; backlog exits: resume-refinement delivered (0.1.0)"
+    },
+    {
+      "ts": "2026-10-25T17:41:33Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over f0314e187ccdee604122ea9046b8cb5730a36aad..62cb424a019b: 0 reviewed, 10 changed.",
+      "since": "f0314e187ccdee604122ea9046b8cb5730a36aad",
+      "until": "62cb424a019b03df55842b9c0989115da429a962",
+      "reviewed": [],
+      "changed": [
+        "resume-home",
+        "site-chrome",
+        "content-contract",
+        "rand-engine-page",
+        "dadaia-workspace-page",
+        "deploy-infrastructure",
+        "local-servers",
+        "analytics-sdk",
+        "e2e-suite",
+        "legacy-specs"
+      ]
+    },
+    {
+      "ts": "2026-10-25T17:41:58Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-3 Jobs 1-8 merged on the wt-rc (last job merge aa39520, CLOSURE at b00e367): FR1 one authority per content fact (the dead hero, now-panel, label and achievements keys gone from the three locales and ContentData; siteChrome, profile and heroStatsSuffix required in the type; the keys the published v1.json holds kept, v1.json unchanged; Trie Engenharia main; certifications newest first; skill rows keyed by id with the Data platforms rename; the home strings as flat keys under check:i18n-projects parity; i18n-strings.test.tsx split per component); FR2 one 960 px column from lib/layout.ts in SiteLayout, prose 680 px, a footer on every route from siteChrome.footer and profile; FR3 the one-column hero, its stat line derived from content, the story toggle, HeroNowPanel deleted; FR4 frameless employer lines, role articles with one inline Details control, the Earlier line from minor roles, periods localized over Intl by formatPeriod.ts, the impact label from content; FR5 two featured cards and the four-element ProjectCard with its still poster, no video on the home; FR6 Skills as one dl keyed by id, a flat certification list, one education entry; FR7 the home composed Hero > Experience > Projects > Skills > Certifications > Education with no section card or fold, the 56/80 px section rhythm, each smoke spec moved with the element it selected, the README and repo AGENTS.md links fixed; AC7.3 home scrollHeight, PLAN 2.5 script on the Job 8 build (j8-measure.log): 1440x900 pt 3103, en 3103 (target 2700-3300); 390x844 pt 4040, en 3922 (target 3870-4730); as-is by the same method 4525 / 4525 / 6644 / 6572 (j8t1-measure.log, equal to the SPEC figures); AC7.5 the full chromium suite at base f34f33c: 151 passed, 0 failed of 151 tests in 30 files (j8t1-full.log), so the SPEC's 15 pre-existing failures no longer hold at that base and no failing test is named; rc-2's carried AC4.7 and AC5.5 stage evidence, collected 2026-10-25: PR #34 merged into develop as 11ac2bb; deploy run https://github.com/marcoaureliomenezes/portifolio/actions/runs/40194175406 succeeded; stage /projetos/rand-engine answers 200 text/html, and the spec-to-dataframe and init-workspace desktop webm 200 video/webm; stage en.json serves 0.4.7 and no 0.5.0; the stage Playwright pass ran 24/24 OK (2 pages × pt/en/de × 1440/360 × motion/reduced); facts: 13/13 match their sources at tags 0.8.0 and v0.4.7; rulings made during implementation, recorded here and in the commit bodies only, the SPEC and PLAN staying closed: R15 section titles are read as DOM text (textContent) in i18n-no-hardcoded.spec.ts, the title asserts verbatim; Job 3 rework: profile required in the type with its guards gone, and the games empty-state link reads profile.githubUrl; Job 5 rework: the trailing-suffix strip lives in the one parser, and the role article is frameless with an inline Details control; Job 8 folds J8.T8-T10 (one arrow on the All link with literal cover-fallback asserts, the education and Details labels pinned, the games empty-state link tested); DisclosureTrigger deleted once nothing called it; J8.T3-T5 and J8.T10 worked by one agent in one task tree, in commit order; R-F landed as two commits (fa35915, 4d5bc15) because the merge gate refuses a test commit touching source; the rejected i18n registration lane retired at closure by a reset to its base and WT clean, its two items delivered as Arm A (AC4.5, AC4.6); AC2.2's no-literal rule read at reconcile as the production modules under src/ (none holds an email or URL literal), the test files keeping their literal expectations; memory (98b0ef2, f0314e1..62cb424, 10 atoms changed): resume-home added, site-chrome, content-contract, rand-engine-page and dadaia-workspace-page reconciled; by the main thread's ruling every repo unit the drift listed is covered: deploy-infrastructure, local-servers, analytics-sdk, e2e-suite and legacy-specs added and content-contract extended to the public static folders, so the drift lists no uncovered unit; the catalog regenerated; carried: 31 intake items from the rc-3 review rounds (2 MEDIUM, 19 LOW, 10 INFO) in categories: test strength (the one-column hero selector, the CTA and education-label asserts, tombstone and absent-class asserts), test hygiene (committed-content reads duplicated, cwd-relative locale reads, a duplicated contentOf helper, PC-E2E-20 duplicating two specs), code nits (COVER_SIZE, a silent clouds drop, repeated classNames, index keys, fullName against company, four unread label keys, stale docstrings), job-file and commit drift (tasks outside job3.md, the R-F split, four commits without a co-author line, a fold labelled R-M) and evidence notes (AC5.2 proven structurally, the recomputed duration, intermediate red commits, no screenshot); one dadaia-workspace law observation (no stated exit for a REJECTED lane) queued for the library; reconcile additions: the 680 px prose cap written as a class literal in the library page and ProjectSections beside PROSE, the README structure line naming specs folders that no longer exist, deletion candidates for rc-4 found by the memory pass (files with no reader): terraform/_legacy, the terraform/ root tfvars and empty README with the two scripts that target that root (terraform_manager.sh, check_infrastructure.sh), backend/ with build_and_serve.sh and server_manager.sh, 6 of the 15 images in public/images, public/decorators, public/lovable-uploads, the empty tests/e2e/setup folder, img/, and specs-bkp/ once the first pass has read it; one bug proposal for the operator: with VITE_ANALYTICS_ENDPOINT unset (no workflow sets it) the analytics SDK still queues and beacons to an empty URL, while main.tsx documents a silent no-op; 2 operator questions open: two denylisted names already ship in public content; backlog exits: resume-refinement delivered (0.1.0)"
+    },
+    {
+      "ts": "2026-10-25T18:11:45Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-10-25T22:20:28Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-4",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-07T15:02:23Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-4",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-07T15:10:21Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-4 Jobs 1-7 merged on the wt-rc (CLOSURE at 0c30205): FR1 deploy syncs dist/assets/** with the immutable cache and every other file no-cache, and uploads each prerendered route as an extensionless no-cache HTML object in both deploy jobs, with no Terraform or IAM change, the six plain-named SVGs under public/assets renamed to hash names and the hash-name rule held over every file under public/assets; FR2 the post contract (one folder per post, zod-checked front matter, drafts unpublished) and build-blog.mjs after vite build, marked a devDependency, raw HTML escaped, link targets limited to http(s), SiteRelativeUrl and # anchors, image and clip rules with read sizes and posters; FR3 each post's and each of the 4 project pages' own served head, the root head with the default share image and the RSS link; FR4 /blog and /blog/:slug with language tags and the tag filter; FR5 blog/rss.xml and the 1200x630 share image; FR6 the Blog link behind a build-time flag read from the post reader, absent on the committed content: the Blog link waits for the operator's first post; FR7 seeAllProjects required, the hero one-column selector widened, the 19 files and folders with no reader deleted with the Makefile server targets, PROSE the one 680 px cap, the README structure line; the cvUrl hotfix synced from the work branch makes SiteRelativeUrl the one site-relative rule, read by cvUrl and the blog link rule; six blog bugs found and fixed inside the rc (blog-link-rule-admits-protocol-relative-redirects, blog-media-rule-has-two-copies-and-admits-markdown, post-page-blanks-the-head-before-the-post-resolves, blog-default-image-read-skips-the-exactly-once-rule, blog-media-poster-test-spawns-three-builds-and-times-out, blog-link-errors-carry-the-marked-report-suffix), 0 open; AC1.1 and AC1.2 stage evidence is collected after the rc PR merges into develop; memory: blog added, local-servers deleted, content-contract, deploy-infrastructure, site-chrome, legacy-specs, e2e-suite and resume-home reconciled, the README blog note; carried: none; backlog exits: blog-v1 (delivered)"
+    },
+    {
+      "ts": "2026-11-07T15:10:23Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 034d152d1e17b594d760902a7c4fbc190717b422..4b2e2d743ae7: 3 reviewed, 7 changed.",
+      "since": "034d152d1e17b594d760902a7c4fbc190717b422",
+      "until": "4b2e2d743ae75e7168ff53d187d30ddea0aec9f8",
+      "reviewed": [
+        "library-page",
+        "dadaia-workspace-page",
+        "rand-engine-page"
+      ],
+      "changed": [
+        "blog",
+        "content-contract",
+        "deploy-infrastructure",
+        "site-chrome",
+        "legacy-specs",
+        "e2e-suite",
+        "resume-home"
+      ]
+    },
+    {
+      "ts": "2026-11-07T15:16:08Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 034d152d1e17b594d760902a7c4fbc190717b422..82f2c3efd1fa: 3 reviewed, 7 changed.",
+      "since": "034d152d1e17b594d760902a7c4fbc190717b422",
+      "until": "82f2c3efd1fa46dd92b8acd41d4bd3e4d573e231",
+      "reviewed": [
+        "library-page",
+        "dadaia-workspace-page",
+        "rand-engine-page"
+      ],
+      "changed": [
+        "blog",
+        "content-contract",
+        "deploy-infrastructure",
+        "site-chrome",
+        "legacy-specs",
+        "e2e-suite",
+        "resume-home"
+      ]
+    },
+    {
+      "ts": "2026-11-07T17:02:25Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-4 Jobs 1-7 merged on the wt-rc (CLOSURE at 0c30205): FR1 deploy syncs dist/assets/** with the immutable cache and every other file no-cache, and uploads each prerendered route as an extensionless no-cache HTML object in both deploy jobs, with no Terraform or IAM change, the six plain-named SVGs under public/assets renamed to hash names and the hash-name rule held over every file under public/assets; FR2 the post contract (one folder per post, zod-checked front matter, drafts unpublished) and build-blog.mjs after vite build, marked a devDependency, raw HTML escaped, link targets limited to http(s), SiteRelativeUrl and # anchors, image and clip rules with read sizes and posters; FR3 each post's and each of the 4 project pages' own served head, the root head with the default share image and the RSS link; FR4 /blog and /blog/:slug with language tags and the tag filter; FR5 blog/rss.xml and the 1200x630 share image; FR6 the Blog link behind a build-time flag read from the post reader, absent on the committed content: the Blog link waits for the operator's first post; FR7 seeAllProjects required, the hero one-column selector widened, the 19 files and folders with no reader deleted with the Makefile server targets, PROSE the one 680 px cap, the README structure line; the cvUrl hotfix synced from the work branch makes SiteRelativeUrl the one site-relative rule, read by cvUrl and the blog link rule; seven bugs found and fixed inside the rc, 0 open: six blog bugs (blog-link-rule-admits-protocol-relative-redirects, blog-media-rule-has-two-copies-and-admits-markdown, post-page-blanks-the-head-before-the-post-resolves, blog-default-image-read-skips-the-exactly-once-rule, blog-media-poster-test-spawns-three-builds-and-times-out, blog-link-errors-carry-the-marked-report-suffix) and blog-tags-label-unread, fixed at closure by e48d354 after its RED test f81aae4 (PostMeta renders siteChrome.blog.tagsLabel before the tag links); AC1.1 and AC1.2 stage evidence is collected after the rc PR merges into develop; memory: blog added, local-servers deleted, content-contract, deploy-infrastructure, site-chrome, legacy-specs, e2e-suite and resume-home reconciled, the README blog note, then the follow-up 82f2c3e (content-contract drops the unread tagsLabel exception and the blog atom's meta line names the label), its memory pass recorded at 25d1dd5; this entry corrects the 15:10:21Z summary, which named six of the seven bugs and predated 82f2c3e; carried: none; backlog exits: blog-v1 (delivered)"
+    },
+    {
+      "ts": "2026-11-07T17:02:40Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-07T18:45:20Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-5",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-07T23:05:00Z",
+      "agent": "main",
+      "kind": "note",
+      "text": "Operator authorization verbatim: \"Adiar a exclusão (Recommended)\" — AC2.3's first bullet, for content/* only (neither sync writes or deletes content/*), is carried to the switch, the panel's first publish to the portfolio buckets. rc-5 deletes the two --exclude \"content/*\" sync lines, one per deploy job. The schema cp and the schema/* exclusion stay. Reason: Job 6 changes media to a list, and the old content JSON left in the buckets would break the project pages until the panel publishes."
+    },
+    {
+      "ts": "2026-11-10T03:55:06Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-5",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-10T04:03:59Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-5 Jobs 1-7 merged on the wt-rc, each with an APPROVED verdict (CLOSURE at 53c75ad): FR1 zod ^4.6.7, the majors react-router-dom 7.18, vitest and @vitest/coverage-v8 5 and @lhci/cli 0.16 with overrides for what no direct bump clears, frontend/bun.lockb deleted; FR2 the module's two SSM String parameters per environment in us-east-1 (/static-sites/<site>/<env>/bucket and /distribution-id, valued from its own bucket and distribution), each deploy role trusting only its GitHub environment subject by StringEquals (stage, production), and in both deploy jobs one aws s3 cp of the published schema to schema/site-content.schema.json (application/json, no-cache) with the no-cache sync excluding schema/*; FR3 the published schema as JSON Schema 2020-12 at public/schema/site-content.schema.json with no $ref or definitions wrapper, v1.json and the draft-07 export deleted, one regex per URL and email field emitted as its pattern with no format, the SiteRelativeUrl control-character partitions pinned, kindLabels deleted, the certification link one pattern and media a list so every oneOf sits under items with a const, the 35 top-level locale keys declared and .catchall gone; FR4 pypi.tagPrefix and the {version} and {tag} placeholders filled at render from pypi.version, each locale's library blocks holding the version only there, the rendered pages and pin.txt unchanged; FR5 the empty-tags partition of PostMeta, the post reader the one order decider with the blog index's second sort deleted, the docstrings stating only their unit's contract, attribute escaping of & and \" pinned, body headings one level under the title, and one E2E switchLanguage helper replacing every inline switch; one bug found and fixed inside the rc, 0 open: library-scene-second-media-leaves-the-media-column, a REBUILD of the scene's media cell in Job 7 (0a92d60); readings: (a) AC3.2's \"no existing refusal turns into an acceptance\" holds over the listed partitions, which are the PLAN §2.2 regexes; (b) the \"0 read-only\" of AC3.4 and the DoD means no non-const placeholder, and the 19 read-only fields are const by design; (c) the --delete no-cache deploy sync removes the unread bucket object content/schema/v1.json, which has 0 readers; AC2.1-AC2.3 evidence (the plans, the apply run and the stage checks) is collected after the rc PR merges into develop (SPEC Closure) and recorded then as a note; memory: content-contract, deploy-infrastructure, blog, library-page, dadaia-workspace-page, rand-engine-page, scene-media, resume-home and e2e-suite reconciled, site-chrome reviewed, ARCHITECTURE Structure names the export path, the catalog regenerated, the README infra and deploy lines derived; carried: AC2.3's content/* exclusion, carried to the switch under the operator's words \"Adiar a exclusão (Recommended)\" (note 2026-11-07T23:05:00Z), as the backlog entry switch-restores-the-content-exclusion; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-10T04:04:22Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 25d1dd504cd8f21211349d76e9074983771e2bbd..4df7c005f10d: 1 reviewed, 9 changed.",
+      "since": "25d1dd504cd8f21211349d76e9074983771e2bbd",
+      "until": "4df7c005f10d81573c248a23e873a1274a5ed81b",
+      "reviewed": [
+        "site-chrome"
+      ],
+      "changed": [
+        "content-contract",
+        "deploy-infrastructure",
+        "blog",
+        "library-page",
+        "dadaia-workspace-page",
+        "rand-engine-page",
+        "scene-media",
+        "resume-home",
+        "e2e-suite"
+      ]
+    },
+    {
+      "ts": "2026-11-11T03:32:30Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-11T04:12:25Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-6",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-11T14:02:04Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-6",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-11T14:04:26Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-6 Jobs 1-5 merged on the wt-rc, each with an APPROVED verdict (Job 4 2026-11-11T042916Z at 6d7cb85, Job 3 re-review 043009Z at 22974ad after the 042547Z REJECTED round, Job 1 043011Z at 9346e28, Job 5 134925Z at 6ed7ea6, Job 2 135622Z at 044c0d4; CLOSURE at 3aaa6cd), 0 bugs in the ledger; FR1: AC1.1 Email is the linear ^[^@\\s]+@[^@\\s.]+(\\.[^@\\s.]+)+$, the 50 000-dot unit case under 50 ms and nine 50k hostile inputs each under 1 ms at review; AC1.2 a@b..c, a@.b.c and a@b.c. refused, a@b.test and first.last@sub.example.test accepted, zod equal to the emitted pattern with and without u; AC1.3 HttpUrl bounds the port to 1-65535 with no leading zero, ports 0-70000 plus leading zeros 0 mismatches, the pinned literal moved in a test( commit, schema:export regenerated 20 lines and schema:check 0; AC1.4 the locale-parse test requires result.data to equal the file; AC1.5 0 Consumers: hits under scripts/; FR2: AC2.1 the parity CLI fails naming .hero.media[0] when the de copy lacks caption; AC2.2 the install command asserted with toBe; AC2.3 the index case serves oldest first and asserts that order; AC2.4 the label read inside the test, web-first title asserts, 0 J<n>.T<k> titles, E2E 13 passed on chromium; AC2.5 basename; AC2.6 held by the existing absent-root case; AC2.7 a scene with no media renders one child; FR3: AC3.1 the policy test pins the statement keys, the full Action values and the three resources; AC3.2 0 aws_caller_identity hits under terraform/; AC3.3 each deploy job reads vars.S3_BUCKET and vars.DOMAIN once in job-level env and 0 vars expressions sit inside a run: script (10 to 0), its stage check (a green stage deploy run and /schema/site-content.schema.json answering 200) is owed after the rc PR merges into develop, with the deploy run URL; AC3.4 the README prod row names the schema upload; FR4: AC4.1 webServer only when E2E_BASE_URL is unset, the reviewer loaded the config since --list cannot discriminate (webServer null when set); AC4.2 buildBlog exported (build-blog.mjs:105) and called in process, spawns 27 to 3, the four-file vitest 6.42 s to 1.29 s at review, 72 to 73 cases; FR5: AC5.1 lighthouserc.json holds no upload block, npm run lighthouse exit 0, 15 runs, every assertion passes, no upload line; FR6: AC6.1 the panel recipe on the regenerated schema, typesFor 433 fields with 19 read-only, sanity schema validate 0 errors, the panel's status empty before and after; AC6.2 verify exit 0 at every job merge, the rc PR head's run owed with the PR; main-thread rulings for the record (intake 172-178): AC3.3's sentence that the grep finds vars only on env: lines overstates, since the two aws-region with: inputs of configure-aws-credentials match too, and the check is read with the SPEC's own measurable, run: scripts 10 to 0, so those inputs stay (173); J4.T2's assert moves (per-row status, stdout and stderr to toThrow with the CLI's message, the CLI status and output asserted once in the two spawned cases) are ruled by PLAN 2.3 and SPEC AC4.2 bullet 1, both operator-approved 2026-11-11, and job4.md's 'each moves to the same value' misdescribes them (178); job4.md's '64 tests' baseline and build-blog.mjs:100 are stale, the true values are 72 tests and :105 (175); the two denylist fixture swaps of the J1.T2 Email accept row, a@b.test to a@b.test and first.last@sub.example.test to first.last@sub.example.test, the same partitions inside the email carve-out (172, 174); the non-blocking findings stay in the intake for the main thread to group; memory: content-contract, deploy-infrastructure, blog and e2e-suite reconciled, resume-home and site-chrome reviewed (test-only changes), the catalog regenerated; carried: none; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-11T14:04:50Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 66e643f301c7b91e89eee9b89add947e54028d63..8c3aebd8e94b: 2 reviewed, 4 changed.",
+      "since": "66e643f301c7b91e89eee9b89add947e54028d63",
+      "until": "8c3aebd8e94b05659c4e3437a517a66efc45a009",
+      "reviewed": [
+        "resume-home",
+        "site-chrome"
+      ],
+      "changed": [
+        "content-contract",
+        "deploy-infrastructure",
+        "blog",
+        "e2e-suite"
+      ]
+    },
+    {
+      "ts": "2026-11-12T06:48:18Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-12T10:46:19Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-7",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-12T11:20:28Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-7",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-12T11:25:31Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-7 Jobs 1-4 merged on the wt-rc, each with an APPROVED verdict (Job 1 2026-11-12T105556Z at 2cf839a, Job 3 110855Z at da14cb8, Job 4 111523Z at 7ad1b2f, Job 2 re-review 111925Z at 1999256 after the 110414Z REJECTED round at 1bf27e7; CLOSURE at 9600538), 0 bugs in the ledger; FR1: AC1.1 0 tracked files under frontend/vendor, 0 hits of analytics-sdk, track(, VITE_ANALYTICS and sessionStorage under frontend/ outside node_modules and dist, the dependency and its lock entries gone; AC1.2 CodeBlock has no onCopy, link has no action, each wrapper handler keeps its one act; AC1.3 the 13 asserts removed in test( commits under the operator's SPEC approval; FR2: AC2.1 the deploy role sets permissions_boundary to the portifolio-roles-boundary policy, its ARN built from the aws_partition and aws_caller_identity data sources, no literal account id; AC2.2 deployRolePolicy.test.ts compares the deploy role block and the deploy policy block each as one literal; FR3: AC3.1 0 process.chdir in test files; AC3.2 the duplicate order case removed; AC3.3 PC-E2E-35 compares titles with literals; AC3.4 a homeParity case fails on a de copy missing a section media alt; FR4: AC4.1 workflowScripts.test.ts pins 0 ${{ }} expressions inside the run: scripts of ci.yml, ci-weekly.yml, deploy.yml and terraform.yml (6 to 0); AC4.2 ci.yml runs npx playwright install chromium, the plain form, not the channel chrome fallback; FR5: verify exit 0 on the closure memory commit b45e02f in 30.07 s, 60 test files and 953 tests; rc-5 AC1.2 cited: the Lighthouse job of PR #37's CI run 42941220775 passed in 3 m 34 s; deviations from the closed PLAN and SPEC: Job 3's seven tasks and Job 4's two tasks each landed as ordered commits in one task tree, by main-thread ruling (sibling task trees cannot hold order-dependent tasks green); Job 2 was rejected once because the SPEC's premise that the three process.chdir lines were dead was false (the build read its content file relative to the cwd), fixed at the cause by J2.T5 in frontend/scripts/build-blog.mjs (2c5be96, docstrings d903a27), outside the PLAN's write set, by main-thread ruling; J2.T6 (abf5d6e, the one-shot title read of PC-E2E-14 tightened to a literal, since the SPEC's last one-shot read was false) and J2.T7 (1999256, two mock resets that reset nothing) added by ruling; J2.T3 pins the site default title on the projects index because that page sets none of its own; memory: analytics-sdk deleted with its catalog and index rows, site-chrome, library-page, resume-home, deploy-infrastructure, blog and e2e-suite reconciled, content-contract reviewed, the catalog regenerated; carried: open, not done: AC2.3 (terraform.yml dispatched for stage then prod, each plan 0 to add, 1 to change, 0 to destroy with the guard and the apply green, then a green stage deploy run, CI dispatch at the promote after the central panel's bootstrap is applied); AC4.2 and AC5.1 live (the rc PR's CI / E2E job installing Chromium without system deps, and every CI job on the rc PR head, green); rc-5 AC2.1-AC2.3 and rc-6 AC3.3 the prod schema check after the promote; rc-5 AC1.4 the Dependabot read at the promote; next candidate (the tag candidate, intake 213-217): the projects index has no title of its own; the workflow pin test reads a fixed list of four files and misses the run: | # comment, |2-, plain multi-line and bare run: forms; no gated test guards the build-blog content-path fix (a CLI case run from outside frontend/ with absolute --posts and --dist); PC-E2E-22, PC-E2E-23 and the deep-link title asserts pass on the site default title; i18n-projects.spec.ts:106's non-empty check is implied by :105; the policy test reads only the two named blocks, so a new IAM resource elsewhere in the module escapes it; s3:PutObjectAcl is granted (iam.tf, s3_policies.tf) and never used by the deploy, to leave the policy and the boundary; no .gitattributes, so three text-reading tests split on LF; the LibraryProjectTemplate.test.tsx:410 install-command literal; package.json:21's local test:e2e:install keeps --with-deps; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-12T11:25:50Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 6c3613720b299cc77cb28f73b9397921070f1803..f14b31ea70d9: 1 reviewed, 6 changed.",
+      "since": "6c3613720b299cc77cb28f73b9397921070f1803",
+      "until": "f14b31ea70d9ef3b0ba861a5766ca2f96f850781",
+      "reviewed": [
+        "content-contract"
+      ],
+      "changed": [
+        "site-chrome",
+        "library-page",
+        "resume-home",
+        "deploy-infrastructure",
+        "blog",
+        "e2e-suite"
+      ]
+    },
+    {
+      "ts": "2026-11-12T11:44:04Z",
+      "agent": "release.py new",
+      "kind": "note",
+      "text": "Candidate born on 0.1.0 (stacked on the closed prior candidate)"
+    },
+    {
+      "ts": "2026-11-12T22:56:32Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-8",
+      "milestone": "defined",
+      "text": "Candidate defined; phase IMPLEMENTATION."
+    },
+    {
+      "ts": "2026-11-12T23:28:35Z",
+      "agent": "release.py",
+      "kind": "milestone",
+      "candidate": "rc-8",
+      "milestone": "implemented",
+      "text": "Candidate implemented; phase CLOSURE."
+    },
+    {
+      "ts": "2026-11-12T23:31:22Z",
+      "agent": "dd-product-engineer",
+      "kind": "summary",
+      "text": "delivered: rc-8 Jobs 1-4 merged on the wt-rc, each with an APPROVED verdict (Job 1 2026-11-12T230809Z at 70e48de, re-verdict 231414Z at 2d83627 after J1.T5; Job 2 231624Z at 986cb34, re-verdict after rebase 231750Z at 57e6ee3; Job 4 232015Z at 0a48cc2, re-verdict after rebase 232155Z at 5d3334a; Job 3 232029Z at 2dab9ec, re-review 232721Z at 724e8d5 after J3.T4; CLOSURE at 1ced3e4), 0 bugs in the ledger; FR1: AC1.1 workflowScripts.test.ts lists every *.yml and *.yaml under .github/workflows, parses each with yaml declared in devDependencies at ^2.9.0 and reads every string-valued run at any depth, the regex extractor and the four-file list gone; AC1.2 ci-weekly.yml runs npx playwright install chromium with no --with-deps and no webkit, the job and step names and the playwright.config.ts comment name Chromium only; FR2: AC2.1 0 s3:PutObjectAcl grants under terraform/ (2 to 0); AC2.2 the policy test compares the deploy policy and the bucket policy blocks as literals; AC2.3 it pins the module's IAM resource headers to the deploy role and the deploy policy; FR3: AC3.1 ProjectsIndexPage sets the title, description and og tags from projectsV2.index through useDocumentSeo, unit-tested in pt, en and de; AC3.2 layout-shell asserts the index title Projetos; FR4: AC4.1 PC-E2E-22, PC-E2E-23 and E2E-15 compare toHaveTitle against the pt seo.title literals; AC4.2 the implied non-empty assert removed; AC4.3 a buildBlog.test.ts CLI case runs from a temp directory outside frontend/ with absolute --posts and --dist; AC4.4 the install command asserted against its literal; FR5: AC5.1 the root .gitattributes holds * text=auto eol=lf; FR6: verify exit 0 on the closure memory commit 7ae62dd in 34.91 s, 60 test files and 960 tests; deviations from the closed PLAN and SPEC: each job's tasks landed as ordered commits in one task tree (the PLAN seam); J1.T5, by main-thread ruling, deleted the defaults skip the PLAN's seam prescribed (it hid the scripts of a job whose id is defaults; the string check alone keeps the defaults run mapping out) and made step labels unique; J3.T4, by ruling, added the description and og asserts (AC3.1's Test line named only the title) and the locale reset after each case; memory: deploy-infrastructure, e2e-suite, site-chrome and blog reconciled, ARCHITECTURE.md Structure gains the line-endings bullet, library-page and dadaia-workspace-page reviewed, the catalog regenerated; carried: open, not done: AC2.4 (terraform.yml dispatched for stage then prod, each plan 0 to add, 3 to change, 0 to destroy with the guard and the apply green, then a green stage deploy run, CI dispatch at the promote after the central panel's bootstrap is applied; it supersedes rc-7 AC2.3); AC1.2 live (one green weekly or dispatched run of ci-weekly.yml, its run id); AC6.1 on the rc PR (every CI job on its head green); rc-5 AC2.1-AC2.3 and rc-6 AC3.3 the prod schema check after the promote; rc-5 AC1.4 the Dependabot read at the promote; next release (intake 224-225, PLAN 2.7): twelve process.cwd() reads in frontend/src tests resolve files against the cwd (one shared content-path helper would replace them); terraformWorkflow.test.ts still splits the workflow on newlines; a workflow made only of reusable-workflow calls would fail the pin test's at-least-one-script case; the projects and blog index routes have no prerendered static head, so a reader without scripts sees the site default title; the index title carries no brand suffix (a suffixed title needs its own SEO key); the module sets no S3 object-ownership control; the IAM header pin reaches only the module's top-level .tf files and canonically spaced headers, and CI's terraform fmt runs from the env roots, never reaching modules/; backlog exits: none"
+    },
+    {
+      "ts": "2026-11-12T23:31:32Z",
+      "agent": "release.py memory",
+      "kind": "memory",
+      "text": "Memory reconciled over 2d0fe6f8dbb5f7ad47c6d5f86fc4e2085987e44d..8db52a8050e2: 2 reviewed, 4 changed.",
+      "since": "2d0fe6f8dbb5f7ad47c6d5f86fc4e2085987e44d",
+      "until": "8db52a8050e2f610a343791a34e36f1c7df5dc7f",
+      "reviewed": [
+        "library-page",
+        "dadaia-workspace-page"
+      ],
+      "changed": [
+        "deploy-infrastructure",
+        "e2e-suite",
+        "site-chrome",
+        "blog"
+      ]
+    }
+  ]
+}

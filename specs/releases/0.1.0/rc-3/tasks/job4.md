@@ -1,0 +1,17 @@
+# Job 4 — hero
+
+Wave 2, waits on Job 1 (`yearsSince`, the new keys, `PROSE`). Paths are relative to the repo root. Rulings: **R-A** (the "exactly 2 CTAs" assert becomes 1; deleted units' tests leave with them), **R-M** (the asserts on deleted keys leave; PC-E2E-20 leaves its hero-CTA locator), AC7.4 (SMOKE-05). A test task deletes the test before a source task deletes its subject. The `HeroNowPanel` mount goes in T4, the file in T5. Port 5104. Definition of done: `npm --prefix frontend run verify`, `npx vitest run src/components/portfolio/HeroSection.test.tsx`, and the PLAN §2.4 recipe on port 5104: the smoke set plus `projects-cluster/nav-projects.spec.ts`. Hand back the counts and the diff-read of removed or loosened asserts.
+
+| task | who | AC | `W:` | outcome |
+|---|---|---|---|---|
+| J4.T1 | sr | AC3.1, AC3.2 | `frontend/src/components/portfolio/HeroSection.test.tsx` | RED: one column, story toggle, derived stat line, one CTA; the `clouds` and fallback asserts of the moved block leave (R-M) |
+| J4.T2 | sr | AC7.4 | `frontend/tests/e2e/pages/post-strict-flip-smoke.spec.ts`, `frontend/tests/e2e/projects-cluster/nav-projects.spec.ts` | SMOKE-05 clicks the header Projects link; PC-E2E-20 loses the hero-CTA locator (R-A, R-M) |
+| J4.T3 | jr | AC3.3 | `frontend/src/components/portfolio/HeroNowPanel.test.tsx` | `test(J4.T3)` deletes the file with its subject (R-A) |
+| J4.T4 | sr | AC3.1, AC3.2 | `frontend/src/components/portfolio/HeroSection.tsx` | the one-column hero; the stat line derived from content |
+| J4.T5 | jr | AC3.3 | `frontend/src/components/portfolio/HeroNowPanel.tsx` | deleted (its only mount went in T4) |
+
+## Task notes
+
+- **J4.T1.** Fixture: `experiences` with `Trie Engenharia` as `main` (`11-2020 a 05-2021`) and the Senior employer (`05-2021 a Presente`), eleven certifications, a `cloud-providers` row `AWS, Azure, Databricks`. Fixed clock 2026-10-15: the stat line reads `5+ years · 11 certifications · AWS · Azure · Databricks`; at 2026-11-15 `6+`. Story: `resume.full` absent while closed, present after one click on the toggle (`aria-expanded` false then true, label `storyOpen` then `storyClose`); `resume.short` is shown in both states. Outside the toggle and always visible: the stat line, the Download CV link (`a[href="/cv.pdf"][download]`), the LinkedIn, GitHub and Instagram links. Exactly one `a` CTA remains (R-A); no `hero-cta-projects`, no `$ now` panel. `h1#hero-heading` stays.
+- **J4.T2.** SMOKE-05: `page.getByRole('banner').getByRole('link', { name })` where `name` is `siteChrome.nav.projects` read from `public/content/pt.json` (the spec's locale), click, `toHaveURL(/\/projetos/)`. PC-E2E-20 keeps its navigation assert and clicks the same header link; its hero locators go (R-M).
+- **J4.T4.** One `section[aria-labelledby=hero-heading]` of one column: avatar and mono name line, `h1#hero-heading` on `text-hero` (operator ruling 2026-06-11 kept), the stat line, the story (`resume.short`, capped by `PROSE`), the toggle revealing `resume.full` inline, Download CV and the socials. The stat: `n = yearsSince(experiences.filter(main).map(totalPeriod))`, `m = certifications.length`, clouds = `skills.find(id === "cloud-providers").skills.join(" · ")`; the words from `heroStatsSuffix.years` and `.certs`. The section adds no header-height offset of its own (the `main` padding supplies it); a plain `pt-6` gap is fine. `heroStats`, `heroStatsSuffix.clouds`, the `Link`/`FolderKanban` imports and their fallbacks go.

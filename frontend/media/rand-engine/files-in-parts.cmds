@@ -1,0 +1,2 @@
+python -c "from rand_engine import DataGenerator as G;G({'id':{'method':'pk','kwargs':{'start':1}}},seed=1).size(1000).write.format('csv').options(numFiles=3).save('out/clients.csv')"
+ls out/clients

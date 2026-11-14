@@ -1,0 +1,23 @@
+# Job 4 — rand-engine scenes (transcripts and assets)
+
+Wave 2, waits on Job 2 (the pipeline). Disjoint from Job 3 and Job 5. Paths are relative to the repo root. No RED task: AC3.1 is a developer tool and the output is judged by Job 8's contract test and the frames attached here. The page text and wiring are Job 7's. Definition of done: `npm --prefix frontend run verify` (the new files are assets and text only, so it must stay green) plus the checks in Hand-back evidence.
+
+| task | who | AC | `W:` | outcome |
+|---|---|---|---|---|
+| J4.T1 | sr | AC4.1, AC4.2, AC4.3, AC3.1 | `frontend/media/rand-engine/pin.txt`, `frontend/media/rand-engine/spec-to-dataframe.cmds`, `frontend/media/rand-engine/spec-to-dataframe.cast.json`, `frontend/media/rand-engine/files-in-parts.cmds`, `frontend/media/rand-engine/files-in-parts.cast.json`, `frontend/media/rand-engine/try-it.py`, `frontend/media/rand-engine/try-it.cast.json`, `frontend/media/rand-engine/claims.md` | the pin, the scripted commands, the real transcripts, the "Try it" example and the claim-to-source table |
+| J4.T2 | sr | AC4.2, AC3.4, AC3.5 | `frontend/media/rand-engine/related-tables-light.svg`, `frontend/media/rand-engine/related-tables-dark.svg`, `frontend/public/assets/projects/rand-engine/related-tables-*.svg` | animated PK/FK scene, light/dark pair, published under hashed names |
+| J4.T3 | sr | AC4.2, AC3.4, AC3.5 | `frontend/media/rand-engine/event-stream-light.svg`, `frontend/media/rand-engine/event-stream-dark.svg`, `frontend/public/assets/projects/rand-engine/event-stream-*.svg` | animated event-stream scene, pair, published |
+| J4.T4 | jr | AC3.1, AC3.3, AC3.4 | `frontend/public/assets/projects/rand-engine/spec-to-dataframe-*`, `frontend/public/assets/projects/rand-engine/files-in-parts-*` | `media:record` run for both video scenes; 12 hashed files committed within the budgets |
+
+## Task notes
+
+- **J4.T1: pin and truth.** Read PyPI first (`https://pypi.org/pypi/rand-engine/json`, `info.version`): the pin is that version (0.8.0 on 2026-10-24). If it is newer than 0.8.0, record against the newer one and report the moved pin to the main thread (AC4.1). `pin.txt` holds `rand-engine==<version>`. Record in a throwaway venv under `<workspace>/.dadaia/tmp/` (never in the repo) with `NO_RENDER=1 frontend/media/capture.sh rand-engine <scene> <venv-dir>`. Before writing any command, read the real API at the tag: the README example and `docs/` (`git -C repos/rand-engine show <tag>:<path>`), then `help()` of the objects you call. Scenes: `spec-to-dataframe` (the hero loop: a spec, `DataGenerator(spec, seed=…).size(n).get_df()` and the printed head, at or under 44 columns), `files-in-parts` (the write documented in `docs/3_WRITING_FILES.md` with `numFiles=3`, then a real `ls` of the parts). `try-it.py` is the exact code block the page will show; `try-it.cast.json` is its real output, run unchanged. `claims.md` is a table `claim | file:line at the tag`, one row per sentence the four scenes and the example will print or draw. If a scene's subject is not shippable at the pin, stop and send `[SDD BLOCKED]` to the main thread; never invent a feature.
+- **J4.T2 / J4.T3: SVG scenes.** Sources are `frontend/media/rand-engine/<scene>-{light,dark}.svg`; `node frontend/media/record.mjs svg rand-engine <scene>` publishes them as `<scene>-{light,dark}-<h>.svg` and removes any earlier copy. Rules (AC3.4, AC3.5): `viewBox` at most 360 wide, every `font-size` at least 12 units, CSS keyframes only, a `@media (prefers-reduced-motion: reduce)` block that stops the animation, the un-animated state a complete picture, at most 50 KB, amber the one accent, no `prefers-color-scheme` (the pair follows the site toggle). Draw only objects and names that `claims.md` sources at the tag (primary and foreign keys across related tables; the event stream as the pin documents it).
+- **J4.T4.** Run `npm --prefix frontend run media:record -- rand-engine spec-to-dataframe` and `… files-in-parts`. The tool exits non-zero above a budget (webm 300 KB, mp4 400 KB, poster 60 KB); on a failure, shorten the transcript in T1's files, never raise a budget.
+
+## Hand-back evidence
+
+- The pin: the PyPI `info.version` read that day and `pip show` in the throwaway venv; `git -C repos/rand-engine rev-parse <tag>`.
+- One extracted frame per scene (4 PNGs, phone cut for the two videos, SVG rendered at 360 px) pasted by path; the printed JSON of `media:record` (the entries Job 7 pastes); sizes against the budgets; the check that each file's sha256 prefix equals its name.
+- The `viewBox` and the minimum `font-size` of each SVG source; `grep -c 'prefers-reduced-motion'` per SVG.
+- `git grep -n 'DuckDB\|\.generate(\|0\.6\.4' frontend/media/rand-engine` prints nothing.

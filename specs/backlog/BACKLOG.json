@@ -1,0 +1,13 @@
+{
+  "schema": "backlog-v1",
+  "active": [
+    {
+      "id": "switch-restores-the-content-exclusion",
+      "title": "At the switch, the deploy syncs exclude content/* again",
+      "opened": "2026-11-10",
+      "status": "idea",
+      "description": "At the switch, the panel's first publish to this site's buckets, both deploy syncs in .github/workflows/deploy.yml (stage and prod) exclude content/* again, so a deploy never overwrites or deletes content the panel published. Carried from AC2.3 of rc-5: Job 6 made media a list, and the old content JSON left in the buckets would break the project pages until the panel publishes.",
+      "provenance": "Operator, 2026-11-07, rc-5 AC2.3: \"Adiar a exclus\u00e3o (Recommended)\" \u2014 the content/* exclusion is carried to the switch (_RELEASE.json note 2026-11-07T23:05:00Z); an operator-ratified in-release deferral."
+    }
+  ]
+}

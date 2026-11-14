@@ -4,7 +4,7 @@
  * Replaces ProjectsIndexPlaceholder in App.tsx.
  * Renders the /projetos index: a grid of 3 ProjectCards in fixed order.
  *
- * Grid: grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+ * Grid: grid-cols-1 md:grid-cols-2
  * CLS = 0: aspect-ratio is enforced inside ProjectCard via aspect-video on the cover area.
  *
  * No filters/search — out of scope (Phase C spec).
@@ -14,6 +14,7 @@
  */
 
 import { useContent } from "@/hooks/useContent";
+import { useDocumentSeo } from "@/hooks/useDocumentSeo";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import type { ProjectsContentV2 } from "@/types/content";
 
@@ -23,12 +24,13 @@ export function ProjectsIndexPage() {
   // projectsV2 is always defined when this page is rendered (content is fully loaded)
   const projectsV2 = content.projectsV2 as ProjectsContentV2;
   const { index, list } = projectsV2;
+  useDocumentSeo({ title: index.title, description: index.description });
 
   return (
-    <main className="container mx-auto px-4 pb-12 space-y-8 max-w-4xl">
+    <div className="space-y-8">
       {/* Page heading — uses index.title from i18n content */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-primary">{index.title}</h1>
+        <h1 className="text-title-sm md:text-title text-primary">{index.title}</h1>
         {index.description && (
           <p className="text-muted-foreground">{index.description}</p>
         )}
@@ -37,16 +39,15 @@ export function ProjectsIndexPage() {
       {/* Project grid — fixed order: dadaia-workspace, portifolio, tauan-games, rand-engine */}
       <div
         data-testid="projects-grid"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         {list.map((project) => (
           <ProjectCard
             key={project.slug}
             project={project}
-            kindLabels={index.kindLabels}
           />
         ))}
       </div>
-    </main>
+    </div>
   );
 }

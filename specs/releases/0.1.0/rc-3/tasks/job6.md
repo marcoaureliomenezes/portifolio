@@ -1,0 +1,18 @@
+# Job 6 — projects
+
+Wave 2, waits on Job 1 (`seeAllProjects` value, `SectionHeading`). Paths are relative to the repo root. Rulings: **R-P** (SPEC §1 "Still poster"), **R-M** (`FeaturedProjects.test.tsx:52` 3 → 2; the kind and install asserts leave with those elements; the `project-card` count asserts stay). `rand-engine.spec.ts:29-30` asserts the kind chip and the install hint on the card; the consumer sweep missed it, it is moved here under R-M. `kindLabels` stays in content and schema (SPEC §5); only the prop goes. Port 5106. Definition of done: `npm --prefix frontend run verify`, `npx vitest run src/components/projects src/components/portfolio/FeaturedProjects.test.tsx src/pages/projects`, and the PLAN §2.4 recipe on port 5106: the smoke set plus `projects-cluster/index.spec.ts`, `layout-shell.spec.ts`, `rand-engine.spec.ts`, `library-scenes.spec.ts`. Hand back the counts and the diff-read of removed or loosened asserts.
+
+| task | who | AC | `W:` | outcome |
+|---|---|---|---|---|
+| J6.T1 | sr | AC5.2 | `frontend/src/components/projects/__tests__/ProjectCard.test.tsx` | RED: poster `<img>` with width, height and alt; `PyPI <version>`; no kind chip, badges or install hint; no `<video>` |
+| J6.T2 | sr | AC5.1 | `frontend/src/components/portfolio/FeaturedProjects.test.tsx` | RED: two cards in order, the "All →" link, `#projetos-destaque` (the 3 → 2 move, R-M) |
+| J6.T3 | sr | AC5.2 | `frontend/tests/e2e/projects-cluster/rand-engine.spec.ts`, `frontend/tests/e2e/pages/home.spec.ts` | RE-E2E-01 asserts the poster and `PyPI <version>` instead of the chip and install hint (R-M); the home smoke asserts no `video` under `#projetos-destaque` |
+| J6.T4 | sr | AC5.2 | `frontend/src/components/projects/ProjectCard.tsx` | the four-element card |
+| J6.T5 | jr | AC5.1, AC5.2 | `frontend/src/components/portfolio/FeaturedProjects.tsx`, `frontend/src/pages/projects/ProjectsIndexPage.tsx` | two slugs, two columns, `SectionHeading` and "All →"; the `kindLabels` prop is no longer passed |
+
+## Task notes
+
+- **J6.T1.** Fixtures: a library item with `hero.media` of type `video` (`desktop` cut with `poster`, `width`, `height`; `alt`) and `pypi.version`; a meta item with no media and a `card.cover`; a case-study item with neither (gradient placeholder, `data-testid="card-cover-placeholder"`). The poster `<img>` has `src` the cut's `poster`, `width` and `height` of the cut, `alt` the media `alt`, `loading="lazy"`. The library card shows `PyPI 0.8.0`-style text (`PyPI ` plus `pypi.version` of the fixture). Existing cases (title, summary, link, accessible name, no `project-card-stat`) stay.
+- **J6.T2.** Content with four projects; the strip renders `rand-engine` then `dadaia-workspace`; the heading and a link `data-testid="see-all-projects"` to `/projetos` whose text is `seeAllProjects`; grid classes `grid-cols-1 md:grid-cols-2`.
+- **J6.T4.** The poster is `hero.media` when its `type` is `video` (`media.desktop`), else `card.cover`; one `<img>`. Then name (`h3`, `data-testid="project-card-title"`), purpose (`card.summary`, `line-clamp-2`) and, for `kind === "library"`, a mono `PyPI <pypi.version>` line. `KIND_FALLBACK_LABELS`, the `Badge` import, `kindLabels`, the install hint and the hover lift go. The link keeps `data-testid="project-card"`, `aria-label={hero.title}` and the `project_cta` track call. Net lines ≤ 0. Library posters are ≤ 21 KB `.webp` today (rc-2 content): no video bytes on `/`.
+- **J6.T5.** `FEATURED_SLUGS = ["rand-engine", "dadaia-workspace"]`; the heading is `SectionHeading id="featured-projects-heading"` beside the link; `#projetos-destaque` and `featured-projects-grid` stay.

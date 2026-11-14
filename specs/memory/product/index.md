@@ -1,56 +1,89 @@
 ---
 slug: index
-title: Catálogo de Produtos — portifolio
-category: product
-tldr: Portfólio técnico vivo de Marco Aurélio Menezes — Data/AI Engineer. SPA estático React sobre CloudFront/S3, em produção no stage e candidato ao go-live.
-summary: Índice do produto portifolio. Contém visão atômica, usuários-alvo, catálogo de features em produção e mapa de capacidades. Ponto de entrada para self-pull de atoms de feature específicos.
+title: Product catalog
+tldr: Index of every product feature with summaries and context metadata.
+summary: Consolidated view of every product feature. Entry point for self-pulling a specific feature atom. Maintained by dd-product-engineer at each release CLOSURE.
 tags:
   - catalog
   - product
   - index
-agent_tier: self-pull
-token_estimate: 600
-last_updated: "2026-05-17"
-release_origin: foundation
 ---
 
-## Visão atômica
+## Atomic view
 
-`marco-menezes.com` é o **portfólio técnico vivo** de Marco Aurélio Menezes — Data/AI Engineer. Mensagem central: *"Eu construo sistemas — venha ver."* O portfólio é tanto vitrine profissional quanto demonstração técnica auditável — qualquer visitante pode clicar para ver o repo, a infra (Terraform), os custos reais e as decisões.
+The product vision is not documented yet. Describe the project's core purpose here.
 
-Ambiente stage (`stage.marco-menezes.com`) operacional com infra OIDC + CloudFront + ACM provisionada via GitHub Actions. Go-live em produção (`marco-menezes.com`) aguarda release `prod-go-live-v1`.
+## Users
 
-## Usuários
+| User | Description |
+|------|-------------|
+| placeholder | Users not documented yet. Describe who uses the product and how. |
 
-| Usuário | Descrição |
-|---------|-----------|
-| Recrutadores | Recrutadores corporativos, tech, hiring managers em primeiro contato. Buscam validação rápida (10–30s) de senioridade, experiência, certificações, contato. |
-| Comunidade técnica | Peers de engenharia, recrutadores técnicos avançados, contribuidores open source, alunos curiosos. Buscam evidência verificável de "como esse engenheiro pensa e constrói". |
+## Feature catalog
 
-## Catálogo de features
+### blog
 
-| Slug | Título | TL;DR |
-|------|--------|-------|
-| [overview](overview.md) | Product Overview | O que é o portifolio, mensagem central, features P0 entregues e estado atual. |
-| [personas](personas.md) | Personas | Recrutadores e comunidade técnica; como o site atende cada um. |
-| [quality-bar](quality-bar.md) | Quality Bar | Critérios de "pronto" do P0, Lighthouse, i18n, custo e segurança operacional. |
+| slug | title | tldr |
+|------|-------|------|
+| `blog` | Blog | Markdown post folders become per-post HTML, an index and an RSS feed at build time; project heads are prerendered; the Blog link shows once a post is published. |
 
-## Mapa de capacidades
+### content
+
+| slug | title | tldr |
+|------|-------|------|
+| `content-contract` | Content contract | projects.ts is the one project schema, one regex per URL or email field, site-content.schema.json its 2020-12 export; verify checks locales and assets. |
+
+### infra
+
+| slug | title | tldr |
+|------|-------|------|
+| `deploy-infrastructure` | Deploy infrastructure | One Terraform module serves the site from private S3 via CloudFront per env; Actions deploys over OIDC, hashed assets immutable, the rest no-cache. |
+
+### legacy
+
+| slug | title | tldr |
+|------|-------|------|
+| `legacy-specs` | Legacy specs | specs-bkp/ is the pre-canon specs tree kept by specs init; it is reading material only, unread by the site and its gates. |
+
+### media
+
+| slug | title | tldr |
+|------|-------|------|
+| `scene-media` | Scene media pipeline and player | Scenes recorded from a pinned PyPI version, hash-named under byte budgets, played muted and looped, a still under reduced motion. |
+
+### projects
+
+| slug | title | tldr |
+|------|-------|------|
+| `dadaia-workspace-page` | dadaia-workspace project page | The dadaia-workspace library page - version held once in pypi.version, tag v plus it; a hero loop, three scenes, a Try it and facts from the tag. |
+| `library-page` | Library project page layout | The one library page layout - purpose, install line, hero media, scenes, Try it, Why it exists, facts at a tag; versions filled from pypi.version. |
+| `rand-engine-page` | rand-engine project page | The rand-engine library page - version held once in pypi.version, tag equal to it; a hero loop, three scenes, a runnable Try it and tag-sourced facts. |
+
+### quality
+
+| slug | title | tldr |
+|------|-------|------|
+| `e2e-suite` | End-to-end suite | Playwright runs nine smoke specs on every PR and the full suite weekly, against a local server on port 8080 with the pt-BR locale. |
+
+### resume
+
+| slug | title | tldr |
+|------|-------|------|
+| `resume-home` | Resume home | The home is a frameless resume - hero, experience, two projects, skills, certifications, education - numbers derived from content, labels from the locale. |
+
+### site
+
+| slug | title | tldr |
+|------|-------|------|
+| `site-chrome` | Shared site chrome | One header and one footer on every route, one 960 px column with 680 px prose, one type scale, localized chrome strings and <html lang>. |
+
+## Capability map
 
 ```mermaid
-flowchart LR
-  Home["Home\n(Hero + Skills + Experience\n+ Education + Certifications)"]
-  Projects["Projetos\n(/projetos/*)"]
-  Infra["Infra AWS\n(CloudFront + S3 + ACM)"]
-  CI["CI/CD\n(GitHub Actions OIDC)"]
-  Home --> Projects
-  Home --> Infra
-  Infra --> CI
+graph TD
+  A[No data]
 ```
 
-## Limites conhecidos
+## Known limits
 
-- P1 (CMS-lite Lambda Go + Cognito) não implementado — apenas especificado.
-- Idioma `de` em modo manutenção — fallback automático para `en` quando chave faltar.
-- Go-live em produção (`marco-menezes.com`) aguarda release `prod-go-live-v1`.
-- Sem multi-region, WAF, testes de carga/mutação, dashboard de custo em tempo real.
+Limits not documented yet.

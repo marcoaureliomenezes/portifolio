@@ -13,27 +13,15 @@
   "experienceTitle": "Professional Experience",
   "educationTitle": "Education",
   "certificationsTitle": "Certifications",
-  "seeMore": "See more",
-  "seeLess": "See less",
   "responsibilities": "Responsibilities:",
   "technologies": "Technologies:",
-  "validUntil": "Valid until",
-  "viewCredential": "View credential",
-  "issuerLabel": "Issuer",
-  "certSingular": "certification",
-  "certPlural": "certifications",
-  "careerProgression": "Career progression",
-  "roleSingular": "role",
-  "rolePlural": "roles",
-  "viewLarger": "View larger",
   "gamesComingSoon": "Coming soon",
   "gamesComingSoonDesc": "Games will be listed here soon.",
   "notFoundMessage": "Oops! Page not found",
   "returnHome": "Return to Home",
   "heroStatsSuffix": {
     "years": "years",
-    "certs": "certs",
-    "clouds": "clouds"
+    "certs": "certifications"
   },
   "archPage": {
     "infraDiagramTitle": "Infrastructure Diagram",
@@ -55,32 +43,37 @@
     "viewEmail": "Email"
   },
   "heroTagline": "Data Engineering at Scale with AI Augmented Capabilities",
-  "heroStats": {
-    "years": 6,
-    "certifications": 11,
-    "clouds": 4
+  "siteChrome": {
+    "nav": { "label": "Main navigation", "resume": "Resume", "projects": "Projects", "blog": "Blog" },
+    "theme": { "toLight": "Switch to light theme", "toDark": "Switch to dark theme" },
+    "language": { "label": "Select language" },
+    "breadcrumb": { "label": "Breadcrumb", "projects": "Projects" },
+    "backToProjects": "Back to projects",
+    "blog": {
+      "title": "Blog",
+      "intro": "Notes on data engineering and the tools I build.",
+      "empty": "No posts yet.",
+      "tagsLabel": "Tags",
+      "filteredBy": "Posts tagged",
+      "allPosts": "All posts",
+      "back": "Back to the blog"
+    },
+    "footer": {
+      "label": "Site footer",
+      "owner": "Marco Menezes",
+      "email": "Email",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    }
   },
-  "navProjects": "Personal Projects",
   "heroCTAs": {
-    "downloadCv": "Download CV",
-    "seeExperience": "See experience",
-    "seeProjects": "Personal Projects"
+    "downloadCv": "Download CV"
   },
   "resume": {
     "short": "From Mechatronics Engineering labs to leading AI-augmented data pipeline migrations at one of Brazil's largest banks. The path isn't obvious — and that's precisely the point. Most engineers learn data tools. I started with control theory, physics, and embedded systems, which gave me something most data engineers don't have...",
     "full": "I come from Mechatronics Engineering — calculus, physics, control systems, electronics. That's not a detour from data engineering; it's the foundation for how I think about every system I build: analytically, with attention to constraints, trade-offs, and fundamentals.\n\nI started my career as a Data Engineer Jr building pipelines in a fully on-premises Cloudera environment — PySpark, Hive, Shell scripting, Linux. Getting close to the infrastructure layer built a deep instinct for how data actually moves, and where systems break.\n\nIn 2022, everything shifted to Azure and Databricks. I started by helping with migrations and over time I was leading them — pipeline by pipeline, mapping datasets, creating Data Domains, making the architectural decisions that only surface when you move from one paradigm to another. Each migration required optimization, not just translation. To stay grounded in what I was building, I studied cloud architecture intensely and earned multiple certifications along the way. For me, a certification is confirmation I've mastered something, not a badge to collect.\n\nThe AI chapter started in 2023 with GitHub Copilot in personal projects. By 2024, it was integrated into my daily workflow at work. In 2025, I was selected for an internal AI pilot program introducing Devin and Windsurf to our team — and was recognized for adapting faster than most. Today I'm leading large-scale migrations of SAS and PowerCenter pipelines to Databricks, applying AI-augmented development at scale — not as a shortcut, but as a force multiplier for engineering judgment.\n\nOn the personal side, I build with Claude Code and Codex: multi-agent systems, spec-driven development, context engineering. The reason is simple — I want to understand where this is going, and I want to build things that are genuinely useful to people, while sharpening skills that will matter for years.\n\nA few things that define how I work: I always ask what the trade-offs are between approaches before committing. When a problem feels complex, I break it into parts with clear boundaries, solve each one, and reassemble. I use analogies to make the abstract concrete. If a project requires me to learn something new, I see that as the most interesting part — not a cost.\n\nI believe the engineers who will matter most in the next decade are the ones who understand both the craft and the tools well enough to use one to make the other better. That's the direction I'm moving.\n\nOutside work: I play guitar and sing, read whenever I can, and put my family at the center of everything."
   },
   "skills": [
-    {
-      "title": "Languages",
-      "icon": "🌍",
-      "skills": [
-        "Portuguese (Native)",
-        "English (Native or Bilingual)",
-        "German (Full Professional)"
-      ],
-      "id": "languages"
-    },
     {
       "title": "Programming Languages",
       "icon": "💻",
@@ -104,6 +97,18 @@
       "id": "cloud-providers"
     },
     {
+      "title": "Data platforms",
+      "icon": "🏗️",
+      "skills": [
+        "Hadoop",
+        "Hive",
+        "Spark",
+        "Kafka",
+        "Control-M"
+      ],
+      "id": "on-premises-data-technologies"
+    },
+    {
       "title": "AI / Modern Tooling",
       "icon": "🤖",
       "skills": [
@@ -122,18 +127,6 @@
       "id": "ai-modern-tooling"
     },
     {
-      "title": "On-premises Data Technologies",
-      "icon": "🏗️",
-      "skills": [
-        "Hadoop",
-        "Hive",
-        "Spark",
-        "Kafka",
-        "Control-M"
-      ],
-      "id": "on-premises-data-technologies"
-    },
-    {
       "title": "DevOps Technologies",
       "icon": "🔧",
       "skills": [
@@ -146,6 +139,16 @@
         "ServiceNow"
       ],
       "id": "devops-technologies"
+    },
+    {
+      "title": "Languages",
+      "icon": "🌍",
+      "skills": [
+        "Portuguese (Native)",
+        "English (Native or Bilingual)",
+        "German (Full Professional)"
+      ],
+      "id": "languages"
     }
   ],
   "experiences": [
@@ -166,13 +169,6 @@
             "Dissemination of AI tooling practices (GitHub Copilot, Claude Code, Codex) across technical teams in the domain.",
             "Architecture and implementation of streaming pipelines for transactional data replication from IBM DB2 to Amazon Aurora via Kafka/MSK CDC.",
             "Developed Databricks pipelines (medallion architecture) in the Accounts & Fees and Finance business domains."
-          ],
-          "achievements": [
-            "AWS Certified Solutions Architect – Associate",
-            "AWS Certified Data Engineer Associate",
-            "AWS Certified Cloud Practitioner",
-            "AWS Certified AI Practitioner",
-            "Databricks Apache Spark Developer"
           ],
           "skills": [
             "Data Architecture",
@@ -213,11 +209,6 @@
             "Developed pipelines using Databricks (Python, SQL, Scala) and BMC Control-M for orchestration.",
             "Implemented Data Mesh and Medallion architecture for internal systems."
           ],
-          "achievements": [
-            "Databricks Data Engineer Associate",
-            "Microsoft DP-203: Azure Data Engineer Associate",
-            "Microsoft AZ-900, DP-900, SC-900, AI-900"
-          ],
           "skills": [
             "Python",
             "SQL",
@@ -243,9 +234,6 @@
             "Automated file watchers and file transfers using Shell scripting with BMC Control-M orchestration.",
             "Worked in Scrum/Kanban with CI/CD practices."
           ],
-          "achievements": [
-            "Advanced Data Engineer certification in the Santander Data Master program (cash award + additional benefits)"
-          ],
           "skills": [
             "Python",
             "SQL",
@@ -270,7 +258,7 @@
       "fullName": "Trie Engenharia",
       "location": "Belo Horizonte, MG - Brazil (Remote)",
       "totalPeriod": "11-2020 to 05-2021",
-      "type": "minor",
+      "type": "main",
       "roles": [
         {
           "title": "Data Analyst Jr",
@@ -410,17 +398,17 @@
   },
   "certifications": [
     {
-      "name": "AWS Data Engineer",
+      "name": "AWS AI Practitioner",
       "issuer": "Amazon Web Services",
       "category": "AWS",
-      "date": "December 2024",
-      "validity": "December 2027",
-      "level": "Associate",
-      "icon": "images/badges/aws_data_engineer_associate.png",
-      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
-      "description": "Advanced AWS data engineering certification covering pipelines, ETL, storage, and data analysis at scale. Includes services like Glue, Redshift, Kinesis, EMR, and Lake Formation.",
+      "date": "2025",
+      "validity": "2028",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "#",
+      "description": "Foundational certification covering AI and machine learning concepts on AWS, including generative AI, responsible AI, and AWS AI/ML services.",
       "priority": 1,
-      "id": "aws-aws-data-engineer"
+      "id": "aws-aws-ai-practitioner"
     },
     {
       "name": "AWS Solutions Architect",
@@ -436,33 +424,33 @@
       "id": "aws-aws-solutions-architect"
     },
     {
-      "name": "AWS AI Practitioner",
-      "issuer": "Amazon Web Services",
-      "category": "AWS",
-      "date": "2025",
-      "validity": "2028",
-      "level": "Foundational",
-      "icon": "images/badges/aws_practitioner.png",
+      "name": "Curso de Alemão",
+      "issuer": "Instituto de Idiomas",
+      "category": "Languages",
+      "date": "2024",
+      "validity": "Does not expire",
+      "level": "B1",
+      "icon": "",
       "link": "#",
-      "description": "Foundational certification covering AI and machine learning concepts on AWS, including generative AI, responsible AI, and AWS AI/ML services.",
+      "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 3,
-      "id": "aws-aws-ai-practitioner"
+      "id": "languages-curso-de-alemao-nivel-b1"
     },
     {
-      "name": "AWS Cloud Practitioner",
+      "name": "AWS Data Engineer",
       "issuer": "Amazon Web Services",
       "category": "AWS",
-      "date": "July 2024",
-      "validity": "July 2027",
-      "level": "Foundational",
-      "icon": "images/badges/aws_practitioner.png",
-      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
-      "description": "Foundational certification covering AWS Cloud basics, core services, security, architecture, and cost optimization best practices.",
+      "date": "December 2024",
+      "validity": "December 2027",
+      "level": "Associate",
+      "icon": "images/badges/aws_data_engineer_associate.png",
+      "link": "https://www.credly.com/badges/831befd4-10d8-47db-97c7-021b3915be1f/linked_in?t=ss25e1",
+      "description": "Advanced AWS data engineering certification covering pipelines, ETL, storage, and data analysis at scale. Includes services like Glue, Redshift, Kinesis, EMR, and Lake Formation.",
       "priority": 4,
-      "id": "aws-aws-cloud-practitioner"
+      "id": "aws-aws-data-engineer"
     },
     {
-      "name": "Spark Data Engineer Associate",
+      "name": "Spark Data Engineer",
       "issuer": "Databricks",
       "category": "Databricks",
       "date": "September 2024",
@@ -475,7 +463,7 @@
       "id": "databricks-spark-data-engineer-associate"
     },
     {
-      "name": "Spark Developer Associate",
+      "name": "Spark Developer",
       "issuer": "Databricks",
       "category": "Databricks",
       "date": "August 2024",
@@ -488,33 +476,20 @@
       "id": "databricks-spark-developer-associate"
     },
     {
-      "name": "Azure Data Engineer Associate",
-      "issuer": "Microsoft",
-      "category": "Azure",
-      "date": "March 2023",
-      "validity": "March 2025 (expired)",
-      "level": "Associate",
-      "icon": "images/dp-203.png",
-      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
-      "description": "Data engineering certification on Azure, covering Azure Data Factory, Synapse Analytics, Data Lake Storage, and streaming services.",
-      "priority": 9,
-      "id": "azure-azure-data-engineer-associate"
-    },
-    {
-      "name": "Azure Fundamentals",
-      "issuer": "Microsoft",
-      "category": "Azure",
-      "date": "January 2023",
-      "validity": "Does not expire",
-      "level": "Fundamentals",
-      "icon": "images/az-900.png",
-      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
-      "description": "Microsoft Azure fundamental certification covering cloud computing concepts, core services, and pricing models.",
+      "name": "AWS Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "category": "AWS",
+      "date": "July 2024",
+      "validity": "July 2027",
+      "level": "Foundational",
+      "icon": "images/badges/aws_practitioner.png",
+      "link": "https://www.credly.com/badges/7b3fe40d-4525-4b6b-bd1f-be2c90bfbac4/linked_in?t=seidpj",
+      "description": "Foundational certification covering AWS Cloud basics, core services, security, architecture, and cost optimization best practices.",
       "priority": 7,
-      "id": "azure-azure-fundamentals"
+      "id": "aws-aws-cloud-practitioner"
     },
     {
-      "name": "Apache Airflow Fundamentals",
+      "name": "Apache Airflow",
       "issuer": "Astronomer",
       "category": "Others",
       "date": "June 2024",
@@ -527,6 +502,32 @@
       "id": "others-apache-airflow-fundamentals"
     },
     {
+      "name": "Azure Data Engineer",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "March 2023",
+      "validity": "March 2025 (expired)",
+      "level": "Associate",
+      "icon": "images/dp-203.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/30F1ECB9883A367D?sharingId=6EB3B3C8CB10453A",
+      "description": "Data engineering certification on Azure, covering Azure Data Factory, Synapse Analytics, Data Lake Storage, and streaming services.",
+      "priority": 9,
+      "id": "azure-azure-data-engineer-associate"
+    },
+    {
+      "name": "Azure",
+      "issuer": "Microsoft",
+      "category": "Azure",
+      "date": "January 2023",
+      "validity": "Does not expire",
+      "level": "Fundamentals",
+      "icon": "images/az-900.png",
+      "link": "https://learn.microsoft.com/api/credentials/share/pt-br/MarcoAurelioMenezes-1325/597D7B171F02B812?sharingId=6EB3B3C8CB10453A",
+      "description": "Microsoft Azure fundamental certification covering cloud computing concepts, core services, and pricing models.",
+      "priority": 10,
+      "id": "azure-azure-fundamentals"
+    },
+    {
       "name": "Santander Data Engineer",
       "issuer": "Santander Brazil",
       "category": "Data Master",
@@ -536,33 +537,14 @@
       "icon": "images/badges/santander-dea.svg",
       "link": "#",
       "description": "Advanced internal data engineering certification from Santander Brazil. Top 10 ranking after technical case and comprehensive exam covering Big Data, Cloud, and distributed architectures.",
-      "priority": 10,
-      "id": "data-master-santander-data-engineer"
-    },
-    {
-      "name": "Curso de Alemão Nível B1",
-      "issuer": "Instituto de Idiomas",
-      "category": "Languages",
-      "date": "2024",
-      "validity": "Does not expire",
-      "level": "B1",
-      "icon": "",
-      "link": "#",
-      "description": "German language certification at B1 level (Intermediate), demonstrating full professional communication skills in German.",
       "priority": 11,
-      "id": "languages-curso-de-alemao-nivel-b1"
+      "id": "data-master-santander-data-engineer"
     }
   ],
   "projectsV2": {
     "index": {
       "title": "Projects",
-      "description": "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son.",
-      "kindLabels": {
-        "case-study": "Case study",
-        "meta": "Infrastructure",
-        "games": "Games",
-        "library": "Python · PyPI"
-      }
+      "description": "A selection of projects I built — from AI agent ecosystems to data engineering portfolio and games with my son."
     },
     "list": [
       {
@@ -570,11 +552,32 @@
         "kind": "library",
         "hero": {
           "title": "dadaia-workspace",
-          "tagline": "Agent-driven SDD ecosystem — a Python library on PyPI that orchestrates AI agents by specification."
+          "tagline": "A local-first, spec-driven workspace that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries.",
+          "media": [
+            {
+              "type": "video",
+              "alt": "A terminal runs dadaia-workspace init for a directory named demo with the claude harness and prints Harness: claude. Listing demo shows .agents, AGENTS.md, .claude and .dadaia. Running doctor in demo prints exit 0.",
+              "caption": "One command makes a workspace, and doctor exits 0.",
+              "desktop": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-desktop-1af02b68.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-desktop-6d0ae768.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/dadaia-workspace/init-workspace-phone-3c95cfe4.webm",
+                "mp4": "/assets/projects/dadaia-workspace/init-workspace-phone-d0f4bc0f.mp4",
+                "poster": "/assets/projects/dadaia-workspace/init-workspace-phone-537dc10d.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          ]
         },
         "card": {
-          "cover": "/assets/projects/dadaia-workspace/cover.svg",
-          "summary": "Python CLI (PyPI) that turns a directory into a multi-agent workspace: 9 core agents with defined roles and boundaries, collaborating through shared specs across 3 runtimes.",
+          "cover": "/assets/projects/dadaia-workspace/init-workspace-desktop-6b93b4a0.webp",
+          "summary": "Local-first CLI on PyPI: one folder per workspace, six agent harnesses and a lifecycle carried by documents.",
           "tech": [
             "Python",
             "Claude Code",
@@ -584,57 +587,103 @@
           ]
         },
         "seo": {
-          "title": "dadaia-workspace — Marco Menezes",
-          "description": "dadaia-workspace — Python library on PyPI for spec-driven development with collaborative AI agents."
+          "title": "dadaia-workspace, a spec-driven workspace for AI agents — Marco Menezes",
+          "description": "dadaia-workspace is a local-first CLI on PyPI that gives AI agents current context, a document-governed lifecycle and anti-slop boundaries across six harnesses."
         },
-        "diagram": "/assets/projects/dadaia-workspace/architecture-light.svg",
-        "diagramDark": "/assets/projects/dadaia-workspace/architecture-dark.svg",
-        "diagramAlt": "dadaia-workspace architecture diagram: AI agents, project contexts and SDD flow.",
         "pypi": {
           "package": "dadaia-workspace",
-          "version": "0.1.5",
-          "installCommand": "pip install dadaia-workspace"
-        },
-        "stat": {
-          "label": "core agents",
-          "value": "9"
+          "version": "0.4.7",
+          "tagPrefix": "v",
+          "installCommand": "uvx dadaia-workspace init <dir> --harness <name>"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "What is it",
-            "body": "dadaia-workspace is an open-source Python library (PyPI) that orchestrates an ecosystem of AI agents for spec-driven development (SDD). Each agent has a well-defined role and scope — product-engineer, software-engineer, qa-engineer, security-reviewer and more — all collaborating through shared specs and contexts."
+            "id": "demand-to-merge",
+            "title": "Demand to merge",
+            "body": "A picked set goes through a grill, then SPEC, PLAN and TASKS. One task is reserved at a time and is checked off only after the reviewer's APPROVED, then closure merges feature into develop.",
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Demand to merge: picked set, grill, SPEC PLAN TASKS, one reserved task at a time, checked only after APPROVED, then closure with the feature to develop merge",
+                "caption": "Each step waits for the one before it.",
+                "light": "/assets/projects/dadaia-workspace/demand-to-merge-light-eb742783.svg",
+                "dark": "/assets/projects/dadaia-workspace/demand-to-merge-dark-083e75fb.svg"
+              }
+            ]
+          },
+          {
+            "id": "gate-refuses",
+            "title": "The gate refuses",
+            "body": "The pre-gate blocks a dadaia run outside the workspace venv. Its refusal names the blocked command and carries one fix line.",
+            "media": [
+              {
+                "type": "video",
+                "alt": "A terminal makes a workspace named w, then sends the pre-gate a Bash call for dadaia doctor. The gate prints a VENV GUARD refusal that names the blocked command, dadaia doctor, and one fix line, .dadaia/.venv/bin/dadaia doctor.",
+                "caption": "One blocked command, one fix line.",
+                "desktop": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-desktop-73b4eb8d.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-desktop-7598bf67.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-desktop-ec80096d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/dadaia-workspace/gate-refuses-phone-43cf7cc9.webm",
+                  "mp4": "/assets/projects/dadaia-workspace/gate-refuses-phone-e26ac069.mp4",
+                  "poster": "/assets/projects/dadaia-workspace/gate-refuses-phone-3f84164e.webp",
+                  "width": 720,
+                  "height": 900
+                }
+              }
+            ]
+          },
+          {
+            "id": "six-harnesses",
+            "title": "Six harnesses",
+            "body": "The law in AGENTS.md is authored once and read by Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot. A harness differs only in serialization: event names, hook file and answer shape.",
+            "media": [
+              {
+                "type": "svg",
+                "alt": "One law, AGENTS.md, projected into six harnesses: Claude Code, Codex, Kimi Code, Cursor, Devin and GitHub Copilot.",
+                "caption": "One law, six harnesses.",
+                "light": "/assets/projects/dadaia-workspace/six-harnesses-light-5cd46b2d.svg",
+                "dark": "/assets/projects/dadaia-workspace/six-harnesses-dark-04e97be9.svg"
+              }
+            ]
+          },
+          {
+            "id": "try",
+            "title": "Try it",
+            "code": "uvx dadaia-workspace@{version} init demo --harness claude | tail -n 3"
           },
           {
             "id": "why",
             "title": "Why it exists",
-            "body": "Most AI development tools treat agents as generic assistants. dadaia-workspace inverts this: each agent knows its boundaries, reads the specs before acting, and never writes code outside its domain. The result is a reproducible, auditable, and secure workflow."
+            "body": "An agent session needs the current context of one project and clear boundaries. dadaia-workspace binds a session to one project and injects its memory and release state, and a pre-tool gate blocks writes the session may not make, each refusal with one fix line."
           },
           {
-            "id": "how",
-            "title": "How it works",
-            "body": "`pip install dadaia-workspace`, then `dadaia context bind <name>` binds the session to a project context. Each agent reads the corresponding specs, executes its tasks under a deterministic SDD gate (hooks), and reports back. The same agents are projected to 3 runtimes — Claude Code, Codex and OpenCode.",
-            "diagram": "/assets/projects/dadaia-workspace/workspace-panel-01.webp"
-          },
-          {
-            "id": "status",
-            "title": "Current status",
+            "id": "facts",
+            "title": "Facts",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.1.5 (PyPI)"
+                "label": "Language",
+                "value": "Python ^3.12",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/pyproject.toml"
               },
               {
-                "label": "Core agents",
-                "value": "9 (fixed roster + plugins)"
+                "label": "License",
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/LICENSE"
               },
               {
-                "label": "Runtimes",
-                "value": "Claude Code, Codex, OpenCode"
+                "label": "Harnesses",
+                "value": "Claude Code, Codex, Kimi Code, Cursor, Devin, GitHub Copilot",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/blob/{tag}/README.md"
               },
               {
-                "label": "Last milestone",
-                "value": "Cross-platform Linux/macOS/Windows support"
+                "label": "Agent roles",
+                "value": "3: code reviewer, product engineer, software engineer",
+                "href": "https://github.com/marcoaureliomenezes/dadaia-workspace/tree/{tag}/dadaia_workspace/public/agents"
               }
             ]
           }
@@ -652,7 +701,7 @@
           "tagline": "How this site is built, hosted, and maintained."
         },
         "card": {
-          "cover": "/assets/projects/portifolio/cover.svg",
+          "cover": "/assets/projects/portifolio/cover-541d649e.svg",
           "summary": "Portfolio site built with React + Vite, hosted on AWS with S3 + CloudFront + Route53, with CI/CD pipeline via GitHub Actions + OIDC.",
           "tech": [
             "React",
@@ -666,7 +715,7 @@
           "title": "Portfolio Architecture — Marco Menezes",
           "description": "Stack, terraform infra, monthly costs, and architectural decisions for marco-menezes.com."
         },
-        "diagram": "/assets/projects/portifolio/architecture-light.svg",
+        "diagram": "/assets/projects/portifolio/architecture-light-ebbd2299.svg",
         "diagramAlt": "Portfolio infrastructure diagram: S3, CloudFront, Route53, GitHub Actions CI/CD.",
         "sections": [
           {
@@ -755,7 +804,7 @@
           "terraform": "https://github.com/marcoaureliomenezes/portifolio/tree/main/terraform",
           "specs": "https://github.com/marcoaureliomenezes/portifolio/tree/main/specs"
         },
-        "diagramDark": "/assets/projects/portifolio/architecture-dark.svg"
+        "diagramDark": "/assets/projects/portifolio/architecture-dark-dd11b504.svg"
       },
       {
         "slug": "tauan-games",
@@ -765,7 +814,7 @@
           "tagline": "Games built at home with my son Tauan."
         },
         "card": {
-          "cover": "/assets/projects/tauan-games/cover.svg",
+          "cover": "/assets/projects/tauan-games/cover-96c63ff3.svg",
           "summary": "Two browser games built with Three.js and Phaser together with my son Tauan — an aerial shooter and a recreation of the dinosaur game.",
           "tech": [
             "Three.js",
@@ -784,7 +833,7 @@
             "slug": "aero-fighters",
             "title": "Aero Fighters",
             "engine": "Three.js",
-            "cover": "/assets/projects/tauan-games/aero-fighters-cover.svg",
+            "cover": "/assets/projects/tauan-games/aero-fighters-cover-8145e44e.svg",
             "body": "An aerial shooter built with Three.js. Born from the desire to create something playable together with Tauan, exploring basic physics, sprites, and keyboard controls in the browser.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/aero-fighters/"
@@ -793,7 +842,7 @@
             "slug": "tauan-trex",
             "title": "tauan-trex",
             "engine": "Phaser",
-            "cover": "/assets/projects/tauan-games/tauan-trex-cover.svg",
+            "cover": "/assets/projects/tauan-games/tauan-trex-cover-815faa2e.svg",
             "body": "A recreation of the classic Chrome dinosaur game with Phaser, personalised with elements designed by Tauan. A weekend project to learn keyboard events and animation.",
             "repo": "https://github.com/marcoaureliomenezes/tauan-games",
             "playUrl": "https://marcoaureliomenezes.github.io/tauan-games/tauan-trex/"
@@ -805,81 +854,143 @@
         "kind": "library",
         "hero": {
           "title": "rand-engine",
-          "tagline": "High-performance Python library for synthetic data generation at scale — Pandas, Spark and DuckDB."
+          "tagline": "Synthetic data from a declarative spec, for batch and streaming.",
+          "media": [
+            {
+              "type": "video",
+              "alt": "A terminal runs one Python command. It builds a DataGenerator from a two-column spec, age as an integer from 18 to 80 and plan as free or pro, with seed 42 and 5 rows, and prints a table with the columns age and plan and 5 rows.",
+              "caption": "A spec in, a seeded DataFrame out.",
+              "desktop": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-desktop-e74c34e8.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-desktop-489d4b89.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+                "width": 1280,
+                "height": 720
+              },
+              "phone": {
+                "webm": "/assets/projects/rand-engine/spec-to-dataframe-phone-1fc783d3.webm",
+                "mp4": "/assets/projects/rand-engine/spec-to-dataframe-phone-d7161094.mp4",
+                "poster": "/assets/projects/rand-engine/spec-to-dataframe-phone-f8b4b0d3.webp",
+                "width": 720,
+                "height": 900
+              }
+            }
+          ]
         },
         "card": {
-          "cover": "/assets/projects/rand-engine/cover.webp",
-          "summary": "Generates realistic synthetic data in seconds. Native Pandas and Spark support, 17+ ready-made specs, FK/PK constraint system and reproducible seeding.",
+          "cover": "/assets/projects/rand-engine/spec-to-dataframe-desktop-28e213b0.webp",
+          "summary": "Seeded, reproducible DataFrames, related tables, files and event streams from a declarative spec.",
           "tech": [
             "Python",
-            "Pandas",
-            "PySpark",
-            "DuckDB",
-            "NumPy"
+            "NumPy",
+            "pandas"
           ]
         },
         "seo": {
           "title": "rand-engine — Marco Menezes",
-          "description": "rand-engine — open-source Python library on PyPI for synthetic data generation at scale with Pandas and Spark."
+          "description": "rand-engine — open-source Python library on PyPI that generates seeded synthetic data from a declarative spec."
         },
-        "diagram": "/assets/projects/rand-engine/architecture-light.svg",
-        "diagramDark": "/assets/projects/rand-engine/architecture-dark.svg",
-        "diagramAlt": "rand-engine architecture diagram: declarative specs, NumPy generators and Pandas/Spark output.",
         "pypi": {
           "package": "rand-engine",
-          "version": "0.6.4",
+          "version": "0.8.0",
           "installCommand": "pip install rand-engine"
-        },
-        "stat": {
-          "label": "rows/s (Spark)",
-          "value": "5.1M"
         },
         "sections": [
           {
-            "id": "what",
-            "title": "What is it",
-            "body": "rand-engine is an open-source Python library for synthetic data generation at scale. It supports Pandas (local) and Spark (distributed), with 17+ ready-made specs — customers, orders, products, employees and more. Published on PyPI with 494 automated tests under the MIT license."
+            "id": "related-tables",
+            "title": "Related tables",
+            "body": "Related tables share the parent's pk spec with the child's fk, so keys stay consistent. Here orders.customer_id is an fk to the customer_id pk of customers.",
+            "media": [
+              {
+                "type": "svg",
+                "alt": "Two tables. The customers table has customer_id, marked pk, and city, with rows 1 Rio, 2 Recife and 3 Rio. The orders table has order_id, marked pk, and customer_id, marked fk, with orders 1, 2 and 3 pointing at customers 2, 1 and 2.",
+                "caption": "orders.customer_id is a foreign key to customers.customer_id. The rows drawn are illustrative.",
+                "light": "/assets/projects/rand-engine/related-tables-light-d0080420.svg",
+                "dark": "/assets/projects/rand-engine/related-tables-dark-096fac75.svg"
+              }
+            ]
+          },
+          {
+            "id": "event-stream",
+            "title": "Event streams",
+            "body": "stream_dict yields an infinite generator of dicts, and the caller stops it. Its event_id is a pk that continues across microbatches, so its values never repeat.",
+            "media": [
+              {
+                "type": "svg",
+                "alt": "A generator built with DataGenerator(spec, seed=1).size(10).stream_dict() emits records one after another, with event_id 1, 2, 3 and 4, each beside a timestamp_created field, and a label says that it never ends.",
+                "caption": "Each record carries the next event_id, and the stream never ends.",
+                "light": "/assets/projects/rand-engine/event-stream-light-439624ee.svg",
+                "dark": "/assets/projects/rand-engine/event-stream-dark-6ccf0809.svg"
+              }
+            ]
+          },
+          {
+            "id": "files-in-parts",
+            "title": "Files in parts",
+            "body": "Writing with numFiles above 1 saves a folder of part files instead of one file. The pk values never repeat between parts.",
+            "media": [
+              {
+                "type": "video",
+                "alt": "A terminal runs one Python command that writes 1000 rows of a pk column named id to a CSV file with numFiles set to 3. A second command lists the output folder, which holds three files named part_, an id and .csv.",
+                "caption": "One save, three part files.",
+                "desktop": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-desktop-4ff6ac5a.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-desktop-b405c89e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-desktop-09e9c06d.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                "phone": {
+                  "webm": "/assets/projects/rand-engine/files-in-parts-phone-74531a5b.webm",
+                  "mp4": "/assets/projects/rand-engine/files-in-parts-phone-046e021e.mp4",
+                  "poster": "/assets/projects/rand-engine/files-in-parts-phone-32ff811b.webp",
+                  "width": 720,
+                  "height": 900
+                }
+              }
+            ]
+          },
+          {
+            "id": "try",
+            "title": "Try it",
+            "code": "from rand_engine import DataGenerator\n\nspec = {\n    \"user_id\": {\"method\": \"int_zfilled\", \"kwargs\": {\"length\": 8}},\n    \"age\": {\"method\": \"integers\", \"kwargs\": {\"min\": 18, \"max\": 80}},\n    \"plan\": {\"method\": \"distincts_prop\", \"kwargs\": {\"distincts\": {\"free\": 8, \"pro\": 2}}},\n    \"signup\": {\"method\": \"dates\", \"kwargs\": {\"start\": \"2024-01-01\", \"end\": \"2024-12-31\"}},\n}\n\ndf = DataGenerator(spec, seed=42).size(1_000).get_df()\nprint(df.head())\n"
           },
           {
             "id": "why",
             "title": "Why it exists",
-            "body": "Testing ETL/ELT pipelines demands realistic data without exposing sensitive information. Generic tools like Faker have no native DataFrame support and no key constraints. rand-engine solves this with a declarative API that produces production-scale volumes in seconds."
+            "body": "Pipelines need test data, with nulls and anomalies on demand. Related tables keep their pk and fk keys consistent across batches, streams and files."
           },
           {
-            "id": "how",
-            "title": "How it works",
-            "body": "`pip install rand-engine`. Define a spec (schema + constraints), call `.generate(n_rows)` and receive a Pandas or Spark DataFrame. The `seed` parameter guarantees reproducibility. Native export to CSV, Parquet and JSON with compression. Performance: ~12K rows/s locally; 5.1M rows/s on Databricks Spark."
-          },
-          {
-            "id": "status",
-            "title": "Current status",
+            "id": "facts",
+            "title": "Facts",
             "items": [
               {
-                "label": "Version",
-                "value": "v0.6.4 (PyPI)"
+                "label": "Language",
+                "value": "Python >=3.10",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
-                "label": "Tests",
-                "value": "494 passing"
-              },
-              {
-                "label": "Local performance",
-                "value": "~12K rows/s"
-              },
-              {
-                "label": "Spark performance",
-                "value": "5.1M rows/s (Databricks)"
+                "label": "pandas",
+                "value": "^2.2.2",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
               },
               {
                 "label": "License",
-                "value": "MIT"
+                "value": "MIT",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/pyproject.toml"
+              },
+              {
+                "label": "Speed (CI runner)",
+                "value": "1,000,000 integers in 0.006 s, 10,000,000 in 0.041 s",
+                "href": "https://github.com/marcoaureliomenezes/rand_engine/blob/{tag}/docs/BENCHMARKS.md"
               }
             ]
           }
         ],
         "links": {
           "repo": "https://github.com/marcoaureliomenezes/rand_engine",
-          "pypi": "https://pypi.org/project/rand-engine/"
+          "pypi": "https://pypi.org/project/rand-engine/",
+          "docs": "https://marcoaureliomenezes.github.io/rand_engine/"
         }
       }
     ]
@@ -890,14 +1001,16 @@
     "copyLabel": "Copy command",
     "copiedLabel": "Copied",
     "linkPypi": "PyPI",
-    "linkDocs": "Docs"
+    "linkDocs": "Docs",
+    "howTitle": "How it works",
+    "factsTitle": "Facts"
   },
   "featuredProjectsTitle": "Featured Projects",
-  "seeAllProjects": "See all projects",
-  "nowPanel": {
-    "title": "now",
-    "currentRole": "current role",
-    "latestCert": "latest certification",
-    "latestProject": "latest project"
-  }
+  "seeAllProjects": "All →",
+  "earlierLabel": "Earlier",
+  "detailsOpen": "Details +",
+  "detailsClose": "Details −",
+  "storyOpen": "Read the story",
+  "storyClose": "Hide the story",
+  "impactLabel": "Impact"
 }

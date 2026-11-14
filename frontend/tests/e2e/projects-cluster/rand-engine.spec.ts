@@ -7,8 +7,14 @@
  *   3. Install block + PyPI/GitHub links render
  *   4. PT → EN language switch keeps /projetos/rand-engine alive (no 404)
  */
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+
+const { pypi, hero } = JSON.parse(
+  readFileSync(fileURLToPath(new URL('../../../public/content/en.json', import.meta.url)), 'utf8'),
+).projectsV2.list.find((p: { slug: string }) => p.slug === 'rand-engine');
 
 test.describe('rand-engine — library project smoke', () => {
   test('RE-E2E-01: /projetos renders the rand-engine card', async ({ page }) => {
@@ -19,11 +25,9 @@ test.describe('rand-engine — library project smoke', () => {
     await expect(card).toHaveCount(1);
     await expect(card).toBeVisible();
 
-    // Library card signal: kind chip + install hint visible without clicking
-    await expect(card.locator('[data-testid="project-card-kind"]')).toBeVisible();
-    await expect(card.locator('[data-testid="project-card-install"]')).toContainText(
-      'pip install rand-engine',
-    );
+    // Library card signal: still poster + PyPI version visible without clicking
+    await expect(card.locator(`img[src="${hero.media[0].desktop.poster}"]`)).toBeVisible();
+    await expect(card).toContainText(`PyPI ${pypi.version}`);
   });
 
   test('RE-E2E-02: detail page renders Library template without 404', async ({ page }) => {
@@ -40,7 +44,10 @@ test.describe('rand-engine — library project smoke', () => {
     await expect(page.locator('[data-testid="install-command"]')).toContainText(
       'pip install rand-engine',
     );
-    await expect(page.locator('[data-testid="library-version"]')).toContainText('0.6.4');
+    await expect(page.locator('[data-testid="library-version"]')).toContainText(pypi.version);
+    await expect(
+      page.locator('[data-testid="project-section"] h2', { hasText: ` · rand-engine ${pypi.version}` }),
+    ).toBeVisible();
     await expect(
       page.locator('[data-testid="project-section"]').first(),
     ).toBeVisible();

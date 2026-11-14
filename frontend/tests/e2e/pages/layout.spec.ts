@@ -4,7 +4,7 @@
  * These tests catch regressions that unit tests cannot observe:
  *   - Header height on mobile (must not be a 240px LinkedIn-style banner)
  *   - Absence of avatar inside the mobile header
- *   - Hamburger button presence on mobile
+ *   - Phone nav row under the name, no menu button
  *   - Body content centered on desktop (not left-flush)
  *   - No visible sidebar on mobile (AppSidebar is hidden md:flex)
  *   - Main element width matches viewport on mobile
@@ -29,9 +29,9 @@ const MOBILE = { width: 390, height: 844 };
 const DESKTOP = { width: 1280, height: 800 };
 
 // ---------------------------------------------------------------------------
-// Test 1 — Mobile header is slim (≤ 80 px), no avatar, hamburger visible
+// Test 1 — Mobile header is slim (≤ 80 px), no avatar, nav row visible
 // ---------------------------------------------------------------------------
-test('T-LAY-01: mobile header height ≤ 80 px, no avatar, hamburger present', async ({ browser }) => {
+test('T-LAY-01: mobile header height ≤ 80 px, no avatar, nav row present', async ({ browser }) => {
   const ctx = await browser.newContext({ viewport: MOBILE });
   const page = await ctx.newPage();
 
@@ -59,9 +59,12 @@ test('T-LAY-01: mobile header height ≤ 80 px, no avatar, hamburger present', a
     'Avatar image must not appear inside the header on mobile',
   ).toBe(0);
 
-  // Hamburger button is visible — NavAnchors renders aria-label="Menu"
-  const hamburger = page.locator('button[aria-label="Menu"]');
-  await expect(hamburger).toBeVisible();
+  // Phone nav row: both links visible inside the header, below the name; no menu button
+  const nav = header.locator('nav[aria-label="Navegação principal"]');
+  await expect(nav).toBeVisible();
+  await expect(nav.locator('a[href="/"]')).toBeVisible();
+  await expect(nav.locator('a[href="/projetos"]')).toBeVisible();
+  await expect(page.locator('button[aria-label="Menu"]')).toHaveCount(0);
 
   await ctx.close();
 });
@@ -145,7 +148,7 @@ test('T-LAY-04: hero heading visible on mobile, top > 60 px (below the fixed hea
   await expect(heroHeading).toBeVisible();
 
   // getBoundingClientRect().top should be below the 64 px mobile header
-  // (Portfolio adds pt-16 = 64 px top padding; the H1 sits inside the section).
+  // (SiteLayout's main padding, var(--header-h), is the offset; the H1 sits inside the section).
   const heroTop = await heroHeading.evaluate((el) => {
     return el.getBoundingClientRect().top;
   });
@@ -213,7 +216,7 @@ test('T-LAY-06: #certificacoes visible on mobile, no child overflows viewport wi
   const certSection = page.locator('#certificacoes');
   await certSection.scrollIntoViewIfNeeded();
 
-  // The section must be visible (MobileCollapsibleSection renders it)
+  // The section must be visible
   await expect(certSection).toBeVisible();
 
   // No child element should overflow the viewport horizontally
@@ -239,3 +242,20 @@ test('T-LAY-06: #certificacoes visible on mobile, no child overflows viewport wi
 
   await ctx.close();
 });
+
+// ---------------------------------------------------------------------------
+// Test 7 — Exactly one contentinfo landmark (the site footer) on every route
+// ---------------------------------------------------------------------------
+for (const path of ['/', '/projetos', '/projetos/dadaia-workspace', '/rota-inexistente']) {
+  test(`T-LAY-07: exactly one contentinfo landmark on ${path}`, async ({ browser }) => {
+    const ctx = await browser.newContext({ viewport: DESKTOP });
+    const page = await ctx.newPage();
+
+    await page.goto(BASE + path);
+    await page.waitForLoadState('networkidle');
+
+    await expect(page.getByRole('contentinfo')).toHaveCount(1);
+
+    await ctx.close();
+  });
+}

@@ -21,7 +21,8 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
-import { expandSeniorRole as sharedExpandSeniorRole, switchLanguage as sharedSwitchLanguage } from '../fixtures/experience-helpers';
+import { expandSeniorRole as sharedExpandSeniorRole, roleDetailsButton } from '../fixtures/experience-helpers';
+import { switchLanguage } from '../fixtures/language';
 
 // ---------------------------------------------------------------------------
 // Locale-specific expected text for the highlight block
@@ -59,7 +60,6 @@ const LOCALE_HIGHLIGHT = [
 // ---------------------------------------------------------------------------
 // Helpers: thin wrappers over shared helpers (kept for signature compat)
 // ---------------------------------------------------------------------------
-const switchLanguage = sharedSwitchLanguage;
 const expandSeniorRole = (page: Page, seniorPattern: RegExp) =>
   sharedExpandSeniorRole(page, seniorPattern);
 
@@ -206,11 +206,7 @@ test('HP-05: HighlightProjectBlock does NOT render for Pleno Santander role', as
 
   // Expand the Pleno role (second role in Santander multi-role card)
   // The trigger contains "Pleno" in PT
-  const plenoTrigger = section
-    .locator('button, [role="button"]')
-    .filter({ hasText: /Pleno/ })
-    .filter({ visible: true })
-    .first();
+  const plenoTrigger = roleDetailsButton(page, /Pleno/);
 
   // If the Pleno trigger is not found (different locale fallback), skip gracefully
   if (!(await plenoTrigger.isVisible().catch(() => false))) {
@@ -258,9 +254,9 @@ test('HP-06: no financial value (R$) appears anywhere on the page', async ({ pag
   await section.scrollIntoViewIfNeeded();
 
   const triggers = section
-    .locator('button, [role="button"]')
+    .locator('[data-testid="role"]')
     .filter({ hasText: /Sênior|Senior|Pleno|Júnior|Junior/ })
-    .filter({ visible: true });
+    .getByRole('button', { name: /^(Details|Detalhes)/ });
   const count = await triggers.count();
   for (let i = 0; i < count; i++) {
     await triggers.nth(i).click().catch(() => {});
@@ -293,9 +289,7 @@ test('HP-08: screenshot evidence — HighlightProjectBlock visible in Senior car
   await page.goto(ROUTES.home);
 
   // Enable dark mode
-  const themeToggle = page
-    .locator('[aria-label*="dark"], [aria-label*="Dark"], [aria-label*="tema"], [aria-label*="theme"]')
-    .first();
+  const themeToggle = page.getByRole('banner').getByRole('switch');
   if (await themeToggle.isVisible().catch(() => false)) {
     await themeToggle.click();
   } else {

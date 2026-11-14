@@ -12,7 +12,7 @@ env:
 
 jobs:
   full-e2e:
-    name: Full E2E — Chromium + WebKit
+    name: Full E2E — Chromium
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -31,9 +31,9 @@ jobs:
         working-directory: frontend
         run: npm run build
 
-      - name: Install Playwright (Chromium + WebKit)
+      - name: Install Playwright (Chromium)
         working-directory: frontend
-        run: npx playwright install --with-deps chromium webkit
+        run: npx playwright install chromium
 
       - name: Run full E2E suite
         working-directory: frontend

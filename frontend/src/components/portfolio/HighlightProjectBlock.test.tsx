@@ -32,29 +32,38 @@ const minimalHighlight: HighlightProject = {
 
 describe("HighlightProjectBlock", () => {
   it("renders the title", () => {
-    render(<HighlightProjectBlock highlight={fullHighlight} />);
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     expect(screen.getByText("Migração SAS → Azure + Databricks")).toBeInTheDocument();
   });
 
   it("renders the body paragraph", () => {
-    render(<HighlightProjectBlock highlight={fullHighlight} />);
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     expect(screen.getByText(/Conduzindo solo/)).toBeInTheDocument();
   });
 
   it("renders all impact items as list", () => {
-    render(<HighlightProjectBlock highlight={fullHighlight} />);
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     expect(screen.getByText("Redução do tempo de migração: 12 meses → 2 meses (SLA de execução do projeto)")).toBeInTheDocument();
     expect(screen.getByText("Execução solo viabilizada por AI-augmented engineering")).toBeInTheDocument();
   });
 
   it("renders the impact badge with aria-label", () => {
-    render(<HighlightProjectBlock highlight={fullHighlight} />);
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     const impactBadge = screen.getByLabelText("Impacto");
     expect(impactBadge).toBeInTheDocument();
   });
 
+  it.each([
+    ["en", "Impact"],
+    ["de", "Wirkung"],
+  ])("renders the impact badge text and accessible name in %s", (_lang, word) => {
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel={word} />);
+    expect(screen.getByLabelText(word)).toHaveTextContent(word);
+    expect(screen.queryByLabelText("Impacto")).not.toBeInTheDocument();
+  });
+
   it("renders links when provided", () => {
-    render(<HighlightProjectBlock highlight={fullHighlight} />);
+    render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     const link = screen.getByRole("link", { name: "Ver detalhes" });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "https://example.com/project");
@@ -63,24 +72,24 @@ describe("HighlightProjectBlock", () => {
   });
 
   it("does not render links section when links are absent", () => {
-    render(<HighlightProjectBlock highlight={minimalHighlight} />);
+    render(<HighlightProjectBlock highlight={minimalHighlight} impactLabel="Impacto" />);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("does not render impact section when impact is absent", () => {
-    render(<HighlightProjectBlock highlight={minimalHighlight} />);
+    render(<HighlightProjectBlock highlight={minimalHighlight} impactLabel="Impacto" />);
     // No list items expected
     expect(screen.queryByRole("list")).not.toBeInTheDocument();
   });
 
   it("renders title and body even without optional fields", () => {
-    render(<HighlightProjectBlock highlight={minimalHighlight} />);
+    render(<HighlightProjectBlock highlight={minimalHighlight} impactLabel="Impacto" />);
     expect(screen.getByText("Projeto Mínimo")).toBeInTheDocument();
     expect(screen.getByText("Descrição do projeto mínimo.")).toBeInTheDocument();
   });
 
   it("has the accent-subtle background container", () => {
-    const { container } = render(<HighlightProjectBlock highlight={fullHighlight} />);
+    const { container } = render(<HighlightProjectBlock highlight={fullHighlight} impactLabel="Impacto" />);
     const block = container.firstElementChild;
     expect(block?.className).toContain("bg-accent-subtle");
   });

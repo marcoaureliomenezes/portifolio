@@ -1,0 +1,17 @@
+{
+  "pin": "dadaia-workspace==0.4.7",
+  "steps": [
+    {
+      "cmd": "dadaia-workspace init demo --harness claude | grep Harness",
+      "out": "Harness: claude"
+    },
+    {
+      "cmd": "ls -A demo",
+      "out": ".agents\nAGENTS.md\n.claude\n.dadaia"
+    },
+    {
+      "cmd": "cd demo && dadaia-workspace doctor; echo exit $?",
+      "out": "exit 0"
+    }
+  ]
+}

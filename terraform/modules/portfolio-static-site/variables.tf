@@ -63,3 +63,14 @@ variable "backup_retention_days" {
     error_message = "backup_retention_days deve estar entre 1 e 365."
   }
 }
+
+variable "site" {
+  description = "Nome do site nos parametros SSM /static-sites/<site>/<environment>/ (padrao: nome do repositorio)"
+  type        = string
+  default     = "portifolio"
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]+$", var.site))
+    error_message = "site deve conter apenas letras minusculas, digitos e hifen."
+  }
+}

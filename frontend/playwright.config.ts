@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Smoke gate: 9 files that verify the site loads and core UX works.
-// Used in CI on every push. Full suite runs in ci-weekly.yml.
+// Used in CI on pull requests. Full suite runs in ci-weekly.yml.
 const SMOKE_SPECS = [
   'tests/e2e/pages/health.spec.ts',
   'tests/e2e/pages/home.spec.ts',
@@ -33,8 +33,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
-  // CI: Chromium only — personal portfolio, no browser-support SLA.
-  // Local / weekly: full 5-browser matrix.
+  // CI, the weekly run included: Chromium only — personal portfolio, no browser-support SLA.
+  // Local: full 5-browser matrix.
   projects: isCI ? [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ] : [
@@ -44,7 +44,7 @@ export default defineConfig({
     { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
     { name: 'mobile-safari', use: { ...devices['iPhone 12'] } },
   ],
-  webServer: {
+  webServer: process.env.E2E_BASE_URL ? undefined : {
     // CI: dist/ is downloaded from the build artifact before Playwright runs —
     //     just start the preview server, no rebuild.
     // Local: start Vite dev server (or reuse if already running).

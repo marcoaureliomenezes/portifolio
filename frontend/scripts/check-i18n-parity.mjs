@@ -7,6 +7,7 @@
  *   2. No empty/whitespace strings in i18n fields.
  *   3. No sensitive infrastructure identifiers leaked into content strings
  *      (AC-PC-15 redaction lint).
+ * It also checks that the `siteChrome` block has every key, non-blank, in all 3 locales.
  *
  * Usage:  node scripts/check-i18n-parity.mjs
  * Exit:   0 on success, 1 on any parity or redaction failure.
@@ -32,7 +33,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = resolve(__dirname, "../public/content");
+const DATA_DIR = process.env.CONTENT_DIR || resolve(__dirname, "../public/content");
 const LOCALES = ["pt", "en", "de"];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -52,6 +53,30 @@ function isPlainObject(v) {
 function isBlankString(value) {
   return value.trim().length === 0;
 }
+
+/**
+ * Flatten nested plain objects into one object keyed by dotted leaf path.
+ * An absent value stays undefined.
+ * @param {unknown} value
+ * @param {string} prefix
+ * @returns {Record<string, unknown> | undefined}
+ */
+function flattenLeaves(value, prefix = "") {
+  if (!isPlainObject(value)) return prefix ? { [prefix]: value } : undefined;
+  return Object.assign({}, ...Object.entries(value).map(([k, v]) => flattenLeaves(v, prefix ? `${prefix}.${k}` : k)));
+}
+
+const CHROME_I18N_KEYS = new Set([
+  "nav.label", "nav.resume", "nav.projects", "theme.toLight", "theme.toDark",
+  "language.label", "breadcrumb.label", "breadcrumb.projects", "backToProjects",
+  "footer.label", "footer.owner", "footer.email", "footer.linkedin", "footer.github",
+  "nav.blog", "blog.title", "blog.intro", "blog.empty", "blog.tagsLabel", "blog.filteredBy", "blog.allPosts", "blog.back",
+]);
+
+/** Top-level keys of each locale file that the home page reads. */
+const HOME_I18N_KEYS = new Set([
+  "earlierLabel", "detailsOpen", "detailsClose", "storyOpen", "storyClose", "impactLabel", "seeAllProjects",
+]);
 
 // ── I18n-bearing field identification ─────────────────────────────────────
 //
@@ -76,6 +101,12 @@ const SECTION_I18N_MANDATORY_KEYS = new Set(["title"]);
 
 /** Optional i18n keys inside a section (only flagged when present in some locales). */
 const SECTION_I18N_OPTIONAL_KEYS = new Set(["body"]);
+
+/** Optional i18n keys inside a hero media (only flagged when present in some locales). */
+const HERO_MEDIA_I18N_OPTIONAL_KEYS = new Set(["alt", "caption"]);
+
+/** Optional i18n keys inside a section media (only flagged when present in some locales). */
+const SECTION_MEDIA_I18N_OPTIONAL_KEYS = new Set(["alt", "caption"]);
 
 /** Mandatory i18n keys inside a game link item (GameLink). */
 const GAME_LINK_I18N_KEYS = new Set(["title", "body"]);
@@ -158,7 +189,7 @@ function checkObjectParity(objects, i18nKeys, locales, path) {
       } else if (value === null || value === undefined) {
         errors.push(`[${locale}] ${path}.${key}: null or undefined`);
       }
-      // Arrays (e.g. tech[]) are allowed — validate:content checks min length via Zod
+      // Arrays (e.g. tech[]) are allowed — contentSchemaExport.test.ts checks min length via Zod
     }
   }
   return { errors };
@@ -202,6 +233,25 @@ function checkOptionalParity(objects, optionalKeys, locales, path) {
 }
 
 /**
+ * Optional-key parity of each `media` list item, index by index.
+ *
+ * @param {Array<Record<string, unknown> | undefined>} owners - The hero or section per locale.
+ * @param {Set<string>} optionalKeys
+ * @param {string[]} locales
+ * @param {string} path - The owner's path.
+ * @returns {string[]} errors
+ */
+function checkMediaListParity(owners, optionalKeys, locales, path) {
+  const lists = owners.map((o) => (isPlainObject(o) && Array.isArray(o.media) ? o.media : []));
+  const errors = [];
+  for (let mi = 0; mi < Math.max(...lists.map((l) => l.length)); mi++) {
+    const items = lists.map((l) => (isPlainObject(l[mi]) ? l[mi] : undefined));
+    errors.push(...checkOptionalParity(items, optionalKeys, locales, `${path}.media[${mi}]`).errors);
+  }
+  return errors;
+}
+
+/**
  * Check i18n parity for a project item across locales.
  *
  * @param {unknown[]} projectsByLocale
@@ -224,6 +274,9 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
   const seos = projectsByLocale.map((p) => (isPlainObject(p) ? p["seo"] : undefined));
   errors.push(...checkObjectParity(seos, SEO_I18N_KEYS, locales, `${basePath}.seo`).errors);
 
+  // hero.media — optional alt, present in all locales or in none
+  errors.push(...checkMediaListParity(heroes, HERO_MEDIA_I18N_OPTIONAL_KEYS, locales, `${basePath}.hero`));
+
   // diagramAlt — optional string; if any locale has it, all must
   const diagramAlts = projectsByLocale.map((p) =>
     isPlainObject(p) ? { diagramAlt: p["diagramAlt"] } : undefined
@@ -241,7 +294,8 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
     }
   }
 
-  if (referenceKind === "case-study" || referenceKind === "meta") {
+  // sections[] — every kind that carries them (case-study, meta, library)
+  {
     const sectionsByLocale = projectsByLocale.map((p) =>
       isPlainObject(p) && Array.isArray(p["sections"]) ? p["sections"] : []
     );
@@ -259,6 +313,8 @@ function checkProjectParity(projectsByLocale, locales, basePath) {
       errors.push(...checkObjectParity(secObjs, SECTION_I18N_MANDATORY_KEYS, locales, secPath).errors);
       // Optional keys (body)
       errors.push(...checkOptionalParity(secObjs, SECTION_I18N_OPTIONAL_KEYS, locales, secPath).errors);
+      // Optional media keys (alt, caption)
+      errors.push(...checkMediaListParity(secObjs, SECTION_MEDIA_I18N_OPTIONAL_KEYS, locales, secPath));
     }
   }
 
@@ -537,7 +593,7 @@ for (const locale of LOCALES) {
     loadedLocales.push({ locale, data: null });
     continue;
   }
-  loadedLocales.push({ locale, data: raw.projectsV2 });
+  loadedLocales.push({ locale, data: raw.projectsV2, chrome: raw.siteChrome, root: raw });
 }
 
 if (loadedLocales.some(({ data }) => data === null)) {
@@ -604,6 +660,28 @@ const allData = loadedLocales.map(({ data }) => data);
   if (redactionFindings.length > 0) {
     console.error("[check-i18n-parity] Redaction lint findings (AC-PC-15):");
     redactionFindings.forEach((f) => console.error(`  ${f}`));
+    hasErrors = true;
+  }
+}
+
+// ── 4. siteChrome parity ───────────────────────────────────────────────────
+{
+  const chromes = loadedLocales.map(({ chrome }) => flattenLeaves(chrome));
+  const { errors } = checkObjectParity(chromes, CHROME_I18N_KEYS, LOCALES, "siteChrome");
+  if (errors.length > 0) {
+    console.error("[check-i18n-parity] Parity errors in siteChrome:");
+    errors.forEach((e) => console.error(`  ${e}`));
+    hasErrors = true;
+  }
+}
+
+// ── 5. home keys parity (top-level of each locale file) ────────────────────
+{
+  const roots = loadedLocales.map(({ root }) => root);
+  const { errors } = checkObjectParity(roots, HOME_I18N_KEYS, LOCALES, "");
+  if (errors.length > 0) {
+    console.error("[check-i18n-parity] Parity errors in home keys:");
+    errors.forEach((e) => console.error(`  ${e}`));
     hasErrors = true;
   }
 }

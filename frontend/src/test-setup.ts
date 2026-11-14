@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { configure } from '@testing-library/dom';
 
 // T-PC2-R2-09 (AC-PC2-R2-08, deflake): LanguageProvider blocks render until its
@@ -30,6 +30,14 @@ globalThis.fetch = ((input: RequestInfo | URL, init?: RequestInit) => {
     const body = readFileSync(file, 'utf-8');
     return Promise.resolve(
       new Response(body, {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }),
+    );
+  }
+  if (url === '/blog/index.json') {
+    return Promise.resolve(
+      new Response('[]', {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
       }),

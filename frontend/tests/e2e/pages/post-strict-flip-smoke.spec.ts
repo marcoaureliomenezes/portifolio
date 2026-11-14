@@ -17,8 +17,14 @@
  *    inspection — DOM attribute is implementation-stable)
  */
 
+import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { ROUTES } from '../fixtures/routes';
+import { switchLanguage } from '../fixtures/language';
+
+const projectsName: string = JSON.parse(
+  readFileSync('public/content/pt.json', 'utf8'),
+).siteChrome.nav.projects;
 
 test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
   test('SMOKE-01: home loads without JS crash', async ({ page }) => {
@@ -33,7 +39,7 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
   test('SMOKE-02: theme toggle switches dark/light state', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    const toggle = page.locator('[role="switch"][aria-label*="theme"]');
+    const toggle = page.getByRole('banner').getByRole('switch');
     await expect(toggle).toBeVisible();
 
     const initialState = await toggle.getAttribute('aria-checked');
@@ -55,11 +61,9 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(heroHeading).toBeVisible();
 
     // First combobox is the language selector
-    const selectTrigger = page.locator('[role="combobox"]').first();
-    await expect(selectTrigger).toBeVisible();
-    await selectTrigger.click();
+    await expect(page.getByRole('combobox').first()).toBeVisible();
 
-    await page.getByRole('option', { name: 'English' }).click();
+    await switchLanguage(page, 'English');
 
     // Hero heading must remain visible — proves reactive re-render works post strict-flip
     await expect(heroHeading).toContainText('at Scale');
@@ -80,15 +84,13 @@ test.describe('Post-strict-flip smoke (T-FE-QUAL-01b)', () => {
     await expect(page.locator('header')).toBeVisible();
   });
 
-  test('SMOKE-05: projects CTA navigates to /projetos', async ({ page }) => {
+  test('SMOKE-05: header Projects link navigates to /projetos', async ({ page }) => {
     await page.goto(ROUTES.home);
 
-    // Hero CTA "Ver projetos" / "See projects" — data-testid="hero-cta-projects"
-    const projectsBtn = page.getByTestId('hero-cta-projects');
-    await expect(projectsBtn).toBeVisible();
-    await projectsBtn.click();
+    const projectsLink = page.getByRole('banner').getByRole('link', { name: projectsName });
+    await expect(projectsLink).toBeVisible();
+    await projectsLink.click();
 
-    // Must navigate to the projects index
     await expect(page).toHaveURL(/\/projetos/);
   });
 

@@ -2,6 +2,7 @@ import type { HighlightProject } from "@/types/content";
 
 interface HighlightProjectBlockProps {
   highlight: HighlightProject;
+  impactLabel: string;
 }
 
 /**
@@ -10,19 +11,19 @@ interface HighlightProjectBlockProps {
  * Renders the "highlight project" block for a role, using the design tokens
  * established in F-P0-07: bg-accent-subtle, border-accent, rounded-xl, p-5.
  *
- * A11y: the impact badge includes aria-label="Impacto" because the leading
+ * A11y: the impact badge includes aria-label={impactLabel} because the leading
  * emoji is not sufficient for screen readers alone.
  */
-export function HighlightProjectBlock({ highlight }: HighlightProjectBlockProps) {
+export function HighlightProjectBlock({ highlight, impactLabel }: HighlightProjectBlockProps) {
   return (
     <div className="bg-accent-subtle border border-accent rounded-xl p-5 space-y-3">
       {/* Header row: impact badge + title */}
       <div className="flex items-center gap-3 flex-wrap">
         <span
           className="inline-flex items-center rounded-full bg-accent text-accent-foreground px-2.5 py-1 text-xs font-semibold"
-          aria-label="Impacto"
+          aria-label={impactLabel}
         >
-          ⚡ Impacto
+          ⚡ {impactLabel}
         </span>
         <h5 className="font-bold text-lg text-foreground">
           {highlight.title}
